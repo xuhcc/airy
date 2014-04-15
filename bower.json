@@ -1,0 +1,10 @@
+{
+  "name": "airy",
+  "homepage": "https://github.com/xuhcc/airy",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "pure": "~0.4.2"
+  }
+}

@@ -1,0 +1,7 @@
+http_port = 8085
+
+debug = False
+secret_key = "1234567890"
+
+username = "username"
+password = "password"

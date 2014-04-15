@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <form class="login pure-form pure-form-stacked">
+        <fieldset>
+            <input type="password" name="password" placeholder="Password">
+            <button type="submit" class="pure-button">Login</button>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}

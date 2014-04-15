@@ -1,0 +1,6 @@
+venv
+node_modules
+bower_components
+*.pyc
+*/static/lib
+airy/settings.py
