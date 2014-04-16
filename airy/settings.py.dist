@@ -1,5 +1,9 @@
 http_port = 8085
 
+db_name = "db"
+db_username = "username"
+db_password = "password"
+
 debug = False
 secret_key = "1234567890"
 

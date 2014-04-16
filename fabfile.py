@@ -24,3 +24,8 @@ def test():
     with prefix(". venv/bin/activate"):
         local("pep8 fabfile.py")
         local("pep8 airy")
+
+
+def upgrade():
+    with prefix(". venv/bin/activate"):
+        local("alembic upgrade head")

@@ -1,6 +1,5 @@
 Flask==0.10.1
-Jinja2==2.7.2
-MarkupSafe==0.19
-Werkzeug==0.9.4
-itsdangerous==0.24
 pep8>=1.5.5
+SQLAlchemy==0.9.4
+psycopg2==2.5.2
+alembic==0.6.4

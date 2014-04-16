@@ -1,3 +1,12 @@
+a {
+    color: #403B80;
+    cursor: pointer;
+}
+
+a:hover {
+    color: #5E56C5;
+}
+
 .container {
     font-family: Tahoma,Geneva,sans-serif;
     margin: 0 auto;

@@ -12,7 +12,7 @@ var Login = (function () {
                 }
             }).done(function (data) {
                 if (data.status === 0) {
-                    window.location.href = '/dashboard';
+                    window.location.href = '/clients';
                 } else {
                     passwordField[0].setCustomValidity('Incorrect password');
                     passwordField.focus();

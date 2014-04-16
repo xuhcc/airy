@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         jshint: {
             main: [
                 'Gruntfile.js',
-                'airy/static/js/login.js'
+                'airy/static/js/*.js'
             ],
             options: {
                 globals: {
@@ -35,6 +35,14 @@ module.exports = function (grunt) {
                     {
                         src: 'bower_components/pure/menus-min.css',
                         dest: 'airy/static/lib/pure-menus-min.css'
+                    },
+                    {
+                        src: 'bower_components/magnific-popup/dist/jquery.magnific-popup.min.js',
+                        dest: 'airy/static/lib/jquery.magnific-popup.min.js'
+                    },
+                    {
+                        src: 'bower_components/magnific-popup/dist/magnific-popup.css',
+                        dest: 'airy/static/lib/magnific-popup.css'
                     }
                 ]
             }
