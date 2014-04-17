@@ -1,0 +1,59 @@
+var Base = (function () {
+    'use strict';
+    var init = function () {};
+    var alertTemplate = $('<div class="popup">\
+        <div class="alert">\
+        <div class="alert-message"></div>\
+        <button class="pure-button">OK</button>\
+        </div></div>');
+    var confirmTemplate = $('<div class="popup">\
+        <div class="confirm">\
+        <div class="confirm-message"></div>\
+        <button class="pure-button" data-choice="yes">Yes</button>\
+        <button class="pure-button" data-choice="no">No</button>\
+        </div></div>');
+    var alert = function (message) {
+        $.magnificPopup.open({
+            type: 'inline',
+            items: {
+                src: alertTemplate,
+            },
+            modal: true,
+            callbacks: {
+                open: function () {
+                    var popup = this.content;
+                    popup.find('.alert-message').text(message);
+                    popup.on('click', 'button', function () {
+                        $.magnificPopup.close();
+                    });
+                }
+            }
+        });
+    };
+    var confirm = function (message, confirmCallback) {
+        $.magnificPopup.open({
+            type: 'inline',
+            items: {
+                src: confirmTemplate,
+            },
+            modal: true,
+            callbacks: {
+                open: function () {
+                    var popup = this.content;
+                    popup.find('.confirm-message').text(message);
+                    popup.on('click', 'button', function () {
+                        $.magnificPopup.close();
+                        if ($(this).data('choice') == 'yes') {
+                            confirmCallback();
+                        }
+                    });
+                }
+            }
+        });
+    };
+    return {
+        init: init,
+        alert: alert,
+        confirm: confirm
+    };
+}());

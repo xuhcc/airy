@@ -20,7 +20,7 @@ def frontend():
 
 
 def test():
-    local("node_modules/grunt-cli/bin/grunt jshint")
+    local("node_modules/grunt-cli/bin/grunt jshint csslint")
     with prefix(". venv/bin/activate"):
         local("pep8 fabfile.py")
         local("pep8 airy")

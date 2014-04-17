@@ -2,10 +2,11 @@ var Clients = (function () {
     'use strict';
     var showClientForm = function (data) {
         $.magnificPopup.open({
+            type: 'inline',
             items: {
-                src: '.client-form-popup',
-                type: 'inline'
+                src: '.client-form-popup'
             },
+            focus: '[name="name"]',
             callbacks: {
                 open: function () {
                     var popup = this.content;
@@ -19,9 +20,45 @@ var Clients = (function () {
                     }
                     popup.find('.client-form').data('client-id', data.id);
                     popup.show();
-                    popup.find('[name="name"]').focus();
                 }
             }
+        });
+    };
+    var saveClient = function (form) {
+        var clientID = form.data('client-id');
+        var formData = {
+            name: form.find('[name="name"]').val(),
+            contacts: form.find('[name="contacts"]').val()
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/client/' + clientID,
+            data: formData
+        }).done(function (data) {
+            if (data.error_msg) {
+                form.find('.form-message').text(data.error_msg);
+                return;
+            }
+            if (data._new) {
+                $('.clients').append(data.html);
+            } else {
+                $('.client[data-client-id="' + clientID + '"]')
+                    .replaceWith(data.html);
+            }
+            $.magnificPopup.close();
+        });
+    };
+    var deleteClient = function (client) {
+        var clientID = client.data('client-id');
+        $.ajax({
+            type: 'DELETE',
+            url: '/client/' + clientID
+        }).done(function (data) {
+            if (data.error_msg) {
+                Base.alert(data.error_msg);
+                return;
+            }
+            client.remove();
         });
     };
     var init = function () {
@@ -37,44 +74,14 @@ var Clients = (function () {
         $('.client-add').on('click', function () {
             showClientForm({});
         });
-        $(document).on('click', '.client-delete', function () {
-            var client = $(this).closest('.client');
-            var clientID = client.data('client-id');
-            $.ajax({
-                type: 'DELETE',
-                url: '/client/' + clientID
-            }).done(function (data) {
-                if (data.error_msg) {
-                    alert(data.error_msg);
-                    return;
-                }
-                client.remove();
-            });
-        });
         $(document).on('submit', '.client-form', function (event) {
             event.preventDefault();
-            var form = $(this);
-            var clientID = form.data('client-id');
-            var formData = {
-                name: form.find('[name="name"]').val(),
-                contacts: form.find('[name="contacts"]').val()
-            };
-            $.ajax({
-                type: 'POST',
-                url: '/client/' + clientID,
-                data: formData
-            }).done(function (data) {
-                if (data.error_msg) {
-                    alert(data.error_msg);
-                    return;
-                }
-                if (data._new) {
-                    $('.clients').append(data.html);
-                } else {
-                    $('.client[data-client-id="' + clientID + '"]')
-                        .replaceWith(data.html);
-                }
-                form.parent().magnificPopup('close');
+            saveClient($(this));
+        });
+        $(document).on('click', '.client-delete', function () {
+            var client = $(this).closest('.client');
+            Base.confirm('Delete client?', function () {
+                deleteClient(client);
             });
         });
     };
@@ -82,5 +89,6 @@ var Clients = (function () {
 }());
 
 $(function () {
+    Base.init();
     Clients.init();
 });

@@ -6,9 +6,12 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/pure-forms-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/pure-buttons-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/pure-menus-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/magnific-popup.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
         {% block css %}{% endblock %}
         <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='lib/jquery.magnific-popup.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/common.js') }}"></script>
         {% block js %}{% endblock %}
     </head>
     <body>
@@ -17,7 +20,7 @@
             {% if user %}
             <nav class="pure-menu pure-menu-open pure-menu-horizontal">
                 <ul class="main-menu">
-                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/clients">Clients</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
             </nav>

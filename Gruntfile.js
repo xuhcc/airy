@@ -8,9 +8,15 @@ module.exports = function (grunt) {
                 'airy/static/js/*.js'
             ],
             options: {
+                multistr: true,
                 globals: {
                     $: true
                 }
+            }
+        },
+        csslint: {
+            main: {
+                src: ['airy/static/css/*.css']
             }
         },
         copy: {
@@ -49,6 +55,7 @@ module.exports = function (grunt) {
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.registerTask('default', []);
 };

@@ -27,5 +27,6 @@ var Login = (function () {
 }());
 
 $(function () {
+    Base.init();
     Login.init();
 });

@@ -14,3 +14,27 @@ a:hover {
     text-align: center;
     width: 100%;
 }
+
+.popup {
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
+    position: relative;
+    width: auto;
+}
+
+.alert,
+.confirm {
+    padding: 20px 10px;
+    text-align: center;
+}
+
+.alert button,
+.confirm button {
+    margin-top: 10px;
+}
+
+.form-message {
+    color: red;
+}

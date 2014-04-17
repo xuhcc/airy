@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='lib/magnific-popup.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/clients.css') }}">
 {% endblock %}
 
 {% block js %}
-<script src="{{ url_for('static', filename='lib/jquery.magnific-popup.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/clients.js') }}"></script>
 {% endblock %}
 
@@ -17,8 +15,8 @@
         {% include "client.html" %}
         {% endfor %}
     </div>
-    <a class="client-add">+</a>
-    <div class="client-form-popup">
+    <a class="client-add" title="Add client">+</a>
+    <div class="popup client-form-popup">
         <form class="client-form pure-form pure-form-stacked" autocomplete="off">
             <fieldset>
                 <legend></legend>
@@ -26,6 +24,7 @@
                 <textarea name="contacts" placeholder="Contacts"></textarea>
                 <button type="submit" class="pure-button pure-button-primary">Save</button>
             </fieldset>
+            <div class="form-message"></div>
         </form>
     </div>
 </div>
