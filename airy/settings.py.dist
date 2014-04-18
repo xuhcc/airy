@@ -7,5 +7,7 @@ db_password = "password"
 debug = False
 secret_key = "1234567890"
 
+timezone = "Europe/Moscow"
+
 username = "username"
 password = "password"

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Tasks - {{ project.name }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/tasks.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="current-project" data-project-id="{{ project.id }}">{{ project.name }}</div>
+    <div class="tasks">
+        {% for task in project.tasks_by_status(status) %}
+        {% include "task.html" %}
+        {% endfor %}
+    </div>
+    <a class="task-add" title="Add task">+</a>
+    <div class="popup task-form-popup">
+        <form class="task-form pure-form pure-form-stacked" autocomplete="off">
+            <fieldset>
+                <legend></legend>
+                <input type="text" name="title" placeholder="Title">
+                <textarea name="description" placeholder="Description"></textarea>
+                <button type="submit" class="pure-button pure-button-primary">Save</button>
+            </fieldset>
+            <div class="form-message"></div>
+        </form>
+    </div>
+</div>
+{% endblock %}

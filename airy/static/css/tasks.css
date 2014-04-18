@@ -1,0 +1,44 @@
+.current-project {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.task {
+    background-color: #E6F0F8;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+    text-align: left;
+}
+
+.task-name {
+    font-size: 1.6em;
+}
+
+.task-description {
+    color: #999;
+}
+
+.task-add {
+    border-radius: 5px;
+    display: block;
+    font-size: 1.4em;
+}
+
+.task-add:hover {
+    background-color: #E6F0F8;
+}
+
+.task-form {
+    padding: 10px 10%;
+    text-align: center;
+}
+
+.task-form input,
+.task-form textarea {
+    width: 100%;
+}
+
+.task-form-popup {
+    display: none;
+}

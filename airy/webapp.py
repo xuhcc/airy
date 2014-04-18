@@ -13,7 +13,8 @@ from flask import (
     abort)
 
 from airy import settings
-from airy.units import client, project
+from airy.core import db_session
+from airy.units import client, project, task
 
 app = Flask(__name__)
 
@@ -29,6 +30,11 @@ def requires_auth(func):
         else:
             return func(*args, **kwargs)
     return wrapper
+
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
 
 
 @app.route("/")
@@ -65,8 +71,8 @@ def client_handler(client_id):
     if request.method == "GET":
         try:
             instance = client.get(client_id)
-        except client.ClientError:
-            abort(404)
+        except client.ClientError as err:
+            abort(err.code)
         return render_template(
             "projects.html",
             user=settings.username,
@@ -91,10 +97,20 @@ def client_handler(client_id):
         return jsonify(status=0)
 
 
-@app.route("/project/<int:project_id>", methods=["POST", "DELETE"])
+@app.route("/project/<int:project_id>", methods=["GET", "POST", "DELETE"])
 @requires_auth
 def project_handler(project_id):
-    if request.method == "POST":
+    if request.method == "GET":
+        try:
+            instance = project.get(project_id)
+        except project.ProjectError as err:
+            abort(err.code)
+        return render_template(
+            "tasks.html",
+            user=settings.username,
+            project=instance,
+            status="open")
+    elif request.method == "POST":
         form_data = {
             'id': None if project_id == 0 else project_id,
             'name': request.form['name'],
@@ -111,6 +127,29 @@ def project_handler(project_id):
         try:
             project.delete(project_id)
         except project.ProjectError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify(status=0)
+
+
+@app.route("/task/<int:task_id>", methods=["POST", "DELETE"])
+def task_handler(task_id):
+    if request.method == "POST":
+        form_data = {
+            'id': None if task_id == 0 else task_id,
+            'title': request.form['title'],
+            'description': request.form['description'],
+            'project_id': request.form['project_id'],
+        }
+        try:
+            instance = task.save(form_data)
+        except task.TaskError as err:
+            return jsonify(error_msg=err.message)
+        html = render_template("task.html", task=instance)
+        return jsonify(html=html, new_=(task_id == 0))
+    elif request.method == "DELETE":
+        try:
+            task.delete(task_id)
+        except task.TaskError as err:
             return jsonify(error_msg=err.message)
         return jsonify(status=0)
 
