@@ -1,4 +1,9 @@
-.client {
+.current-client {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.project {
     background-color: #E6F0F8;
     border-radius: 5px;
     margin-bottom: 5px;
@@ -6,45 +11,38 @@
     text-align: left;
 }
 
-.client-name {
+.project-name {
     font-size: 1.6em;
 }
 
-.client-name a {
+.project-name a {
     text-decoration: none;
 }
 
-.client-contacts {
+.project-description {
     color: #999;
 }
 
-.client-projects ul {
-    display: inline-block;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.client-add {
+.project-add {
     border-radius: 5px;
     display: block;
     font-size: 1.4em;
 }
 
-.client-add:hover {
+.project-add:hover {
     background-color: #E6F0F8;
 }
 
-.client-form {
+.project-form {
     padding: 10px 10%;
     text-align: center;
 }
 
-.client-form input,
-.client-form textarea {
+.project-form input,
+.project-form textarea {
     width: 100%;
 }
 
-.client-form-popup {
+.project-form-popup {
     display: none;
 }

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Projects - {{ client.name }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/projects.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="current-client" data-client-id="{{ client.id }}">{{ client.name }}</div>
+    <div class="projects">
+        {% for project in client.projects %}
+        {% include "project.html" %}
+        {% endfor %}
+    </div>
+    <a class="project-add" title="Add project">+</a>
+    <div class="popup project-form-popup">
+        <form class="project-form pure-form pure-form-stacked" autocomplete="off">
+            <fieldset>
+                <legend></legend>
+                <input type="text" name="name" placeholder="Name">
+                <textarea name="description" placeholder="Description"></textarea>
+                <button type="submit" class="pure-button pure-button-primary">Save</button>
+            </fieldset>
+            <div class="form-message"></div>
+        </form>
+    </div>
+</div>
+{% endblock %}

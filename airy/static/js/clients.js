@@ -39,7 +39,7 @@ var Clients = (function () {
                 form.find('.form-message').text(data.error_msg);
                 return;
             }
-            if (data._new) {
+            if (data.new_) {
                 $('.clients').append(data.html);
             } else {
                 $('.client[data-client-id="' + clientID + '"]')

@@ -23,7 +23,7 @@ var Base = (function () {
                 open: function () {
                     var popup = this.content;
                     popup.find('.alert-message').text(message);
-                    popup.on('click', 'button', function () {
+                    popup.find('button').off('click').on('click', function () {
                         $.magnificPopup.close();
                     });
                 }
@@ -41,7 +41,7 @@ var Base = (function () {
                 open: function () {
                     var popup = this.content;
                     popup.find('.confirm-message').text(message);
-                    popup.on('click', 'button', function () {
+                    popup.find('button').off('click').on('click', function () {
                         $.magnificPopup.close();
                         if ($(this).data('choice') == 'yes') {
                             confirmCallback();
