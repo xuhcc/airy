@@ -7,6 +7,10 @@ a:hover {
     color: #5E56C5;
 }
 
+textarea {
+    resize: none;
+}
+
 .container {
     font-family: Tahoma,Geneva,sans-serif;
     margin: 0 auto;

@@ -1,10 +1,10 @@
 <div class="client" data-client-id="{{ client.id }}">
     <div class="client-name"><a href="/client/{{ client.id }}">{{ client.name }}</a></div>
-    <div class="client-contacts">{{ client.contacts }}</div>
+    <div class="client-contacts">{{ client.contacts|nl2br }}</div>
     {% if client.projects %}
     <div class="client-projects">Projects: <ul>
         {% for project in client.projects %}
-            <li><a href="#">{{ project.name }}</a></li>
+            <li><a href="/project/{{ project.id }}">{{ project.name }}</a></li>
         {% endfor %}
     </ul></div>
     {% endif %}

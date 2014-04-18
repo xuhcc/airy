@@ -2,7 +2,7 @@
     background-color: #E6F0F8;
     border-radius: 5px;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 10px;
     text-align: left;
 }
 
@@ -19,10 +19,16 @@
 }
 
 .client-projects ul {
-    display: inline-block;
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+.client-projects li {
+    background-color: #F8F8F8;
+    border-radius: 5px;
+    padding: 3px;
+    margin: 3px -3px;
 }
 
 .client-add {

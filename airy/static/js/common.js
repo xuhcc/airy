@@ -1,6 +1,11 @@
 var Base = (function () {
     'use strict';
-    var init = function () {};
+    var init = function () {
+        $.fn.textMultiline = function () {
+            var lines = this.html().split('<br>');
+            return lines.join('\n');
+        };
+    };
     var alertTemplate = $('<div class="popup">\
         <div class="alert">\
         <div class="alert-message"></div>\

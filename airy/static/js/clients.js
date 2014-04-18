@@ -4,7 +4,7 @@ var Clients = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: '.client-form-popup'
+                src: $('.client-form-popup').clone()
             },
             focus: '[name="name"]',
             callbacks: {
@@ -20,6 +20,7 @@ var Clients = (function () {
                     }
                     popup.find('.client-form').data('client-id', data.id);
                     popup.show();
+                    popup.find('textarea').autosize();
                 }
             }
         });
@@ -67,7 +68,7 @@ var Clients = (function () {
             var clientData = {
                 id: client.data('client-id'),
                 name: client.find('.client-name a').text(),
-                contacts: client.find('.client-contacts').text()
+                contacts: client.find('.client-contacts').textMultiline()
             };
             showClientForm(clientData);
         });

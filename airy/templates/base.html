@@ -3,6 +3,7 @@
     <head>
         <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/pure-base-min.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/pure-grids-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/pure-forms-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/pure-buttons-min.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/pure-menus-min.css') }}">
@@ -11,6 +12,7 @@
         {% block css %}{% endblock %}
         <script src="{{ url_for('static', filename='lib/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='lib/jquery.magnific-popup.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='lib/jquery.autosize.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/common.js') }}"></script>
         {% block js %}{% endblock %}
     </head>

@@ -1,6 +1,7 @@
 import os
 import sys
 import functools
+import re
 
 from flask import (
     Flask,
@@ -11,6 +12,7 @@ from flask import (
     render_template,
     url_for,
     abort)
+from jinja2 import evalcontextfilter, Markup, escape
 
 from airy import settings
 from airy.core import db_session
@@ -35,6 +37,18 @@ def requires_auth(func):
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
+
+
+@app.template_filter()
+@evalcontextfilter
+def nl2br(eval_ctx, value):
+    """
+    http://flask.pocoo.org/snippets/28/
+    """
+    br = '<br>'
+    if eval_ctx.autoescape:
+        value, br = escape(value), Markup(br)
+    return value.replace('\n', br)
 
 
 @app.route("/")
@@ -78,13 +92,9 @@ def client_handler(client_id):
             user=settings.username,
             client=instance)
     elif request.method == "POST":
-        form_data = {
-            'id': None if client_id == 0 else client_id,
-            'name': request.form['name'],
-            'contacts': request.form['contacts'],
-        }
+        form = client.SaveForm(request.form, id=client_id)
         try:
-            instance = client.save(form_data)
+            instance = client.save(form)
         except client.ClientError as err:
             return jsonify(error_msg=err.message)
         html = render_template("client.html", client=instance)
@@ -111,14 +121,9 @@ def project_handler(project_id):
             project=instance,
             status="open")
     elif request.method == "POST":
-        form_data = {
-            'id': None if project_id == 0 else project_id,
-            'name': request.form['name'],
-            'description': request.form['description'],
-            'client_id': request.form['client_id'],
-        }
+        form = project.SaveForm(request.form, id=project_id)
         try:
-            instance = project.save(form_data)
+            instance = project.save(form)
         except project.ProjectError as err:
             return jsonify(error_msg=err.message)
         html = render_template("project.html", project=instance)
@@ -134,14 +139,9 @@ def project_handler(project_id):
 @app.route("/task/<int:task_id>", methods=["POST", "DELETE"])
 def task_handler(task_id):
     if request.method == "POST":
-        form_data = {
-            'id': None if task_id == 0 else task_id,
-            'title': request.form['title'],
-            'description': request.form['description'],
-            'project_id': request.form['project_id'],
-        }
+        form = task.SaveForm(request.form, id=task_id)
         try:
-            instance = task.save(form_data)
+            instance = task.save(form)
         except task.TaskError as err:
             return jsonify(error_msg=err.message)
         html = render_template("task.html", task=instance)

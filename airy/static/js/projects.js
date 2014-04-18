@@ -4,7 +4,7 @@ var Projects = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: '.project-form-popup'
+                src: $('.project-form-popup').clone()
             },
             focus: '[name="name"]',
             callbacks: {
@@ -20,6 +20,7 @@ var Projects = (function () {
                     }
                     popup.find('.project-form').data('project-id', data.id);
                     popup.show();
+                    popup.find('textarea').autosize();
                 }
             }
         });
@@ -68,7 +69,7 @@ var Projects = (function () {
             var projectData = {
                 id: project.data('project-id'),
                 name: project.find('.project-name a').text(),
-                description: project.find('.project-description').text()
+                description: project.find('.project-description').textMultiline()
             };
             showProjectForm(projectData);
         });

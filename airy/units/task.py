@@ -2,6 +2,8 @@ import datetime
 
 import pytz
 
+from wtforms import Form, IntegerField, StringField, TextAreaField, validators
+
 from airy.models import Project, Task
 from airy.core import db_session as db, timezone
 
@@ -13,12 +15,21 @@ class TaskError(Exception):
         self.code = code
 
 
-def save(task_data):
-    try:
-        task_data['project_id'] = int(task_data['project_id'])
-    except ValueError:
-        raise TaskError("Invalid project id")
-    task = Task(**task_data)
+class SaveForm(Form):
+    id = IntegerField("Task ID",
+                      filters=[lambda val: None if val == 0 else val])
+    title = StringField("Title", [validators.InputRequired()])
+    description = TextAreaField("Description")
+    project_id = IntegerField("Project ID", [validators.DataRequired()])
+
+
+def save(form):
+    if not form.validate():
+        error_msg = ", ".join("{0}: {1}".format(k, v[0])
+                              for k, v in form.errors.items())
+        raise TaskError(error_msg)
+    task = Task()
+    form.populate_obj(task)
     task.updated = datetime.datetime.now(tz=timezone)
     if task.id is None:
         task.created = task.updated

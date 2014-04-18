@@ -1,6 +1,6 @@
 <div class="task task-{{ task.status }}" data-task-id="{{ task.id }}">
     <div class="task-title">{{ task.title }}</div>
-    <div class="task-description">{{ task.description }}</div>
+    <div class="task-description">{{ task.description|nl2br }}</div>
     <div class="task-created">{{ task.created.strftime("%d.%m.%Y") }}</div>
     <div class="task-menu">
         <a class="task-edit">edit</a>

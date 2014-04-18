@@ -31,6 +31,10 @@ module.exports = function (grunt) {
                         dest: 'airy/static/lib/pure-base-min.css'
                     },
                     {
+                        src: 'bower_components/pure/grids-min.css',
+                        dest: 'airy/static/lib/pure-grids-min.css'
+                    },
+                    {
                         src: 'bower_components/pure/forms-min.css',
                         dest: 'airy/static/lib/pure-forms-min.css'
                     },
@@ -49,6 +53,10 @@ module.exports = function (grunt) {
                     {
                         src: 'bower_components/magnific-popup/dist/magnific-popup.css',
                         dest: 'airy/static/lib/magnific-popup.css'
+                    },
+                    {
+                        src: 'bower_components/jquery-autosize/jquery.autosize.min.js',
+                        dest: 'airy/static/lib/jquery.autosize.min.js'
                     }
                 ]
             }

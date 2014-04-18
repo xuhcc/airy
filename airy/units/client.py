@@ -1,4 +1,5 @@
 from sqlalchemy.sql import exists
+from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 
 from airy.models import Client
 from airy.core import db_session as db
@@ -23,8 +24,20 @@ def get_all():
     return clients
 
 
-def save(client_data):
-    client = Client(**client_data)
+class SaveForm(Form):
+    id = IntegerField("Client ID",
+                      filters=[lambda val: None if val == 0 else val])
+    name = StringField("Name", [validators.InputRequired()])
+    contacts = TextAreaField("Contacts")
+
+
+def save(form):
+    if not form.validate():
+        error_msg = ", ".join("{0}: {1}".format(k, v[0])
+                              for k, v in form.errors.items())
+        raise ClientError(error_msg)
+    client = Client()
+    form.populate_obj(client)
     name_query = db.query(Client).filter(
         Client.name == client.name,
         Client.id != client.id)

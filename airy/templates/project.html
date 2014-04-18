@@ -1,6 +1,11 @@
 <div class="project" data-project-id="{{ project.id }}">
     <div class="project-name"><a href="/project/{{ project.id }}">{{ project.name }}</a></div>
-    <div class="project-description">{{ project.description }}</div>
+    <div class="project-description">{{ project.description|nl2br }}</div>
+    {% if project.last_task %}
+    <div class="project-last-task">Last task:
+        <a href="/project/{{ project.id }}#task{{ project.last_task.id }}">{{ project.last_task.title }}</a>
+    </div>
+    {% endif %}
     <div class="project-menu">
         <a class="project-edit">edit</a>
         <a class="project-delete">delete</a>

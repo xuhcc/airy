@@ -30,7 +30,18 @@ class Project(Base):
 
     def tasks_by_status(self, status):
         session = object_session(self)
-        return session.query(Task).filter(Task.status == status).all()
+        query = session.query(Task).filter(
+            Task.project_id == self.id,
+            Task.status == status)
+        return query.all()
+
+    @property
+    def last_task(self):
+        session = object_session(self)
+        query = session.query(Task).\
+            filter(Task.project_id == self.id).\
+            order_by(Task.updated.desc())
+        return query.first()
 
 Status = Enum("open", "completed", "closed", name="status")
 

@@ -4,7 +4,7 @@ var Tasks = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: '.task-form-popup'
+                src: $('.task-form-popup').clone()
             },
             focus: '[name="title"]',
             callbacks: {
@@ -20,6 +20,7 @@ var Tasks = (function () {
                     }
                     popup.find('.task-form').data('task-id', data.id);
                     popup.show();
+                    popup.find('textarea').autosize();
                 }
             }
         });
@@ -68,7 +69,7 @@ var Tasks = (function () {
             var taskData = {
                 id: task.data('task-id'),
                 title: task.find('.task-title').text(),
-                description: task.find('.task-description').text()
+                description: task.find('.task-description').textMultiline()
             };
             showTaskForm(taskData);
         });
