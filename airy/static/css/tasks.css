@@ -19,6 +19,26 @@
     color: #999;
 }
 
+.task-status-menu {
+    background-color: #E6F0F8;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-top: 1.2em;
+    margin-left: -6px;
+    padding: 5px;
+    position: absolute;
+}
+
+.task-status-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.task-status-menu a {
+    display: block;
+}
+
 .task-add {
     border-radius: 5px;
     display: block;

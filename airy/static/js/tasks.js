@@ -63,6 +63,35 @@ var Tasks = (function () {
             task.remove();
         });
     };
+    var statusMenuTemplate = $('<div class="task-status-menu"><ul>\
+        <li><a>open</a></li>\
+        <li><a>completed</a></li>\
+        <li><a>closed</a></li>\
+        </ul></div>');
+    var showStatusMenu = function (task) {
+        var position = task.find('.task-status a').offset();
+        var menu = statusMenuTemplate.clone().css(position);
+        task.append(menu);
+    };
+    var changeStatus = function(task, status) {
+        var taskID = task.data('task-id');
+        $.ajax({
+            type: 'POST',
+            url: '/task/' + taskID + '/status',
+            data: {
+                status: status,
+            }
+        }).done(function (data) {
+            if (data.error_msg) {
+                Base.alert(data.error_msg);
+                return;
+            }
+            var statusElem = task.find('.task-status a');
+            task.removeClass('task-' + statusElem.text())
+                .addClass('task-' + status);
+            statusElem.text(status);
+        });
+    };
     var init = function () {
         $(document).on('click', '.task-edit', function () {
             var task = $(this).closest('.task');
@@ -85,6 +114,23 @@ var Tasks = (function () {
             Base.confirm('Delete task?', function () {
                 deleteTask(task);
             });
+        });
+        $(document).on('click', '.task-status a', function () {
+            var task = $(this).closest('.task');
+            showStatusMenu(task);
+        });
+        $(document).mouseup(function (event) {
+            // Hide menus
+            var menus = $('.task-status-menu');
+            if (menus.has(event.target).length === 0) {
+                menus.remove();
+            }
+        });
+        $(document).on('click', '.task-status-menu a', function () {
+            var task = $(this).closest('.task');
+            var status = $(this).text();
+            changeStatus(task, status);
+            $(this).closest('.task-status-menu').remove();
         });
     };
     return {init: init};

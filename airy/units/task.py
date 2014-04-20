@@ -45,8 +45,28 @@ def save(form):
     return task
 
 
+class StatusForm(Form):
+    id = IntegerField("Task ID")
+    status = StringField("Status", [
+        validators.InputRequired(),
+        validators.AnyOf(["open", "completed", "closed"])])
+
+
+def set_status(form):
+    if not form.validate():
+        error_msg = ", ".join("{0}: {1}".format(k, v[0])
+                              for k, v in form.errors.items())
+        raise TaskError(error_msg)
+    task = Task()
+    form.populate_obj(task)
+    if not db.query(Task).get(task.id):
+        raise TaskError("Task #{0} not found".format(task.id))
+    task = db.merge(task)
+    db.commit()
+
+
 def delete(task_id):
-    task = db.query(Project).get(task_id)
+    task = db.query(Task).get(task_id)
     if not task:
         raise TaskError("Task #{0} not found".format(task_id), 404)
     db.delete(task)

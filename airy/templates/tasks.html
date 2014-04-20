@@ -14,7 +14,7 @@
 <div class="content">
     <div class="current-project" data-project-id="{{ project.id }}">{{ project.name }}</div>
     <div class="tasks">
-        {% for task in project.tasks_by_status(status) %}
+        {% for task in project.tasks %}
         {% include "task.html" %}
         {% endfor %}
     </div>

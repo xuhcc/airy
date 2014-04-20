@@ -58,9 +58,9 @@ def login():
         password = request.form['password']
         if password == settings.password:
             session['user'] = settings.username
-            return jsonify(status=0)
+            return jsonify(code=0)
         else:
-            return jsonify(status=1)
+            return jsonify(code=1)
     else:
         if "user" in session:
             return redirect(url_for("clients"))
@@ -104,7 +104,7 @@ def client_handler(client_id):
             client.delete(client_id)
         except client.ClientError as err:
             return jsonify(error_msg=err.message)
-        return jsonify(status=0)
+        return jsonify(code=0)
 
 
 @app.route("/project/<int:project_id>", methods=["GET", "POST", "DELETE"])
@@ -133,10 +133,11 @@ def project_handler(project_id):
             project.delete(project_id)
         except project.ProjectError as err:
             return jsonify(error_msg=err.message)
-        return jsonify(status=0)
+        return jsonify(code=0)
 
 
 @app.route("/task/<int:task_id>", methods=["POST", "DELETE"])
+@requires_auth
 def task_handler(task_id):
     if request.method == "POST":
         form = task.SaveForm(request.form, id=task_id)
@@ -151,7 +152,19 @@ def task_handler(task_id):
             task.delete(task_id)
         except task.TaskError as err:
             return jsonify(error_msg=err.message)
-        return jsonify(status=0)
+        return jsonify(code=0)
+
+
+@app.route("/task/<int:task_id>/status", methods=["POST"])
+@requires_auth
+def task_status_handler(task_id):
+    if request.method == "POST":
+        form = task.StatusForm(request.form, id=task_id)
+        try:
+            task.set_status(form)
+        except task.TaskError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify(code=0)
 
 
 @app.route("/logout")

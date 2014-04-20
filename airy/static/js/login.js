@@ -11,7 +11,7 @@ var Login = (function () {
                     password: passwordField.val()
                 }
             }).done(function (data) {
-                if (data.status === 0) {
+                if (data.code === 0) {
                     window.location.href = '/clients';
                 } else {
                     passwordField[0].setCustomValidity('Incorrect password');

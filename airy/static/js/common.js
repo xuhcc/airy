@@ -21,7 +21,7 @@ var Base = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: alertTemplate,
+                src: alertTemplate.clone(),
             },
             modal: true,
             callbacks: {
@@ -39,7 +39,7 @@ var Base = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: confirmTemplate,
+                src: confirmTemplate.clone(),
             },
             modal: true,
             callbacks: {

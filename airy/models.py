@@ -26,7 +26,8 @@ class Project(Base):
     description = Column(Text)
     client_id = Column(Integer, ForeignKey("clients.id"), nullable=False)
 
-    tasks = relationship("Task", cascade="all,delete", backref="project")
+    tasks = relationship("Task", cascade="all,delete", backref="project",
+                         order_by="Task.status")
 
     def tasks_by_status(self, status):
         session = object_session(self)
