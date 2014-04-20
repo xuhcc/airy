@@ -1,7 +1,5 @@
 import datetime
 
-import pytz
-
 from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 
 from airy.models import Project, Task

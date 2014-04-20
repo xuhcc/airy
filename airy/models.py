@@ -1,7 +1,8 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.types import Integer, String, Text, DateTime, Enum
+from sqlalchemy.types import Integer, String, Text, DateTime, Enum, Numeric
 from sqlalchemy.orm import relationship, object_session
+from sqlalchemy.sql import func
 
 Base = declarative_base()
 
@@ -58,3 +59,25 @@ class Task(Base):
     updated = Column(DateTime(timezone=True), nullable=False)
     status = Column(Status, nullable=False, default="open")
     project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
+
+    time_entries = relationship("TimeEntry",
+                                cascade="all,delete",
+                                backref="task")
+
+    @property
+    def spent_time(self):
+        session = object_session(self)
+        query = session.query(func.sum(TimeEntry.amount)).\
+            filter(TimeEntry.task_id == self.id)
+        return query.scalar() or 0
+
+
+class TimeEntry(Base):
+
+    __tablename__ = "times_entries"
+
+    id = Column(Integer, primary_key=True)
+    amount = Column(Numeric(4, 2), nullable=False)
+    comment = Column(Text)
+    added = Column(DateTime(timezone=True), nullable=False)
+    task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)

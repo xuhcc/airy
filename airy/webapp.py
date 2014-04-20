@@ -16,7 +16,7 @@ from jinja2 import evalcontextfilter, Markup, escape
 
 from airy import settings
 from airy.core import db_session
-from airy.units import client, project, task
+from airy.units import client, project, task, time_entry
 
 app = Flask(__name__)
 
@@ -165,6 +165,22 @@ def task_status_handler(task_id):
         except task.TaskError as err:
             return jsonify(error_msg=err.message)
         return jsonify(code=0)
+
+
+@app.route("/time-entry/<int:time_entry_id>", methods=["POST"])
+@requires_auth
+def time_entry_handler(time_entry_id):
+    if request.method == "POST":
+        form = time_entry.SaveForm(request.form, id=time_entry_id)
+        try:
+            instance = time_entry.save(form)
+        except time_entry.TimeEntryError as err:
+            return jsonify(error_msg=err.message)
+        html = render_template("time_entry.html", time_entry=instance)
+        return jsonify(
+            html=html,
+            new_=(time_entry_id == 0),
+            total=str(instance.task.spent_time))
 
 
 @app.route("/logout")

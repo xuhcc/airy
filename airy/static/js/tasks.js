@@ -92,6 +92,46 @@ var Tasks = (function () {
             statusElem.text(status);
         });
     };
+    var showTimeEntryForm = function (taskID) {
+        $.magnificPopup.open({
+            type: 'inline',
+            items: {
+                src: $('.time-entry-form-popup').clone()
+            },
+            focus: '[name="amount"]',
+            callbacks: {
+                open: function () {
+                    var popup = this.content;
+                    popup.find('.time-entry-form').data('task-id', taskID);
+                    popup.show();
+                    popup.find('textarea').autosize();
+                }
+            }
+        });
+    };
+    var saveTimeEntry = function (form) {
+        var formData = {
+            amount: form.find('[name="amount"]').val(),
+            comment: form.find('[name="comment"]').val(),
+            task_id: form.data('task-id')
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/time-entry/0',
+            data: formData
+        }).done(function (data) {
+            if (data.error_msg) {
+                form.find('.form-message').text(data.error_msg);
+                return;
+            }
+            var task = $('.task[data-task-id="' + formData.task_id + '"]');
+            if (data.new_) {
+                task.find('.task-time-entries').append(data.html);
+                task.find('.task-spent-time a').text(data.total);
+            }
+            $.magnificPopup.close();
+        });
+    };
     var init = function () {
         $(document).on('click', '.task-edit', function () {
             var task = $(this).closest('.task');
@@ -131,6 +171,17 @@ var Tasks = (function () {
             var status = $(this).text();
             changeStatus(task, status);
             $(this).closest('.task-status-menu').remove();
+        });
+        $(document).on('click', '.task-spent-time a', function () {
+            $(this).closest('.task').find('.task-time-entries').toggle();
+        });
+        $(document).on('click', '.task-add-time-entry', function () {
+            var taskID = $(this).closest('.task').data('task-id');
+            showTimeEntryForm(taskID);
+        });
+        $(document).on('submit', '.time-entry-form', function (event) {
+            event.preventDefault();
+            saveTimeEntry($(this));
         });
     };
     return {init: init};

@@ -39,6 +39,15 @@
     display: block;
 }
 
+.task-time-entries {
+    display: none;
+}
+
+.time-entry-amount,
+.time-entry-comment {
+    display: inline-block;
+}
+
 .task-add {
     border-radius: 5px;
     display: block;
@@ -49,16 +58,20 @@
     background-color: #E6F0F8;
 }
 
-.task-form {
+.task-form,
+.time-entry-form {
     padding: 10px 10%;
     text-align: center;
 }
 
 .task-form input,
-.task-form textarea {
+.task-form textarea,
+.time-entry-form input,
+.time-entry-form textarea {
     width: 100%;
 }
 
-.task-form-popup {
+.task-form-popup,
+.time-entry-form-popup {
     display: none;
 }
