@@ -4,3 +4,4 @@ bower_components
 *.pyc
 */static/lib
 airy/settings.py
+fabfile/deploy.py

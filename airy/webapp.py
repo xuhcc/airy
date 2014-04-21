@@ -193,4 +193,4 @@ def logout():
 def main():
     app.debug = settings.debug
     app.secret_key = settings.secret_key
-    app.run(port=settings.http_port)
+    app.run(host=settings.http_host, port=settings.http_port)
