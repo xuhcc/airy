@@ -1,18 +1,9 @@
-.current-client {
-    font-size: 1.4em;
-    font-weight: bold;
-}
-
 .project {
     background-color: #E6F0F8;
     border-radius: 5px;
     margin-bottom: 5px;
     padding: 5px;
     text-align: left;
-}
-
-.project-name {
-    font-size: 1.6em;
 }
 
 .project-name a {

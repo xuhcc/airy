@@ -31,20 +31,12 @@ module.exports = function (grunt) {
                         dest: 'airy/static/lib/pure-base-min.css'
                     },
                     {
-                        src: 'bower_components/pure/grids-min.css',
-                        dest: 'airy/static/lib/pure-grids-min.css'
-                    },
-                    {
                         src: 'bower_components/pure/forms-min.css',
                         dest: 'airy/static/lib/pure-forms-min.css'
                     },
                     {
                         src: 'bower_components/pure/buttons-min.css',
                         dest: 'airy/static/lib/pure-buttons-min.css'
-                    },
-                    {
-                        src: 'bower_components/pure/menus-min.css',
-                        dest: 'airy/static/lib/pure-menus-min.css'
                     },
                     {
                         src: 'bower_components/magnific-popup/dist/jquery.magnific-popup.min.js',

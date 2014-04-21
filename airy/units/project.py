@@ -21,7 +21,9 @@ def get(project_id):
 class SaveForm(Form):
     id = IntegerField("Project ID",
                       filters=[lambda val: None if val == 0 else val])
-    name = StringField("Name", [validators.InputRequired()])
+    name = StringField("Name", [
+        validators.InputRequired(),
+        validators.Length(max=200)])
     description = TextAreaField("Description")
     client_id = IntegerField("Client ID", [validators.DataRequired()])
 

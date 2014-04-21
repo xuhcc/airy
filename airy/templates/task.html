@@ -1,14 +1,14 @@
 <div class="task task-{{ task.status }}" data-task-id="{{ task.id }}">
-    <div class="task-title">{{ task.title }}</div>
+    <div class="task-title"><h3 id="task-{{ task.id }}">{{ task.title }}</h3></div>
     <div class="task-created">{{ task.created.strftime("%d.%m.%Y") }}</div>
     <div class="task-description">{{ task.description|nl2br }}</div>
     <div class="task-status">Status: <a>{{ task.status }}</a></div>
     <div class="task-spent-time">Spent time: <a>{{ task.spent_time }}</a></div>
-    <div class="task-time-entries">
+    <div class="task-time-entries"><ul>
         {% for time_entry in task.time_entries %}
             {% include "time_entry.html" %}
         {% endfor %}
-    </div>
+    </ul></div>
     <div class="task-menu">
         <a class="task-edit">edit</a>
         <a class="task-delete">delete</a>

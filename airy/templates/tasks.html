@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Tasks - {{ project.name }}{% endblock %}
+{% block title %}{{ project.name }} - Tasks{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
@@ -12,7 +12,7 @@
 
 {% block content %}
 <div class="content">
-    <div class="current-project" data-project-id="{{ project.id }}">{{ project.name }}</div>
+    <div class="current-project" data-project-id="{{ project.id }}"><h2>Project: {{ project.name }}</h2></div>
     <div class="tasks">
         {% for task in project.tasks %}
         {% include "task.html" %}
@@ -33,6 +33,7 @@
     <div class="popup time-entry-form-popup">
         <form class="time-entry-form pure-form pure-form-stacked" autocomplete="off">
             <fieldset>
+                <legend></legend>
                 <input type="text" name="amount" placeholder="Time spent">
                 <textarea name="comment" placeholder="Comment"></textarea>
                 <button type="submit" class="pure-button pure-button-primary">Save</button>

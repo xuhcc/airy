@@ -27,7 +27,9 @@ def get_all():
 class SaveForm(Form):
     id = IntegerField("Client ID",
                       filters=[lambda val: None if val == 0 else val])
-    name = StringField("Name", [validators.InputRequired()])
+    name = StringField("Name", [
+        validators.InputRequired(),
+        validators.Length(max=200)])
     contacts = TextAreaField("Contacts")
 
 

@@ -118,8 +118,7 @@ def project_handler(project_id):
         return render_template(
             "tasks.html",
             user=settings.username,
-            project=instance,
-            status="open")
+            project=instance)
     elif request.method == "POST":
         form = project.SaveForm(request.form, id=project_id)
         try:
@@ -180,7 +179,7 @@ def time_entry_handler(time_entry_id):
         return jsonify(
             html=html,
             new_=(time_entry_id == 0),
-            total=str(instance.task.spent_time))
+            total=float(instance.task.spent_time))
 
 
 @app.route("/logout")

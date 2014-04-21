@@ -16,7 +16,9 @@ class TaskError(Exception):
 class SaveForm(Form):
     id = IntegerField("Task ID",
                       filters=[lambda val: None if val == 0 else val])
-    title = StringField("Title", [validators.InputRequired()])
+    title = StringField("Title", [
+        validators.InputRequired(),
+        validators.Length(max=200)])
     description = TextAreaField("Description")
     project_id = IntegerField("Project ID", [validators.DataRequired()])
 

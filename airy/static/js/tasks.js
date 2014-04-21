@@ -102,6 +102,7 @@ var Tasks = (function () {
             callbacks: {
                 open: function () {
                     var popup = this.content;
+                    popup.find('legend').text('Task #' + taskID);
                     popup.find('.time-entry-form').data('task-id', taskID);
                     popup.show();
                     popup.find('textarea').autosize();
@@ -127,7 +128,7 @@ var Tasks = (function () {
             var task = $('.task[data-task-id="' + formData.task_id + '"]');
             if (data.new_) {
                 task.find('.task-time-entries').append(data.html);
-                task.find('.task-spent-time a').text(data.total);
+                task.find('.task-spent-time a').text(data.total.toFixed(2));
             }
             $.magnificPopup.close();
         });
@@ -137,7 +138,7 @@ var Tasks = (function () {
             var task = $(this).closest('.task');
             var taskData = {
                 id: task.data('task-id'),
-                title: task.find('.task-title').text(),
+                title: task.find('.task-title h3').text(),
                 description: task.find('.task-description').textMultiline()
             };
             showTaskForm(taskData);
