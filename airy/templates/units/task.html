@@ -1,4 +1,8 @@
 <div class="task task-{{ task.status }}" data-task-id="{{ task.id }}">
+    <div class="task-menu">
+        <a class="task-edit icon" title="Edit task">e</a>
+        <a class="task-delete icon" title="Delete task">d</a>
+    </div>
     <div class="task-title"><h3 id="task-{{ task.id }}">{{ task.title }}</h3></div>
     <div class="task-created">{{ task.created.strftime("%d.%m.%Y") }}</div>
     <div class="task-description">{{ task.description|nl2br }}</div>
@@ -9,9 +13,5 @@
             {% include "units/time_entry.html" %}
         {% endfor %}
     </ul></div>
-    <div class="task-menu">
-        <a class="task-edit">edit</a>
-        <a class="task-delete">delete</a>
-        <a class="task-add-time-entry">add time entry</a>
-    </div>
+    <a class="task-add-time-entry">add time entry</a>
 </div>

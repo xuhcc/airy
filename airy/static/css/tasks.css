@@ -6,6 +6,11 @@
     text-align: left;
 }
 
+.task-menu {
+    float: right;
+    line-height: 1.68em;
+}
+
 .task-created {
     color: #999;
 }

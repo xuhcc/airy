@@ -1,0 +1,28 @@
+{
+  "name": "icons",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "5211af474d3a9848f67f945e2ccaf143",
+      "css": "cancel",
+      "code": 100,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "44e04715aecbca7f266a17d5a7863c68",
+      "css": "plus",
+      "code": 43,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d35a1d35efeb784d1dc9ac18b9b6c2b6",
+      "css": "pencil",
+      "code": 101,
+      "src": "fontawesome"
+    }
+  ]
+}

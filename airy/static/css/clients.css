@@ -6,6 +6,11 @@
     text-align: left;
 }
 
+.client-menu {
+    float: right;
+    line-height: 1.68em;
+}
+
 .client-name a {
     text-decoration: none;
 }

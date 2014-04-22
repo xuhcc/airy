@@ -6,6 +6,11 @@
     text-align: left;
 }
 
+.project-menu {
+    float: right;
+    line-height: 1.68em;
+}
+
 .project-name a {
     text-decoration: none;
 }

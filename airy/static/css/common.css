@@ -1,3 +1,23 @@
+@font-face {
+    font-family: 'icons';
+    src: url('../font/icons.eot?74219010');
+    src: url('../font/icons.eot?74219010#iefix') format('embedded-opentype'),
+        url('../font/icons.woff?74219010') format('woff'),
+        url('../font/icons.ttf?74219010') format('truetype'),
+        url('../font/icons.svg?74219010#icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.icon {
+    font-family: 'icons';
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.2;
+}
+
 a {
     color: #403B80;
     cursor: pointer;
@@ -11,10 +31,14 @@ textarea {
     resize: none;
 }
 
+h1 {
+    margin: 0;
+}
+
 h2 {
     font-size: 1.4em;
     font-weight: bold;
-    margin: 0;
+    margin: 5px 0;
 }
 
 h3 {
