@@ -92,7 +92,7 @@ var Tasks = (function () {
             statusElem.text(status);
         });
     };
-    var showTimeEntryForm = function (taskID) {
+    var showTimeEntryForm = function (data) {
         $.magnificPopup.open({
             type: 'inline',
             items: {
@@ -102,8 +102,15 @@ var Tasks = (function () {
             callbacks: {
                 open: function () {
                     var popup = this.content;
-                    popup.find('legend').text('Task #' + taskID);
-                    popup.find('.time-entry-form').data('task-id', taskID);
+                    if (!data.id) {
+                        data.id = 0;
+                    } else {
+                        popup.find('[name="amount"]').val(data.amount);
+                        popup.find('[name="comment"]').val(data.comment);
+                    }
+                    popup.find('legend').text('Task #' + data.task_id);
+                    popup.find('.time-entry-form').data('task-id', data.task_id);
+                    popup.find('.time-entry-form').data('time-entry-id', data.id);
                     popup.removeClass('time-entry-form-template');
                     popup.find('textarea').autosize();
                 }
@@ -111,6 +118,7 @@ var Tasks = (function () {
         });
     };
     var saveTimeEntry = function (form) {
+        var timeEntryID = form.data('time-entry-id');
         var formData = {
             amount: form.find('[name="amount"]').val(),
             comment: form.find('[name="comment"]').val(),
@@ -118,7 +126,7 @@ var Tasks = (function () {
         };
         $.ajax({
             type: 'POST',
-            url: '/time-entry/0',
+            url: '/time-entry/' + timeEntryID,
             data: formData
         }).done(function (data) {
             if (data.error_msg) {
@@ -128,8 +136,11 @@ var Tasks = (function () {
             var task = $('.task[data-task-id="' + formData.task_id + '"]');
             if (data.new_) {
                 task.find('.task-time-entries ul').append(data.html);
-                task.find('.task-spent-time a').text(data.total.toFixed(2));
+            } else {
+                $('.time-entry[data-time-entry-id="' + timeEntryID + '"]')
+                    .replaceWith(data.html);
             }
+            task.find('.task-spent-time a').text(data.total.toFixed(2));
             $.magnificPopup.close();
         });
     };
@@ -176,9 +187,20 @@ var Tasks = (function () {
         $(document).on('click', '.task-spent-time a', function () {
             $(this).closest('.task').find('.task-time-entries').toggle();
         });
+        $(document).on('click', '.time-entry a', function () {
+            var timeEntry = $(this).closest('.time-entry');
+            var timeEntryData = {
+                id: timeEntry.data('time-entry-id'),
+                amount: timeEntry.find('.time-entry-amount').text(),
+                comment: timeEntry.find('.time-entry-comment').textMultiline(),
+                task_id: timeEntry.closest('.task').data('task-id')
+            };
+            showTimeEntryForm(timeEntryData);
+        });
         $(document).on('click', '.task-add-time-entry', function () {
-            var taskID = $(this).closest('.task').data('task-id');
-            showTimeEntryForm(taskID);
+            showTimeEntryForm({
+                task_id: $(this).closest('.task').data('task-id')
+            });
         });
         $(document).on('submit', '.time-entry-form', function (event) {
             event.preventDefault();
