@@ -2,6 +2,11 @@ from fabric.api import env, task, settings, prefix
 
 
 @task
+def logdir():
+    env.run("mkdir -p logs")
+
+
+@task
 def venv():
     with settings(warn_only=True):
         # Test if requirements.txt is newer then the virtual environment
@@ -22,5 +27,6 @@ def frontend():
 
 @task(default=True)
 def all():
+    logdir()
     venv()
     frontend()
