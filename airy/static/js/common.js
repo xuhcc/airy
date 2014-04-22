@@ -2,8 +2,12 @@ var Base = (function () {
     'use strict';
     var init = function () {
         $.fn.textMultiline = function () {
-            var lines = this.html().split('<br>');
-            return lines.join('\n');
+            if (this.length === 0) {
+                return;
+            } else {
+                var lines = this.html().split('<br>');
+                return lines.join('\n');
+            }
         };
     };
     var alertTemplate = $('<div class="popup">\

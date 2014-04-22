@@ -167,6 +167,10 @@ var Tasks = (function () {
                 deleteTask(task);
             });
         });
+        $(document).on('click', '.task-title a', function () {
+            var task = $(this).closest('.task');
+            task.find('.task-created, .task-updated').toggle();
+        });
         $(document).on('click', '.task-status a', function () {
             var task = $(this).closest('.task');
             showStatusMenu(task);

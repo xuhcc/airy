@@ -1,8 +1,8 @@
 .task {
-    background-color: #E6F0F8;
+    border: 3px solid #D9E6F1;
     border-radius: 5px;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 5px 10px;
     text-align: left;
 }
 
@@ -11,24 +11,23 @@
     line-height: 1.68em;
 }
 
-.task-created {
+.task-created,
+.task-updated {
+    display: none;
+}
+
+.task-description {
     color: #999;
 }
 
 .task-status-menu {
-    background-color: #E6F0F8;
-    border: 1px solid white;
+    background-color: white;
+    border: 2px solid #D9E6F1;
     border-radius: 5px;
     margin-top: 1.2em;
-    margin-left: -6px;
+    margin-left: -7px;
     padding: 5px;
     position: absolute;
-}
-
-.task-status-menu ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
 }
 
 .task-status-menu a {
@@ -40,36 +39,24 @@
 }
 
 .task-time-entries ul {
+    color: #3B6180;
+    list-style-position: inside;
+    list-style-type: disc;
     margin: 0;
-    padding-left: 30px;
+    padding-left: 20px;
 }
 
 .time-entry-amount {
     display: inline-block;
-    width: 50px;
+    width: 40px;
+}
+
+.task-add-time-entry {
+    margin-left: 20px;
 }
 
 .task-add {
-    border-radius: 5px;
     display: block;
-    font-size: 1.4em;
-}
-
-.task-add:hover {
-    background-color: #E6F0F8;
-}
-
-.task-form,
-.time-entry-form {
-    padding: 10px 10%;
-    text-align: center;
-}
-
-.task-form input,
-.task-form textarea,
-.time-entry-form input,
-.time-entry-form textarea {
-    width: 100%;
 }
 
 .task-form-template,

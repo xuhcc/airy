@@ -14,17 +14,27 @@
 }
 
 body {
+    font-family: 'PT Sans', sans-serif;
     font-size: 16px;
     line-height: 1.2;
 }
 
 a {
-    color: #403B80;
+    color: #3B6180;
     cursor: pointer;
+    text-decoration: none;
 }
 
 a:hover {
-    color: #5E56C5;
+    color: #5693C5;
+}
+
+a.icon {
+    color: #7DA4C4;
+}
+
+a.icon:hover {
+    color: #5693C5;
 }
 
 textarea {
@@ -32,12 +42,13 @@ textarea {
 }
 
 h1 {
+    color: #273E51;
     margin: 0;
 }
 
 h2 {
     font-size: 1.4em;
-    font-weight: bold;
+    font-weight: normal;
     margin: 5px 0;
 }
 
@@ -47,8 +58,13 @@ h3 {
     margin: 0;
 }
 
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
 .container {
-    font-family: Tahoma,Geneva,sans-serif;
     margin: 0 auto;
     max-width: 1140px;
     text-align: center;
@@ -66,13 +82,13 @@ h3 {
 }
 
 .main-menu a {
+    border-radius: 5px;
     display: block;
-    padding: 10px;
-    text-decoration: none;
+    padding: 5px;
 }
 
 .main-menu a:hover {
-    background-color: #E6F0F8;
+    background-color: #F0F6FA;
 }
 
 .popup {
@@ -93,6 +109,16 @@ h3 {
 .alert button,
 .confirm button {
     margin-top: 10px;
+}
+
+.popup form {
+    padding: 10px 10%;
+    text-align: center;
+}
+
+.popup input,
+.popup textarea {
+    width: 100%;
 }
 
 .form-message {

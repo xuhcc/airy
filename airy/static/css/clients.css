@@ -1,8 +1,8 @@
 .client {
-    background-color: #E6F0F8;
+    border: 3px solid #D9E6F1;
     border-radius: 5px;
     margin-bottom: 5px;
-    padding: 10px;
+    padding: 5px 10px;
     text-align: left;
 }
 
@@ -11,45 +11,22 @@
     line-height: 1.68em;
 }
 
-.client-name a {
-    text-decoration: none;
-}
-
 .client-contacts {
     color: #999;
+    margin-bottom: 5px;
 }
 
-.client-projects ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+.client-projects {
+    border-top: 2px dotted #D9E6F1;
 }
 
 .client-projects li {
-    background-color: #F8F8F8;
-    border-radius: 5px;
     padding: 3px;
-    margin: 3px -3px;
+    margin: 0 -3px;
 }
 
 .client-add {
-    border-radius: 5px;
     display: block;
-    font-size: 1.4em;
-}
-
-.client-add:hover {
-    background-color: #E6F0F8;
-}
-
-.client-form {
-    padding: 10px 10%;
-    text-align: center;
-}
-
-.client-form input,
-.client-form textarea {
-    width: 100%;
 }
 
 .client-form-template {

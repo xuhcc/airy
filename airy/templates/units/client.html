@@ -6,9 +6,9 @@
     <div class="client-name"><h3><a href="/client/{{ client.id }}">{{ client.name }}</a></h3></div>
     <div class="client-contacts">{{ client.contacts|nl2br }}</div>
     {% if client.projects %}
-    <div class="client-projects">Projects: <ul>
+    <div class="client-projects"><ul>
         {% for project in client.projects %}
-            <li><a href="/project/{{ project.id }}">{{ project.name }}</a></li>
+            <li><a href="/project/{{ project.id }}" title="Project">{{ project.name }}</a></li>
         {% endfor %}
     </ul></div>
     {% endif %}

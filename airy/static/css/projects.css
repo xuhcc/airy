@@ -1,8 +1,8 @@
 .project {
-    background-color: #E6F0F8;
+    border: 3px solid #D9E6F1;
     border-radius: 5px;
     margin-bottom: 5px;
-    padding: 5px;
+    padding: 5px 10px;
     text-align: left;
 }
 
@@ -11,32 +11,17 @@
     line-height: 1.68em;
 }
 
-.project-name a {
-    text-decoration: none;
-}
-
 .project-description {
     color: #999;
+    margin-bottom: 5px;
+}
+
+.project-last-task {
+    border-top: 2px dotted #D9E6F1;
 }
 
 .project-add {
-    border-radius: 5px;
     display: block;
-    font-size: 1.4em;
-}
-
-.project-add:hover {
-    background-color: #E6F0F8;
-}
-
-.project-form {
-    padding: 10px 10%;
-    text-align: center;
-}
-
-.project-form input,
-.project-form textarea {
-    width: 100%;
 }
 
 .project-form-template {
