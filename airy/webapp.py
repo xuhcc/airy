@@ -19,6 +19,8 @@ from airy.core import db_session
 from airy.units import client, project, task, time_entry
 
 app = Flask(__name__)
+app.debug = settings.debug
+app.secret_key = settings.secret_key
 
 
 def requires_auth(func):
@@ -190,6 +192,4 @@ def logout():
 
 
 def main():
-    app.debug = settings.debug
-    app.secret_key = settings.secret_key
     app.run(host=settings.http_host, port=settings.http_port)

@@ -1,6 +1,7 @@
 venv
 node_modules
 bower_components
+logs
 *.pyc
 */static/lib
 airy/settings.py

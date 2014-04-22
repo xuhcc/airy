@@ -1,8 +1,12 @@
+import logging
+
 from sqlalchemy.sql import exists
 from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 
 from airy.models import Client
 from airy.core import db_session as db
+
+logger = logging.getLogger(__name__)
 
 
 class ClientError(Exception):
@@ -10,6 +14,7 @@ class ClientError(Exception):
     def __init__(self, message, code=500):
         self.message = message
         self.code = code
+        logger.warning(message)
 
 
 def get(client_id):
