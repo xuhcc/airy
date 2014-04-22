@@ -14,20 +14,12 @@
 <div class="content">
     <div class="clients">
         {% for client in clients %}
-        {% include "client.html" %}
+        {% include "units/client.html" %}
         {% endfor %}
     </div>
     <a class="client-add" title="Add client">+</a>
-    <div class="popup client-form-popup">
-        <form class="client-form pure-form pure-form-stacked" autocomplete="off">
-            <fieldset>
-                <legend></legend>
-                <input type="text" name="name" placeholder="Name">
-                <textarea name="contacts" placeholder="Contacts"></textarea>
-                <button type="submit" class="pure-button pure-button-primary">Save</button>
-            </fieldset>
-            <div class="form-message"></div>
-        </form>
+    <div class="popup client-form-template">
+        {% include "units/client_form.html" %}
     </div>
 </div>
 {% endblock %}

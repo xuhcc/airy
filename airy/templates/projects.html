@@ -15,20 +15,12 @@
     <div class="current-client" data-client-id="{{ client.id }}"><h2>Client: {{ client.name }}</h2></div>
     <div class="projects">
         {% for project in client.projects %}
-        {% include "project.html" %}
+        {% include "units/project.html" %}
         {% endfor %}
     </div>
     <a class="project-add" title="Add project">+</a>
-    <div class="popup project-form-popup">
-        <form class="project-form pure-form pure-form-stacked" autocomplete="off">
-            <fieldset>
-                <legend></legend>
-                <input type="text" name="name" placeholder="Name">
-                <textarea name="description" placeholder="Description"></textarea>
-                <button type="submit" class="pure-button pure-button-primary">Save</button>
-            </fieldset>
-            <div class="form-message"></div>
-        </form>
+    <div class="popup project-form-template">
+        {% include "units/project_form.html" %}
     </div>
 </div>
 {% endblock %}

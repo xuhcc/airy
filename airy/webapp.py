@@ -97,7 +97,7 @@ def client_handler(client_id):
             instance = client.save(form)
         except client.ClientError as err:
             return jsonify(error_msg=err.message)
-        html = render_template("client.html", client=instance)
+        html = render_template("units/client.html", client=instance)
         return jsonify(html=html, new_=(client_id == 0))
     elif request.method == "DELETE":
         try:
@@ -125,7 +125,7 @@ def project_handler(project_id):
             instance = project.save(form)
         except project.ProjectError as err:
             return jsonify(error_msg=err.message)
-        html = render_template("project.html", project=instance)
+        html = render_template("units/project.html", project=instance)
         return jsonify(html=html, new_=(project_id == 0))
     elif request.method == "DELETE":
         try:
@@ -144,7 +144,7 @@ def task_handler(task_id):
             instance = task.save(form)
         except task.TaskError as err:
             return jsonify(error_msg=err.message)
-        html = render_template("task.html", task=instance)
+        html = render_template("units/task.html", task=instance)
         return jsonify(html=html, new_=(task_id == 0))
     elif request.method == "DELETE":
         try:
@@ -175,7 +175,7 @@ def time_entry_handler(time_entry_id):
             instance = time_entry.save(form)
         except time_entry.TimeEntryError as err:
             return jsonify(error_msg=err.message)
-        html = render_template("time_entry.html", time_entry=instance)
+        html = render_template("units/time_entry.html", time_entry=instance)
         return jsonify(
             html=html,
             new_=(time_entry_id == 0),

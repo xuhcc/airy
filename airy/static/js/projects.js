@@ -4,7 +4,7 @@ var Projects = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: $('.project-form-popup').clone()
+                src: $('.project-form-template').clone()
             },
             focus: '[name="name"]',
             callbacks: {
@@ -19,7 +19,7 @@ var Projects = (function () {
                         popup.find('[name="description"]').val(data.description);
                     }
                     popup.find('.project-form').data('project-id', data.id);
-                    popup.show();
+                    popup.removeClass('project-form-template');
                     popup.find('textarea').autosize();
                 }
             }

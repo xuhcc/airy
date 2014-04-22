@@ -4,7 +4,7 @@ var Clients = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: $('.client-form-popup').clone()
+                src: $('.client-form-template').clone()
             },
             focus: '[name="name"]',
             callbacks: {
@@ -19,7 +19,7 @@ var Clients = (function () {
                         popup.find('[name="contacts"]').val(data.contacts);
                     }
                     popup.find('.client-form').data('client-id', data.id);
-                    popup.show();
+                    popup.removeClass('client-form-template');
                     popup.find('textarea').autosize();
                 }
             }

@@ -15,31 +15,15 @@
     <div class="current-project" data-project-id="{{ project.id }}"><h2>Project: {{ project.name }}</h2></div>
     <div class="tasks">
         {% for task in project.tasks %}
-        {% include "task.html" %}
+        {% include "units/task.html" %}
         {% endfor %}
     </div>
     <a class="task-add" title="Add task">+</a>
-    <div class="popup task-form-popup">
-        <form class="task-form pure-form pure-form-stacked" autocomplete="off">
-            <fieldset>
-                <legend></legend>
-                <input type="text" name="title" placeholder="Title">
-                <textarea name="description" placeholder="Description"></textarea>
-                <button type="submit" class="pure-button pure-button-primary">Save</button>
-            </fieldset>
-            <div class="form-message"></div>
-        </form>
+    <div class="popup task-form-template">
+        {% include "units/task_form.html" %}
     </div>
-    <div class="popup time-entry-form-popup">
-        <form class="time-entry-form pure-form pure-form-stacked" autocomplete="off">
-            <fieldset>
-                <legend></legend>
-                <input type="text" name="amount" placeholder="Time spent">
-                <textarea name="comment" placeholder="Comment"></textarea>
-                <button type="submit" class="pure-button pure-button-primary">Save</button>
-            </fieldset>
-            <div class="form-message"></div>
-        </form>
+    <div class="popup time-entry-form-template">
+        {% include "units/time_entry_form.html" %}
     </div>
 </div>
 {% endblock %}

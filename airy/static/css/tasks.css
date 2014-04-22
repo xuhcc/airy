@@ -67,7 +67,7 @@
     width: 100%;
 }
 
-.task-form-popup,
-.time-entry-form-popup {
+.task-form-template,
+.time-entry-form-template {
     display: none;
 }

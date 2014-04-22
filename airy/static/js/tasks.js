@@ -4,7 +4,7 @@ var Tasks = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: $('.task-form-popup').clone()
+                src: $('.task-form-template').clone()
             },
             focus: '[name="title"]',
             callbacks: {
@@ -19,7 +19,7 @@ var Tasks = (function () {
                         popup.find('[name="description"]').val(data.description);
                     }
                     popup.find('.task-form').data('task-id', data.id);
-                    popup.show();
+                    popup.removeClass('task-form-template');
                     popup.find('textarea').autosize();
                 }
             }
@@ -96,7 +96,7 @@ var Tasks = (function () {
         $.magnificPopup.open({
             type: 'inline',
             items: {
-                src: $('.time-entry-form-popup').clone()
+                src: $('.time-entry-form-template').clone()
             },
             focus: '[name="amount"]',
             callbacks: {
@@ -104,7 +104,7 @@ var Tasks = (function () {
                     var popup = this.content;
                     popup.find('legend').text('Task #' + taskID);
                     popup.find('.time-entry-form').data('task-id', taskID);
-                    popup.show();
+                    popup.removeClass('time-entry-form-template');
                     popup.find('textarea').autosize();
                 }
             }
@@ -127,7 +127,7 @@ var Tasks = (function () {
             }
             var task = $('.task[data-task-id="' + formData.task_id + '"]');
             if (data.new_) {
-                task.find('.task-time-entries').append(data.html);
+                task.find('.task-time-entries ul').append(data.html);
                 task.find('.task-spent-time a').text(data.total.toFixed(2));
             }
             $.magnificPopup.close();
