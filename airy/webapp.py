@@ -21,6 +21,7 @@ from airy.units import client, project, task, time_entry
 app = Flask(__name__)
 app.debug = settings.debug
 app.secret_key = settings.secret_key
+app.session_cookie_name = "airy_session"
 
 
 def requires_auth(func):
