@@ -13,6 +13,7 @@ from flask import (
     url_for,
     abort)
 from jinja2 import evalcontextfilter, Markup, escape
+import bleach
 
 from airy import settings
 from airy.core import db_session
@@ -52,6 +53,17 @@ def nl2br(eval_ctx, value):
     if eval_ctx.autoescape:
         value, br = escape(value), Markup(br)
     return value.replace('\n', br)
+
+
+@app.template_filter()
+@evalcontextfilter
+def linkify(eval_ctx, value):
+    if not isinstance(value, Markup) and eval_ctx.autoescape:
+        value = escape(value)
+    callbacks = bleach.DEFAULT_CALLBACKS
+    callbacks.append(bleach.callbacks.target_blank)
+    result = bleach.linkify(value, callbacks=callbacks, parse_email=True)
+    return Markup(result)
 
 
 @app.route("/")

@@ -4,7 +4,7 @@
         <a class="client-delete icon">d</a>
     </div>
     <div class="client-name"><h3><a href="/client/{{ client.id }}/projects">{{ client.name }}</a></h3></div>
-    <div class="client-contacts">{{ client.contacts|nl2br }}</div>
+    <div class="client-contacts">{{ client.contacts|nl2br|linkify }}</div>
     {% if client.projects %}
     <div class="client-projects"><ul>
         {% for project in client.projects %}
