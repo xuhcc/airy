@@ -117,6 +117,11 @@ var Tasks = (function () {
             }
         });
     };
+    var incrementTimeAmount = function (form) {
+        var field = form.find('[name="amount"]');
+        var newValue = parseFloat(field.val()) + 0.5;
+        field.val(newValue.toFixed(2));
+    };
     var saveTimeEntry = function (form) {
         var timeEntryID = form.data('time-entry-id');
         var formData = {
@@ -141,6 +146,7 @@ var Tasks = (function () {
                     .replaceWith(data.html);
             }
             task.find('.task-spent-time a').text(data.total.toFixed(2));
+            task.find('.task-time-entries').show();
             $.magnificPopup.close();
         });
     };
@@ -205,6 +211,10 @@ var Tasks = (function () {
             showTimeEntryForm({
                 task_id: $(this).closest('.task').data('task-id')
             });
+        });
+        $(document).on('click', '.amount-increment', function (event) {
+            event.preventDefault();
+            incrementTimeAmount($(this).closest('.time-entry-form'));
         });
         $(document).on('submit', '.time-entry-form', function (event) {
             event.preventDefault();

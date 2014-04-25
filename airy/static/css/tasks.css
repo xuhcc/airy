@@ -63,3 +63,16 @@
 .time-entry-form-template {
     display: none;
 }
+
+.time-entry-form input[name="amount"] {
+    display: inline-block;
+    vertical-align: middle;
+    width: 90%;
+}
+
+.amount-increment {
+    display: inline-block;
+    margin: 4px 0 4px 1%;
+    vertical-align: middle;
+    width: 9%;
+}

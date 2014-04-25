@@ -22,7 +22,7 @@ class SaveForm(Form):
                       filters=[lambda val: None if val == 0 else val])
     amount = DecimalField("Spent time", [
         validators.InputRequired(),
-        validators.NumberRange(min=0, max=99)])
+        validators.NumberRange(min=0.01, max=99.99)])
     comment = TextAreaField("Comment")
     task_id = IntegerField("Task ID", [validators.DataRequired()])
 
