@@ -1,9 +1,9 @@
-<form class="time-entry-form pure-form pure-form-stacked" autocomplete="off">
+<form class="time-entry-form pure-form pure-form-stacked" autocomplete="off" data-time-entry-id="{{ time_entry.id }}" data-task-id="{{ time_entry.task.id }}">
     <fieldset>
-        <legend></legend>
-        <input type="text" name="amount" placeholder="Time spent" value="0"><!--
+        <legend>{% if time_entry.id == 0 %}New time entry{% else %}Time entry #{{ time_entry.id }}{% endif %}</legend>
+        <input type="text" name="amount" placeholder="Time spent" value="{{ time_entry.amount or '0' }}"><!--
         --><button class="pure-button amount-increment">+0.5</button>
-        <textarea name="comment" placeholder="Comment"></textarea>
+        <textarea name="comment" placeholder="Comment">{{ time_entry.comment or '' }}</textarea>
         <button type="submit" class="pure-button pure-button-primary">Save</button>
     </fieldset>
     <div class="form-message"></div>

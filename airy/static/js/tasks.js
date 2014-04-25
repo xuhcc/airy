@@ -1,28 +1,27 @@
 var Tasks = (function () {
     'use strict';
-    var showTaskForm = function (data) {
-        $.magnificPopup.open({
-            type: 'inline',
-            items: {
-                src: $('.task-form-template').clone()
-            },
-            focus: '[name="title"]',
-            callbacks: {
-                open: function () {
-                    var popup = this.content;
-                    if (!data.id) {
-                        popup.find('legend').text('New task');
-                        data.id = 0;
-                    } else {
-                        popup.find('legend').text('Task #' + data.id);
-                        popup.find('[name="title"]').val(data.title);
-                        popup.find('[name="description"]').val(data.description);
-                    }
-                    popup.find('.task-form').data('task-id', data.id);
-                    popup.removeClass('task-form-template');
-                    popup.find('textarea').autosize();
-                }
+    var showTaskForm = function (taskID) {
+        $.ajax({
+            type: 'GET',
+            url: '/task/' + taskID
+        }).done(function (data) {
+            if (data.error_msg) {
+                Base.alert(data.error_msg);
+                return;
             }
+            var popup = $('<div/>', {class: 'popup'}).html(data.html);
+            $.magnificPopup.open({
+                type: 'inline',
+                items: {
+                    src: popup
+                },
+                focus: '[name="title"]',
+                callbacks: {
+                    open: function () {
+                        this.content.find('textarea').autosize();
+                    }
+                }
+            });
         });
     };
     var saveTask = function (form) {
@@ -92,29 +91,32 @@ var Tasks = (function () {
             statusElem.text(status);
         });
     };
-    var showTimeEntryForm = function (data) {
-        $.magnificPopup.open({
-            type: 'inline',
-            items: {
-                src: $('.time-entry-form-template').clone()
-            },
-            focus: '[name="amount"]',
-            callbacks: {
-                open: function () {
-                    var popup = this.content;
-                    if (!data.id) {
-                        data.id = 0;
-                    } else {
-                        popup.find('[name="amount"]').val(data.amount);
-                        popup.find('[name="comment"]').val(data.comment);
-                    }
-                    popup.find('legend').text('Task #' + data.task_id);
-                    popup.find('.time-entry-form').data('task-id', data.task_id);
-                    popup.find('.time-entry-form').data('time-entry-id', data.id);
-                    popup.removeClass('time-entry-form-template');
-                    popup.find('textarea').autosize();
-                }
+    var showTimeEntryForm = function (timeEntryID, taskID) {
+        $.ajax({
+            type: 'GET',
+            url: '/time-entry/' + timeEntryID
+        }).done(function (data) {
+            if (data.error_msg) {
+                Base.alert(data.error_msg);
+                return;
             }
+            var popup = $('<div/>', {class: 'popup'}).html(data.html);
+            $.magnificPopup.open({
+                type: 'inline',
+                items: {
+                    src: popup
+                },
+                focus: '[name="amount"]',
+                callbacks: {
+                    open: function () {
+                        var form = this.content.find('.time-entry-form');
+                        if (timeEntryID === 0) {
+                            form.data('task-id', taskID);
+                        }
+                        this.content.find('textarea').autosize();
+                    }
+                }
+            });
         });
     };
     var incrementTimeAmount = function (form) {
@@ -152,16 +154,11 @@ var Tasks = (function () {
     };
     var init = function () {
         $(document).on('click', '.task-edit', function () {
-            var task = $(this).closest('.task');
-            var taskData = {
-                id: task.data('task-id'),
-                title: task.find('.task-title h3').text(),
-                description: task.find('.task-description').textMultiline()
-            };
-            showTaskForm(taskData);
+            var taskID = $(this).closest('.task').data('task-id');
+            showTaskForm(taskID);
         });
         $('.task-add').on('click', function () {
-            showTaskForm({});
+            showTaskForm(0);
         });
         $(document).on('submit', '.task-form', function (event) {
             event.preventDefault();
@@ -199,18 +196,12 @@ var Tasks = (function () {
         });
         $(document).on('click', '.time-entry a', function () {
             var timeEntry = $(this).closest('.time-entry');
-            var timeEntryData = {
-                id: timeEntry.data('time-entry-id'),
-                amount: timeEntry.find('.time-entry-amount').text(),
-                comment: timeEntry.find('.time-entry-comment').textMultiline(),
-                task_id: timeEntry.closest('.task').data('task-id')
-            };
-            showTimeEntryForm(timeEntryData);
+            var timeEntryID = timeEntry.data('time-entry-id');
+            var taskID = timeEntry.closest('.task').data('task-id');
+            showTimeEntryForm(timeEntryID, taskID);
         });
         $(document).on('click', '.task-add-time-entry', function () {
-            showTimeEntryForm({
-                task_id: $(this).closest('.task').data('task-id')
-            });
+            showTimeEntryForm(0, $(this).closest('.task').data('task-id'));
         });
         $(document).on('click', '.amount-increment', function (event) {
             event.preventDefault();

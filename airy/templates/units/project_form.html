@@ -1,8 +1,8 @@
-<form class="project-form pure-form pure-form-stacked" autocomplete="off">
+<form class="project-form pure-form pure-form-stacked" autocomplete="off" data-project-id="{{ project.id }}">
     <fieldset>
-        <legend></legend>
-        <input type="text" name="name" placeholder="Name">
-        <textarea name="description" placeholder="Description"></textarea>
+        <legend>{% if project.id == 0 %}New project{% else %}Project #{{ project.id }}{% endif %}</legend>
+        <input type="text" name="name" placeholder="Name" value="{{ project.name or '' }}">
+        <textarea name="description" placeholder="Description">{{ project.description or '' }}</textarea>
         <button type="submit" class="pure-button pure-button-primary">Save</button>
     </fieldset>
     <div class="form-message"></div>

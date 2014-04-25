@@ -86,14 +86,15 @@ def clients():
 @requires_auth
 def client_handler(client_id):
     if request.method == "GET":
-        try:
-            instance = client.get(client_id)
-        except client.ClientError as err:
-            abort(err.code)
-        return render_template(
-            "projects.html",
-            user=settings.username,
-            client=instance)
+        if client_id == 0:
+            instance = client.Client(id=client_id)
+        else:
+            try:
+                instance = client.get(client_id)
+            except client.ClientError as err:
+                return jsonify(error_msg=err.message)
+        html = render_template("units/client_form.html", client=instance)
+        return jsonify(html=html)
     elif request.method == "POST":
         form = client.SaveForm(request.form, id=client_id)
         try:
@@ -110,18 +111,32 @@ def client_handler(client_id):
         return jsonify(code=0)
 
 
+@app.route("/client/<int:client_id>/projects")
+@requires_auth
+def projects(client_id):
+    try:
+        instance = client.get(client_id)
+    except client.ClientError as err:
+        abort(err.code)
+    return render_template(
+        "projects.html",
+        user=settings.username,
+        client=instance)
+
+
 @app.route("/project/<int:project_id>", methods=["GET", "POST", "DELETE"])
 @requires_auth
 def project_handler(project_id):
     if request.method == "GET":
-        try:
-            instance = project.get(project_id)
-        except project.ProjectError as err:
-            abort(err.code)
-        return render_template(
-            "tasks.html",
-            user=settings.username,
-            project=instance)
+        if project_id == 0:
+            instance = project.Project(id=project_id)
+        else:
+            try:
+                instance = project.get(project_id)
+            except project.ProjectError as err:
+                return jsonify(error_msg=err.message)
+        html = render_template("units/project_form.html", project=instance)
+        return jsonify(html=html)
     elif request.method == "POST":
         form = project.SaveForm(request.form, id=project_id)
         try:
@@ -138,10 +153,33 @@ def project_handler(project_id):
         return jsonify(code=0)
 
 
-@app.route("/task/<int:task_id>", methods=["POST", "DELETE"])
+@app.route("/project/<int:project_id>/tasks")
+@requires_auth
+def tasks(project_id):
+    try:
+        instance = project.get(project_id)
+    except project.ProjectError as err:
+        abort(err.code)
+    return render_template(
+        "tasks.html",
+        user=settings.username,
+        project=instance)
+
+
+@app.route("/task/<int:task_id>", methods=["GET", "POST", "DELETE"])
 @requires_auth
 def task_handler(task_id):
-    if request.method == "POST":
+    if request.method == "GET":
+        if task_id == 0:
+            instance = task.Task(id=task_id)
+        else:
+            try:
+                instance = task.get(task_id)
+            except task.TaskError as err:
+                return jsonify(error_msg=err.message)
+        html = render_template("units/task_form.html", task=instance)
+        return jsonify(html=html)
+    elif request.method == "POST":
         form = task.SaveForm(request.form, id=task_id)
         try:
             instance = task.save(form)
@@ -169,10 +207,21 @@ def task_status_handler(task_id):
         return jsonify(code=0)
 
 
-@app.route("/time-entry/<int:time_entry_id>", methods=["POST"])
+@app.route("/time-entry/<int:time_entry_id>", methods=["GET", "POST"])
 @requires_auth
 def time_entry_handler(time_entry_id):
-    if request.method == "POST":
+    if request.method == "GET":
+        if time_entry_id == 0:
+            instance = time_entry.TimeEntry(id=time_entry_id)
+        else:
+            try:
+                instance = time_entry.get(time_entry_id)
+            except time_entry.TimeEntryError as err:
+                return jsonify(error_msg=err.message)
+        html = render_template("units/time_entry_form.html",
+                               time_entry=instance)
+        return jsonify(html=html)
+    elif request.method == "POST":
         form = time_entry.SaveForm(request.form, id=time_entry_id)
         try:
             instance = time_entry.save(form)

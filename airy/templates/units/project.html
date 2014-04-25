@@ -3,11 +3,11 @@
         <a class="project-edit icon">e</a>
         <a class="project-delete icon">d</a>
     </div>
-    <div class="project-name"><h3><a href="/project/{{ project.id }}">{{ project.name }}</a></h3></div>
+    <div class="project-name"><h3><a href="/project/{{ project.id }}/tasks">{{ project.name }}</a></h3></div>
     <div class="project-description">{{ project.description|nl2br }}</div>
     {% if project.last_task %}
     <div class="project-last-task">Last task:
-        <a href="/project/{{ project.id }}#task-{{ project.last_task.id }}">{{ project.last_task.title }}</a>
+        <a href="/project/{{ project.id }}/tasks#task-{{ project.last_task.id }}">{{ project.last_task.title }}</a>
     </div>
     {% endif %}
 </div>

@@ -17,6 +17,13 @@ class TaskError(Exception):
         logger.warning(message)
 
 
+def get(task_id):
+    task = db.query(Task).get(task_id)
+    if not task:
+        raise TaskError("Task #{0} not found".format(task_id), 404)
+    return task
+
+
 class SaveForm(Form):
     id = IntegerField("Task ID",
                       filters=[lambda val: None if val == 0 else val])

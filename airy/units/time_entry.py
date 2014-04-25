@@ -17,6 +17,15 @@ class TimeEntryError(Exception):
         logger.warning(message)
 
 
+def get(time_entry_id):
+    time_entry = db.query(TimeEntry).get(time_entry_id)
+    if not time_entry:
+        raise TimeEntryError(
+            "Time entry #{0} not found".format(time_entry_id),
+            404)
+    return time_entry
+
+
 class SaveForm(Form):
     id = IntegerField("Time entry ID",
                       filters=[lambda val: None if val == 0 else val])

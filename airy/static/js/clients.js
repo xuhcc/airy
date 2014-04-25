@@ -1,28 +1,27 @@
 var Clients = (function () {
     'use strict';
-    var showClientForm = function (data) {
-        $.magnificPopup.open({
-            type: 'inline',
-            items: {
-                src: $('.client-form-template').clone()
-            },
-            focus: '[name="name"]',
-            callbacks: {
-                open: function () {
-                    var popup = this.content;
-                    if (!data.id) {
-                        popup.find('legend').text('New client');
-                        data.id = 0;
-                    } else {
-                        popup.find('legend').text('Client #' + data.id);
-                        popup.find('[name="name"]').val(data.name);
-                        popup.find('[name="contacts"]').val(data.contacts);
-                    }
-                    popup.find('.client-form').data('client-id', data.id);
-                    popup.removeClass('client-form-template');
-                    popup.find('textarea').autosize();
-                }
+    var showClientForm = function (clientID) {
+        $.ajax({
+            type: 'GET',
+            url: '/client/' + clientID
+        }).done(function (data) {
+            if (data.error_msg) {
+                Base.alert(data.error_msg);
+                return;
             }
+            var popup = $('<div/>', {class: 'popup'}).html(data.html);
+            $.magnificPopup.open({
+                type: 'inline',
+                items: {
+                    src: popup
+                },
+                focus: '[name="name"]',
+                callbacks: {
+                    open: function () {
+                        this.content.find('textarea').autosize();
+                    }
+                }
+            });
         });
     };
     var saveClient = function (form) {
@@ -64,16 +63,11 @@ var Clients = (function () {
     };
     var init = function () {
         $(document).on('click', '.client-edit', function () {
-            var client = $(this).closest('.client');
-            var clientData = {
-                id: client.data('client-id'),
-                name: client.find('.client-name a').text(),
-                contacts: client.find('.client-contacts').textMultiline()
-            };
-            showClientForm(clientData);
+            var clientID = $(this).closest('.client').data('client-id');
+            showClientForm(clientID);
         });
         $('.client-add').on('click', function () {
-            showClientForm({});
+            showClientForm(0);
         });
         $(document).on('submit', '.client-form', function (event) {
             event.preventDefault();
