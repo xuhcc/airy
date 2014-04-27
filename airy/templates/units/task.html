@@ -8,7 +8,7 @@
     <div class="task-updated">Updated: {{ task.updated.strftime("%d.%m.%Y %H:%M") }}</div>
     <div class="task-description">{{ task.description|nl2br|linkify }}</div>
     <div class="task-status">Status: <a>{{ task.status }}</a></div>
-    <div class="task-spent-time">Spent time: <a>{{ task.spent_time }}</a> hours</div>
+    <div class="task-spent-time">Time spent: <a>{{ task.spent_time }}</a> hours</div>
     <div class="task-time-entries"><ul>
         {% for time_entry in task.time_entries %}
             {% include "units/time_entry.html" %}
