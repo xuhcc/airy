@@ -70,6 +70,10 @@ var Projects = (function () {
         $('.project-add').on('click', function () {
             showProjectForm(0);
         });
+        $(document).on('keydown', null, 'alt+a', function (event) {
+            event.preventDefault();
+            showProjectForm(0);
+        });
         $(document).on('submit', '.project-form', function (event) {
             event.preventDefault();
             saveProject($(this));

@@ -69,6 +69,10 @@ var Clients = (function () {
         $('.client-add').on('click', function () {
             showClientForm(0);
         });
+        $(document).on('keydown', null, 'alt+a', function (event) {
+            event.preventDefault();
+            showClientForm(0);
+        });
         $(document).on('submit', '.client-form', function (event) {
             event.preventDefault();
             saveClient($(this));

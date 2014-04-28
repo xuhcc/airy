@@ -160,6 +160,10 @@ var Tasks = (function () {
         $('.task-add').on('click', function () {
             showTaskForm(0);
         });
+        $(document).on('keydown', null, 'alt+a', function (event) {
+            event.preventDefault();
+            showTaskForm(0);
+        });
         $(document).on('submit', '.task-form', function (event) {
             event.preventDefault();
             saveTask($(this));

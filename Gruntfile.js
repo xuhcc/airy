@@ -49,6 +49,10 @@ module.exports = function (grunt) {
                     {
                         src: 'bower_components/jquery-autosize/jquery.autosize.min.js',
                         dest: 'airy/static/lib/jquery.autosize.min.js'
+                    },
+                    {
+                        src: 'bower_components/jquery.hotkeys/jquery.hotkeys.js',
+                        dest: 'airy/static/lib/jquery.hotkeys.js'
                     }
                 ]
             }
