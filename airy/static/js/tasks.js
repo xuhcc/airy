@@ -89,6 +89,7 @@ var Tasks = (function () {
             task.removeClass('task-' + statusElem.text())
                 .addClass('task-' + status);
             statusElem.text(status);
+            $('.user-open-tasks').text(data.open_tasks);
         });
     };
     var showTimeEntryForm = function (timeEntryID, taskID) {
@@ -150,6 +151,7 @@ var Tasks = (function () {
             task.find('.task-spent-time a').text(data.total.toFixed(2));
             task.find('.task-time-entries').show();
             $.magnificPopup.close();
+            $('.user-total-today').text(data.total_today.toFixed(2));
         });
     };
     var init = function () {

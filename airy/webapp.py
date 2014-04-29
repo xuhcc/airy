@@ -17,6 +17,7 @@ import bleach
 
 from airy import settings
 from airy.core import db_session
+from airy.user import User
 from airy.units import client, project, task, time_entry
 
 app = Flask(__name__)
@@ -90,7 +91,7 @@ def clients():
     """
     return render_template(
         "clients.html",
-        user=settings.username,
+        user=User(),
         clients=client.get_all())
 
 
@@ -132,7 +133,7 @@ def projects(client_id):
         abort(err.code)
     return render_template(
         "projects.html",
-        user=settings.username,
+        user=User(),
         client=instance)
 
 
@@ -174,7 +175,7 @@ def tasks(project_id):
         abort(err.code)
     return render_template(
         "tasks.html",
-        user=settings.username,
+        user=User(),
         project=instance)
 
 
@@ -216,7 +217,7 @@ def task_status_handler(task_id):
             task.set_status(form)
         except task.TaskError as err:
             return jsonify(error_msg=err.message)
-        return jsonify(code=0)
+        return jsonify(open_tasks=User().open_tasks)
 
 
 @app.route("/time-entry/<int:time_entry_id>", methods=["GET", "POST"])
@@ -243,7 +244,8 @@ def time_entry_handler(time_entry_id):
         return jsonify(
             html=html,
             new_=(time_entry_id == 0),
-            total=float(instance.task.spent_time))
+            total=float(instance.task.spent_time),
+            total_today=float(User().total_today))
 
 
 @app.route("/logout")
