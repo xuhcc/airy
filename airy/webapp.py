@@ -171,6 +171,19 @@ def project_handler(project_id):
         return jsonify(code=0)
 
 
+@app.route("/project/<int:project_id>/report")
+@requires_auth
+def project_report_handler(project_id):
+    try:
+        instance = project.get(project_id)
+    except project.ProjectError as err:
+        abort(err.code)
+    return render_template(
+        "report.html",
+        user=User(),
+        project=instance)
+
+
 @app.route("/project/<int:project_id>/tasks")
 @requires_auth
 def tasks(project_id):

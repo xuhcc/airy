@@ -45,6 +45,18 @@ class Project(Base):
             order_by(Task.updated.desc())
         return query.first()
 
+    @property
+    def time_total(self):
+        """
+        Returns time spent on "completed" tasks
+        """
+        session = object_session(self)
+        query = session.query(func.sum(TimeEntry.amount)).\
+            join(Task.time_entries).\
+            filter(Task.project_id == self.id).\
+            filter(Task.status == "completed")
+        return query.scalar() or 0
+
 Status = Enum("open", "completed", "closed", name="status")
 
 

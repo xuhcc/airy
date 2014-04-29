@@ -1,0 +1,13 @@
+.report {
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.report th,
+.report td {
+    padding: 5px 10px;
+}
+
+.report tr:last-child {
+    font-weight: bold;
+}

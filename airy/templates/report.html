@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ project.name }} - Report{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="current-project" data-project-id="{{ project.id }}">
+        <h2>Report for {{ project.name }}</h2>
+    </div>
+    <table class="report" align="center">
+        <tr>
+            <th>Task</th>
+            <th>Time spent (hours)</th>
+        </tr>
+        {% for task in project.tasks_by_status("completed") %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.spent_time }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Total</td>
+            <td>{{ project.time_total }}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}
