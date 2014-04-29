@@ -4,8 +4,8 @@
         <a class="task-delete icon" title="Delete task">d</a>
     </div>
     <div class="task-title"><h3><a id="task-{{ task.id }}">{{ task.title }}</a></h3></div>
-    <div class="task-created">Created: {{ task.created.strftime("%d.%m.%Y %H:%M") }}</div>
-    <div class="task-updated">Updated: {{ task.updated.strftime("%d.%m.%Y %H:%M") }}</div>
+    <div class="task-created">Created: {{ task.created|dtformat }}</div>
+    <div class="task-updated">Updated: {{ task.updated|dtformat }}</div>
     <div class="task-description">{{ task.description|nl2br|linkify }}</div>
     <div class="task-status">Status: <a>{{ task.status }}</a></div>
     <div class="task-spent-time">Time spent: <a>{{ task.spent_time }}</a> hours</div>

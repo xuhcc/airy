@@ -67,6 +67,11 @@ def linkify(eval_ctx, value):
     return Markup(result)
 
 
+@app.template_filter()
+def dtformat(value):
+    return value.strftime("%d.%m.%Y %H:%M")
+
+
 @app.route("/")
 @app.route("/login", methods=['GET', 'POST'])
 def login():
