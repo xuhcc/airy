@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ project.name }} - Report{% endblock %}
+{% block title %}{{ report.project.name }} - Report{% endblock %}
 
 {% block css %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
@@ -8,15 +8,18 @@
 
 {% block content %}
 <div class="content">
-    <div class="current-project" data-project-id="{{ project.id }}">
-        <h2>Report for {{ project.name }}</h2>
+    <div class="current-project" data-project-id="{{ report.project.id }}">
+        <h2>Report for {{ report.project.name }}</h2>
     </div>
+    {% if report.range %}
+    <div class="report-range">{{ report.range[0]|dtformat }} - {{ report.range[1]|dtformat }}</div>
+    {% endif %}
     <table class="report" align="center">
         <tr>
             <th>Task</th>
             <th>Time spent (hours)</th>
         </tr>
-        {% for task in project.tasks_by_status("completed") %}
+        {% for task in report.tasks %}
         <tr>
             <td>{{ task.title }}</td>
             <td>{{ task.spent_time }}</td>
@@ -24,7 +27,7 @@
         {% endfor %}
         <tr>
             <td>Total</td>
-            <td>{{ project.time_total }}</td>
+            <td>{{ report.time_total }}</td>
         </tr>
     </table>
 </div>

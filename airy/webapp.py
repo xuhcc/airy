@@ -15,9 +15,8 @@ from flask import (
 from jinja2 import evalcontextfilter, Markup, escape
 import bleach
 
-from airy import settings
+from airy import report, user, settings
 from airy.core import db_session
-from airy.user import User
 from airy.units import client, project, task, time_entry
 
 app = Flask(__name__)
@@ -96,7 +95,7 @@ def clients():
     """
     return render_template(
         "clients.html",
-        user=User(),
+        user=user.User(),
         clients=client.get_all())
 
 
@@ -138,7 +137,7 @@ def projects(client_id):
         abort(err.code)
     return render_template(
         "projects.html",
-        user=User(),
+        user=user.User(),
         client=instance)
 
 
@@ -175,13 +174,13 @@ def project_handler(project_id):
 @requires_auth
 def project_report_handler(project_id):
     try:
-        instance = project.get(project_id)
+        instance = report.Report(project_id)
     except project.ProjectError as err:
         abort(err.code)
     return render_template(
         "report.html",
-        user=User(),
-        project=instance)
+        user=user.User(),
+        report=instance)
 
 
 @app.route("/project/<int:project_id>/tasks")
@@ -193,7 +192,7 @@ def tasks(project_id):
         abort(err.code)
     return render_template(
         "tasks.html",
-        user=User(),
+        user=user.User(),
         project=instance)
 
 
@@ -235,7 +234,7 @@ def task_status_handler(task_id):
             task.set_status(form)
         except task.TaskError as err:
             return jsonify(error_msg=err.message)
-        return jsonify(open_tasks=User().open_tasks)
+        return jsonify(open_tasks=user.User().open_tasks)
 
 
 @app.route("/time-entry/<int:time_entry_id>", methods=["GET", "POST"])
@@ -263,7 +262,7 @@ def time_entry_handler(time_entry_id):
             html=html,
             new_=(time_entry_id == 0),
             total=float(instance.task.spent_time),
-            total_today=float(User().total_today))
+            total_today=float(user.User().total_today))
 
 
 @app.route("/logout")

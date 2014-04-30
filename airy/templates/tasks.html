@@ -14,8 +14,8 @@
 <div class="content">
     <div class="current-project" data-project-id="{{ project.id }}">
         <h2>Tasks from {{ project.name }}</h2>
-        <a class="project-report" href="/project/{{ project.id }}/report">view report</a>
     </div>
+    <a class="project-report" href="/project/{{ project.id }}/report">view report</a>
     <div class="tasks">
         {% for task in project.tasks %}
         {% include "units/task.html" %}
