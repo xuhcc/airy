@@ -1,3 +1,8 @@
+.report-range {
+    font-size: 0.8em;
+    margin-bottom: 20px;
+}
+
 .report {
     border-collapse: collapse;
     text-align: left;
@@ -10,4 +15,9 @@
 
 .report tr:last-child {
     font-weight: bold;
+}
+
+.project-tasks {
+    display: block;
+    margin-top: 20px;
 }

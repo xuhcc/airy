@@ -12,7 +12,7 @@
         <h2>Report for {{ report.project.name }}</h2>
     </div>
     {% if report.range %}
-    <div class="report-range">{{ report.range[0]|dtformat }} - {{ report.range[1]|dtformat }}</div>
+    <div class="report-range">{{ report.range[0]|dtformat('date') }} - {{ report.range[1]|dtformat('date') }}</div>
     {% endif %}
     <table class="report" align="center">
         <tr>
@@ -30,5 +30,6 @@
             <td>{{ report.time_total }}</td>
         </tr>
     </table>
+    <a class="project-tasks" href="/project/{{ report.project.id }}/tasks">back to tasks</a>
 </div>
 {% endblock %}

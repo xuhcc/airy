@@ -67,8 +67,11 @@ def linkify(eval_ctx, value):
 
 
 @app.template_filter()
-def dtformat(value):
-    return value.strftime("%d.%m.%Y %H:%M")
+def dtformat(value, fmt="datetime"):
+    if fmt == "datetime":
+        return value.strftime("%d.%m.%Y %H:%M")
+    elif fmt == "date":
+        return value.strftime("%d.%m.%Y")
 
 
 @app.route("/")
