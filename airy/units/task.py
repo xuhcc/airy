@@ -70,6 +70,7 @@ def set_status(form):
         raise TaskError(error_msg)
     task = Task()
     form.populate_obj(task)
+    task.updated = datetime.datetime.now(tz=timezone)
     if not db.query(Task).get(task.id):
         raise TaskError("Task #{0} not found".format(task.id))
     task = db.merge(task)
