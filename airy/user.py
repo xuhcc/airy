@@ -10,6 +10,14 @@ from airy import settings
 logger = logging.getLogger(__name__)
 
 
+def day_beginning(dt):
+    return dt.replace(hour=0, minute=0, second=0, microsecond=0)
+
+
+def week_beginning(dt):
+    return day_beginning(dt - datetime.timedelta(days=dt.weekday()))
+
+
 class User(object):
 
     def __init__(self):
@@ -22,8 +30,14 @@ class User(object):
 
     @property
     def total_today(self):
-        beginning = datetime.datetime.now(tz=timezone).replace(
-            hour=0, minute=0, second=0, microsecond=0)
+        now = datetime.datetime.now(tz=timezone)
         query = db.query(func.sum(TimeEntry.amount)).\
-            filter(TimeEntry.added >= beginning)
+            filter(TimeEntry.added >= day_beginning(now))
+        return query.scalar() or 0
+
+    @property
+    def total_week(self):
+        now = datetime.datetime.now(tz=timezone)
+        query = db.query(func.sum(TimeEntry.amount)).\
+            filter(TimeEntry.added >= week_beginning(now))
         return query.scalar() or 0

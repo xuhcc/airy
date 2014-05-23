@@ -152,6 +152,7 @@ var Tasks = (function () {
             task.find('.task-time-entries').show();
             $.magnificPopup.close();
             $('.user-total-today').text(data.total_today.toFixed(2));
+            $('.user-total-week').text(data.total_week.toFixed(2));
         });
     };
     var init = function () {
