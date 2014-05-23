@@ -15,9 +15,14 @@
     <div class="current-project" data-project-id="{{ project.id }}">
         <h2>Tasks from {{ project.name }}</h2>
     </div>
-    <a class="project-report" href="{{ url_for('project_report', project_id=project.id) }}">view report</a>
+    <a class="content-nav-link" href="{{ url_for('project_report', project_id=project.id) }}">view report</a>
+    {% if closed %}
+        <a class="content-nav-link" href="{{ url_for('tasks', project_id=project.id) }}">view active tasks</a>
+    {% else %}
+        <a class="content-nav-link" href="{{ url_for('closed_tasks', project_id=project.id) }}">view closed tasks</a>
+    {% endif %}
     <div class="tasks">
-        {% for task in project.tasks %}
+        {% for task in project.selected_tasks(closed=closed) %}
         {% include "units/task.html" %}
         {% endfor %}
     </div>

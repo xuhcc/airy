@@ -196,7 +196,22 @@ def tasks(project_id):
     return render_template(
         "tasks.html",
         user=user.User(),
-        project=instance)
+        project=instance,
+        closed=False)
+
+
+@app.route("/project/<int:project_id>/closed_tasks")
+@requires_auth
+def closed_tasks(project_id):
+    try:
+        instance = project.get(project_id)
+    except project.ProjectError as err:
+        abort(err.code)
+    return render_template(
+        "tasks.html",
+        user=user.User(),
+        project=instance,
+        closed=True)
 
 
 @app.route("/task/<int:task_id>", methods=["GET", "POST", "DELETE"])

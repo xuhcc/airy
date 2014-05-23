@@ -91,6 +91,11 @@ ul {
     background-color: #F0F6FA;
 }
 
+.content-nav-link {
+    display: block;
+    margin: 5px 0;
+}
+
 footer {
     color: #999;
     margin-top: 20px;

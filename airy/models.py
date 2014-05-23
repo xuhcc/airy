@@ -38,6 +38,18 @@ class Project(Base):
             order_by(Task.updated.desc())
         return query.first()
 
+    def selected_tasks(self, closed):
+        session = object_session(self)
+        if closed:
+            status_condition = (Task.status == "closed")
+        else:
+            status_condition = (Task.status != "closed")
+        query = session.query(Task).\
+            filter(Task.project_id == self.id).\
+            filter(status_condition).\
+            order_by(Task.status.asc())
+        return query.all()
+
 Status = Enum("open", "completed", "closed", name="status")
 
 
