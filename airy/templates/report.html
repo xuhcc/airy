@@ -30,6 +30,6 @@
             <td>{{ report.time_total }}</td>
         </tr>
     </table>
-    <a class="project-tasks" href="/project/{{ report.project.id }}/tasks">back to tasks</a>
+    <a class="project-tasks" href="{{ url_for('tasks', project_id=report.project.id) }}">back to tasks</a>
 </div>
 {% endblock %}

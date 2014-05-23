@@ -175,7 +175,7 @@ def project_handler(project_id):
 
 @app.route("/project/<int:project_id>/report")
 @requires_auth
-def project_report_handler(project_id):
+def project_report(project_id):
     try:
         instance = report.Report(project_id)
     except project.ProjectError as err:

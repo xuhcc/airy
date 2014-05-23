@@ -23,8 +23,8 @@
             {% if user %}
             <nav>
                 <ul class="main-menu">
-                    <li><a href="/clients">Clients</a></li>
-                    <li><a href="/logout">Logout</a></li>
+                    <li><a href="{{ url_for('clients') }}">Clients</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 </ul>
             </nav>
             {% endif %}
