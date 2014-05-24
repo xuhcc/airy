@@ -92,7 +92,7 @@ var Tasks = (function () {
             $('.user-open-tasks').text(data.open_tasks);
         });
     };
-    var showTimeEntryForm = function (timeEntryID, taskID) {
+    var showTimeEntryForm = function (timeEntryID, taskID, amount) {
         $.ajax({
             type: 'GET',
             url: '/time-entry/' + timeEntryID
@@ -113,12 +113,37 @@ var Tasks = (function () {
                         var form = this.content.find('.time-entry-form');
                         if (timeEntryID === 0) {
                             form.data('task-id', taskID);
+                            if (amount !== undefined) {
+                                form.find('[name="amount"]').val(amount);
+                            }
                         }
                         this.content.find('textarea').autosize();
                     }
                 }
             });
         });
+    };
+    var toggleTimer = function (taskID) {
+        var task = $('.task[data-task-id="' + taskID + '"]');
+        var timer;
+        var currentData = localStorage.getItem('timer');
+        if (currentData === null) {
+            // Start timer
+            timer = {task_id: taskID, start: moment()};
+            timer.interval_id = setInterval(function () {
+                var amount = moment().diff(moment(timer.start), 'hours', true);
+                task.find('.task-timer').show().text(amount.toFixed(4));
+            }, 1000);
+            localStorage.setItem('timer', JSON.stringify(timer));
+        } else {
+            // Stop timer
+            localStorage.removeItem('timer');
+            timer = JSON.parse(currentData);
+            clearInterval(timer.interval_id);
+            task.find('.task-timer').hide();
+            var amount = moment().diff(moment(timer.start), 'hours', true);
+            showTimeEntryForm(0, timer.task_id, amount.toFixed(2));
+        }
     };
     var incrementTimeAmount = function (form) {
         var field = form.find('[name="amount"]');
@@ -209,6 +234,11 @@ var Tasks = (function () {
         });
         $(document).on('click', '.task-add-time-entry', function () {
             showTimeEntryForm(0, $(this).closest('.task').data('task-id'));
+        });
+        $(document).on('click', '.task-toggle-timer', function (event) {
+            event.preventDefault();
+            var taskID = $(this).closest('.task').data('task-id');
+            toggleTimer(taskID);
         });
         $(document).on('click', '.amount-increment', function (event) {
             event.preventDefault();

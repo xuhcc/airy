@@ -11,6 +11,8 @@
     <div class="task-spent-time">
         <span>Time spent: <a class="task-total-time" title="Show details">{{ task.total_time }}</a> hours</span>
         <a class="task-add-time-entry icon" title="Add time">+</a>
+        <a class="task-toggle-timer icon" title="Toggle timer">t</a>
+        <sup class="task-timer"></sup>
     </div>
     <div class="task-time-entries"><ul>
         {% for time_entry in task.time_entries %}

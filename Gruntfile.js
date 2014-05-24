@@ -53,6 +53,10 @@ module.exports = function (grunt) {
                     {
                         src: 'bower_components/jquery.hotkeys/jquery.hotkeys.js',
                         dest: 'airy/static/lib/jquery.hotkeys.js'
+                    },
+                    {
+                        src: 'bower_components/momentjs/min/moment.min.js',
+                        dest: 'airy/static/lib/moment.min.js'
                     }
                 ]
             }

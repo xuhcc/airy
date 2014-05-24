@@ -34,6 +34,14 @@
     display: block;
 }
 
+.task-add-time-entry {
+    margin-left: 5px;
+}
+
+.task-timer {
+    display: none;
+}
+
 .task-time-entries {
     display: none;
 }
@@ -49,10 +57,6 @@
 .time-entry-amount {
     display: inline-block;
     width: 40px;
-}
-
-.task-add-time-entry {
-    margin-left: 5px;
 }
 
 .task-add {

@@ -1,14 +1,5 @@
 var Base = (function () {
     'use strict';
-    var init = function () {
-        $.magnificPopup.instance._onFocusIn = function (e) {
-            // Firefox Alt+Shift fix
-            if (e.target === document) {
-                return true;
-            }
-            $.magnificPopup.proto._onFocusIn.call(this,e);
-        };
-    };
     var alertTemplate = $('<div class="popup">\
         <div class="alert">\
         <div class="alert-message"></div>\
@@ -58,6 +49,15 @@ var Base = (function () {
                 }
             }
         });
+    };
+    var init = function () {
+        $.magnificPopup.instance._onFocusIn = function (e) {
+            // Firefox Alt+Shift fix
+            if (e.target === document) {
+                return true;
+            }
+            $.magnificPopup.proto._onFocusIn.call(this,e);
+        };
     };
     return {
         init: init,
