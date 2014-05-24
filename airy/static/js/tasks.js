@@ -148,7 +148,7 @@ var Tasks = (function () {
                 $('.time-entry[data-time-entry-id="' + timeEntryID + '"]')
                     .replaceWith(data.html);
             }
-            task.find('.task-spent-time a').text(data.total.toFixed(2));
+            task.find('.task-total-time').text(data.total.toFixed(2));
             task.find('.task-time-entries').show();
             $.magnificPopup.close();
             $('.user-total-today').text(data.total_today.toFixed(2));
@@ -198,7 +198,7 @@ var Tasks = (function () {
             changeStatus(task, status);
             $(this).closest('.task-status-menu').remove();
         });
-        $(document).on('click', '.task-spent-time a', function () {
+        $(document).on('click', '.task-total-time', function () {
             $(this).closest('.task').find('.task-time-entries').toggle();
         });
         $(document).on('click', '.time-entry a', function () {

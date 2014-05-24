@@ -70,7 +70,7 @@ class Task(Base):
                                 backref="task")
 
     @property
-    def spent_time(self):
+    def total_time(self):
         session = object_session(self)
         query = session.query(func.sum(TimeEntry.amount)).\
             filter(TimeEntry.task_id == self.id)

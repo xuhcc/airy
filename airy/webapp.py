@@ -279,7 +279,7 @@ def time_entry_handler(time_entry_id):
         return jsonify(
             html=html,
             new_=(time_entry_id == 0),
-            total=float(instance.task.spent_time),
+            total=float(instance.task.total_time),
             total_today=float(user.User().total_today),
             total_week=float(user.User().total_week))
 

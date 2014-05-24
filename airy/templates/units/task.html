@@ -7,12 +7,14 @@
     <div class="task-created">Created: {{ task.created|dtformat }}</div>
     <div class="task-updated">Updated: {{ task.updated|dtformat }}</div>
     <div class="task-description">{{ task.description|nl2br|linkify }}</div>
-    <div class="task-status">Status: <a>{{ task.status }}</a></div>
-    <div class="task-spent-time">Time spent: <a>{{ task.spent_time }}</a> hours</div>
+    <div class="task-status">Status: <a title="Change status">{{ task.status }}</a></div>
+    <div class="task-spent-time">
+        <span>Time spent: <a class="task-total-time" title="Show details">{{ task.total_time }}</a> hours</span>
+        <a class="task-add-time-entry icon" title="Add time">+</a>
+    </div>
     <div class="task-time-entries"><ul>
         {% for time_entry in task.time_entries %}
             {% include "units/time_entry.html" %}
         {% endfor %}
     </ul></div>
-    <a class="task-add-time-entry">add time</a>
 </div>
