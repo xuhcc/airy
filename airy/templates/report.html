@@ -22,12 +22,12 @@
         {% for task in report.tasks %}
         <tr>
             <td>{{ task.title }}</td>
-            <td>{{ task.spent_time }}</td>
+            <td>{{ task.total_time }}</td>
         </tr>
         {% endfor %}
         <tr>
             <td>Total</td>
-            <td>{{ report.time_total }}</td>
+            <td>{{ report.total_time }}</td>
         </tr>
     </table>
     <a class="project-tasks" href="{{ url_for('tasks', project_id=report.project.id) }}">back to tasks</a>

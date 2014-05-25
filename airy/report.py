@@ -26,7 +26,7 @@ class Report(object):
             return (start, end)
 
     @property
-    def time_total(self):
+    def total_time(self):
         """
         Returns time spent on "completed" tasks
         """
