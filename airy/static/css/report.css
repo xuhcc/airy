@@ -5,6 +5,7 @@
 
 .report {
     border-collapse: collapse;
+    margin-bottom: 20px;
     text-align: left;
 }
 
@@ -19,5 +20,4 @@
 
 .project-tasks {
     display: block;
-    margin-top: 20px;
 }

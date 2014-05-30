@@ -214,6 +214,16 @@ def closed_tasks(project_id):
         closed=True)
 
 
+@app.route("/project/<int:project_id>/close_completed_tasks", methods=['POST'])
+@requires_auth
+def close_completed_tasks(project_id):
+    try:
+        project.close_completed_tasks(project_id)
+    except project.ProjectError as err:
+        return jsonify(error_msg=err.message)
+    return jsonify(code=0)
+
+
 @app.route("/task/<int:task_id>", methods=["GET", "POST", "DELETE"])
 @requires_auth
 def task_handler(task_id):

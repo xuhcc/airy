@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
 {% endblock %}
 
+{% block js %}
+<script src="{{ url_for('static', filename='js/report.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <div class="content">
     <div class="current-project" data-project-id="{{ report.project.id }}">
@@ -30,6 +34,7 @@
             <td>{{ report.total_time }}</td>
         </tr>
     </table>
-    <a class="project-tasks" href="{{ url_for('tasks', project_id=report.project.id) }}">back to tasks</a>
+    <a class="report-close-tasks">close tasks</a>
+    <a class="project-tasks" href="{{ url_for('tasks', project_id=report.project.id) }}">back to list of tasks</a>
 </div>
 {% endblock %}

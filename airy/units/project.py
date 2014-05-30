@@ -2,7 +2,7 @@ import logging
 
 from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 
-from airy.models import Client, Project
+from airy.models import Client, Project, Task
 from airy.core import db_session as db
 
 logger = logging.getLogger(__name__)
@@ -50,6 +50,17 @@ def save(form):
     project = db.merge(project)
     db.commit()
     return project
+
+
+def close_completed_tasks(project_id):
+    project = db.query(Project).get(project_id)
+    if not project:
+        raise ProjectError("Project #{0} not found".format(project_id), 404)
+    db.query(Task).\
+        filter(Task.project_id == project_id).\
+        filter(Task.status == "completed").\
+        update({"status": "closed"})
+    db.commit()
 
 
 def delete(project_id):
