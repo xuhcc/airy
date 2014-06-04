@@ -35,6 +35,7 @@ class Project(Base):
         session = object_session(self)
         query = session.query(Task).\
             filter(Task.project_id == self.id).\
+            filter(Task.status != "closed").\
             order_by(Task.updated.desc())
         return query.first()
 
