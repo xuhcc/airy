@@ -197,6 +197,15 @@ def project_save_report(project_id):
     return jsonify(code=0)
 
 
+@app.route("/reports")
+@requires_auth
+def reports():
+    return render_template(
+        "reports.html",
+        user=user.User(),
+        reports=report.get_all())
+
+
 @app.route("/project/<int:project_id>/tasks")
 @requires_auth
 def tasks(project_id):

@@ -52,3 +52,8 @@ class ReportManager(object):
             filter(Task.status == self.status).\
             update({"status": "closed"})
         db.commit()
+
+
+def get_all():
+    reports = db.query(Report).all()
+    return reports

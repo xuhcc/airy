@@ -97,3 +97,5 @@ class Report(Base):
     created = Column(DateTime(timezone=True), nullable=False)
     total_time = Column(Numeric(6, 2), nullable=False)
     project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
+
+    project = relationship("Project")

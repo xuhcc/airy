@@ -3,14 +3,17 @@
     margin-bottom: 20px;
 }
 
-.report {
+.report,
+.reports {
     border-collapse: collapse;
     margin-bottom: 20px;
     text-align: left;
 }
 
 .report th,
-.report td {
+.report td,
+.reports th,
+.reports td {
     padding: 5px 10px;
 }
 
