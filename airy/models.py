@@ -87,3 +87,13 @@ class TimeEntry(Base):
     comment = Column(Text)
     added = Column(DateTime(timezone=True), nullable=False)
     task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)
+
+
+class Report(Base):
+
+    __tablename__ = "reports"
+
+    id = Column(Integer, primary_key=True)
+    created = Column(DateTime(timezone=True), nullable=False)
+    total_time = Column(Numeric(6, 2), nullable=False)
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)

@@ -1,11 +1,13 @@
+import datetime
+
 from sqlalchemy.sql import func
 
-from airy.core import db_session as db
-from airy.models import Task, TimeEntry
+from airy.core import db_session as db, timezone
+from airy.models import Task, TimeEntry, Report
 from airy.units import project
 
 
-class Report(object):
+class ReportManager(object):
 
     status = "completed"
 
@@ -35,3 +37,18 @@ class Report(object):
             filter(Task.project_id == self.project.id).\
             filter(Task.status == self.status)
         return query.scalar() or 0
+
+    def save(self):
+        """
+        Closes all completed tasks and saves report data
+        """
+        report = Report(
+            created=datetime.datetime.now(tz=timezone),
+            total_time=self.total_time,
+            project_id=self.project.id)
+        db.add(report)
+        db.query(Task).\
+            filter(Task.project_id == self.project.id).\
+            filter(Task.status == self.status).\
+            update({"status": "closed"})
+        db.commit()

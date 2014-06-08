@@ -177,13 +177,24 @@ def project_handler(project_id):
 @requires_auth
 def project_report(project_id):
     try:
-        instance = report.Report(project_id)
+        instance = report.ReportManager(project_id)
     except project.ProjectError as err:
         abort(err.code)
     return render_template(
         "report.html",
         user=user.User(),
         report=instance)
+
+
+@app.route("/project/<int:project_id>/save_report", methods=['POST'])
+@requires_auth
+def project_save_report(project_id):
+    try:
+        instance = report.ReportManager(project_id)
+        instance.save()
+    except project.ProjectError as err:
+        return jsonify(error_msg=err.message)
+    return jsonify(code=0)
 
 
 @app.route("/project/<int:project_id>/tasks")
@@ -212,16 +223,6 @@ def closed_tasks(project_id):
         user=user.User(),
         project=instance,
         closed=True)
-
-
-@app.route("/project/<int:project_id>/close_completed_tasks", methods=['POST'])
-@requires_auth
-def close_completed_tasks(project_id):
-    try:
-        project.close_completed_tasks(project_id)
-    except project.ProjectError as err:
-        return jsonify(error_msg=err.message)
-    return jsonify(code=0)
 
 
 @app.route("/task/<int:task_id>", methods=["GET", "POST", "DELETE"])

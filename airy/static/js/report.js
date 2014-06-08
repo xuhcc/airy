@@ -1,9 +1,9 @@
 var Report = (function () {
     'use strict';
-    var closeTasks = function (projectID) {
+    var saveReport = function (projectID) {
         $.ajax({
             type: 'POST',
-            url: '/project/' + projectID + '/close_completed_tasks'
+            url: '/project/' + projectID + '/save_report'
         }).done(function (data) {
             if (data.code === 0) {
                 window.location.href = '/project/' + projectID + '/tasks';
@@ -11,11 +11,11 @@ var Report = (function () {
         });
     };
     var init = function () {
-        $(document).on('click', '.report-close-tasks', function (event) {
+        $(document).on('click', '.report-save', function (event) {
             event.preventDefault();
             var projectID = $('.current-project').data('project-id');
-            Base.confirm('Close tasks?', function () {
-                closeTasks(projectID);
+            Base.confirm('Close tasks and save report?', function () {
+                saveReport(projectID);
             });
         });
     };
