@@ -55,3 +55,15 @@ def save(form):
     time_entry = db.merge(time_entry)
     db.commit()
     return time_entry
+
+
+def delete(time_entry_id):
+    time_entry = db.query(TimeEntry).get(time_entry_id)
+    if not time_entry:
+        raise TimeEntryError(
+            "Time entry #{0} not found".format(time_entry_id),
+            404)
+    task = time_entry.task
+    db.delete(time_entry)
+    db.commit()
+    return task.total_time

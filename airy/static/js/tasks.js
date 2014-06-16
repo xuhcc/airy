@@ -180,6 +180,23 @@ var Tasks = (function () {
             $('.user-total-week').text(data.total_week.toFixed(2));
         });
     };
+    var deleteTimeEntry = function (timeEntry) {
+        var timeEntryID = timeEntry.data('time-entry-id');
+        $.ajax({
+            type: 'DELETE',
+            url: '/time-entry/' + timeEntryID
+        }).done(function (data) {
+            if (data.error_msg) {
+                Base.alert(data.error_msg);
+                return;
+            }
+            var task = timeEntry.closest('.task');
+            timeEntry.remove();
+            task.find('.task-total-time').text(data.total.toFixed(2));
+            $('.user-total-today').text(data.total_today.toFixed(2));
+            $('.user-total-week').text(data.total_week.toFixed(2));
+        });
+    };
     var init = function () {
         $(document).on('click', '.task-edit', function () {
             var taskID = $(this).closest('.task').data('task-id');
@@ -226,11 +243,20 @@ var Tasks = (function () {
         $(document).on('click', '.task-total-time', function () {
             $(this).closest('.task').find('.task-time-entries').toggle();
         });
-        $(document).on('click', '.time-entry a', function () {
+        $(document).on('mouseenter mouseleave', '.time-entry', function () {
+            $(this).find('.time-entry-delete').toggle();
+        });
+        $(document).on('click', '.time-entry-amount, .time-entry-comment', function () {
             var timeEntry = $(this).closest('.time-entry');
             var timeEntryID = timeEntry.data('time-entry-id');
             var taskID = timeEntry.closest('.task').data('task-id');
             showTimeEntryForm(timeEntryID, taskID);
+        });
+        $(document).on('click', '.time-entry-delete', function () {
+            var timeEntry = $(this).closest('.time-entry');
+            Base.confirm('Delete time entry?', function () {
+                deleteTimeEntry(timeEntry);
+            });
         });
         $(document).on('click', '.task-add-time-entry', function () {
             showTimeEntryForm(0, $(this).closest('.task').data('task-id'));

@@ -275,7 +275,8 @@ def task_status_handler(task_id):
         return jsonify(open_tasks=user.User().open_tasks)
 
 
-@app.route("/time-entry/<int:time_entry_id>", methods=["GET", "POST"])
+@app.route("/time-entry/<int:time_entry_id>",
+           methods=["GET", "POST", "DELETE"])
 @requires_auth
 def time_entry_handler(time_entry_id):
     if request.method == "GET":
@@ -300,6 +301,15 @@ def time_entry_handler(time_entry_id):
             html=html,
             new_=(time_entry_id == 0),
             total=float(instance.task.total_time),
+            total_today=float(user.User().total_today),
+            total_week=float(user.User().total_week))
+    elif request.method == "DELETE":
+        try:
+            task_total_time = time_entry.delete(time_entry_id)
+        except time_entry.TimeEntryError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify(
+            total=float(task_total_time),
             total_today=float(user.User().total_today),
             total_week=float(user.User().total_week))
 

@@ -56,7 +56,10 @@
 
 .time-entry-amount {
     display: inline-block;
-    width: 40px;
+}
+
+.time-entry-delete {
+    display: none;
 }
 
 .task-add {
