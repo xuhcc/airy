@@ -55,5 +55,7 @@ class ReportManager(object):
 
 
 def get_all():
-    reports = db.query(Report).all()
+    reports = db.query(Report).\
+        order_by(Report.created.asc()).\
+        all()
     return reports

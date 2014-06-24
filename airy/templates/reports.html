@@ -20,7 +20,7 @@
         </tr>
         {% for report in reports %}
         <tr>
-            <td>{{ report.project.name }}</td>
+            <td><a href="{{ url_for('tasks', project_id=report.project.id) }}">{{ report.project.name }}</a></td>
             <td>{{ report.created|dtformat('date') }}</td>
             <td>{{ report.total_time }}</td>
         </tr>

@@ -48,7 +48,7 @@ class Project(Base):
         query = session.query(Task).\
             filter(Task.project_id == self.id).\
             filter(status_condition).\
-            order_by(Task.status.asc())
+            order_by(Task.status.asc(), Task.updated.desc())
         return query.all()
 
 Status = Enum("open", "completed", "closed", name="status")
