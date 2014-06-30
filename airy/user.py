@@ -2,6 +2,7 @@ import logging
 import datetime
 
 from sqlalchemy.sql import func
+from wtforms import Form, StringField, validators
 
 from airy.core import db_session as db, timezone
 from airy.models import Task, TimeEntry
@@ -41,3 +42,8 @@ class User(object):
         query = db.query(func.sum(TimeEntry.amount)).\
             filter(TimeEntry.added >= week_beginning(now))
         return query.scalar() or 0
+
+
+class LoginForm(Form):
+    password = StringField("Password",
+                           [validators.InputRequired()])

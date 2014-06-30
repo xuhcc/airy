@@ -78,8 +78,8 @@ def dtformat(value, fmt="datetime"):
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        password = request.form['password']
-        if password == settings.password:
+        form = user.LoginForm(request.form)
+        if form.validate() and form.password.data == settings.password:
             session['user'] = settings.username
             return jsonify(code=0)
         else:
