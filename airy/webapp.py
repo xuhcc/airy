@@ -15,7 +15,7 @@ from flask import (
 from jinja2 import evalcontextfilter, Markup, escape
 import bleach
 
-from airy import report, user, settings
+from airy import exceptions, report, user, settings
 from airy.core import db_session
 from airy.units import client, project, task, time_entry
 
@@ -111,7 +111,7 @@ def client_handler(client_id):
         else:
             try:
                 instance = client.get(client_id)
-            except client.ClientError as err:
+            except exceptions.ClientError as err:
                 return jsonify(error_msg=err.message)
         html = render_template("units/client_form.html", client=instance)
         return jsonify(html=html)
@@ -119,14 +119,14 @@ def client_handler(client_id):
         form = client.SaveForm(request.form, id=client_id)
         try:
             instance = client.save(form)
-        except client.ClientError as err:
+        except exceptions.ClientError as err:
             return jsonify(error_msg=err.message)
         html = render_template("units/client.html", client=instance)
         return jsonify(html=html, new_=(client_id == 0))
     elif request.method == "DELETE":
         try:
             client.delete(client_id)
-        except client.ClientError as err:
+        except exceptions.ClientError as err:
             return jsonify(error_msg=err.message)
         return jsonify(code=0)
 
@@ -136,7 +136,7 @@ def client_handler(client_id):
 def projects(client_id):
     try:
         instance = client.get(client_id)
-    except client.ClientError as err:
+    except exceptions.ClientError as err:
         abort(err.code)
     return render_template(
         "projects.html",
@@ -153,7 +153,7 @@ def project_handler(project_id):
         else:
             try:
                 instance = project.get(project_id)
-            except project.ProjectError as err:
+            except exceptions.ProjectError as err:
                 return jsonify(error_msg=err.message)
         html = render_template("units/project_form.html", project=instance)
         return jsonify(html=html)
@@ -161,14 +161,14 @@ def project_handler(project_id):
         form = project.SaveForm(request.form, id=project_id)
         try:
             instance = project.save(form)
-        except project.ProjectError as err:
+        except exceptions.ProjectError as err:
             return jsonify(error_msg=err.message)
         html = render_template("units/project.html", project=instance)
         return jsonify(html=html, new_=(project_id == 0))
     elif request.method == "DELETE":
         try:
             project.delete(project_id)
-        except project.ProjectError as err:
+        except exceptions.ProjectError as err:
             return jsonify(error_msg=err.message)
         return jsonify(code=0)
 
@@ -178,7 +178,7 @@ def project_handler(project_id):
 def project_report(project_id):
     try:
         instance = report.ReportManager(project_id)
-    except project.ProjectError as err:
+    except exceptions.ProjectError as err:
         abort(err.code)
     return render_template(
         "report.html",
@@ -192,7 +192,7 @@ def project_save_report(project_id):
     try:
         instance = report.ReportManager(project_id)
         instance.save()
-    except project.ProjectError as err:
+    except exceptions.ProjectError as err:
         return jsonify(error_msg=err.message)
     return jsonify(code=0)
 
@@ -211,7 +211,7 @@ def reports():
 def tasks(project_id):
     try:
         instance = project.get(project_id)
-    except project.ProjectError as err:
+    except exceptions.ProjectError as err:
         abort(err.code)
     return render_template(
         "tasks.html",
@@ -225,7 +225,7 @@ def tasks(project_id):
 def closed_tasks(project_id):
     try:
         instance = project.get(project_id)
-    except project.ProjectError as err:
+    except exceptions.ProjectError as err:
         abort(err.code)
     return render_template(
         "tasks.html",
@@ -243,7 +243,7 @@ def task_handler(task_id):
         else:
             try:
                 instance = task.get(task_id)
-            except task.TaskError as err:
+            except exceptions.TaskError as err:
                 return jsonify(error_msg=err.message)
         html = render_template("units/task_form.html", task=instance)
         return jsonify(html=html)
@@ -251,14 +251,14 @@ def task_handler(task_id):
         form = task.SaveForm(request.form, id=task_id)
         try:
             instance = task.save(form)
-        except task.TaskError as err:
+        except exceptions.TaskError as err:
             return jsonify(error_msg=err.message)
         html = render_template("units/task.html", task=instance)
         return jsonify(html=html, new_=(task_id == 0))
     elif request.method == "DELETE":
         try:
             task.delete(task_id)
-        except task.TaskError as err:
+        except exceptions.TaskError as err:
             return jsonify(error_msg=err.message)
         return jsonify(code=0)
 
@@ -270,7 +270,7 @@ def task_status_handler(task_id):
         form = task.StatusForm(request.form, id=task_id)
         try:
             task.set_status(form)
-        except task.TaskError as err:
+        except exceptions.TaskError as err:
             return jsonify(error_msg=err.message)
         return jsonify(open_tasks=user.User().open_tasks)
 
@@ -285,7 +285,7 @@ def time_entry_handler(time_entry_id):
         else:
             try:
                 instance = time_entry.get(time_entry_id)
-            except time_entry.TimeEntryError as err:
+            except exceptions.TimeEntryError as err:
                 return jsonify(error_msg=err.message)
         html = render_template("units/time_entry_form.html",
                                time_entry=instance)
@@ -294,7 +294,7 @@ def time_entry_handler(time_entry_id):
         form = time_entry.SaveForm(request.form, id=time_entry_id)
         try:
             instance = time_entry.save(form)
-        except time_entry.TimeEntryError as err:
+        except exceptions.TimeEntryError as err:
             return jsonify(error_msg=err.message)
         html = render_template("units/time_entry.html", time_entry=instance)
         return jsonify(
@@ -306,7 +306,7 @@ def time_entry_handler(time_entry_id):
     elif request.method == "DELETE":
         try:
             task_total_time = time_entry.delete(time_entry_id)
-        except time_entry.TimeEntryError as err:
+        except exceptions.TimeEntryError as err:
             return jsonify(error_msg=err.message)
         return jsonify(
             total=float(task_total_time),

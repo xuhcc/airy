@@ -3,18 +3,10 @@ import logging
 from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 
 from airy.models import Client, Project
+from airy.exceptions import ProjectError
 from airy.core import db_session as db
 
 logger = logging.getLogger(__name__)
-
-
-class ProjectError(Exception):
-
-    def __init__(self, message, code=500):
-        super().__init__()
-        self.message = message
-        self.code = code
-        logger.warning(message)
 
 
 def get(project_id):

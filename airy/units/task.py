@@ -4,18 +4,10 @@ import datetime
 from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 
 from airy.models import Project, Task
+from airy.exceptions import TaskError
 from airy.core import db_session as db, timezone
 
 logger = logging.getLogger(__name__)
-
-
-class TaskError(Exception):
-
-    def __init__(self, message, code=500):
-        super().__init__()
-        self.message = message
-        self.code = code
-        logger.warning(message)
 
 
 def get(task_id):
