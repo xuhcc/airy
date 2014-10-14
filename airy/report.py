@@ -19,13 +19,14 @@ class ReportManager(object):
             order_by(Task.updated.asc()).all()
 
     @property
-    def range(self):
-        if not self.tasks:
-            return None
-        else:
-            start = self.tasks[0].updated
-            end = self.tasks[-1].updated
-            return (start, end)
+    def date_begin(self):
+        if self.tasks:
+            return self.tasks[0].updated
+
+    @property
+    def date_end(self):
+        if self.tasks:
+            return self.tasks[-1].updated
 
     @property
     def total_time(self):
