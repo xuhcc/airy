@@ -9,6 +9,11 @@
     "magnific-popup": "~0.9.9",
     "jquery-autosize": "~1.18.7",
     "jquery.hotkeys": "jeresig/jquery.hotkeys#~0.1.0",
-    "momentjs": "~2.6.0"
+    "momentjs": "~2.6.0",
+    "angular": "~1.2.26",
+    "angular-route": "~1.2.26",
+    "angular-named-routes": "~0.0.16",
+    "angular-sanitize": "~1.2.26",
+    "angular-linkify": "~1.0.0"
   }
 }

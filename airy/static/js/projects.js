@@ -67,7 +67,7 @@ var Projects = (function () {
             var projectID = $(this).closest('.project').data('project-id');
             showProjectForm(projectID);
         });
-        $('.project-add').on('click', function () {
+        $(document).on('click', '.project-add', function () {
             showProjectForm(0);
         });
         $(document).on('keydown', null, 'alt+a', function (event) {

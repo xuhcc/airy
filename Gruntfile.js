@@ -57,6 +57,26 @@ module.exports = function (grunt) {
                     {
                         src: 'bower_components/momentjs/min/moment.min.js',
                         dest: 'airy/static/lib/moment.min.js'
+                    },
+                    {
+                        src: 'bower_components/angular/angular.min.js',
+                        dest: 'airy/static/lib/angular.min.js'
+                    },
+                    {
+                        src: 'bower_components/angular-route/angular-route.min.js',
+                        dest: 'airy/static/lib/angular-route.min.js'
+                    },
+                    {
+                        src: 'bower_components/angular-named-routes/build/lib/named-routes.js',
+                        dest: 'airy/static/lib/angular-named-routes.js'
+                    },
+                    {
+                        src: 'bower_components/angular-sanitize/angular-sanitize.min.js',
+                        dest: 'airy/static/lib/angular-sanitize.min.js'
+                    },
+                    {
+                        src: 'bower_components/angular-linkify/angular-linkify.min.js',
+                        dest: 'airy/static/lib/angular-linkify.min.js'
                     }
                 ]
             }

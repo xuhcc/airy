@@ -202,7 +202,7 @@ var Tasks = (function () {
             var taskID = $(this).closest('.task').data('task-id');
             showTaskForm(taskID);
         });
-        $('.task-add').on('click', function () {
+        $(document).on('click', '.task-add', function () {
             showTaskForm(0);
         });
         $(document).on('keydown', null, 'alt+a', function (event) {

@@ -15,7 +15,7 @@ from flask import (
 from jinja2 import evalcontextfilter, Markup, escape
 import bleach
 
-from airy import exceptions, report, user, settings
+from airy import exceptions, report, serializers, settings, user
 from airy.core import db_session
 from airy.units import client, project, task, time_entry
 
@@ -319,6 +319,87 @@ def time_entry_handler(time_entry_id):
 def logout():
     session.pop('user', None)
     return redirect(url_for("login"))
+
+
+@app.route("/index")
+@requires_auth
+def index():
+    return render_template("index.html")
+
+
+@app.route("/api/user")
+@requires_auth
+def user_json():
+    serialized = serializers.UserSerializer(user.User())
+    return jsonify(user=serialized.data)
+
+
+@app.route("/api/clients", methods=['GET', 'POST'])
+@requires_auth
+def clients_json():
+    if request.method == 'GET':
+        serialized = serializers.ClientSerializer(
+            client.get_all(),
+            many=True)
+        return jsonify(clients=serialized.data)
+
+
+@app.route("/api/clients/<int:client_id>")
+@requires_auth
+def client_json(client_id):
+    try:
+        instance = client.get(client_id)
+    except exceptions.ClientError as err:
+        abort(err.code)
+    serialized_client = serializers.ClientSerializer(
+        instance,
+        only=['id', 'name'])
+    serialized_projects = serializers.ProjectSerializer(
+        instance.projects,
+        many=True)
+    return jsonify(client=serialized_client.data,
+                   projects=serialized_projects.data)
+
+
+@app.route("/api/projects/<int:project_id>")
+@requires_auth
+def project_json(project_id):
+    try:
+        instance = project.get(project_id)
+    except exceptions.ProjectError as err:
+        abort(err.code)
+    status = request.args.get('status')
+    serialized_project = serializers.ProjectSerializer(
+        instance,
+        only=['id', 'name'])
+    serialized_tasks = serializers.TaskSerializer(
+        instance.selected_tasks(closed=(status == 'closed')),
+        many=True)
+    return jsonify(project=serialized_project.data,
+                   tasks=serialized_tasks.data)
+
+
+@app.route("/api/projects/<int:project_id>/report")
+@requires_auth
+def project_report_json(project_id):
+    try:
+        instance = report.ReportManager(project_id)
+    except exceptions.ProjectError as err:
+        abort(err.code)
+    serialized_report = serializers.ReportSerializer(
+        instance,
+        exclude=['created'])
+    return jsonify(report=serialized_report.data)
+
+
+@app.route("/api/reports")
+@requires_auth
+def reports_json():
+    serialized_reports = serializers.ReportSerializer(
+        report.get_all(),
+        only=['project', 'created', 'total_time'],
+        many=True)
+    return jsonify(reports=serialized_reports.data)
 
 
 def main():

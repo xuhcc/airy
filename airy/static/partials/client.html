@@ -1,0 +1,17 @@
+<div data-ng-controller="ClientDetailController">
+    <div class="current-client" data-client-id="{{ client.id }}"><h2>Projects from {{ client.name }}</h2></div>
+    <div class="projects" >
+        <div class="project" data-project-id="{{ project.id }}" data-ng-repeat="project in projects">
+            <div class="project-menu">
+                <a class="project-edit icon">e</a>
+                <a class="project-delete icon">d</a>
+            </div>
+            <div class="project-name"><h3><a href="{{ 'project_detail'|route:{projectId: project.id} }}">{{ project.name }}</a></h3></div>
+            <div class="project-description" data-ng-bind-html="project.description|nl2br|linkify"></div>
+            <div class="project-last-task" data-ng-if="project.last_task">Last task:
+                <a href="{{ 'project_detail'|route:[project.id] }}">{{ project.last_task.title }}</a>
+            </div>
+        </div>
+    </div>
+    <a class="project-add icon" title="Add project">+</a>
+</div>

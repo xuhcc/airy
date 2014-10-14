@@ -66,7 +66,7 @@ var Clients = (function () {
             var clientID = $(this).closest('.client').data('client-id');
             showClientForm(clientID);
         });
-        $('.client-add').on('click', function () {
+        $(document).on('click', '.client-add', function () {
             showClientForm(0);
         });
         $(document).on('keydown', null, 'alt+a', function (event) {

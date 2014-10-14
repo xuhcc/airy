@@ -1,0 +1,37 @@
+<div data-ng-controller="ProjectDetailController">
+    <div class="current-project" data-project-id="{{ project.id }}">
+        <h2>Tasks from {{ project.name }}</h2>
+    </div>
+    <a class="content-nav-link" href="{{ 'project_report'|route:[project.id] }}">view report</a>
+    <a class="content-nav-link" data-ng-show="status == 'closed'" data-ng-click="setStatus('active')">view active tasks</a>
+    <a class="content-nav-link" data-ng-show="status == 'active'" data-ng-click="setStatus('closed')">view closed tasks</a>
+    <div class="tasks">
+        <div class="task task-{{ task.status }}" data-task-id="{{ task.id }}" data-ng-repeat="task in tasks">
+            <div class="task-menu">
+                <a class="task-edit icon" title="Edit task">e</a>
+                <a class="task-delete icon" title="Delete task">d</a>
+            </div>
+            <div class="task-title"><h3><a id="task-{{ task.id }}">{{ task.title }}</a></h3></div>
+            <div class="task-created">Created: {{ task.created|date:'dd.MM.yy HH:mm' }}</div>
+            <div class="task-updated">Updated: {{ task.updated|date:'dd.MM.yy HH:mm' }}</div>
+            <div class="task-description" data-ng-bind-html="task.description|nl2br|linkify"></div>
+            <div class="task-status">Status: <a title="Change status">{{ task.status }}</a></div>
+            <div class="task-spent-time">
+                <span>Time spent: <a class="task-total-time" title="Show details">{{ task.total_time }}</a> hours</span>
+                <a class="task-add-time-entry icon" title="Add time">+</a>
+                <a class="task-toggle-timer icon" title="Toggle timer">t</a>
+                <sup class="task-timer"></sup>
+            </div>
+            <div class="task-time-entries"><ul>
+                <li class="time-entry" data-time-entry-id="{{ time_entry.id }}" data-ng-repeat="time_entry in task.time_entries">
+                    <a class="time-entry-amount" title="{{ time_entry.added|date:'dd.MM.yy HH:mm' }}">{{ time_entry.amount }}</a>
+                    <span data-ng-if="time_entry.comment">
+                        — <a class="time-entry-comment" title="{{ time_entry.added|date:'dd.MM.yy HH:mm' }}">{{ time_entry.comment }}</a>
+                    </span>
+                    <a class="time-entry-delete icon">d</a>
+                </li>
+            </ul></div>
+        </div>
+    </div>
+    <a class="task-add icon" title="Add task">+</a>
+</div>
