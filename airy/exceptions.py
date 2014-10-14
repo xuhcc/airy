@@ -4,7 +4,6 @@ class UnitError(Exception):
         super().__init__()
         self.message = message
         self.code = code
-        logger.warning(message)
 
 
 class ClientError(UnitError):
