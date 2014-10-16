@@ -7,6 +7,7 @@ from wtforms import Form, StringField, validators
 from airy.core import db_session as db, timezone
 from airy.models import Task, TimeEntry
 from airy import settings
+from airy.serializers import UserSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +43,9 @@ class User(object):
         query = db.query(func.sum(TimeEntry.amount)).\
             filter(TimeEntry.added >= week_beginning(now))
         return query.scalar() or 0
+
+    def serialize(self):
+        return UserSerializer(self).data
 
 
 class LoginForm(Form):

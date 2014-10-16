@@ -3,8 +3,9 @@ import datetime
 from sqlalchemy.sql import func
 
 from airy.core import db_session as db, timezone
-from airy.models import Task, TimeEntry, Report
-from airy.units import project
+from airy.models import Project, Task, TimeEntry, Report
+from airy.serializers import ReportSerializer
+from airy.exceptions import ProjectError
 
 
 class ReportManager(object):
@@ -12,7 +13,10 @@ class ReportManager(object):
     status = "completed"
 
     def __init__(self, project_id):
-        self.project = project.get(project_id)
+        self.project = db.query(Project).get(project_id)
+        if not self.project:
+            raise ProjectError("Project #{0} not found".format(project_id),
+                               404)
         self.tasks = db.query(Task).filter(
             Task.project_id == self.project.id,
             Task.status == self.status).\
@@ -54,9 +58,17 @@ class ReportManager(object):
             update({"status": "closed"})
         db.commit()
 
+    def serialize(self):
+        serialized = ReportSerializer(self, exclude=['created'])
+        return serialized.data
+
 
 def get_all():
     reports = db.query(Report).\
         order_by(Report.created.asc()).\
         all()
-    return reports
+    serialized = ReportSerializer(
+        reports,
+        only=['project', 'created', 'total_time'],
+        many=True)
+    return serialized.data

@@ -5,6 +5,7 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 from airy.models import Client
 from airy.exceptions import ClientError
 from airy.core import db_session as db
+from airy.serializers import ClientSerializer, ProjectSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -13,24 +14,30 @@ def get(client_id):
     client = db.query(Client).get(client_id)
     if not client:
         raise ClientError("Client #{0} not found".format(client_id), 404)
-    return client
+    serialized_projects = ProjectSerializer(client.projects, many=True)
+    serialized = ClientSerializer(
+        client,
+        only=['id', 'name'],
+        extra={'projects': serialized_projects.data})
+    return serialized.data
 
 
 def get_all():
     clients = db.query(Client).all()
-    return clients
+    serialized = ClientSerializer(clients, many=True)
+    return serialized.data
 
 
 class SaveForm(Form):
-    id = IntegerField("Client ID",
-                      filters=[lambda val: None if val == 0 else val])
+    id = IntegerField("Client ID")
     name = StringField("Name", [
         validators.InputRequired(),
         validators.Length(max=200)])
     contacts = TextAreaField("Contacts")
 
 
-def save(form):
+def save(data, client_id=None):
+    form = SaveForm.from_json(data, id=client_id)
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())
@@ -49,7 +56,8 @@ def save(form):
         raise ClientError("Client #{0} not found".format(client.id), 404)
     client = db.merge(client)
     db.commit()
-    return client
+    serialized = ClientSerializer(client)
+    return serialized.data
 
 
 def delete(client_id):

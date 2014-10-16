@@ -93,7 +93,6 @@ airyControllers.controller('ClientFormController', function ($scope, $http) {
 
 airyControllers.controller('ClientDetailController', function ($scope, $http, $routeParams, $rootScope, ngDialog, hotkeys, airyModal) {
     $scope.client = {};
-    $scope.projects = [];
     $scope.currentProject = {};
 
     $scope.fetchClient = function () {
@@ -103,7 +102,6 @@ airyControllers.controller('ClientDetailController', function ($scope, $http, $r
         }).success(function (data) {
             $rootScope.title = data.client.name;
             $scope.client = data.client;
-            $scope.projects = data.projects;
         });
     };
 
@@ -125,7 +123,7 @@ airyControllers.controller('ClientDetailController', function ($scope, $http, $r
                 method: 'DELETE',
                 url: 'projects/' + project.id
             }).success(function (data) {
-                $scope.projects.splice($scope.projects.indexOf(project), 1);
+                $scope.fetchClient();
             });
         });
     };
@@ -163,7 +161,7 @@ airyControllers.controller('ProjectFormController', function ($scope, $http) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
-                $scope.$parent.projects.push(data.project);
+                $scope.$parent.client.projects.push(data.project);
                 $scope.closeThisDialog();
             }
         });
@@ -191,7 +189,6 @@ airyControllers.controller('ProjectFormController', function ($scope, $http) {
 
 airyControllers.controller('ProjectDetailController', function ($scope, $http, $routeParams, $rootScope, $interval, ngDialog, hotkeys, airyModal, airyUser) {
     $scope.project = {};
-    $scope.tasks = [];
     $scope.currentStatus = 'active';
     $scope.currentTask = {};
     $scope.currentTimeEntry = {};
@@ -204,7 +201,6 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
         }).success(function (data) {
             $rootScope.title = data.project.name;
             $scope.project = data.project;
-            $scope.tasks = data.tasks;
         });
     };
 
@@ -231,7 +227,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
                 method: 'DELETE',
                 url: 'tasks/' + task.id
             }).success(function (data) {
-                $scope.tasks.splice($scope.tasks.indexOf(task), 1);
+                $scope.fetchProject();
                 airyUser.load();
             });
         });
@@ -288,7 +284,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
                 method: 'DELETE',
                 url: 'time_entries/' + timeEntry.id
             }).success(function (data) {
-                angular.extend(task, data.task);
+                task.total_time = data.task_total_time;
                 task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);
                 airyUser.load();
             });
@@ -328,7 +324,7 @@ airyControllers.controller('TaskFormController', function ($scope, $http, airyUs
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
-                $scope.$parent.tasks.push(data.task);
+                $scope.$parent.project.tasks.push(data.task);
                 airyUser.load();
                 $scope.closeThisDialog();
             }
@@ -378,7 +374,7 @@ airyControllers.controller('TimeEntryFormController', function ($scope, $http, a
                 $scope.errorMessage = data.error_msg;
             } else {
                 $scope.$parent.currentTask.timeEntriesVisible = true;
-                angular.extend($scope.$parent.currentTask, data.task);
+                $scope.$parent.currentTask.total_time = data.time_entry.task_total_time;
                 $scope.$parent.currentTask.time_entries.push(data.time_entry);
                 airyUser.load();
                 $scope.closeThisDialog();
@@ -400,7 +396,7 @@ airyControllers.controller('TimeEntryFormController', function ($scope, $http, a
                 $scope.errorMessage = data.error_msg;
             } else {
                 $scope.$parent.currentTask.timeEntriesVisible = true;
-                angular.extend($scope.$parent.currentTask, data.task);
+                $scope.$parent.currentTask.total_time = data.time_entry.task_total_time;
                 angular.extend(timeEntry, data.time_entry);
                 airyUser.load();
                 $scope.closeThisDialog();

@@ -6,20 +6,13 @@ from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 from airy.models import Project, Task
 from airy.exceptions import TaskError
 from airy.core import db_session as db, timezone
+from airy.serializers import TaskSerializer
 
 logger = logging.getLogger(__name__)
 
 
-def get(task_id):
-    task = db.query(Task).get(task_id)
-    if not task:
-        raise TaskError("Task #{0} not found".format(task_id), 404)
-    return task
-
-
 class SaveForm(Form):
-    id = IntegerField("Task ID",
-                      filters=[lambda val: None if val == 0 else val])
+    id = IntegerField("Task ID")
     title = StringField("Title", [
         validators.InputRequired(),
         validators.Length(max=200)])
@@ -27,7 +20,8 @@ class SaveForm(Form):
     project_id = IntegerField("Project ID", [validators.DataRequired()])
 
 
-def save(form):
+def save(data, task_id=None):
+    form = SaveForm.from_json(data, id=task_id)
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())
@@ -46,7 +40,8 @@ def save(form):
         raise TaskError("Task #{0} not found".format(task.id), 404)
     task = db.merge(task)
     db.commit()
-    return task
+    serialized = TaskSerializer(task)
+    return serialized.data
 
 
 class StatusForm(Form):
@@ -56,7 +51,8 @@ class StatusForm(Form):
         validators.AnyOf(["open", "completed", "closed"])])
 
 
-def set_status(form):
+def set_status(data, task_id):
+    form = StatusForm.from_json(data, id=task_id)
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())

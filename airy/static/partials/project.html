@@ -6,7 +6,7 @@
     <a class="content-nav-link" data-ng-show="currentStatus == 'closed'" data-ng-click="filterByStatus('active')">view active tasks</a>
     <a class="content-nav-link" data-ng-show="currentStatus == 'active'" data-ng-click="filterByStatus('closed')">view closed tasks</a>
     <div class="tasks">
-        <div class="task task-{{ task.status }}" data-ng-repeat="task in tasks">
+        <div class="task task-{{ task.status }}" data-ng-repeat="task in project.tasks">
             <div class="task-menu">
                 <a class="task-edit icon" title="Edit task" data-ng-click="showTaskForm(task)">e</a>
                 <a class="task-delete icon" title="Delete task" data-ng-click="deleteTask(task)">d</a>

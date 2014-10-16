@@ -1,7 +1,7 @@
 <div data-ng-controller="ClientDetailController">
     <div class="current-client"><h2>Projects from {{ client.name }}</h2></div>
     <div class="projects" >
-        <div class="project" data-ng-repeat="project in projects">
+        <div class="project" data-ng-repeat="project in client.projects">
             <div class="project-menu">
                 <a class="project-edit icon" data-ng-click="showProjectForm(project)">e</a>
                 <a class="project-delete icon" data-ng-click="deleteProject(project)">d</a>
