@@ -53,3 +53,9 @@ airyApp.config(['ngDialogProvider',
         });
     }
 ]);
+
+airyApp.config(['$httpProvider',
+    function ($httpProvider) {
+        $httpProvider.interceptors.push('httpErrorHandler');
+    }
+]);

@@ -7,8 +7,7 @@ from flask import (
     jsonify,
     redirect,
     render_template,
-    url_for,
-    abort)
+    url_for)
 import wtforms_json
 
 from airy import exceptions, report, serializers, settings
@@ -40,6 +39,14 @@ def requires_auth(func):
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
+
+
+@app.errorhandler(exceptions.UnitError)
+def handle_unit_error(error):
+    response = jsonify(error_msg=error.message)
+    if error.status_code:
+        response.status_code = error.status_code
+    return response
 
 
 @app.route("/")
@@ -89,10 +96,7 @@ def clients_view():
     elif request.method == 'POST':
         # Create new client
         form = client.SaveForm.from_json(request.get_json(), id=0)
-        try:
-            instance = client.save(form)
-        except exceptions.ClientError as err:
-            return jsonify(error_msg=err.message)
+        instance = client.save(form)
         serialized_client = serializers.ClientSerializer(instance)
         return jsonify(client=serialized_client.data)
 
@@ -102,10 +106,7 @@ def clients_view():
 def client_view(client_id):
     if request.method == 'GET':
         # Get client details
-        try:
-            instance = client.get(client_id)
-        except exceptions.ClientError as err:
-            abort(err.code)
+        instance = client.get(client_id)
         serialized_client = serializers.ClientSerializer(
             instance,
             only=['id', 'name'])
@@ -117,18 +118,12 @@ def client_view(client_id):
     elif request.method == 'PUT':
         # Update client
         form = client.SaveForm.from_json(request.get_json(), id=client_id)
-        try:
-            instance = client.save(form)
-        except exceptions.ClientError as err:
-            return jsonify(error_msg=err.message)
+        instance = client.save(form)
         serialized_client = serializers.ClientSerializer(instance)
         return jsonify(client=serialized_client.data)
     elif request.method == 'DELETE':
         # Delete client
-        try:
-            client.delete(client_id)
-        except exceptions.ClientError as err:
-            return jsonify(error_msg=err.message)
+        client.delete(client_id)
         return jsonify()
 
 
@@ -138,10 +133,7 @@ def projects_view():
     if request.method == 'POST':
         # Create new project
         form = project.SaveForm.from_json(request.get_json(), id=0)
-        try:
-            instance = project.save(form)
-        except exceptions.ProjectError as err:
-            return jsonify(error_msg=err.message)
+        instance = project.save(form)
         serialized_project = serializers.ProjectSerializer(instance)
         return jsonify(project=serialized_project.data)
 
@@ -151,10 +143,7 @@ def projects_view():
 def project_view(project_id):
     if request.method == 'GET':
         # Get project details
-        try:
-            instance = project.get(project_id)
-        except exceptions.ProjectError as err:
-            abort(err.code)
+        instance = project.get(project_id)
         status = request.args.get('status')
         serialized_project = serializers.ProjectSerializer(
             instance,
@@ -167,18 +156,12 @@ def project_view(project_id):
     elif request.method == 'PUT':
         # Update project
         form = project.SaveForm.from_json(request.get_json(), id=project_id)
-        try:
-            instance = project.save(form)
-        except exceptions.ProjectError as err:
-            return jsonify(error_msg=err.message)
+        instance = project.save(form)
         serialized_project = serializers.ProjectSerializer(instance)
         return jsonify(project=serialized_project.data)
     elif request.method == 'DELETE':
         # Delete project
-        try:
-            project.delete(project_id)
-        except exceptions.ProjectError as err:
-            return jsonify(error_msg=err.message)
+        project.delete(project_id)
         return jsonify()
 
 
@@ -187,21 +170,15 @@ def project_view(project_id):
 def project_report_view(project_id):
     if request.method == 'GET':
         # Get report
-        try:
-            instance = report.ReportManager(project_id)
-        except exceptions.ProjectError as err:
-            abort(err.code)
+        instance = report.ReportManager(project_id)
         serialized_report = serializers.ReportSerializer(
             instance,
             exclude=['created'])
         return jsonify(report=serialized_report.data)
     elif request.method == 'POST':
         # Save report
-        try:
-            instance = report.ReportManager(project_id)
-            instance.save()
-        except exceptions.ProjectError as err:
-            return jsonify(error_msg=err.message)
+        instance = report.ReportManager(project_id)
+        instance.save()
         return jsonify()
 
 
@@ -221,10 +198,7 @@ def tasks_view():
     if request.method == 'POST':
         # Create new task
         form = task.SaveForm.from_json(request.get_json(), id=0)
-        try:
-            instance = task.save(form)
-        except exceptions.TaskError as err:
-            return jsonify(error_msg=err.message)
+        instance = task.save(form)
         serialized_task = serializers.TaskSerializer(instance)
         return jsonify(task=serialized_task.data)
 
@@ -235,18 +209,12 @@ def task_view(task_id):
     if request.method == 'PUT':
         # Update task
         form = task.SaveForm.from_json(request.get_json(), id=task_id)
-        try:
-            instance = task.save(form)
-        except exceptions.TaskError as err:
-            return jsonify(error_msg=err.message)
+        instance = task.save(form)
         serialized_task = serializers.TaskSerializer(instance)
         return jsonify(task=serialized_task.data)
     elif request.method == "DELETE":
         # Delete task
-        try:
-            task.delete(task_id)
-        except exceptions.TaskError as err:
-            return jsonify(error_msg=err.message)
+        task.delete(task_id)
         return jsonify()
 
 
@@ -255,10 +223,7 @@ def task_view(task_id):
 def task_status_view(task_id):
     if request.method == 'POST':
         form = task.StatusForm.from_json(request.get_json(), id=task_id)
-        try:
-            task.set_status(form)
-        except exceptions.TaskError as err:
-            return jsonify(error_msg=err.message)
+        task.set_status(form)
         return jsonify()
 
 
@@ -268,10 +233,7 @@ def time_entries_view():
     if request.method == 'POST':
         # Create new time entry
         form = time_entry.SaveForm.from_json(request.get_json(), id=0)
-        try:
-            instance = time_entry.save(form)
-        except exceptions.TimeEntryError as err:
-            return jsonify(error_msg=err.message)
+        instance = time_entry.save(form)
         serialized_task = serializers.TaskSerializer(
             instance.task, only=['total_time'])
         serialized_time_entry = serializers.TimeEntrySerializer(instance)
@@ -287,10 +249,7 @@ def time_entry_view(time_entry_id):
         # Update time entry
         form = time_entry.SaveForm.from_json(
             request.get_json(), id=time_entry_id)
-        try:
-            instance = time_entry.save(form)
-        except exceptions.TimeEntryError as err:
-            return jsonify(error_msg=err.message)
+        instance = time_entry.save(form)
         serialized_task = serializers.TaskSerializer(
             instance.task, only=['total_time'])
         serialized_time_entry = serializers.TimeEntrySerializer(instance)
@@ -299,10 +258,7 @@ def time_entry_view(time_entry_id):
             time_entry=serialized_time_entry.data)
     elif request.method == 'DELETE':
         # Delete time entry
-        try:
-            total_time = time_entry.delete(time_entry_id)
-        except exceptions.TimeEntryError as err:
-            return jsonify(error_msg=err.message)
+        total_time = time_entry.delete(time_entry_id)
         return jsonify(task={'total_time': str(total_time)})
 
 

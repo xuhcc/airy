@@ -38,12 +38,12 @@ def save(form):
     if task.id is None:
         task.created = task.updated
     if not db.query(Project).get(task.project_id):
-        raise TaskError("Invalid project id")
+        raise TaskError("Invalid project id", 400)
     if (
         task.id is not None
         and not db.query(Task).get(task.id)
     ):
-        raise TaskError("Task #{0} not found".format(task.id))
+        raise TaskError("Task #{0} not found".format(task.id), 404)
     task = db.merge(task)
     db.commit()
     return task
@@ -65,7 +65,7 @@ def set_status(form):
     form.populate_obj(task)
     task.updated = datetime.datetime.now(tz=timezone)
     if not db.query(Task).get(task.id):
-        raise TaskError("Task #{0} not found".format(task.id))
+        raise TaskError("Task #{0} not found".format(task.id), 404)
     task = db.merge(task)
     db.commit()
 

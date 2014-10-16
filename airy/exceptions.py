@@ -1,9 +1,9 @@
 class UnitError(Exception):
 
-    def __init__(self, message, code=500):
+    def __init__(self, message, status_code=None):
         super().__init__()
         self.message = message
-        self.code = code
+        self.status_code = status_code
 
 
 class ClientError(UnitError):

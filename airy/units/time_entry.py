@@ -39,12 +39,14 @@ def save(form):
     if time_entry.id is None:
         time_entry.added = datetime.datetime.now(tz=timezone)
     if not db.query(Task).get(time_entry.task_id):
-        raise TimeEntryError("Invalid task id")
+        raise TimeEntryError("Invalid task id", 400)
     if (
         time_entry.id is not None
         and not db.query(TimeEntry).get(time_entry.id)
     ):
-        raise TimeEntryError("Time entry #{0} not found".format(time_entry.id))
+        raise TimeEntryError(
+            "Time entry #{0} not found".format(time_entry.id),
+            404)
     time_entry = db.merge(time_entry)
     db.commit()
     return time_entry

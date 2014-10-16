@@ -34,12 +34,12 @@ def save(form):
     project = Project()
     form.populate_obj(project)
     if not db.query(Client).get(project.client_id):
-        raise ProjectError("Invalid client id")
+        raise ProjectError("Invalid client id", 400)
     if (
         project.id is not None
         and not db.query(Project).get(project.id)
     ):
-        raise ProjectError("Project #{0} not found".format(project.id))
+        raise ProjectError("Project #{0} not found".format(project.id), 404)
     project = db.merge(project)
     db.commit()
     return project

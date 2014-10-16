@@ -46,3 +46,14 @@ airyServices.factory('airyModal', function (ngDialog) {
         }
     };
 });
+
+airyServices.factory('httpErrorHandler', function ($q, $injector) {
+    return {
+        'responseError': function (rejection) {
+            var airyModal = $injector.get('airyModal');
+            var errorMessage = rejection.data.error_msg || 'Server error';
+            airyModal.alert(errorMessage);
+            return $q.reject(rejection);
+        }
+    };
+});

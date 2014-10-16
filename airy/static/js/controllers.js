@@ -29,11 +29,7 @@ airyControllers.controller('ClientListController', function ($scope, $http, $roo
                 method: 'DELETE',
                 url: 'clients/' + client.id
             }).success(function (data) {
-                if (data.error_msg) {
-                    airyModal.alert(data.error_msg);
-                } else {
-                    $scope.clients.splice($scope.clients.indexOf(client), 1);
-                }
+                $scope.clients.splice($scope.clients.indexOf(client), 1);
             });
         });
     };
@@ -129,11 +125,7 @@ airyControllers.controller('ClientDetailController', function ($scope, $http, $r
                 method: 'DELETE',
                 url: 'projects/' + project.id
             }).success(function (data) {
-                if (data.error_msg) {
-                    airyModal.alert(data.error_msg);
-                } else {
-                    $scope.projects.splice($scope.projects.indexOf(project), 1);
-                }
+                $scope.projects.splice($scope.projects.indexOf(project), 1);
             });
         });
     };
@@ -239,12 +231,8 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
                 method: 'DELETE',
                 url: 'tasks/' + task.id
             }).success(function (data) {
-                if (data.error_msg) {
-                    airyModal.alert(data.error_msg);
-                } else {
-                    $scope.tasks.splice($scope.tasks.indexOf(task), 1);
-                    airyUser.load();
-                }
+                $scope.tasks.splice($scope.tasks.indexOf(task), 1);
+                airyUser.load();
             });
         });
     };
@@ -255,12 +243,8 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
             url: 'tasks/' + task.id + '/status',
             data: {status: status}
         }).success(function (data) {
-            if (data.error_msg) {
-                airyModal.alert(data.error_msg);
-            } else {
-                task.status = status;
-                airyUser.load();
-            }
+            task.status = status;
+            airyUser.load();
         });
     };
 
@@ -304,13 +288,9 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
                 method: 'DELETE',
                 url: 'time_entries/' + timeEntry.id
             }).success(function (data) {
-                if (data.error_msg) {
-                    airyModal.alert(data.error_msg);
-                } else {
-                    angular.extend(task, data.task);
-                    task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);
-                    airyUser.load();
-                }
+                angular.extend(task, data.task);
+                task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);
+                airyUser.load();
             });
         });
     };
@@ -453,11 +433,7 @@ airyControllers.controller('ProjectReportController', function ($scope, $http, $
                 method: 'POST',
                 url: 'projects/' + $routeParams.projectId + '/report'
             }).success(function (data) {
-                if (data.error_msg) {
-                    airyModal.alert(data.error_msg);
-                } else {
-                    $location.path('/reports');
-                }
+                $location.path('/reports');
             });
         });
     };
