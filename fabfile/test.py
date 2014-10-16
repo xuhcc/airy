@@ -14,8 +14,8 @@ def css():
 @task
 def python():
     with prefix(". venv/bin/activate"):
-        local("pep8 fabfile")
-        local("pep8 airy")
+        local("flake8 --max-complexity=8 --ignore=F401 fabfile")
+        local("flake8 --max-complexity=8 airy")
 
 
 @task(default=True)

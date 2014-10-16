@@ -1,6 +1,5 @@
 import logging
 
-from sqlalchemy.sql import exists
 from wtforms import Form, IntegerField, StringField, TextAreaField, validators
 
 from airy.models import Client
