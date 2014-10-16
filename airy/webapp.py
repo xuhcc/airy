@@ -14,10 +14,13 @@ from flask import (
     abort)
 from jinja2 import evalcontextfilter, Markup, escape
 import bleach
+import wtforms_json
 
 from airy import exceptions, report, serializers, settings, user
 from airy.core import db_session
 from airy.units import client, project, task, time_entry
+
+wtforms_json.init()
 
 app = Flask(__name__)
 app.debug = settings.debug
@@ -338,58 +341,219 @@ def user_json():
 @requires_auth
 def clients_json():
     if request.method == 'GET':
+        # Return list of clients
         serialized = serializers.ClientSerializer(
             client.get_all(),
             many=True)
         return jsonify(clients=serialized.data)
+    elif request.method == 'POST':
+        # Create new client
+        form = client.SaveForm.from_json(request.get_json(), id=0)
+        try:
+            instance = client.save(form)
+        except exceptions.ClientError as err:
+            return jsonify(error_msg=err.message)
+        serialized_client = serializers.ClientSerializer(instance)
+        return jsonify(client=serialized_client.data)
 
 
-@app.route("/api/clients/<int:client_id>")
+@app.route("/api/clients/<int:client_id>", methods=['GET', 'PUT', 'DELETE'])
 @requires_auth
 def client_json(client_id):
-    try:
-        instance = client.get(client_id)
-    except exceptions.ClientError as err:
-        abort(err.code)
-    serialized_client = serializers.ClientSerializer(
-        instance,
-        only=['id', 'name'])
-    serialized_projects = serializers.ProjectSerializer(
-        instance.projects,
-        many=True)
-    return jsonify(client=serialized_client.data,
-                   projects=serialized_projects.data)
+    if request.method == 'GET':
+        # Get client details
+        try:
+            instance = client.get(client_id)
+        except exceptions.ClientError as err:
+            abort(err.code)
+        serialized_client = serializers.ClientSerializer(
+            instance,
+            only=['id', 'name'])
+        serialized_projects = serializers.ProjectSerializer(
+            instance.projects,
+            many=True)
+        return jsonify(client=serialized_client.data,
+                       projects=serialized_projects.data)
+    elif request.method == 'PUT':
+        # Update client
+        form = client.SaveForm.from_json(request.get_json(), id=client_id)
+        try:
+            instance = client.save(form)
+        except exceptions.ClientError as err:
+            return jsonify(error_msg=err.message)
+        serialized_client = serializers.ClientSerializer(instance)
+        return jsonify(client=serialized_client.data)
+    elif request.method == 'DELETE':
+        # Delete client
+        try:
+            client.delete(client_id)
+        except exceptions.ClientError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify()
 
 
-@app.route("/api/projects/<int:project_id>")
+@app.route("/api/projects", methods=['POST'])
+@requires_auth
+def projects_json():
+    if request.method == 'POST':
+        # Create new project
+        form = project.SaveForm.from_json(request.get_json(), id=0)
+        try:
+            instance = project.save(form)
+        except exceptions.ProjectError as err:
+            return jsonify(error_msg=err.message)
+        serialized_project = serializers.ProjectSerializer(instance)
+        return jsonify(project=serialized_project.data)
+
+
+@app.route("/api/projects/<int:project_id>", methods=['GET', 'PUT', 'DELETE'])
 @requires_auth
 def project_json(project_id):
-    try:
-        instance = project.get(project_id)
-    except exceptions.ProjectError as err:
-        abort(err.code)
-    status = request.args.get('status')
-    serialized_project = serializers.ProjectSerializer(
-        instance,
-        only=['id', 'name'])
-    serialized_tasks = serializers.TaskSerializer(
-        instance.selected_tasks(closed=(status == 'closed')),
-        many=True)
-    return jsonify(project=serialized_project.data,
-                   tasks=serialized_tasks.data)
+    if request.method == 'GET':
+        # Get project details
+        try:
+            instance = project.get(project_id)
+        except exceptions.ProjectError as err:
+            abort(err.code)
+        status = request.args.get('status')
+        serialized_project = serializers.ProjectSerializer(
+            instance,
+            only=['id', 'name'])
+        serialized_tasks = serializers.TaskSerializer(
+            instance.selected_tasks(closed=(status == 'closed')),
+            many=True)
+        return jsonify(project=serialized_project.data,
+                       tasks=serialized_tasks.data)
+    elif request.method == 'PUT':
+        # Update project
+        form = project.SaveForm.from_json(request.get_json(), id=project_id)
+        try:
+            instance = project.save(form)
+        except exceptions.ProjectError as err:
+            return jsonify(error_msg=err.message)
+        serialized_project = serializers.ProjectSerializer(instance)
+        return jsonify(project=serialized_project.data)
+    elif request.method == 'DELETE':
+        # Delete project
+        try:
+            project.delete(project_id)
+        except exceptions.ProjectError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify()
 
 
-@app.route("/api/projects/<int:project_id>/report")
+@app.route("/api/tasks", methods=['POST'])
+@requires_auth
+def tasks_json():
+    if request.method == 'POST':
+        # Create new task
+        form = task.SaveForm.from_json(request.get_json(), id=0)
+        try:
+            instance = task.save(form)
+        except exceptions.TaskError as err:
+            return jsonify(error_msg=err.message)
+        serialized_task = serializers.TaskSerializer(instance)
+        return jsonify(task=serialized_task.data)
+
+
+@app.route("/api/tasks/<int:task_id>", methods=['PUT', 'DELETE'])
+@requires_auth
+def task_json(task_id):
+    if request.method == 'PUT':
+        # Update task
+        form = task.SaveForm.from_json(request.get_json(), id=task_id)
+        try:
+            instance = task.save(form)
+        except exceptions.TaskError as err:
+            return jsonify(error_msg=err.message)
+        serialized_task = serializers.TaskSerializer(instance)
+        return jsonify(task=serialized_task.data)
+    elif request.method == "DELETE":
+        # Delete task
+        try:
+            task.delete(task_id)
+        except exceptions.TaskError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify()
+
+
+@app.route("/api/tasks/<int:task_id>/status", methods=['POST'])
+@requires_auth
+def task_status_json(task_id):
+    if request.method == 'POST':
+        form = task.StatusForm.from_json(request.get_json(), id=task_id)
+        try:
+            task.set_status(form)
+        except exceptions.TaskError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify()
+
+
+@app.route("/api/time_entries", methods=['POST'])
+@requires_auth
+def time_entries_json():
+    if request.method == 'POST':
+        # Create new time entry
+        form = time_entry.SaveForm.from_json(request.get_json(), id=0)
+        try:
+            instance = time_entry.save(form)
+        except exceptions.TimeEntryError as err:
+            return jsonify(error_msg=err.message)
+        serialized_task = serializers.TaskSerializer(
+            instance.task, only=['total_time'])
+        serialized_time_entry = serializers.TimeEntrySerializer(instance)
+        return jsonify(
+            task=serialized_task.data,
+            time_entry=serialized_time_entry.data)
+
+
+@app.route("/api/time_entries/<int:time_entry_id>", methods=['PUT', 'DELETE'])
+@requires_auth
+def time_entry_json(time_entry_id):
+    if request.method == 'PUT':
+        # Update time entry
+        form = time_entry.SaveForm.from_json(
+            request.get_json(), id=time_entry_id)
+        try:
+            instance = time_entry.save(form)
+        except exceptions.TimeEntryError as err:
+            return jsonify(error_msg=err.message)
+        serialized_task = serializers.TaskSerializer(
+            instance.task, only=['total_time'])
+        serialized_time_entry = serializers.TimeEntrySerializer(instance)
+        return jsonify(
+            task=serialized_task.data,
+            time_entry=serialized_time_entry.data)
+    elif request.method == 'DELETE':
+        # Delete time entry
+        try:
+            total_time = time_entry.delete(time_entry_id)
+        except exceptions.TimeEntryError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify(task={'total_time': str(total_time)})
+
+
+@app.route("/api/projects/<int:project_id>/report", methods=['GET', 'POST'])
 @requires_auth
 def project_report_json(project_id):
-    try:
-        instance = report.ReportManager(project_id)
-    except exceptions.ProjectError as err:
-        abort(err.code)
-    serialized_report = serializers.ReportSerializer(
-        instance,
-        exclude=['created'])
-    return jsonify(report=serialized_report.data)
+    if request.method == 'GET':
+        # Get report
+        try:
+            instance = report.ReportManager(project_id)
+        except exceptions.ProjectError as err:
+            abort(err.code)
+        serialized_report = serializers.ReportSerializer(
+            instance,
+            exclude=['created'])
+        return jsonify(report=serialized_report.data)
+    elif request.method == 'POST':
+        # Save report
+        try:
+            instance = report.ReportManager(project_id)
+            instance.save()
+        except exceptions.ProjectError as err:
+            return jsonify(error_msg=err.message)
+        return jsonify()
 
 
 @app.route("/api/reports")

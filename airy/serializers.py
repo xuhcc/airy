@@ -27,6 +27,7 @@ class TimeEntrySerializer(Serializer):
             'added',
             'amount',
             'comment',
+            'task_id',
         ]
         strict = True
 
@@ -48,6 +49,7 @@ class TaskSerializer(Serializer):
             'updated',
             'time_entries',
             'total_time',
+            'project_id',
         ]
         strict = True
 
@@ -64,6 +66,7 @@ class ProjectSerializer(Serializer):
             'name',
             'description',
             'last_task',
+            'client_id',
         ]
         strict = True
 

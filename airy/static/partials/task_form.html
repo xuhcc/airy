@@ -1,0 +1,9 @@
+<form class="task-form pure-form pure-form-stacked" autocomplete="off">
+    <fieldset>
+        <legend>{{ !currentTask.id ? 'New task' : 'Task #' + currentTask.id }}</legend>
+        <input type="text" name="title" placeholder="Title" data-ng-model="currentTask.title" data-auto-focus>
+        <textarea name="description" placeholder="Description" data-ng-model="currentTask.description" data-msd-elastic="\n"></textarea>
+        <button type="submit" class="pure-button pure-button-primary" data-ng-click="submitForm()">Save</button>
+    </fieldset>
+    <div class="form-message" data-ng-show="errorMessage">{{ errorMessage }}</div>
+</form>

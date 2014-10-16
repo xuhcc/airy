@@ -1,37 +1,39 @@
 <div data-ng-controller="ProjectDetailController">
-    <div class="current-project" data-project-id="{{ project.id }}">
+    <div class="current-project">
         <h2>Tasks from {{ project.name }}</h2>
     </div>
     <a class="content-nav-link" href="{{ 'project_report'|route:[project.id] }}">view report</a>
-    <a class="content-nav-link" data-ng-show="status == 'closed'" data-ng-click="setStatus('active')">view active tasks</a>
-    <a class="content-nav-link" data-ng-show="status == 'active'" data-ng-click="setStatus('closed')">view closed tasks</a>
+    <a class="content-nav-link" data-ng-show="currentStatus == 'closed'" data-ng-click="filterByStatus('active')">view active tasks</a>
+    <a class="content-nav-link" data-ng-show="currentStatus == 'active'" data-ng-click="filterByStatus('closed')">view closed tasks</a>
     <div class="tasks">
-        <div class="task task-{{ task.status }}" data-task-id="{{ task.id }}" data-ng-repeat="task in tasks">
+        <div class="task task-{{ task.status }}" data-ng-repeat="task in tasks">
             <div class="task-menu">
-                <a class="task-edit icon" title="Edit task">e</a>
-                <a class="task-delete icon" title="Delete task">d</a>
+                <a class="task-edit icon" title="Edit task" data-ng-click="showTaskForm(task)">e</a>
+                <a class="task-delete icon" title="Delete task" data-ng-click="deleteTask(task)">d</a>
             </div>
-            <div class="task-title"><h3><a id="task-{{ task.id }}">{{ task.title }}</a></h3></div>
-            <div class="task-created">Created: {{ task.created|date:'dd.MM.yy HH:mm' }}</div>
-            <div class="task-updated">Updated: {{ task.updated|date:'dd.MM.yy HH:mm' }}</div>
+            <div class="task-title"><h3><a id="task-{{ task.id }}" data-ng-click="task.detailsVisible = !task.detailsVisible">{{ task.title }}</a></h3></div>
+            <div class="task-created" data-ng-show="task.detailsVisible" style="display: block;">Created: {{ task.created|date:'dd.MM.yy HH:mm' }}</div>
+            <div class="task-updated" data-ng-show="task.detailsVisible" style="display: block;">Updated: {{ task.updated|date:'dd.MM.yy HH:mm' }}</div>
             <div class="task-description" data-ng-bind-html="task.description|nl2br|linkify"></div>
-            <div class="task-status">Status: <a title="Change status">{{ task.status }}</a></div>
-            <div class="task-spent-time">
-                <span>Time spent: <a class="task-total-time" title="Show details">{{ task.total_time }}</a> hours</span>
-                <a class="task-add-time-entry icon" title="Add time">+</a>
-                <a class="task-toggle-timer icon" title="Toggle timer">t</a>
-                <sup class="task-timer"></sup>
+            <div class="task-status">
+                Status: <span data-task-status-widget data-task="task" data-set="setTaskStatus"></span>
             </div>
-            <div class="task-time-entries"><ul>
-                <li class="time-entry" data-time-entry-id="{{ time_entry.id }}" data-ng-repeat="time_entry in task.time_entries">
-                    <a class="time-entry-amount" title="{{ time_entry.added|date:'dd.MM.yy HH:mm' }}">{{ time_entry.amount }}</a>
-                    <span data-ng-if="time_entry.comment">
-                        — <a class="time-entry-comment" title="{{ time_entry.added|date:'dd.MM.yy HH:mm' }}">{{ time_entry.comment }}</a>
+            <div class="task-spent-time">
+                <span>Time spent: <a class="task-total-time" title="Show details" data-ng-click="task.timeEntriesVisible = !task.timeEntriesVisible">{{ task.total_time }}</a> hours</span>
+                <a class="task-add-time-entry icon" title="Add time" data-ng-click="showTimeEntryForm(task, {})">+</a>
+                <a class="task-toggle-timer icon" title="Toggle timer" data-ng-click="toggleTimer(task)">t</a>
+                <sup class="task-timer" data-ng-show="task.timerData" style="display: inline">{{ task.timerData.amount|number:4 }}</sup>
+            </div>
+            <div class="task-time-entries" data-ng-show="task.timeEntriesVisible" style="display: block;"><ul>
+                <li class="time-entry" data-ng-repeat="timeEntry in task.time_entries" data-ng-mouseenter="timeEntry.deleteIconVisible = true" data-ng-mouseleave="timeEntry.deleteIconVisible = false">
+                    <a class="time-entry-amount" title="{{ timeEntry.added|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.amount }}</a>
+                    <span data-ng-if="timeEntry.comment">
+                        — <a class="time-entry-comment" title="{{ timeEntry.added|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.comment }}</a>
                     </span>
-                    <a class="time-entry-delete icon">d</a>
+                    <a class="time-entry-delete icon" data-ng-show="timeEntry.deleteIconVisible" data-ng-click="deleteTimeEntry(task, timeEntry)" style="display: inline">d</a>
                 </li>
             </ul></div>
         </div>
     </div>
-    <a class="task-add icon" title="Add task">+</a>
+    <a class="task-add icon" title="Add task" data-ng-click="showTaskForm({})">+</a>
 </div>

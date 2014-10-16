@@ -77,6 +77,22 @@ module.exports = function (grunt) {
                     {
                         src: 'bower_components/angular-linkify/angular-linkify.min.js',
                         dest: 'airy/static/lib/angular-linkify.min.js'
+                    },
+                    {
+                        src: 'bower_components/ngDialog/js/ngDialog.min.js',
+                        dest: 'airy/static/lib/ngdialog.min.js'
+                    },
+                    {
+                        src: 'bower_components/ngDialog/css/ngDialog.min.css',
+                        dest: 'airy/static/lib/ngdialog.min.css'
+                    },
+                    {
+                        src: 'bower_components/angular-hotkeys/build/hotkeys.min.js',
+                        dest: 'airy/static/lib/angular-hotkeys.min.js'
+                    },
+                    {
+                        src: 'bower_components/angular-elastic/elastic.js',
+                        dest: 'airy/static/lib/angular-elastic.js'
                     }
                 ]
             }

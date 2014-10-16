@@ -1,10 +1,10 @@
 <div data-ng-controller="ClientDetailController">
-    <div class="current-client" data-client-id="{{ client.id }}"><h2>Projects from {{ client.name }}</h2></div>
+    <div class="current-client"><h2>Projects from {{ client.name }}</h2></div>
     <div class="projects" >
-        <div class="project" data-project-id="{{ project.id }}" data-ng-repeat="project in projects">
+        <div class="project" data-ng-repeat="project in projects">
             <div class="project-menu">
-                <a class="project-edit icon">e</a>
-                <a class="project-delete icon">d</a>
+                <a class="project-edit icon" data-ng-click="showProjectForm(project)">e</a>
+                <a class="project-delete icon" data-ng-click="deleteProject(project)">d</a>
             </div>
             <div class="project-name"><h3><a href="{{ 'project_detail'|route:{projectId: project.id} }}">{{ project.name }}</a></h3></div>
             <div class="project-description" data-ng-bind-html="project.description|nl2br|linkify"></div>
@@ -13,5 +13,5 @@
             </div>
         </div>
     </div>
-    <a class="project-add icon" title="Add project">+</a>
+    <a class="project-add icon" title="Add project" data-ng-click="showProjectForm({})">+</a>
 </div>

@@ -1,0 +1,10 @@
+<form class="time-entry-form pure-form pure-form-stacked" autocomplete="off">
+    <fieldset>
+        <legend>{{ !currentTimeEntry.id ? 'New time entry' : 'Time entry #' + currentTimeEntry.id }}</legend>
+        <input type="text" name="amount" placeholder="Time spent" data-ng-model="currentTimeEntry.amount" data-auto-focus><!--
+        --><button class="pure-button amount-increment" data-ng-click="incrementTimeAmount(currentTimeEntry)">+0.5</button>
+        <textarea name="comment" placeholder="Comment" data-ng-model="currentTimeEntry.comment" data-msd-elastic="\n"></textarea>
+        <button type="submit" class="pure-button pure-button-primary" data-ng-click="submitForm()">Save</button>
+    </fieldset>
+    <div class="form-message" data-ng-show="errorMessage">{{ errorMessage }}</div>
+</form>

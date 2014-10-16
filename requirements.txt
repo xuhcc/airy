@@ -1,5 +1,6 @@
 Flask==0.10.1
 WTForms==1.0.5
+WTForms-JSON==0.2.8
 pep8>=1.5.5
 SQLAlchemy==0.9.4
 psycopg2==2.5.2

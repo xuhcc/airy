@@ -3,11 +3,14 @@ var airyApp = angular.module('airyApp', [
     'ngSanitize',
     'linkify',
     'zj.namedRoutes',
+    'ngDialog',
+    'cfp.hotkeys',
+    'monospaced.elastic',
     'airyControllers',
     'airyDirectives',
-    'airyFilters'
+    'airyFilters',
+    'airyServices'
 ]);
-
 
 airyApp.config(['$routeProvider',
     function ($routeProvider) {
@@ -40,5 +43,13 @@ airyApp.config(['$routeProvider',
             .otherwise({
                 redirectTo: '/clients'
             });
+    }
+]);
+
+airyApp.config(['ngDialogProvider',
+    function (ngDialogProvider) {
+        ngDialogProvider.setDefaults({
+            className: 'popup'
+        });
     }
 ]);
