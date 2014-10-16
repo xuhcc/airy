@@ -39,22 +39,6 @@ module.exports = function (grunt) {
                         dest: 'airy/static/lib/pure-buttons-min.css'
                     },
                     {
-                        src: 'bower_components/magnific-popup/dist/jquery.magnific-popup.min.js',
-                        dest: 'airy/static/lib/jquery.magnific-popup.min.js'
-                    },
-                    {
-                        src: 'bower_components/magnific-popup/dist/magnific-popup.css',
-                        dest: 'airy/static/lib/magnific-popup.css'
-                    },
-                    {
-                        src: 'bower_components/jquery-autosize/jquery.autosize.min.js',
-                        dest: 'airy/static/lib/jquery.autosize.min.js'
-                    },
-                    {
-                        src: 'bower_components/jquery.hotkeys/jquery.hotkeys.js',
-                        dest: 'airy/static/lib/jquery.hotkeys.js'
-                    },
-                    {
                         src: 'bower_components/momentjs/min/moment.min.js',
                         dest: 'airy/static/lib/moment.min.js'
                     },
