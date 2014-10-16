@@ -6,7 +6,10 @@ airyControllers.controller('ClientListController', function ($scope, $http, $roo
     $scope.currentClient = {};
 
     $scope.fetchClients = function () {
-        $http.get('api/clients').success(function (data) {
+        $http({
+            method: 'GET',
+            url: 'clients'
+        }).success(function (data) {
             $scope.clients = data.clients;
         });
     };
@@ -24,7 +27,7 @@ airyControllers.controller('ClientListController', function ($scope, $http, $roo
         airyModal.confirm('Delete client?', function () {
             $http({
                 method: 'DELETE',
-                url: 'api/clients/' + client.id
+                url: 'clients/' + client.id
             }).success(function (data) {
                 if (data.error_msg) {
                     airyModal.alert(data.error_msg);
@@ -58,10 +61,10 @@ airyControllers.controller('ClientFormController', function ($scope, $http) {
     $scope.createClient = function (client) {
         $http({
             method: 'POST',
-            url: 'api/clients',
+            url: 'clients',
             data: {
-                'name': client.name,
-                'contacts': client.contacts
+                name: client.name,
+                contacts: client.contacts
             }
         }).success(function (data) {
             if (data.error_msg) {
@@ -76,10 +79,10 @@ airyControllers.controller('ClientFormController', function ($scope, $http) {
     $scope.updateClient = function (client) {
         $http({
             method: 'PUT',
-            url: 'api/clients/' + client.id,
+            url: 'clients/' + client.id,
             data: {
-                'name': client.name,
-                'contacts': client.contacts
+                name: client.name,
+                contacts: client.contacts
             }
         }).success(function (data) {
             if (data.error_msg) {
@@ -98,7 +101,10 @@ airyControllers.controller('ClientDetailController', function ($scope, $http, $r
     $scope.currentProject = {};
 
     $scope.fetchClient = function () {
-        $http.get('api/clients/' + $routeParams.clientId).success(function (data) {
+        $http({
+            method: 'GET',
+            url: 'clients/' + $routeParams.clientId
+        }).success(function (data) {
             $rootScope.title = data.client.name;
             $scope.client = data.client;
             $scope.projects = data.projects;
@@ -121,7 +127,7 @@ airyControllers.controller('ClientDetailController', function ($scope, $http, $r
         airyModal.confirm('Delete project?', function () {
             $http({
                 method: 'DELETE',
-                url: 'api/projects/' + project.id
+                url: 'projects/' + project.id
             }).success(function (data) {
                 if (data.error_msg) {
                     airyModal.alert(data.error_msg);
@@ -155,7 +161,7 @@ airyControllers.controller('ProjectFormController', function ($scope, $http) {
     $scope.createProject = function (project) {
         $http({
             method: 'POST',
-            url: 'api/projects',
+            url: 'projects',
             data: {
                 name: project.name,
                 description: project.description,
@@ -174,7 +180,7 @@ airyControllers.controller('ProjectFormController', function ($scope, $http) {
     $scope.updateProject = function (project) {
         $http({
             method: 'PUT',
-            url: 'api/projects/' + project.id,
+            url: 'projects/' + project.id,
             data: {
                 name: project.name,
                 description: project.description,
@@ -201,7 +207,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
     $scope.fetchProject = function () {
         $http({
             method: 'GET',
-            url: 'api/projects/' + $routeParams.projectId,
+            url: 'projects/' + $routeParams.projectId,
             params: {status: $scope.currentStatus}
         }).success(function (data) {
             $rootScope.title = data.project.name;
@@ -231,7 +237,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
         airyModal.confirm('Delete task?', function () {
             $http({
                 method: 'DELETE',
-                url: 'api/tasks/' + task.id
+                url: 'tasks/' + task.id
             }).success(function (data) {
                 if (data.error_msg) {
                     airyModal.alert(data.error_msg);
@@ -246,7 +252,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
     $scope.setTaskStatus = function (task, status) {
         $http({
             method: 'POST',
-            url: 'api/tasks/' + task.id + '/status',
+            url: 'tasks/' + task.id + '/status',
             data: {status: status}
         }).success(function (data) {
             if (data.error_msg) {
@@ -296,7 +302,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
         airyModal.confirm('Delete time entry?', function () {
             $http({
                 method: 'DELETE',
-                url: 'api/time_entries/' + timeEntry.id
+                url: 'time_entries/' + timeEntry.id
             }).success(function (data) {
                 if (data.error_msg) {
                     airyModal.alert(data.error_msg);
@@ -332,7 +338,7 @@ airyControllers.controller('TaskFormController', function ($scope, $http, airyUs
     $scope.createTask = function (task) {
         $http({
             method: 'POST',
-            url: 'api/tasks',
+            url: 'tasks',
             data: {
                 title: task.title,
                 description: task.description,
@@ -352,7 +358,7 @@ airyControllers.controller('TaskFormController', function ($scope, $http, airyUs
     $scope.updateTask = function (task) {
         $http({
             method: 'PUT',
-            url: 'api/tasks/' + task.id,
+            url: 'tasks/' + task.id,
             data: {
                 title: task.title,
                 description: task.description,
@@ -381,7 +387,7 @@ airyControllers.controller('TimeEntryFormController', function ($scope, $http, a
     $scope.createTimeEntry = function (timeEntry) {
         $http({
             method: 'POST',
-            url: 'api/time_entries',
+            url: 'time_entries',
             data: {
                 amount: timeEntry.amount,
                 comment: timeEntry.comment,
@@ -403,7 +409,7 @@ airyControllers.controller('TimeEntryFormController', function ($scope, $http, a
     $scope.updateTimeEntry = function (timeEntry) {
         $http({
             method: 'PUT',
-            url: 'api/time_entries/' + timeEntry.id,
+            url: 'time_entries/' + timeEntry.id,
             data: {
                 amount: timeEntry.amount,
                 comment: timeEntry.comment,
@@ -434,7 +440,7 @@ airyControllers.controller('ProjectReportController', function ($scope, $http, $
     $scope.fetchReport = function () {
         $http({
             method: 'GET',
-            url: 'api/projects/' + $routeParams.projectId + '/report'
+            url: 'projects/' + $routeParams.projectId + '/report'
         }).success(function (data) {
             $rootScope.title = data.report.project.name + ' :: Report';
             $scope.report = data.report;
@@ -445,7 +451,7 @@ airyControllers.controller('ProjectReportController', function ($scope, $http, $
         airyModal.confirm('Close tasks and save report?', function () {
             $http({
                 method: 'POST',
-                url: 'api/projects/' + $routeParams.projectId + '/report'
+                url: 'projects/' + $routeParams.projectId + '/report'
             }).success(function (data) {
                 if (data.error_msg) {
                     airyModal.alert(data.error_msg);
@@ -465,7 +471,7 @@ airyControllers.controller('ReportListController', function ($scope, $http, $roo
     $scope.fetchReports = function () {
         $http({
             method: 'GET',
-            url: 'api/reports'
+            url: 'reports'
         }).success(function (data) {
             $scope.reports = data.reports;
         });

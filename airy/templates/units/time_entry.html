@@ -1,7 +1,0 @@
-<li class="time-entry" data-time-entry-id="{{ time_entry.id }}">
-    <a class="time-entry-amount" title="{{ time_entry.added|dtformat }}">{{ time_entry.amount }}</a>
-    {% if time_entry.comment %}
-    — <a class="time-entry-comment" title="{{ time_entry.added|dtformat }}">{{ time_entry.comment }}</a>
-    {% endif %}
-    <a class="time-entry-delete icon">d</a>
-</li>

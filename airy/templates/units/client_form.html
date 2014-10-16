@@ -1,9 +1,0 @@
-<form class="client-form pure-form pure-form-stacked" autocomplete="off" data-client-id="{{ client.id }}">
-    <fieldset>
-        <legend>{% if client.id == 0 %}New client{% else %}Client #{{ client.id }}{% endif %}</legend>
-        <input type="text" name="name" placeholder="Name" value="{{ client.name or '' }}">
-        <textarea name="contacts" placeholder="Contacts">{{ client.contacts or '' }}</textarea>
-        <button type="submit" class="pure-button pure-button-primary">Save</button>
-    </fieldset>
-    <div class="form-message"></div>
-</form>

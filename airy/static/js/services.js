@@ -3,7 +3,7 @@ var airyServices = angular.module('airyServices', []);
 airyServices.factory('airyUser', function ($http) {
     var user = {};
     var load = function () {
-        $http.get('api/user').success(function (data) {
+        $http.get('user').success(function (data) {
             angular.extend(user, data.user);
         });
     };

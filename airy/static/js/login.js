@@ -12,7 +12,7 @@ var Login = (function () {
                 }
             }).done(function (data) {
                 if (data.code === 0) {
-                    window.location.href = '/clients';
+                    window.location.href = '/';
                 } else {
                     passwordField[0].setCustomValidity('Incorrect password');
                     passwordField.focus();
@@ -27,6 +27,5 @@ var Login = (function () {
 }());
 
 $(function () {
-    Base.init();
     Login.init();
 });
