@@ -2,7 +2,6 @@ import logging
 import datetime
 
 from sqlalchemy.sql import func
-from wtforms import Form, StringField, validators
 
 from airy.core import db_session as db, timezone
 from airy.models import Task, TimeEntry
@@ -46,8 +45,3 @@ class User(object):
 
     def serialize(self):
         return UserSerializer(self).data
-
-
-class LoginForm(Form):
-    password = StringField("Password",
-                           [validators.InputRequired()])

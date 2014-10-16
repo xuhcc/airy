@@ -1,27 +1,17 @@
 import logging
 import datetime
 
-from wtforms import Form, IntegerField, DecimalField, TextAreaField, validators
-
 from airy.models import Task, TimeEntry
 from airy.exceptions import TimeEntryError
 from airy.core import db_session as db, timezone
 from airy.serializers import TimeEntrySerializer
+from airy.forms import TimeEntryForm
 
 logger = logging.getLogger(__name__)
 
 
-class SaveForm(Form):
-    id = IntegerField("Time entry ID")
-    amount = DecimalField("Spent time", [
-        validators.InputRequired(),
-        validators.NumberRange(min=0.01, max=99.99)])
-    comment = TextAreaField("Comment")
-    task_id = IntegerField("Task ID", [validators.DataRequired()])
-
-
 def save(data, time_entry_id=None):
-    form = SaveForm.from_json(data, id=time_entry_id)
+    form = TimeEntryForm.from_json(data, id=time_entry_id)
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())

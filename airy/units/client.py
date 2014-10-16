@@ -1,11 +1,10 @@
 import logging
 
-from wtforms import Form, IntegerField, StringField, TextAreaField, validators
-
 from airy.models import Client
 from airy.exceptions import ClientError
 from airy.core import db_session as db
 from airy.serializers import ClientSerializer, ProjectSerializer
+from airy.forms import ClientForm
 
 logger = logging.getLogger(__name__)
 
@@ -28,16 +27,8 @@ def get_all():
     return serialized.data
 
 
-class SaveForm(Form):
-    id = IntegerField("Client ID")
-    name = StringField("Name", [
-        validators.InputRequired(),
-        validators.Length(max=200)])
-    contacts = TextAreaField("Contacts")
-
-
 def save(data, client_id=None):
-    form = SaveForm.from_json(data, id=client_id)
+    form = ClientForm.from_json(data, id=client_id)
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())

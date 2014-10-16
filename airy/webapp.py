@@ -10,10 +10,10 @@ from flask import (
     url_for)
 import wtforms_json
 
-from airy import exceptions, report, settings
+from airy import exceptions, forms, report, settings
 from airy.core import db_session
 from airy.units import client, project, task, time_entry
-from airy.user import LoginForm, User
+from airy.user import User
 
 wtforms_json.init()
 
@@ -58,7 +58,7 @@ def index():
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        form = LoginForm(request.form)
+        form = forms.LoginForm(request.form)
         if form.validate() and form.password.data == settings.password:
             session['user'] = settings.username
             return jsonify(code=0)
