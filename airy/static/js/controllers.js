@@ -1,5 +1,16 @@
 var airyControllers = angular.module('airyControllers', []);
 
+airyControllers.controller('LoginController', function ($scope, $rootScope, $location, airyUser) {
+    if (airyUser.user.name) {
+        $location.path('/clients');
+    }
+    $rootScope.title = 'Login';
+    
+    $scope.loginUser = function () {
+        airyUser.login($scope.password);
+    };
+});
+
 airyControllers.controller('ClientListController', function ($scope, $rootScope, ngDialog, hotkeys, airyModal, clientResource) {
     $rootScope.title = 'Clients';
     $scope.clients = [];
@@ -180,7 +191,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $routePa
         airyModal.confirm('Delete task?', function () {
             taskResource.delete(task).success(function (data) {
                 $scope.fetchProject();
-                airyUser.load();
+                airyUser.reload();
             });
         });
     };
@@ -188,7 +199,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $routePa
     $scope.setTaskStatus = function (task, status) {
         taskResource.setStatus(task, status).success(function (data) {
             task.status = data.status;
-            airyUser.load();
+            airyUser.reload();
         });
     };
 
@@ -231,7 +242,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $routePa
             timeEntryResource.delete(timeEntry).success(function (data) {
                 task.total_time = data.task_total_time;
                 task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);
-                airyUser.load();
+                airyUser.reload();
             });
         });
     };
@@ -262,7 +273,7 @@ airyControllers.controller('TaskFormController', function ($scope, airyUser, tas
                 $scope.errorMessage = data.error_msg;
             } else {
                 $scope.$parent.project.tasks.push(data.task);
-                airyUser.load();
+                airyUser.reload();
                 $scope.closeThisDialog();
             }
         });
@@ -297,7 +308,7 @@ airyControllers.controller('TimeEntryFormController', function ($scope, timeEntr
                 $scope.$parent.currentTask.timeEntriesVisible = true;
                 $scope.$parent.currentTask.total_time = data.time_entry.task_total_time;
                 $scope.$parent.currentTask.time_entries.push(data.time_entry);
-                airyUser.load();
+                airyUser.reload();
                 $scope.closeThisDialog();
             }
         });
@@ -311,7 +322,7 @@ airyControllers.controller('TimeEntryFormController', function ($scope, timeEntr
                 $scope.$parent.currentTask.timeEntriesVisible = true;
                 $scope.$parent.currentTask.total_time = data.time_entry.task_total_time;
                 angular.extend(timeEntry, data.time_entry);
-                airyUser.load();
+                airyUser.reload();
                 $scope.closeThisDialog();
             }
         });

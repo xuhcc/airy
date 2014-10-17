@@ -1,9 +1,14 @@
 var airyDirectives = angular.module('airyDirectives', []);
 
-airyDirectives.directive('airyHeader', function () {
+airyDirectives.directive('airyHeader', function (airyUser) {
     return {
         restrict: 'A',
-        templateUrl: 'static/partials/header.html'
+        templateUrl: 'static/partials/header.html',
+        scope: {},
+        link: function (scope, element) {
+            scope.user = airyUser.user;
+            scope.logoutUser = airyUser.logout;
+        }
     };
 });
 
@@ -14,7 +19,6 @@ airyDirectives.directive('airyFooter', function (airyUser) {
         scope: {},
         link: function (scope, element) {
             scope.user = airyUser.user;
-            airyUser.load();
         }
     };
 });

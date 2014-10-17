@@ -6,6 +6,10 @@ class UnitError(Exception):
         self.status_code = status_code
 
 
+class UserError(UnitError):
+    pass
+
+
 class ClientError(UnitError):
     pass
 

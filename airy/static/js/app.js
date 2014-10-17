@@ -15,6 +15,11 @@ var airyApp = angular.module('airyApp', [
 airyApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider
+            .when('/login', {
+                templateUrl: 'static/partials/login.html',
+                controller: 'LoginController',
+                name: 'login'
+            })
             .when('/clients', {
                 templateUrl: 'static/partials/clients.html',
                 controller: 'ClientListController',
@@ -41,7 +46,7 @@ airyApp.config(['$routeProvider',
                 name: 'report_list'
             })
             .otherwise({
-                redirectTo: '/clients'
+                redirectTo: '/login'
             });
     }
 ]);

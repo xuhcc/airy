@@ -1,15 +1,36 @@
 var airyServices = angular.module('airyServices', []);
 
-airyServices.factory('airyUser', function ($http) {
+airyServices.factory('airyUser', function ($http, $location, airyModal) {
     var user = {};
     var load = function () {
-        $http.get('user').success(function (data) {
+        $http.get('/user').success(function (data) {
             angular.extend(user, data.user);
+        });
+    };
+    load();
+    var login = function (password) {
+        $http.post('/login', {password: password}).success(function (data) {
+            if (data.error_msg) {
+                airyModal.alert(data.error_msg);
+            } else {
+                angular.extend(user, data.user);
+                $location.path('/clients');
+            }
+        });
+    };
+    var logout =  function () {
+        $http.get('/logout').success(function (data) {
+            for (var prop in user) {
+                delete user[prop];
+            }
+            $location.path('/login');
         });
     };
     return {
         user: user,
-        load: load
+        reload: load,
+        login: login,
+        logout: logout
     };
 });
 
@@ -159,9 +180,14 @@ airyServices.factory('airyModal', function (ngDialog) {
 airyServices.factory('httpErrorHandler', function ($q, $injector) {
     return {
         'responseError': function (rejection) {
-            var airyModal = $injector.get('airyModal');
-            var errorMessage = rejection.data.error_msg || 'Server error';
-            airyModal.alert(errorMessage);
+            if (rejection.status == 403) {
+                var airyUser = $injector.get('airyUser');
+                airyUser.logout();
+            } else {
+                var airyModal = $injector.get('airyModal');
+                var errorMessage = rejection.data.error_msg || 'Server error';
+                airyModal.alert(errorMessage);
+            }
             return $q.reject(rejection);
         }
     };

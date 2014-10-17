@@ -5,12 +5,11 @@ from flask import (
     request,
     session,
     jsonify,
-    redirect,
     render_template,
-    url_for)
+    abort)
 import wtforms_json
 
-from airy import exceptions, forms, report, settings
+from airy import exceptions, report, settings
 from airy.core import db_session
 from airy.units import client, project, task, time_entry
 from airy.user import User
@@ -29,8 +28,8 @@ def requires_auth(func):
     """
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        if "user" not in session or session["user"] != settings.username:
-            return redirect(url_for("login"))
+        if session.get("user") != settings.username:
+            return abort(403)
         else:
             return func(*args, **kwargs)
     return wrapper
@@ -50,37 +49,28 @@ def handle_unit_error(error):
 
 
 @app.route("/")
-@requires_auth
-def index():
+def index_view():
     return render_template("index.html")
 
 
-@app.route("/login", methods=['GET', 'POST'])
-def login():
+@app.route("/login", methods=['POST'])
+def login_view():
     if request.method == 'POST':
-        form = forms.LoginForm(request.form)
-        if form.validate() and form.password.data == settings.password:
-            session['user'] = settings.username
-            return jsonify(code=0)
-        else:
-            return jsonify(code=1)
-    else:
-        if "user" in session:
-            return redirect(url_for("index"))
-        return render_template("login.html")
+        return jsonify(user=User.login(session, request.get_json()))
 
 
 @app.route("/logout")
-@requires_auth
-def logout():
+def logout_view():
     session.pop('user', None)
-    return redirect(url_for("login"))
+    return jsonify()
 
 
 @app.route("/user")
-@requires_auth
 def user_view():
-    return jsonify(user=User().serialize())
+    if session.get("user") == settings.username:
+        return jsonify(user=User().serialize())
+    else:
+        return jsonify(user={})
 
 
 @app.route("/clients", methods=['GET', 'POST'])
