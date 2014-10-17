@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         jshint: {
             main: [
                 'Gruntfile.js',
-                'airy/static/js/*.js'
+                'airy/src/js/*.js'
             ],
             options: {
                 multistr: true,
@@ -16,74 +16,71 @@ module.exports = function (grunt) {
         },
         csslint: {
             main: {
-                src: ['airy/static/css/*.css']
+                src: ['airy/src/css/*.css']
             }
         },
-        copy: {
+        concat: {
+            css: {
+                src: [
+                    'bower_components/pure/base.css',
+                    'bower_components/pure/forms.css',
+                    'bower_components/pure/buttons.css',
+                    'bower_components/ngDialog/css/ngDialog.css',
+                    'airy/src/css/common.css',
+                    'airy/src/css/login.css',
+                    'airy/src/css/clients.css',
+                    'airy/src/css/projects.css',
+                    'airy/src/css/tasks.css',
+                    'airy/src/css/report.css'
+                ],
+                dest: 'airy/src/build/styles.css'
+            },
+            js: {
+                src: [
+                    'bower_components/jquery/dist/jquery.js',
+                    'bower_components/angular/angular.js',
+                    'bower_components/angular-route/angular-route.js',
+                    'bower_components/angular-named-routes/build/lib/named-routes.js',
+                    'bower_components/angular-sanitize/angular-sanitize.js',
+                    'bower_components/angular-linkify/angular-linkify.js',
+                    'bower_components/ngDialog/js/ngDialog.js',
+                    'bower_components/angular-hotkeys/build/hotkeys.js',
+                    'bower_components/angular-elastic/elastic.js',
+                    'bower_components/momentjs/moment.js',
+                    'airy/src/js/app.js',
+                    'airy/src/js/controllers.js',
+                    'airy/src/js/directives.js',
+                    'airy/src/js/filters.js',
+                    'airy/src/js/services.js'
+                ],
+                dest: 'airy/src/build/scripts.js',
+                options: {
+                    separator: ';'
+                }
+            }
+        },
+        uglify: {
+            options: {
+                mangle: false
+            },
             main: {
-                files: [
-                    {
-                        src: 'bower_components/jquery/dist/jquery.min.js',
-                        dest: 'airy/static/lib/jquery.min.js'
-                    },
-                    {
-                        src: 'bower_components/pure/base-min.css',
-                        dest: 'airy/static/lib/pure-base-min.css'
-                    },
-                    {
-                        src: 'bower_components/pure/forms-min.css',
-                        dest: 'airy/static/lib/pure-forms-min.css'
-                    },
-                    {
-                        src: 'bower_components/pure/buttons-min.css',
-                        dest: 'airy/static/lib/pure-buttons-min.css'
-                    },
-                    {
-                        src: 'bower_components/momentjs/min/moment.min.js',
-                        dest: 'airy/static/lib/moment.min.js'
-                    },
-                    {
-                        src: 'bower_components/angular/angular.min.js',
-                        dest: 'airy/static/lib/angular.min.js'
-                    },
-                    {
-                        src: 'bower_components/angular-route/angular-route.min.js',
-                        dest: 'airy/static/lib/angular-route.min.js'
-                    },
-                    {
-                        src: 'bower_components/angular-named-routes/build/lib/named-routes.js',
-                        dest: 'airy/static/lib/angular-named-routes.js'
-                    },
-                    {
-                        src: 'bower_components/angular-sanitize/angular-sanitize.min.js',
-                        dest: 'airy/static/lib/angular-sanitize.min.js'
-                    },
-                    {
-                        src: 'bower_components/angular-linkify/angular-linkify.min.js',
-                        dest: 'airy/static/lib/angular-linkify.min.js'
-                    },
-                    {
-                        src: 'bower_components/ngDialog/js/ngDialog.min.js',
-                        dest: 'airy/static/lib/ngdialog.min.js'
-                    },
-                    {
-                        src: 'bower_components/ngDialog/css/ngDialog.min.css',
-                        dest: 'airy/static/lib/ngdialog.min.css'
-                    },
-                    {
-                        src: 'bower_components/angular-hotkeys/build/hotkeys.min.js',
-                        dest: 'airy/static/lib/angular-hotkeys.min.js'
-                    },
-                    {
-                        src: 'bower_components/angular-elastic/elastic.js',
-                        dest: 'airy/static/lib/angular-elastic.js'
-                    }
-                ]
+                files: {
+                    'airy/static/js/scripts.min.js': ['airy/src/build/scripts.js']
+                }
+            }
+        },
+        cssmin: {
+            main: {
+                files: {
+                    'airy/static/css/styles.min.css': ['airy/src/build/styles.css']
+                }
             }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-csslint');
-    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.registerTask('default', []);
 };

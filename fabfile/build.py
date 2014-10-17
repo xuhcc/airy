@@ -22,7 +22,7 @@ def venv():
 def frontend():
     env.run("npm install")
     env.run("node_modules/bower/bin/bower install")
-    env.run("node_modules/grunt-cli/bin/grunt copy")
+    env.run("node_modules/grunt-cli/bin/grunt concat uglify cssmin")
 
 
 @task(default=True)

@@ -1,8 +1,10 @@
-venv
-node_modules
-bower_components
-logs
+/venv
+/node_modules
+/bower_components
+/logs
 *.pyc
-*/static/lib
+*/static/css
+*/static/js
+airy/src/build
 airy/settings.py
 fabfile/deploy.py
