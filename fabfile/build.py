@@ -22,7 +22,12 @@ def venv():
 def frontend():
     env.run("npm install")
     env.run("node_modules/bower/bin/bower install")
-    env.run("node_modules/grunt-cli/bin/grunt concat uglify cssmin")
+    env.run("node_modules/grunt-cli/bin/grunt uglify cssmin concat")
+
+
+@task
+def watch():
+    env.run("node_modules/grunt-cli/bin/grunt watch")
 
 
 @task(default=True)
