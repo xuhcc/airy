@@ -39,7 +39,7 @@ def set_status(data, task_id):
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())
-        raise TaskError(error_msg)
+        raise TaskError(error_msg, 400)
     task = Task()
     form.populate_obj(task)
     task.updated = datetime.datetime.now(tz=timezone)
@@ -47,6 +47,7 @@ def set_status(data, task_id):
         raise TaskError("Task #{0} not found".format(task.id), 404)
     task = db.merge(task)
     db.commit()
+    return task.status
 
 
 def delete(task_id):

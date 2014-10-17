@@ -175,8 +175,9 @@ def task_view(task_id):
 @requires_auth
 def task_status_view(task_id):
     if request.method == 'POST':
-        task.set_status(request.get_json(), task_id)
-        return jsonify()
+        # Set task status
+        status = task.set_status(request.get_json(), task_id)
+        return jsonify(status=status)
 
 
 @app.route("/time_entries", methods=['POST'])

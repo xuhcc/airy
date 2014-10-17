@@ -1,15 +1,12 @@
 var airyControllers = angular.module('airyControllers', []);
 
-airyControllers.controller('ClientListController', function ($scope, $http, $rootScope, ngDialog, hotkeys, airyModal) {
+airyControllers.controller('ClientListController', function ($scope, $rootScope, ngDialog, hotkeys, airyModal, clientResource) {
     $rootScope.title = 'Clients';
     $scope.clients = [];
     $scope.currentClient = {};
 
     $scope.fetchClients = function () {
-        $http({
-            method: 'GET',
-            url: 'clients'
-        }).success(function (data) {
+        clientResource.list().success(function (data) {
             $scope.clients = data.clients;
         });
     };
@@ -25,10 +22,7 @@ airyControllers.controller('ClientListController', function ($scope, $http, $roo
 
     $scope.deleteClient = function (client) {
         airyModal.confirm('Delete client?', function () {
-            $http({
-                method: 'DELETE',
-                url: 'clients/' + client.id
-            }).success(function (data) {
+            clientResource.delete(client).success(function (data) {
                 $scope.clients.splice($scope.clients.indexOf(client), 1);
             });
         });
@@ -45,7 +39,7 @@ airyControllers.controller('ClientListController', function ($scope, $http, $roo
     $scope.fetchClients();
 });
 
-airyControllers.controller('ClientFormController', function ($scope, $http) {
+airyControllers.controller('ClientFormController', function ($scope, clientResource) {
     $scope.submitForm = function () {
         if (!$scope.$parent.currentClient.id) {
             $scope.createClient($scope.$parent.currentClient);
@@ -55,14 +49,7 @@ airyControllers.controller('ClientFormController', function ($scope, $http) {
     };
 
     $scope.createClient = function (client) {
-        $http({
-            method: 'POST',
-            url: 'clients',
-            data: {
-                name: client.name,
-                contacts: client.contacts
-            }
-        }).success(function (data) {
+        clientResource.create(client).success(function (data) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
@@ -73,14 +60,7 @@ airyControllers.controller('ClientFormController', function ($scope, $http) {
     };
 
     $scope.updateClient = function (client) {
-        $http({
-            method: 'PUT',
-            url: 'clients/' + client.id,
-            data: {
-                name: client.name,
-                contacts: client.contacts
-            }
-        }).success(function (data) {
+        clientResource.update(client).success(function (data) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
@@ -91,15 +71,12 @@ airyControllers.controller('ClientFormController', function ($scope, $http) {
     };
 });
 
-airyControllers.controller('ClientDetailController', function ($scope, $http, $routeParams, $rootScope, ngDialog, hotkeys, airyModal) {
+airyControllers.controller('ClientDetailController', function ($scope, $routeParams, $rootScope, ngDialog, hotkeys, airyModal, clientResource, projectResource) {
     $scope.client = {};
     $scope.currentProject = {};
 
     $scope.fetchClient = function () {
-        $http({
-            method: 'GET',
-            url: 'clients/' + $routeParams.clientId
-        }).success(function (data) {
+        clientResource.get($routeParams.clientId).success(function (data) {
             $rootScope.title = data.client.name;
             $scope.client = data.client;
         });
@@ -119,10 +96,7 @@ airyControllers.controller('ClientDetailController', function ($scope, $http, $r
 
     $scope.deleteProject = function (project) {
         airyModal.confirm('Delete project?', function () {
-            $http({
-                method: 'DELETE',
-                url: 'projects/' + project.id
-            }).success(function (data) {
+            projectResource.delete(project).success(function (data) {
                 $scope.fetchClient();
             });
         });
@@ -139,7 +113,7 @@ airyControllers.controller('ClientDetailController', function ($scope, $http, $r
     $scope.fetchClient();
 });
 
-airyControllers.controller('ProjectFormController', function ($scope, $http) {
+airyControllers.controller('ProjectFormController', function ($scope, projectResource) {
     $scope.submitForm = function () {
         if (!$scope.$parent.currentProject.id) {
             $scope.createProject($scope.$parent.currentProject);
@@ -149,15 +123,7 @@ airyControllers.controller('ProjectFormController', function ($scope, $http) {
     };
 
     $scope.createProject = function (project) {
-        $http({
-            method: 'POST',
-            url: 'projects',
-            data: {
-                name: project.name,
-                description: project.description,
-                client_id: project.client_id
-            }
-        }).success(function (data) {
+        projectResource.create(project).success(function (data) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
@@ -168,15 +134,7 @@ airyControllers.controller('ProjectFormController', function ($scope, $http) {
     };
 
     $scope.updateProject = function (project) {
-        $http({
-            method: 'PUT',
-            url: 'projects/' + project.id,
-            data: {
-                name: project.name,
-                description: project.description,
-                client_id: project.client_id
-            }
-        }).success(function (data) {
+        projectResource.update(project).success(function (data) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
@@ -187,21 +145,18 @@ airyControllers.controller('ProjectFormController', function ($scope, $http) {
     };
 });
 
-airyControllers.controller('ProjectDetailController', function ($scope, $http, $routeParams, $rootScope, $interval, ngDialog, hotkeys, airyModal, airyUser) {
+airyControllers.controller('ProjectDetailController', function ($scope, $routeParams, $rootScope, $interval, ngDialog, hotkeys, airyModal, airyUser, projectResource, taskResource, timeEntryResource) {
     $scope.project = {};
     $scope.currentStatus = 'active';
     $scope.currentTask = {};
     $scope.currentTimeEntry = {};
 
     $scope.fetchProject = function () {
-        $http({
-            method: 'GET',
-            url: 'projects/' + $routeParams.projectId,
-            params: {status: $scope.currentStatus}
-        }).success(function (data) {
-            $rootScope.title = data.project.name;
-            $scope.project = data.project;
-        });
+        projectResource.get($routeParams.projectId, $scope.currentStatus)
+            .success(function (data) {
+                $rootScope.title = data.project.name;
+                $scope.project = data.project;
+            });
     };
 
     $scope.filterByStatus = function (status) {
@@ -223,10 +178,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
 
     $scope.deleteTask = function (task) {
         airyModal.confirm('Delete task?', function () {
-            $http({
-                method: 'DELETE',
-                url: 'tasks/' + task.id
-            }).success(function (data) {
+            taskResource.delete(task).success(function (data) {
                 $scope.fetchProject();
                 airyUser.load();
             });
@@ -234,12 +186,8 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
     };
 
     $scope.setTaskStatus = function (task, status) {
-        $http({
-            method: 'POST',
-            url: 'tasks/' + task.id + '/status',
-            data: {status: status}
-        }).success(function (data) {
-            task.status = status;
+        taskResource.setStatus(task, status).success(function (data) {
+            task.status = data.status;
             airyUser.load();
         });
     };
@@ -280,10 +228,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
 
     $scope.deleteTimeEntry = function (task, timeEntry) {
         airyModal.confirm('Delete time entry?', function () {
-            $http({
-                method: 'DELETE',
-                url: 'time_entries/' + timeEntry.id
-            }).success(function (data) {
+            timeEntryResource.delete(timeEntry).success(function (data) {
                 task.total_time = data.task_total_time;
                 task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);
                 airyUser.load();
@@ -302,7 +247,7 @@ airyControllers.controller('ProjectDetailController', function ($scope, $http, $
     $scope.fetchProject();
 });
 
-airyControllers.controller('TaskFormController', function ($scope, $http, airyUser) {
+airyControllers.controller('TaskFormController', function ($scope, airyUser, taskResource) {
     $scope.submitForm = function () {
         if (!$scope.$parent.currentTask.id) {
             $scope.createTask($scope.$parent.currentTask);
@@ -312,15 +257,7 @@ airyControllers.controller('TaskFormController', function ($scope, $http, airyUs
     };
 
     $scope.createTask = function (task) {
-        $http({
-            method: 'POST',
-            url: 'tasks',
-            data: {
-                title: task.title,
-                description: task.description,
-                project_id: task.project_id
-            }
-        }).success(function (data) {
+        taskResource.create(task).success(function (data) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
@@ -332,15 +269,7 @@ airyControllers.controller('TaskFormController', function ($scope, $http, airyUs
     };
 
     $scope.updateTask = function (task) {
-        $http({
-            method: 'PUT',
-            url: 'tasks/' + task.id,
-            data: {
-                title: task.title,
-                description: task.description,
-                project_id: task.project_id
-            }
-        }).success(function (data) {
+        taskResource.update(task).success(function (data) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
@@ -351,7 +280,7 @@ airyControllers.controller('TaskFormController', function ($scope, $http, airyUs
     };
 });
 
-airyControllers.controller('TimeEntryFormController', function ($scope, $http, airyUser) {
+airyControllers.controller('TimeEntryFormController', function ($scope, timeEntryResource, airyUser) {
     $scope.submitForm = function () {
         if (!$scope.$parent.currentTimeEntry.id) {
             $scope.createTimeEntry($scope.$parent.currentTimeEntry);
@@ -361,15 +290,7 @@ airyControllers.controller('TimeEntryFormController', function ($scope, $http, a
     };
 
     $scope.createTimeEntry = function (timeEntry) {
-        $http({
-            method: 'POST',
-            url: 'time_entries',
-            data: {
-                amount: timeEntry.amount,
-                comment: timeEntry.comment,
-                task_id: timeEntry.task_id
-            }
-        }).success(function (data) {
+        timeEntryResource.create(timeEntry).success(function (data) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
@@ -383,15 +304,7 @@ airyControllers.controller('TimeEntryFormController', function ($scope, $http, a
     };
 
     $scope.updateTimeEntry = function (timeEntry) {
-        $http({
-            method: 'PUT',
-            url: 'time_entries/' + timeEntry.id,
-            data: {
-                amount: timeEntry.amount,
-                comment: timeEntry.comment,
-                task_id: timeEntry.task_id
-            }
-        }).success(function (data) {
+        timeEntryResource.update(timeEntry).success(function (data) {
             if (data.error_msg) {
                 $scope.errorMessage = data.error_msg;
             } else {
@@ -410,14 +323,11 @@ airyControllers.controller('TimeEntryFormController', function ($scope, $http, a
     };
 });
 
-airyControllers.controller('ProjectReportController', function ($scope, $http, $routeParams, $rootScope, $location, airyModal) {
+airyControllers.controller('ProjectReportController', function ($scope, $routeParams, $rootScope, $location, airyModal, reportResource) {
     $scope.report = {};
 
     $scope.fetchReport = function () {
-        $http({
-            method: 'GET',
-            url: 'projects/' + $routeParams.projectId + '/report'
-        }).success(function (data) {
+        reportResource.get($routeParams.projectId).success(function (data) {
             $rootScope.title = data.report.project.name + ' :: Report';
             $scope.report = data.report;
         });
@@ -425,10 +335,7 @@ airyControllers.controller('ProjectReportController', function ($scope, $http, $
 
     $scope.saveReport = function () {
         airyModal.confirm('Close tasks and save report?', function () {
-            $http({
-                method: 'POST',
-                url: 'projects/' + $routeParams.projectId + '/report'
-            }).success(function (data) {
+            reportResource.save($routeParams.projectId).success(function (data) {
                 $location.path('/reports');
             });
         });
@@ -437,14 +344,11 @@ airyControllers.controller('ProjectReportController', function ($scope, $http, $
     $scope.fetchReport();
 });
 
-airyControllers.controller('ReportListController', function ($scope, $http, $rootScope) {
+airyControllers.controller('ReportListController', function ($scope, $rootScope, reportResource) {
     $rootScope.title = 'Reports';
     $scope.reports = [];
     $scope.fetchReports = function () {
-        $http({
-            method: 'GET',
-            url: 'reports'
-        }).success(function (data) {
+        reportResource.list().success(function (data) {
             $scope.reports = data.reports;
         });
     };
