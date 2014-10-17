@@ -18,7 +18,21 @@ airyApp.config(['$routeProvider',
             .when('/login', {
                 templateUrl: 'static/partials/login.html',
                 controller: 'LoginController',
-                name: 'login'
+                name: 'login',
+                resolve: {
+                    user: function ($q, $location, airyUser) {
+                        var deferred = $q.defer();
+                        airyUser.userLoaded.then(function () {
+                            if (airyUser.user.name) {
+                                deferred.reject();
+                                $location.path("/clients");
+                            } else {
+                                deferred.resolve();
+                            }
+                        });
+                        return deferred.promise;
+                    }
+                }
             })
             .when('/clients', {
                 templateUrl: 'static/partials/clients.html',

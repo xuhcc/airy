@@ -1,9 +1,6 @@
 var airyControllers = angular.module('airyControllers', []);
 
-airyControllers.controller('LoginController', function ($scope, $rootScope, $location, airyUser) {
-    if (airyUser.user.name) {
-        $location.path('/clients');
-    }
+airyControllers.controller('LoginController', function ($scope, $rootScope, airyUser) {
     $rootScope.title = 'Login';
     
     $scope.loginUser = function () {

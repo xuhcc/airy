@@ -3,11 +3,10 @@ var airyServices = angular.module('airyServices', []);
 airyServices.factory('airyUser', function ($http, $location, airyModal) {
     var user = {};
     var load = function () {
-        $http.get('/user').success(function (data) {
+        return $http.get('/user').success(function (data) {
             angular.extend(user, data.user);
         });
     };
-    load();
     var login = function (password) {
         $http.post('/login', {password: password}).success(function (data) {
             if (data.error_msg) {
@@ -28,6 +27,7 @@ airyServices.factory('airyUser', function ($http, $location, airyModal) {
     };
     return {
         user: user,
+        userLoaded: load(),
         reload: load,
         login: login,
         logout: logout
