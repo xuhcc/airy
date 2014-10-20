@@ -1,19 +1,25 @@
-var airyApp = angular.module('airyApp', [
-    'ngRoute',
-    'ngSanitize',
-    'linkify',
-    'zj.namedRoutes',
-    'ngDialog',
-    'cfp.hotkeys',
-    'monospaced.elastic',
-    'airyControllers',
-    'airyDirectives',
-    'airyFilters',
-    'airyServices'
-]);
+(function () {
+    'use strict';
 
-airyApp.config(['$routeProvider',
-    function ($routeProvider) {
+    angular
+        .module('airyApp', [
+            'ngRoute',
+            'ngSanitize',
+            'linkify',
+            'zj.namedRoutes',
+            'ngDialog',
+            'cfp.hotkeys',
+            'monospaced.elastic',
+            'airyControllers',
+            'airyDirectives',
+            'airyFilters',
+            'airyServices'
+        ])
+        .config(routeConfig)
+        .config(ngDialogConfig)
+        .config(httpConfig);
+
+    function routeConfig($routeProvider) {
         $routeProvider
             .when('/login', {
                 templateUrl: 'static/partials/login.html',
@@ -57,18 +63,14 @@ airyApp.config(['$routeProvider',
                 redirectTo: '/login'
             });
     }
-]);
 
-airyApp.config(['ngDialogProvider',
-    function (ngDialogProvider) {
+    function ngDialogConfig(ngDialogProvider) {
         ngDialogProvider.setDefaults({
             className: 'popup'
         });
     }
-]);
 
-airyApp.config(['$httpProvider',
-    function ($httpProvider) {
+    function httpConfig($httpProvider) {
         $httpProvider.interceptors.push('httpErrorHandler');
     }
-]);
+})();

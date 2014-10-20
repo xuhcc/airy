@@ -10,9 +10,9 @@ module.exports = function (grunt) {
             ],
             options: {
                 multistr: true,
-                globals: {
-                    $: true
-                }
+                eqeqeq: true,
+                strict: true,
+                curly: true
             }
         },
         csslint: {

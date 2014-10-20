@@ -1,21 +1,15 @@
-var airyFilters = angular.module('airyFilters', []);
+(function () {
+    'use strict';
+    angular
+        .module('airyFilters', [])
+        .filter('nl2br', nl2br);
 
-airyFilters.filter('nl2br', function () {
-    return function (data) {
-        if (!data) {
-            return data;
-        }
-        return data.replace(/\n\r?/g, '<br>');
-    };
-});
-
-airyFilters.filter('getById', function () {
-    return function (input, id) {
-        for (i = 0; i < input.length; i++) {
-            if (input[i].id == id) {
-                return input[i];
+    function nl2br() {
+        return function (data) {
+            if (!data) {
+                return data;
             }
-        }
-        return null;
-    };
-});
+            return data.replace(/\n\r?/g, '<br>');
+        };
+    }
+})();
