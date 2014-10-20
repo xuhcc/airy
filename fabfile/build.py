@@ -27,9 +27,10 @@ def venv(production=False):
 def frontend(production=False):
     if production:
         env.run("npm install --production")
+        env.run("node_modules/bower/bin/bower install --production")
     else:
         env.run("npm install")
-    env.run("node_modules/bower/bin/bower install")
+        env.run("node_modules/bower/bin/bower install")
     env.run("node_modules/grunt-cli/bin/grunt uglify cssmin concat")
 
 

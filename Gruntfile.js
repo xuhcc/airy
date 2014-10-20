@@ -4,8 +4,9 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         jshint: {
             main: [
+                'airy/src/js/*.js',
                 'Gruntfile.js',
-                'airy/src/js/*.js'
+                'jasmine/*.js'
             ],
             options: {
                 multistr: true,
@@ -94,6 +95,18 @@ module.exports = function (grunt) {
                 files: ['airy/src/css/*.css'],
                 tasks: ['cssmin:airy', 'concat:css']
             }
+        },
+        jasmine: {
+            main: {
+                src: 'airy/src/js/*.js',
+                options: {
+                    specs: 'jasmine/*_spec.js',
+                    vendor: [
+                        'airy/src/build/libs.min.js',
+                        'bower_components/angular-mocks/angular-mocks.js'
+                    ]
+                }
+            }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -102,5 +115,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.registerTask('default', []);
 };
