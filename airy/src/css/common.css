@@ -101,7 +101,7 @@ footer {
     margin-top: 20px;
 }
 
-.popup {
+.popup .ngdialog-content {
     background-color: white;
     bottom: auto;
     left: 0;
