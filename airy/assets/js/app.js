@@ -30,7 +30,7 @@
                         airyUser.userLoaded.then(function () {
                             if (airyUser.user.name) {
                                 deferred.reject();
-                                $location.path("/clients");
+                                $location.path('/clients');
                             } else {
                                 deferred.resolve();
                             }

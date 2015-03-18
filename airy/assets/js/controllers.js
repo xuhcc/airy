@@ -93,7 +93,8 @@
         };
     }
 
-    function ClientDetailController($scope, $routeParams, $rootScope, ngDialog, hotkeys, airyModal, clientResource, projectResource) {
+    function ClientDetailController($scope, $routeParams, $rootScope, ngDialog,
+                                    hotkeys, airyModal, clientResource, projectResource) {
         $scope.client = {};
         $scope.currentProject = {};
 
@@ -167,7 +168,8 @@
         };
     }
 
-    function ProjectDetailController($scope, $routeParams, $rootScope, $interval, ngDialog, hotkeys, airyModal, airyUser, projectResource, taskResource, timeEntryResource) {
+    function ProjectDetailController($scope, $routeParams, $rootScope, $interval, ngDialog, hotkeys,
+                                     airyModal, airyUser, projectResource, taskResource, timeEntryResource) {
         $scope.project = {};
         $scope.currentStatus = 'active';
         $scope.currentTask = {};

@@ -1,7 +1,8 @@
 describe('Controllers', function () {
     'use strict';
 
-    var scope, ctrl;
+    var scope;
+    var ctrl;
 
     beforeEach(module('airyControllers'));
 
@@ -12,7 +13,7 @@ describe('Controllers', function () {
             }
         };
 
-        beforeEach(inject(function($controller, $rootScope){
+        beforeEach(inject(function ($controller, $rootScope) {
             scope = $rootScope.$new();
             ctrl = $controller('LoginController', {
                 $scope: scope,

@@ -23,6 +23,14 @@ module.exports = function (grunt) {
                 curly: true
             }
         },
+        jscs: {
+            main: '<%= jshint.main %>',
+            options: {
+                preset: 'yandex',
+                disallowMultipleLineStrings: null,
+                disallowQuotedKeysInObjects: null
+            }
+        },
         csslint: {
             main: {
                 src: '<%= paths.app.css %>'
@@ -94,6 +102,7 @@ module.exports = function (grunt) {
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
