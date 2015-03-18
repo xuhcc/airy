@@ -28,10 +28,11 @@ def frontend(production=False):
     if production:
         env.run("npm install --production")
         env.run("node_modules/bower/bin/bower install --production")
+        env.run("node_modules/grunt-cli/bin/grunt build:production")
     else:
         env.run("npm install")
         env.run("node_modules/bower/bin/bower install")
-    env.run("node_modules/grunt-cli/bin/grunt build")
+        env.run("node_modules/grunt-cli/bin/grunt build:development")
 
 
 @task

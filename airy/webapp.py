@@ -11,12 +11,15 @@ import wtforms_json
 
 from airy import exceptions, report, settings
 from airy.core import db_session
+from airy.static import static_folder, get_assets
 from airy.units import client, project, task, time_entry
 from airy.user import User
 
 wtforms_json.init()
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_folder=static_folder,
+            static_url_path='/static')
 app.debug = settings.debug
 app.secret_key = settings.secret_key
 app.session_cookie_name = "airy_session"
@@ -50,7 +53,7 @@ def handle_unit_error(error):
 
 @app.route("/")
 def index_view():
-    return render_template("index.html")
+    return render_template("index.html", assets=get_assets())
 
 
 @app.route("/login", methods=['POST'])

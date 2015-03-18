@@ -1,3 +1,4 @@
+import os
 import logging.config
 
 from sqlalchemy import create_engine
@@ -5,6 +6,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 import pytz
 
 from airy import settings
+
+project_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 log_config = {
     'version': 1,
@@ -23,7 +26,7 @@ log_config = {
         },
         'file': {
             'class': 'logging.FileHandler',
-            'filename': 'logs/airy.log',
+            'filename': os.path.join(project_dir, 'logs', 'airy.log'),
             'level': 'WARNING',
             'formatter': 'nice',
         },

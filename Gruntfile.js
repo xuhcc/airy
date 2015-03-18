@@ -4,51 +4,17 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         paths: {
             app: {
-                js: [
-                    'airy/src/js/app.js',
-                    'airy/src/js/controllers.js',
-                    'airy/src/js/directives.js',
-                    'airy/src/js/filters.js',
-                    'airy/src/js/services.js'
-                ],
-                css: [
-                    'airy/src/css/common.css',
-                    'airy/src/css/login.css',
-                    'airy/src/css/clients.css',
-                    'airy/src/css/projects.css',
-                    'airy/src/css/tasks.css',
-                    'airy/src/css/report.css'
-                ],
-                specs: [
-                    'jasmine/*_spec.js'
-                ]
+                js: 'airy/assets/js/*.js',
+                css: 'airy/assets/css/*.css',
             },
-            lib: {
-                js: [
-                    'bower_components/jquery/dist/jquery.js',
-                    'bower_components/momentjs/moment.js',
-                    'bower_components/angular/angular.js',
-                    'bower_components/angular-route/angular-route.js',
-                    'bower_components/angular-named-routes/build/lib/named-routes.js',
-                    'bower_components/angular-sanitize/angular-sanitize.js',
-                    'bower_components/angular-linkify/angular-linkify.js',
-                    'bower_components/ngDialog/js/ngDialog.js',
-                    'bower_components/angular-hotkeys/build/hotkeys.js',
-                    'bower_components/angular-elastic/elastic.js'
-                ],
-                css: [
-                    'bower_components/pure/base.css',
-                    'bower_components/pure/forms.css',
-                    'bower_components/pure/buttons.css',
-                    'bower_components/ngDialog/css/ngDialog.css'
-                ]
-            },
+            lib: grunt.file.readJSON('airy/assets/libs.json'),
+            specs: 'jasmine/*_spec.js'
         },
         jshint: {
             main: [
                 'Gruntfile.js',
                 '<%= paths.app.js %>',
-                '<%= paths.app.specs %>',
+                '<%= paths.specs %>'
             ],
             options: {
                 multistr: true,
@@ -66,56 +32,61 @@ module.exports = function (grunt) {
             options: {
                 mangle: false
             },
-            airy: {
-                files: {
-                    'airy/src/build/airy.min.js': '<%= paths.app.js %>'
-                }
-            },
-            libs: {
-                files: {
-                    'airy/src/build/libs.min.js': '<%= paths.lib.js %>'
-                }
+            production: {
+                src: [
+                    '<%= paths.lib.js %>',
+                    '<%= paths.app.js %>'
+                ],
+                dest: 'airy/static/js/scripts.min.js',
+                nonull: true
             }
         },
         cssmin: {
-            airy: {
-                files: {
-                    'airy/src/build/airy.min.css': '<%= paths.app.css %>'
-                }
-            },
-            libs: {
-                files: {
-                    'airy/src/build/libs.min.css': '<%= paths.lib.css %>'
-                }
+            production: {
+                src: [
+                    '<%= paths.lib.css %>',
+                    '<%= paths.app.css %>'
+                ],
+                dest: 'airy/static/css/styles.min.css',
+                nonull: true
             }
         },
-        concat: {
-            js: {
-                src: ['airy/src/build/libs.min.js', 'airy/src/build/airy.min.js'],
-                dest: 'airy/static/js/scripts.min.js'
+        copy: {
+            production: {
+                expand: true,
+                cwd: 'airy/assets',
+                src: [
+                    'fonts/*',
+                    'partials/*',
+                    'favicon.ico',
+                ],
+                dest: 'airy/static/',
+                filter: 'isFile'
             },
-            css: {
-                src: ['airy/src/build/libs.min.css', 'airy/src/build/airy.min.css'],
-                dest: 'airy/static/css/styles.min.css'
-            }
-        },
-        watch: {
-            js: {
-                files: '<%= paths.app.js %>',
-                tasks: ['uglify:airy', 'concat:js']
+            dev_lib_js: {
+                src: '<%= paths.lib.js %>',
+                dest: 'airy/assets/lib/js/',
+                expand: true,
+                flatten: true,
+                filter: 'isFile',
+                nonull: true
             },
-            css: {
-                files: '<%= paths.app.css %>',
-                tasks: ['cssmin:airy', 'concat:css']
-            }
+            dev_lib_css: {
+                src: '<%= paths.lib.css %>',
+                dest: 'airy/assets/lib/css/',
+                expand: true,
+                flatten: true,
+                filter: 'isFile',
+                nonull: true
+            },
         },
         jasmine: {
             main: {
                 src: '<%= paths.app.js %>',
                 options: {
-                    specs: '<%= paths.app.specs %>',
+                    specs: '<%= paths.specs %>',
                     vendor: [
-                        'airy/src/build/libs.min.js',
+                        '<%= paths.lib.js %>',
                         'bower_components/angular-mocks/angular-mocks.js'
                     ]
                 }
@@ -124,17 +95,23 @@ module.exports = function (grunt) {
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-csslint');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.registerTask('default', []);
-    grunt.registerTask('build', 'Build task', function () {
+    grunt.registerTask('build:development', function () {
         grunt.task.run([
-            'uglify',
-            'cssmin',
-            'concat'
+            'copy:dev_lib_js',
+            'copy:dev_lib_css'
+        ]);
+    });
+    grunt.registerTask('build:production', function () {
+        grunt.task.run([
+            'copy:production',
+            'uglify:production',
+            'cssmin:production'
         ]);
     });
 };
