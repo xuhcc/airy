@@ -2,7 +2,7 @@ from fabric.api import env, local
 
 import build
 import db
-import test
+import check
 try:
     import deploy
 except ImportError:

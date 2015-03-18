@@ -2,6 +2,6 @@ from fabric.api import env, task, prefix
 
 
 @task
-def upgrade():
+def migrate():
     with prefix(". venv/bin/activate"):
         env.run("alembic upgrade head")
