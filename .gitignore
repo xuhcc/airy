@@ -4,6 +4,6 @@
 /logs
 *.pyc
 airy/assets/lib
-# airy/static
+airy/static
 airy/settings.py
 fabfile/deploy.py
