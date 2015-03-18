@@ -31,7 +31,7 @@ def frontend(production=False):
     else:
         env.run("npm install")
         env.run("node_modules/bower/bin/bower install")
-    env.run("node_modules/grunt-cli/bin/grunt uglify cssmin concat")
+    env.run("node_modules/grunt-cli/bin/grunt build")
 
 
 @task
