@@ -1,4 +1,4 @@
-"""Added table 'reports'
+"""Add table 'reports'
 
 Revision ID: 28b17a6c5cf
 Revises: 1b4772e1f9f

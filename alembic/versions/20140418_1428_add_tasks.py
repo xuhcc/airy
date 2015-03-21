@@ -1,4 +1,4 @@
-"""Added tasks
+"""Add tasks
 
 Revision ID: 58973c4a356
 Revises: 25b6970745c

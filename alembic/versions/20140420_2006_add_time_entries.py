@@ -1,4 +1,4 @@
-"""Added time entries
+"""Add time entries
 
 Revision ID: 1b4772e1f9f
 Revises: 58973c4a356
