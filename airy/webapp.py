@@ -1,7 +1,7 @@
 import functools
 
 from flask import (
-    Flask,
+    Blueprint,
     request,
     session,
     jsonify,
@@ -10,19 +10,13 @@ from flask import (
 import wtforms_json
 
 from airy import exceptions, report, settings
-from airy.core import db_session
-from airy.static import static_folder, get_assets
+from airy.static import get_assets
 from airy.units import client, project, task, time_entry
 from airy.user import User
 
 wtforms_json.init()
 
-app = Flask(__name__,
-            static_folder=static_folder,
-            static_url_path='/static')
-app.debug = settings.debug
-app.secret_key = settings.secret_key
-app.session_cookie_name = "airy_session"
+web = Blueprint('web', __name__)
 
 
 def requires_auth(func):
@@ -38,12 +32,7 @@ def requires_auth(func):
     return wrapper
 
 
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
-
-
-@app.errorhandler(exceptions.UnitError)
+@web.errorhandler(exceptions.UnitError)
 def handle_unit_error(error):
     response = jsonify(error_msg=error.message)
     if error.status_code:
@@ -51,24 +40,24 @@ def handle_unit_error(error):
     return response
 
 
-@app.route("/")
+@web.route("/")
 def index_view():
     return render_template("index.html", assets=get_assets())
 
 
-@app.route("/login", methods=['POST'])
+@web.route("/login", methods=['POST'])
 def login_view():
     if request.method == 'POST':
         return jsonify(user=User.login(session, request.get_json()))
 
 
-@app.route("/logout")
+@web.route("/logout")
 def logout_view():
     session.pop('user', None)
     return jsonify()
 
 
-@app.route("/user")
+@web.route("/user")
 def user_view():
     if session.get("user") == settings.username:
         return jsonify(user=User().serialize())
@@ -76,7 +65,7 @@ def user_view():
         return jsonify(user={})
 
 
-@app.route("/clients", methods=['GET', 'POST'])
+@web.route("/clients", methods=['GET', 'POST'])
 @requires_auth
 def clients_view():
     if request.method == 'GET':
@@ -87,7 +76,7 @@ def clients_view():
         return jsonify(client=client.save(request.get_json()))
 
 
-@app.route("/clients/<int:client_id>", methods=['GET', 'PUT', 'DELETE'])
+@web.route("/clients/<int:client_id>", methods=['GET', 'PUT', 'DELETE'])
 @requires_auth
 def client_view(client_id):
     if request.method == 'GET':
@@ -102,7 +91,7 @@ def client_view(client_id):
         return jsonify()
 
 
-@app.route("/projects", methods=['POST'])
+@web.route("/projects", methods=['POST'])
 @requires_auth
 def projects_view():
     if request.method == 'POST':
@@ -110,7 +99,7 @@ def projects_view():
         return jsonify(project=project.save(request.get_json()))
 
 
-@app.route("/projects/<int:project_id>", methods=['GET', 'PUT', 'DELETE'])
+@web.route("/projects/<int:project_id>", methods=['GET', 'PUT', 'DELETE'])
 @requires_auth
 def project_view(project_id):
     if request.method == 'GET':
@@ -126,7 +115,7 @@ def project_view(project_id):
         return jsonify()
 
 
-@app.route("/projects/<int:project_id>/report", methods=['GET', 'POST'])
+@web.route("/projects/<int:project_id>/report", methods=['GET', 'POST'])
 @requires_auth
 def project_report_view(project_id):
     if request.method == 'GET':
@@ -138,13 +127,13 @@ def project_report_view(project_id):
         return jsonify()
 
 
-@app.route("/reports")
+@web.route("/reports")
 @requires_auth
 def reports_view():
     return jsonify(reports=report.get_all())
 
 
-@app.route("/tasks", methods=['POST'])
+@web.route("/tasks", methods=['POST'])
 @requires_auth
 def tasks_view():
     if request.method == 'POST':
@@ -152,7 +141,7 @@ def tasks_view():
         return jsonify(task=task.save(request.get_json()))
 
 
-@app.route("/tasks/<int:task_id>", methods=['PUT', 'DELETE'])
+@web.route("/tasks/<int:task_id>", methods=['PUT', 'DELETE'])
 @requires_auth
 def task_view(task_id):
     if request.method == 'PUT':
@@ -164,7 +153,7 @@ def task_view(task_id):
         return jsonify()
 
 
-@app.route("/tasks/<int:task_id>/status", methods=['POST'])
+@web.route("/tasks/<int:task_id>/status", methods=['POST'])
 @requires_auth
 def task_status_view(task_id):
     if request.method == 'POST':
@@ -173,7 +162,7 @@ def task_status_view(task_id):
         return jsonify(status=status)
 
 
-@app.route("/time_entries", methods=['POST'])
+@web.route("/time_entries", methods=['POST'])
 @requires_auth
 def time_entries_view():
     if request.method == 'POST':
@@ -181,7 +170,7 @@ def time_entries_view():
         return jsonify(time_entry=time_entry.save(request.get_json()))
 
 
-@app.route("/time_entries/<int:time_entry_id>", methods=['PUT', 'DELETE'])
+@web.route("/time_entries/<int:time_entry_id>", methods=['PUT', 'DELETE'])
 @requires_auth
 def time_entry_view(time_entry_id):
     if request.method == 'PUT':
@@ -191,7 +180,3 @@ def time_entry_view(time_entry_id):
     elif request.method == 'DELETE':
         # Delete time entry
         return jsonify(task_total_time=time_entry.delete(time_entry_id))
-
-
-def main():
-    app.run(host=settings.http_host, port=settings.http_port)
