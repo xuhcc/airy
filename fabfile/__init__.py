@@ -1,10 +1,10 @@
 from fabric.api import env, local
 
-import build
-import db
-import check
+import build  # flake8: noqa
+import db  # flake8: noqa
+import check  # flake8: noqa
 try:
-    import deploy
+    import deploy  # flake8: noqa
 except ImportError:
     pass
 

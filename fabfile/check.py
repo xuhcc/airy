@@ -1,4 +1,4 @@
-from fabric.api import env, task, local, prefix
+from fabric.api import task, local, prefix
 
 
 @task
@@ -14,7 +14,7 @@ def css():
 @task
 def python():
     with prefix(". venv/bin/activate"):
-        local("flake8 --max-complexity=8 --ignore=F401 fabfile")
+        local("flake8 --max-complexity=8 fabfile")
         local("flake8 --max-complexity=8 airy")
 
 
