@@ -1,2 +1,3 @@
 -r requirements.txt
 flake8>=2.2.4
+pytest-flask==0.7.5
