@@ -3,7 +3,8 @@ import datetime
 
 from airy.models import Project, Task
 from airy.exceptions import TaskError
-from airy.core import db_session as db, timezone
+from airy.core import timezone
+from airy.database import db
 from airy.serializers import TaskSerializer
 from airy.forms import TaskForm, TaskStatusForm
 
@@ -21,15 +22,15 @@ def save(data, task_id=None):
     task.updated = datetime.datetime.now(tz=timezone)
     if task.id is None:
         task.created = task.updated
-    if not db.query(Project).get(task.project_id):
+    if not db.session.query(Project).get(task.project_id):
         raise TaskError("Invalid project id", 400)
     if (
         task.id is not None
-        and not db.query(Task).get(task.id)
+        and not db.session.query(Task).get(task.id)
     ):
         raise TaskError("Task #{0} not found".format(task.id), 404)
-    task = db.merge(task)
-    db.commit()
+    task = db.session.merge(task)
+    db.session.commit()
     serialized = TaskSerializer(task)
     return serialized.data
 
@@ -43,16 +44,16 @@ def set_status(data, task_id):
     task = Task()
     form.populate_obj(task)
     task.updated = datetime.datetime.now(tz=timezone)
-    if not db.query(Task).get(task.id):
+    if not db.session.query(Task).get(task.id):
         raise TaskError("Task #{0} not found".format(task.id), 404)
-    task = db.merge(task)
-    db.commit()
+    task = db.session.merge(task)
+    db.session.commit()
     return task.status
 
 
 def delete(task_id):
-    task = db.query(Task).get(task_id)
+    task = db.session.query(Task).get(task_id)
     if not task:
         raise TaskError("Task #{0} not found".format(task_id), 404)
-    db.delete(task)
-    db.commit()
+    db.session.delete(task)
+    db.session.commit()

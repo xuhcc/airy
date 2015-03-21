@@ -2,7 +2,8 @@ import datetime
 
 from sqlalchemy.sql import func
 
-from airy.core import db_session as db, timezone
+from airy.core import timezone
+from airy.database import db
 from airy.models import Project, Task, TimeEntry, Report
 from airy.serializers import ReportSerializer
 from airy.exceptions import ProjectError
@@ -13,11 +14,11 @@ class ReportManager(object):
     status = "completed"
 
     def __init__(self, project_id):
-        self.project = db.query(Project).get(project_id)
+        self.project = db.session.query(Project).get(project_id)
         if not self.project:
             raise ProjectError("Project #{0} not found".format(project_id),
                                404)
-        self.tasks = db.query(Task).filter(
+        self.tasks = db.session.query(Task).filter(
             Task.project_id == self.project.id,
             Task.status == self.status).\
             order_by(Task.updated.asc()).all()
@@ -37,7 +38,7 @@ class ReportManager(object):
         """
         Returns time spent on "completed" tasks
         """
-        query = db.query(func.sum(TimeEntry.amount)).\
+        query = db.session.query(func.sum(TimeEntry.amount)).\
             join(Task.time_entries).\
             filter(Task.project_id == self.project.id).\
             filter(Task.status == self.status)
@@ -51,12 +52,12 @@ class ReportManager(object):
             created=datetime.datetime.now(tz=timezone),
             total_time=self.total_time,
             project_id=self.project.id)
-        db.add(report)
-        db.query(Task).\
+        db.session.add(report)
+        db.session.query(Task).\
             filter(Task.project_id == self.project.id).\
             filter(Task.status == self.status).\
             update({"status": "closed"})
-        db.commit()
+        db.session.commit()
 
     def serialize(self):
         serialized = ReportSerializer(self, exclude=['created'])
@@ -64,7 +65,7 @@ class ReportManager(object):
 
 
 def get_all():
-    reports = db.query(Report).\
+    reports = db.session.query(Report).\
         order_by(Report.created.asc()).\
         all()
     serialized = ReportSerializer(

@@ -3,7 +3,8 @@ import datetime
 
 from sqlalchemy.sql import func
 
-from airy.core import db_session as db, timezone
+from airy.core import timezone
+from airy.database import db
 from airy.models import Task, TimeEntry
 from airy import settings
 from airy.serializers import UserSerializer
@@ -36,20 +37,20 @@ class User(object):
 
     @property
     def open_tasks(self):
-        query = db.query(Task).filter(Task.status == "open")
+        query = db.session.query(Task).filter(Task.status == "open")
         return query.count()
 
     @property
     def total_today(self):
         now = datetime.datetime.now(tz=timezone)
-        query = db.query(func.sum(TimeEntry.amount)).\
+        query = db.session.query(func.sum(TimeEntry.amount)).\
             filter(TimeEntry.added >= day_beginning(now))
         return query.scalar() or 0
 
     @property
     def total_week(self):
         now = datetime.datetime.now(tz=timezone)
-        query = db.query(func.sum(TimeEntry.amount)).\
+        query = db.session.query(func.sum(TimeEntry.amount)).\
             filter(TimeEntry.added >= week_beginning(now))
         return query.scalar() or 0
 

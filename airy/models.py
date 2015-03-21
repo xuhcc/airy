@@ -1,13 +1,12 @@
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.types import Integer, String, Text, DateTime, Enum, Numeric
 from sqlalchemy.orm import relationship, object_session
 from sqlalchemy.sql import func
 
-Base = declarative_base()
+from airy.database import db
 
 
-class Client(Base):
+class Client(db.Model):
 
     __tablename__ = "clients"
 
@@ -18,7 +17,7 @@ class Client(Base):
     projects = relationship("Project", cascade="all,delete", backref="client")
 
 
-class Project(Base):
+class Project(db.Model):
 
     __tablename__ = "projects"
 
@@ -54,7 +53,7 @@ class Project(Base):
 Status = Enum("open", "completed", "closed", name="status")
 
 
-class Task(Base):
+class Task(db.Model):
 
     __tablename__ = "tasks"
 
@@ -78,7 +77,7 @@ class Task(Base):
         return query.scalar() or 0
 
 
-class TimeEntry(Base):
+class TimeEntry(db.Model):
 
     __tablename__ = "times_entries"
 
@@ -89,7 +88,7 @@ class TimeEntry(Base):
     task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)
 
 
-class Report(Base):
+class Report(db.Model):
 
     __tablename__ = "reports"
 

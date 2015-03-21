@@ -15,14 +15,13 @@ fileConfig(config.config_file_name)
 import os
 import sys
 sys.path.append(os.getcwd())
-from airy.models import Base
-target_metadata = Base.metadata
+from airy import db, sqlalchemy_url
+target_metadata = db.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
-from airy.core import sqlalchemy_url
 config.set_main_option("sqlalchemy.url", sqlalchemy_url)
 
 def run_migrations_offline():

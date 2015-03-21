@@ -2,6 +2,7 @@ Flask==0.10.1
 WTForms==1.0.5
 WTForms-JSON==0.2.8
 SQLAlchemy==0.9.4
+Flask-SQLAlchemy==2.0
 psycopg2==2.5.2
 alembic==0.6.4
 pytz>=2014.2

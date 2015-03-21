@@ -3,7 +3,8 @@ import datetime
 
 from airy.models import Task, TimeEntry
 from airy.exceptions import TimeEntryError
-from airy.core import db_session as db, timezone
+from airy.core import timezone
+from airy.database import db
 from airy.serializers import TimeEntrySerializer
 from airy.forms import TimeEntryForm
 
@@ -20,17 +21,17 @@ def save(data, time_entry_id=None):
     form.populate_obj(time_entry)
     if time_entry.id is None:
         time_entry.added = datetime.datetime.now(tz=timezone)
-    if not db.query(Task).get(time_entry.task_id):
+    if not db.session.query(Task).get(time_entry.task_id):
         raise TimeEntryError("Invalid task id", 400)
     if (
         time_entry.id is not None
-        and not db.query(TimeEntry).get(time_entry.id)
+        and not db.session.query(TimeEntry).get(time_entry.id)
     ):
         raise TimeEntryError(
             "Time entry #{0} not found".format(time_entry.id),
             404)
-    time_entry = db.merge(time_entry)
-    db.commit()
+    time_entry = db.session.merge(time_entry)
+    db.session.commit()
     serialized = TimeEntrySerializer(
         time_entry,
         extra={'task_total_time': str(time_entry.task.total_time)})
@@ -38,12 +39,12 @@ def save(data, time_entry_id=None):
 
 
 def delete(time_entry_id):
-    time_entry = db.query(TimeEntry).get(time_entry_id)
+    time_entry = db.session.query(TimeEntry).get(time_entry_id)
     if not time_entry:
         raise TimeEntryError(
             "Time entry #{0} not found".format(time_entry_id),
             404)
     task = time_entry.task
-    db.delete(time_entry)
-    db.commit()
+    db.session.delete(time_entry)
+    db.session.commit()
     return str(task.total_time)
