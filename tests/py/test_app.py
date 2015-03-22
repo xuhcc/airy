@@ -1,2 +1,2 @@
 def test_app_settings(app):
-    assert app.debug is False
+    assert 'sqlite' in app.config['SQLALCHEMY_DATABASE_URI']

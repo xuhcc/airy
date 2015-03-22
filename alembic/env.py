@@ -15,10 +15,11 @@ fileConfig(config.config_file_name)
 
 sys.path.append(os.getcwd())
 
-from airy import db, sqlalchemy_url
+from airy import database
 
-target_metadata = db.metadata
-config.set_main_option("sqlalchemy.url", sqlalchemy_url)
+target_metadata = database.db.metadata
+
+config.set_main_option('sqlalchemy.url', database.sqlalchemy_url)
 
 
 def run_migrations_offline():

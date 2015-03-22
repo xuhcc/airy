@@ -7,3 +7,4 @@ airy/assets/lib
 airy/static
 airy/settings.py
 fabfile/deploy.py
+test.db
