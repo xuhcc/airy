@@ -21,10 +21,11 @@ class Project(db.Model):
 
     __tablename__ = "projects"
 
+    client_id = Column(Integer, ForeignKey("clients.id"), nullable=False)
+
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     description = Column(Text)
-    client_id = Column(Integer, ForeignKey("clients.id"), nullable=False)
 
     tasks = relationship("Task", cascade="all,delete", backref="project",
                          order_by="Task.status")
@@ -57,13 +58,14 @@ class Task(db.Model):
 
     __tablename__ = "tasks"
 
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
+
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
     description = Column(Text)
     created = Column(DateTime(timezone=True), nullable=False)
     updated = Column(DateTime(timezone=True), nullable=False)
     status = Column(Status, nullable=False, default="open")
-    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
 
     time_entries = relationship("TimeEntry",
                                 cascade="all,delete",
@@ -81,20 +83,21 @@ class TimeEntry(db.Model):
 
     __tablename__ = "times_entries"
 
+    task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)
+
     id = Column(Integer, primary_key=True)
     amount = Column(Numeric(4, 2), nullable=False)
     comment = Column(Text)
     added = Column(DateTime(timezone=True), nullable=False)
-    task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)
 
 
 class Report(db.Model):
 
     __tablename__ = "reports"
 
+    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
+    project = relationship("Project")
+
     id = Column(Integer, primary_key=True)
     created = Column(DateTime(timezone=True), nullable=False)
     total_time = Column(Numeric(6, 2), nullable=False)
-    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
-
-    project = relationship("Project")
