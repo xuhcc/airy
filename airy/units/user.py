@@ -1,9 +1,8 @@
 import logging
-import datetime
 
 from sqlalchemy.sql import func
 
-from airy.utils.date import tz_now
+from airy.utils.date import tz_now, day_beginning, week_beginning
 from airy.database import db
 from airy.models import Task, TimeEntry
 from airy import settings
@@ -12,14 +11,6 @@ from airy.forms import LoginForm
 from airy.exceptions import UserError
 
 logger = logging.getLogger(__name__)
-
-
-def day_beginning(dt):
-    return dt.replace(hour=0, minute=0, second=0, microsecond=0)
-
-
-def week_beginning(dt):
-    return day_beginning(dt - datetime.timedelta(days=dt.weekday()))
 
 
 class User(object):
