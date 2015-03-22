@@ -23,7 +23,7 @@ def python():
 @task
 def flask():
     with prefix('. venv/bin/activate'):
-        local('py.test tests/py')
+        local('py.test -v -x tests/py')
 
 
 @task(default=True)

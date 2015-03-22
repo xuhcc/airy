@@ -14,7 +14,7 @@ def create_app(test_sqlalchemy_url=None):
     app = Flask(__name__,
                 static_folder=static_folder,
                 static_url_path='/static')
-    app.debug = settings.debug
+    app.debug = False if test_sqlalchemy_url else settings.debug
     app.secret_key = settings.secret_key
     app.session_cookie_name = 'airy_session'
 
