@@ -9,13 +9,15 @@
         "bower_components/angular-linkify/angular-linkify.js",
         "bower_components/ngDialog/js/ngDialog.js",
         "bower_components/angular-hotkeys/build/hotkeys.js",
-        "bower_components/angular-elastic/elastic.js"
+        "bower_components/angular-elastic/elastic.js",
+        "bower_components/angular-loading-bar/build/loading-bar.js"
     ],
     "css": [
         "bower_components/pure/base.css",
         "bower_components/pure/forms.css",
         "bower_components/pure/buttons.css",
-        "bower_components/ngDialog/css/ngDialog.css"
+        "bower_components/ngDialog/css/ngDialog.css",
+        "bower_components/angular-loading-bar/build/loading-bar.css"
     ]
 }
 

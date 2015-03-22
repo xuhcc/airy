@@ -10,6 +10,7 @@
             'ngDialog',
             'cfp.hotkeys',
             'monospaced.elastic',
+            'angular-loading-bar',
             'airyControllers',
             'airyDirectives',
             'airyFilters',
