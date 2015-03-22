@@ -1,9 +1,8 @@
 import logging
-import datetime
 
 from airy.models import Task, TimeEntry
 from airy.exceptions import TimeEntryError
-from airy.core import timezone
+from airy.utils.date import tz_now
 from airy.database import db
 from airy.serializers import TimeEntrySerializer
 from airy.forms import TimeEntryForm
@@ -20,7 +19,7 @@ def save(data, time_entry_id=None):
     time_entry = TimeEntry()
     form.populate_obj(time_entry)
     if time_entry.id is None:
-        time_entry.added = datetime.datetime.now(tz=timezone)
+        time_entry.added = tz_now()
     if not db.session.query(Task).get(time_entry.task_id):
         raise TimeEntryError("Invalid task id", 400)
     if (

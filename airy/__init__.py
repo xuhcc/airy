@@ -3,13 +3,14 @@ Application init
 """
 from flask import Flask
 
-from airy import database, static, testing, settings
-from airy.webapp import web
+from airy import database, settings, config
+from airy.views import web
+from airy.utils.testing import ApiClient
 
 
 def create_app(test_sqlalchemy_url=None):
     app = Flask(__name__,
-                static_folder=static.static_folder,
+                static_folder=config.static_dir,
                 static_url_path='/static')
     app.debug = False if test_sqlalchemy_url else settings.debug
     app.secret_key = settings.secret_key
@@ -22,7 +23,7 @@ def create_app(test_sqlalchemy_url=None):
 
     app.register_blueprint(web)
 
-    app.test_client_class = testing.ApiClient
+    app.test_client_class = ApiClient
 
     return app
 

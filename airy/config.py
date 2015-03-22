@@ -1,11 +1,14 @@
-import os
 import logging.config
-
-import pytz
+import os
 
 from airy import settings
 
 project_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+
+log_dir = os.path.join(project_dir, 'logs')
+app_dir = os.path.join(project_dir, 'airy')
+
+static_dir = os.path.join(app_dir, 'assets' if settings.debug else 'static')
 
 log_config = {
     'version': 1,
@@ -24,7 +27,7 @@ log_config = {
         },
         'file': {
             'class': 'logging.FileHandler',
-            'filename': os.path.join(project_dir, 'logs', 'airy.log'),
+            'filename': os.path.join(log_dir, 'airy.log'),
             'level': 'WARNING',
             'formatter': 'nice',
         },
@@ -37,6 +40,5 @@ log_config = {
 if settings.debug:
     log_config['root']['level'] = 'DEBUG'
     log_config['root']['handlers'].append('console')
-logging.config.dictConfig(log_config)
 
-timezone = pytz.timezone(settings.timezone)
+logging.config.dictConfig(log_config)

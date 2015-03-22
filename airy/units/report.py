@@ -1,8 +1,6 @@
-import datetime
-
 from sqlalchemy.sql import func
 
-from airy.core import timezone
+from airy.utils.date import tz_now
 from airy.database import db
 from airy.models import Project, Task, TimeEntry, Report
 from airy.serializers import ReportSerializer
@@ -49,7 +47,7 @@ class ReportManager(object):
         Closes all completed tasks and saves report data
         """
         report = Report(
-            created=datetime.datetime.now(tz=timezone),
+            created=tz_now(),
             total_time=self.total_time,
             project_id=self.project.id)
         db.session.add(report)

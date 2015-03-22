@@ -1,9 +1,8 @@
 import logging
-import datetime
 
 from airy.models import Project, Task
 from airy.exceptions import TaskError
-from airy.core import timezone
+from airy.utils.date import tz_now
 from airy.database import db
 from airy.serializers import TaskSerializer
 from airy.forms import TaskForm, TaskStatusForm
@@ -19,7 +18,7 @@ def save(data, task_id=None):
         raise TaskError(error_msg)
     task = Task()
     form.populate_obj(task)
-    task.updated = datetime.datetime.now(tz=timezone)
+    task.updated = tz_now()
     if task.id is None:
         task.created = task.updated
     if not db.session.query(Project).get(task.project_id):
@@ -43,7 +42,7 @@ def set_status(data, task_id):
         raise TaskError(error_msg, 400)
     task = Task()
     form.populate_obj(task)
-    task.updated = datetime.datetime.now(tz=timezone)
+    task.updated = tz_now()
     if not db.session.query(Task).get(task.id):
         raise TaskError("Task #{0} not found".format(task.id), 404)
     task = db.session.merge(task)

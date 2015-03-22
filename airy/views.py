@@ -9,10 +9,15 @@ from flask import (
     abort)
 import wtforms_json
 
-from airy import exceptions, report, settings
-from airy.static import get_assets
-from airy.units import client, project, task, time_entry
-from airy.user import User
+from airy import exceptions, settings
+from airy.utils import static
+from airy.units import (
+    user,
+    client,
+    project,
+    task,
+    time_entry,
+    report)
 
 wtforms_json.init()
 
@@ -42,13 +47,13 @@ def handle_unit_error(error):
 
 @web.route("/")
 def index_view():
-    return render_template("index.html", assets=get_assets())
+    return render_template("index.html", assets=static.get_assets())
 
 
 @web.route("/login", methods=['POST'])
 def login_view():
     if request.method == 'POST':
-        return jsonify(user=User.login(session, request.get_json()))
+        return jsonify(user=user.User.login(session, request.get_json()))
 
 
 @web.route("/logout")
@@ -60,7 +65,7 @@ def logout_view():
 @web.route("/user")
 def user_view():
     if session.get("user") == settings.username:
-        return jsonify(user=User().serialize())
+        return jsonify(user=user.User().serialize())
     else:
         return jsonify(user={})
 

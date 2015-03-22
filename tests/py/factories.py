@@ -2,7 +2,8 @@ import factory
 from factory.alchemy import SQLAlchemyModelFactory
 from factory.fuzzy import FuzzyDecimal
 
-from airy import database, models, utils
+from airy import database, models
+from airy.utils.date import tz_now
 
 
 class ClientFactory(SQLAlchemyModelFactory):
@@ -35,8 +36,8 @@ class TaskFactory(SQLAlchemyModelFactory):
     project = factory.SubFactory(ProjectFactory)
     title = factory.Sequence(lambda n: 'Task {0:02d}'.format(n))
     description = 'There is a bug'
-    created = utils.now()
-    updated = utils.now()
+    created = tz_now()
+    updated = tz_now()
 
 
 class TimeEntryFactory(SQLAlchemyModelFactory):
@@ -48,4 +49,4 @@ class TimeEntryFactory(SQLAlchemyModelFactory):
     task = factory.SubFactory(TaskFactory)
     amount = FuzzyDecimal(0.01, 5.00)
     comment = factory.Sequence(lambda n: 'Comment {0:02d}'.format(n))
-    added = utils.now()
+    added = tz_now()
