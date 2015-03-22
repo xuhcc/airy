@@ -5,7 +5,7 @@ import pytest
 
 sys.path.append(os.getcwd())
 
-from airy import create_app, db
+from airy import create_app, database
 
 
 @pytest.fixture(scope='session')
@@ -17,13 +17,13 @@ def app():
 
 @pytest.yield_fixture(autouse=True)
 def db_tables(app):
-    db.create_all(app=app)
+    database.db.create_all(app=app)
     yield
-    db.session.remove()
-    db.drop_all(app=app)
+    database.db.session.remove()
+    database.db.drop_all(app=app)
 
 
 @pytest.fixture
 def db_class(request):
     if request.cls is not None:
-        request.cls.db = db
+        request.cls.db = database.db

@@ -1,7 +1,8 @@
 import pytest
 from flask import url_for
 
-from airy import settings, models
+from airy import settings
+from factories import ClientFactory
 
 
 @pytest.fixture(scope='module')
@@ -29,16 +30,12 @@ class TestApi():
         assert 'clients' in response.json
         assert len(response.json['clients']) == 0
 
-        client = models.Client()
-        client.name = 'test'
-        self.db.session.add(client)
+        ClientFactory.create_batch(3)
         response = self.client.get(url)
-        assert len(response.json['clients']) == 1
+        assert len(response.json['clients']) == 3
 
     def test_get_client(self):
-        client = models.Client()
-        client.name = 'Test Client'
-        self.db.session.add(client)
+        client = ClientFactory.create()
         self.db.session.commit()
 
         url = url_for('web.client_view', client_id=client.id)
@@ -48,9 +45,7 @@ class TestApi():
         assert response.json['client']['name'] == client.name
 
     def test_update_client(self):
-        client = models.Client()
-        client.name = 'Old Name'
-        self.db.session.add(client)
+        client = ClientFactory.create(name='Old Name')
         self.db.session.commit()
 
         url = url_for('web.client_view', client_id=client.id)
@@ -61,9 +56,7 @@ class TestApi():
         assert response.json['client']['name'] == client_data['name']
 
     def test_delete_client(self):
-        client = models.Client()
-        client.name = 'Client'
-        self.db.session.add(client)
+        client = ClientFactory.create()
         self.db.session.commit()
 
         url = url_for('web.client_view', client_id=client.id)
