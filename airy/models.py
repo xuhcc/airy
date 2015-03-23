@@ -30,6 +30,8 @@ class Project(db.Model):
     tasks = relationship("Task", cascade="all,delete", backref="project",
                          order_by="Task.status")
 
+    reports = relationship('Report', cascade='all,delete', backref='project')
+
     @property
     def last_task(self):
         session = object_session(self)
@@ -96,7 +98,6 @@ class Report(db.Model):
     __tablename__ = "reports"
 
     project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
-    project = relationship("Project")
 
     id = Column(Integer, primary_key=True)
     created = Column(DateTime(timezone=True), nullable=False)
