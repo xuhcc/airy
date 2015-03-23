@@ -1,0 +1,22 @@
+<div ng-controller="TimeSheetCtrl">
+    <div class="report-range">
+        {{ timesheet.week_beg|date:'dd.MM.yy' }} - {{ timesheet.week_end|date:'dd.MM.yy' }}
+    </div>
+    <table class="report" align="center">
+        <tr>
+            <th>Project</th>
+            <th ng-repeat="day in days">{{ day }}</th>
+            <th>Total time</th>
+        </tr>
+        <tr ng-repeat="row in timesheet.data">
+            <td><a href="{{ 'project_detail'|route:[row.project.id] }}">{{ row.project.name }}</a></td>
+            <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.amount }}</td>
+            <td>{{ row.total }}</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td ng-repeat="day_total in timesheet.totals.time track by $index">{{ day_total }}</td>
+            <td>{{ timesheet.totals.total }}</td>
+        </tr>
+    </table>
+</div>

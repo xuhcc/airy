@@ -2,6 +2,7 @@ import pytest
 from flask import url_for
 
 from airy import settings
+from airy.utils.date import tz_now, week_beginning
 from factories import (
     ClientFactory,
     ProjectFactory,
@@ -69,6 +70,21 @@ class TestClientApi():
 
         response = self.client.delete(url)
         assert response.status_code == 404
+
+    def test_timesheet(self):
+        week_beg = week_beginning(tz_now())
+        time_entry = TimeEntryFactory.create(added=week_beg)
+        self.db.session.commit()
+        client = time_entry.task.project.client
+
+        url = url_for('web.timesheet_view', client_id=client.id)
+        response = self.client.get(url)
+        assert response.status_code == 200
+        assert 'timesheet' in response.json
+
+        data = response.json['timesheet']['data']
+        assert data[0]['time'][0]['amount'] == str(time_entry.amount)
+        assert data[0]['total'] == str(time_entry.amount)
 
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')

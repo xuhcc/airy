@@ -96,6 +96,12 @@ def client_view(client_id):
         return jsonify()
 
 
+@web.route('/clients/<int:client_id>/timesheet')
+@requires_auth
+def timesheet_view(client_id):
+    return jsonify(timesheet=report.get_timesheet(client_id))
+
+
 @web.route("/projects", methods=['POST'])
 @requires_auth
 def projects_view():

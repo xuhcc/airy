@@ -5,6 +5,7 @@
         .module('airyControllers', [])
         .controller('LoginController', LoginController)
         .controller('ClientListController', ClientListController)
+        .controller('TimeSheetCtrl', TimeSheetCtrl)
         .controller('ClientFormController', ClientFormController)
         .controller('ClientDetailController', ClientDetailController)
         .controller('ProjectFormController', ProjectFormController)
@@ -91,6 +92,16 @@
                 }
             });
         };
+    }
+
+    function TimeSheetCtrl($scope, $routeParams, clientResource) {
+        $scope.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        $scope.getTimeSheet = function () {
+            clientResource.getTimeSheet($routeParams.clientId).success(function (data) {
+                $scope.timesheet = data.timesheet;
+            });
+        };
+        $scope.getTimeSheet();
     }
 
     function ClientDetailController($scope, $routeParams, $rootScope, ngDialog,

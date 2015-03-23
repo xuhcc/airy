@@ -48,6 +48,10 @@
                 templateUrl: 'static/partials/client.html',
                 name: 'client_detail'
             })
+            .when('/clients/:clientId/timesheet', {
+                templateUrl: 'static/partials/timesheet.html',
+                name: 'timesheet'
+            })
             .when('/projects/:projectId', {
                 templateUrl: 'static/partials/project.html',
                 name: 'project_detail'
