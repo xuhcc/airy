@@ -3,8 +3,8 @@ from marshmallow import Schema, fields
 
 class UserSerializer(Schema):
 
-    total_today = fields.Fixed(decimals=2)
-    total_week = fields.Fixed(decimals=2)
+    total_today = fields.Decimal(places=2, as_string=True)
+    total_week = fields.Decimal(places=2, as_string=True)
 
     class Meta:
         fields = [
@@ -19,7 +19,7 @@ class UserSerializer(Schema):
 class TimeEntrySerializer(Schema):
 
     added = fields.DateTime()
-    amount = fields.Fixed(decimals=2)
+    amount = fields.Decimal(places=2, as_string=True)
 
     class Meta:
         fields = [
@@ -37,7 +37,7 @@ class TaskSerializer(Schema):
     created = fields.DateTime()
     updated = fields.DateTime()
     time_entries = fields.Nested(TimeEntrySerializer, many=True)
-    total_time = fields.Fixed(decimals=2)
+    total_time = fields.Decimal(places=2, as_string=True)
 
     class Meta:
         fields = [
@@ -95,7 +95,7 @@ class ReportSerializer(Schema):
     tasks = fields.Nested(TaskSerializer,
                           only=['title', 'total_time'],
                           many=True)
-    total_time = fields.Fixed(decimals=2)
+    total_time = fields.Decimal(places=2, as_string=True)
     created = fields.DateTime()
 
     class Meta:
