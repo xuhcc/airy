@@ -3,7 +3,7 @@ WTForms==1.0.5
 WTForms-JSON==0.2.8
 SQLAlchemy==0.9.9
 Flask-SQLAlchemy==2.0
-psycopg2==2.5.2
+psycopg2==2.6
 alembic==0.7.5.post2
 pytz>=2014.2
 marshmallow==0.7.0
