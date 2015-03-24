@@ -83,7 +83,7 @@ class Task(db.Model):
 
 class TimeEntry(db.Model):
 
-    __tablename__ = "times_entries"
+    __tablename__ = "time_entries"
 
     task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)
 
