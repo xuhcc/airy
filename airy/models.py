@@ -38,7 +38,7 @@ class Project(db.Model):
         query = session.query(Task).\
             filter(Task.project_id == self.id).\
             filter(Task.status != "closed").\
-            order_by(Task.updated.desc())
+            order_by(Task.updated_at.desc())
         return query.first()
 
     def selected_tasks(self, closed):
@@ -50,7 +50,7 @@ class Project(db.Model):
         query = session.query(Task).\
             filter(Task.project_id == self.id).\
             filter(status_condition).\
-            order_by(Task.status.asc(), Task.updated.desc())
+            order_by(Task.status.asc(), Task.updated_at.desc())
         return query.all()
 
 Status = Enum("open", "completed", "closed", name="status")
@@ -65,8 +65,8 @@ class Task(db.Model):
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
     description = Column(Text)
-    created = Column(DateTime(timezone=True), nullable=False)
-    updated = Column(DateTime(timezone=True), nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False)
+    updated_at = Column(DateTime(timezone=True), nullable=False)
     status = Column(Status, nullable=False, default="open")
 
     time_entries = relationship("TimeEntry",
@@ -90,7 +90,7 @@ class TimeEntry(db.Model):
     id = Column(Integer, primary_key=True)
     amount = Column(Numeric(4, 2), nullable=False)
     comment = Column(Text)
-    added = Column(DateTime(timezone=True), nullable=False)
+    added_at = Column(DateTime(timezone=True), nullable=False)
 
 
 class Report(db.Model):
@@ -100,5 +100,5 @@ class Report(db.Model):
     project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
 
     id = Column(Integer, primary_key=True)
-    created = Column(DateTime(timezone=True), nullable=False)
+    created_at = Column(DateTime(timezone=True), nullable=False)
     total_time = Column(Numeric(6, 2), nullable=False)

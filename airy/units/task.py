@@ -18,9 +18,9 @@ def save(data, task_id=None):
         raise TaskError(error_msg)
     task = Task()
     form.populate_obj(task)
-    task.updated = tz_now()
+    task.updated_at = tz_now()
     if task.id is None:
-        task.created = task.updated
+        task.created_at = task.updated_at
     if not db.session.query(Project).get(task.project_id):
         raise TaskError("Invalid project id", 400)
     if (
@@ -42,7 +42,7 @@ def set_status(data, task_id):
         raise TaskError(error_msg, 400)
     task = Task()
     form.populate_obj(task)
-    task.updated = tz_now()
+    task.updated_at = tz_now()
     if not db.session.query(Task).get(task.id):
         raise TaskError("Task #{0} not found".format(task.id), 404)
     task = db.session.merge(task)

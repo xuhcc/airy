@@ -36,8 +36,8 @@ class TaskFactory(SQLAlchemyModelFactory):
     project = factory.SubFactory(ProjectFactory)
     title = factory.Sequence(lambda n: 'Task {0:02d}'.format(n))
     description = 'There is a bug'
-    created = tz_now()
-    updated = tz_now()
+    created_at = tz_now()
+    updated_at = tz_now()
 
 
 class TimeEntryFactory(SQLAlchemyModelFactory):
@@ -49,4 +49,4 @@ class TimeEntryFactory(SQLAlchemyModelFactory):
     task = factory.SubFactory(TaskFactory)
     amount = FuzzyDecimal(0.01, 5.00)
     comment = factory.Sequence(lambda n: 'Comment {0:02d}'.format(n))
-    added = tz_now()
+    added_at = tz_now()

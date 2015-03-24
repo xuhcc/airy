@@ -12,8 +12,8 @@
                 <a class="task-delete icon" title="Delete task" data-ng-click="deleteTask(task)">d</a>
             </div>
             <div class="task-title"><h3><a id="task-{{ task.id }}" data-ng-click="task.detailsVisible = !task.detailsVisible">{{ task.title }}</a></h3></div>
-            <div class="task-created" data-ng-show="task.detailsVisible">Created: {{ task.created|date:'dd.MM.yy HH:mm' }}</div>
-            <div class="task-updated" data-ng-show="task.detailsVisible">Updated: {{ task.updated|date:'dd.MM.yy HH:mm' }}</div>
+            <div class="task-created" data-ng-show="task.detailsVisible">Created at: {{ task.created_at|date:'dd.MM.yy HH:mm' }}</div>
+            <div class="task-updated" data-ng-show="task.detailsVisible">Updated at: {{ task.updated_at|date:'dd.MM.yy HH:mm' }}</div>
             <div class="task-description" data-ng-bind-html="task.description|nl2br|linkify"></div>
             <div class="task-status">
                 Status: <span data-task-status-widget data-task="task" data-set="setTaskStatus"></span>
@@ -26,9 +26,9 @@
             </div>
             <div class="task-time-entries" data-ng-show="task.timeEntriesVisible"><ul>
                 <li class="time-entry" data-ng-repeat="timeEntry in task.time_entries" data-ng-mouseenter="timeEntry.deleteIconVisible = true" data-ng-mouseleave="timeEntry.deleteIconVisible = false">
-                    <a class="time-entry-amount" title="{{ timeEntry.added|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.amount }}</a>
+                    <a class="time-entry-amount" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.amount }}</a>
                     <span data-ng-if="timeEntry.comment">
-                        — <a class="time-entry-comment" title="{{ timeEntry.added|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.comment }}</a>
+                        — <a class="time-entry-comment" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.comment }}</a>
                     </span>
                     <a class="time-entry-delete icon" data-ng-show="timeEntry.deleteIconVisible" data-ng-click="deleteTimeEntry(task, timeEntry)">d</a>
                 </li>

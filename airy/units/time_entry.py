@@ -19,7 +19,7 @@ def save(data, time_entry_id=None):
     time_entry = TimeEntry()
     form.populate_obj(time_entry)
     if time_entry.id is None:
-        time_entry.added = tz_now()
+        time_entry.added_at = tz_now()
     if not db.session.query(Task).get(time_entry.task_id):
         raise TimeEntryError("Invalid task id", 400)
     if (

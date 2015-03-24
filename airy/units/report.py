@@ -25,17 +25,17 @@ class ReportManager(object):
         self.tasks = db.session.query(Task).filter(
             Task.project_id == self.project.id,
             Task.status == self.status).\
-            order_by(Task.updated.asc()).all()
+            order_by(Task.updated_at.asc()).all()
 
     @property
     def date_begin(self):
         if self.tasks:
-            return self.tasks[0].updated
+            return self.tasks[0].updated_at
 
     @property
     def date_end(self):
         if self.tasks:
-            return self.tasks[-1].updated
+            return self.tasks[-1].updated_at
 
     @property
     def total_time(self):
@@ -53,7 +53,7 @@ class ReportManager(object):
         Closes all completed tasks and saves report data
         """
         report = Report(
-            created=tz_now(),
+            created_at=tz_now(),
             total_time=self.total_time,
             project_id=self.project.id)
         db.session.add(report)
@@ -64,16 +64,16 @@ class ReportManager(object):
         db.session.commit()
 
     def serialize(self):
-        serialized = ReportSerializer(exclude=['created']).dump(self)
+        serialized = ReportSerializer(exclude=['created_at']).dump(self)
         return serialized.data
 
 
 def get_all():
     reports = db.session.query(Report).\
-        order_by(Report.created.asc()).\
+        order_by(Report.created_at.asc()).\
         all()
     serializer = ReportSerializer(
-        only=['project', 'created', 'total_time'],
+        only=['project', 'created_at', 'total_time'],
         many=True)
     return serializer.dump(reports).data
 
@@ -87,11 +87,11 @@ def get_timesheet(client_id):
     week_beg = week_beginning(now)
     week_end = week_beg + datetime.timedelta(days=7)
     query = db.session.\
-        query(Project, Task.title, TimeEntry.added, TimeEntry.amount).\
+        query(Project, Task.title, TimeEntry.added_at, TimeEntry.amount).\
         join(Project.tasks).\
         join(Task.time_entries).\
         filter(Project.client_id == client.id).\
-        filter(between(TimeEntry.added, week_beg, week_end)).\
+        filter(between(TimeEntry.added_at, week_beg, week_end)).\
         order_by(Project.name.asc())
 
     dates = [(week_beg + datetime.timedelta(days=weekday)).date()

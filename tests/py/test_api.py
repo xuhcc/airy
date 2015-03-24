@@ -73,7 +73,7 @@ class TestClientApi():
 
     def test_timesheet(self):
         week_beg = week_beginning(tz_now())
-        time_entry = TimeEntryFactory.create(added=week_beg)
+        time_entry = TimeEntryFactory.create(added_at=week_beg)
         self.db.session.commit()
         client = time_entry.task.project.client
 

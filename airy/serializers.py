@@ -18,13 +18,13 @@ class UserSerializer(Schema):
 
 class TimeEntrySerializer(Schema):
 
-    added = fields.DateTime()
+    added_at = fields.DateTime()
     amount = fields.Decimal(places=2, as_string=True)
 
     class Meta:
         fields = [
             'id',
-            'added',
+            'added_at',
             'amount',
             'comment',
             'task_id',
@@ -34,8 +34,8 @@ class TimeEntrySerializer(Schema):
 
 class TaskSerializer(Schema):
 
-    created = fields.DateTime()
-    updated = fields.DateTime()
+    created_at = fields.DateTime()
+    updated_at = fields.DateTime()
     time_entries = fields.Nested(TimeEntrySerializer, many=True)
     total_time = fields.Decimal(places=2, as_string=True)
 
@@ -45,8 +45,8 @@ class TaskSerializer(Schema):
             'title',
             'status',
             'description',
-            'created',
-            'updated',
+            'created_at',
+            'updated_at',
             'time_entries',
             'total_time',
             'project_id',
@@ -96,7 +96,7 @@ class ReportSerializer(Schema):
                           only=['title', 'total_time'],
                           many=True)
     total_time = fields.Decimal(places=2, as_string=True)
-    created = fields.DateTime()
+    created_at = fields.DateTime()
 
     class Meta:
         fields = [
@@ -104,7 +104,7 @@ class ReportSerializer(Schema):
             'date_begin',
             'date_end',
             'tasks',
-            'created',
+            'created_at',
             'total_time',
         ]
         strict = True

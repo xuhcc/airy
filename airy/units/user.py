@@ -35,14 +35,14 @@ class User(object):
     def total_today(self):
         now = tz_now()
         query = db.session.query(func.sum(TimeEntry.amount)).\
-            filter(TimeEntry.added >= day_beginning(now))
+            filter(TimeEntry.added_at >= day_beginning(now))
         return query.scalar() or 0
 
     @property
     def total_week(self):
         now = tz_now()
         query = db.session.query(func.sum(TimeEntry.amount)).\
-            filter(TimeEntry.added >= week_beginning(now))
+            filter(TimeEntry.added_at >= week_beginning(now))
         return query.scalar() or 0
 
     def serialize(self):
