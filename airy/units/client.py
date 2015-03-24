@@ -13,17 +13,17 @@ def get(client_id):
     client = db.session.query(Client).get(client_id)
     if not client:
         raise ClientError("Client #{0} not found".format(client_id), 404)
-    serialized_projects = ProjectSerializer(client.projects, many=True)
-    serialized = ClientSerializer(
-        client,
+    serialized_projects = ProjectSerializer(many=True).\
+        dump(client.projects)
+    serializer = ClientSerializer(
         only=['id', 'name'],
         extra={'projects': serialized_projects.data})
-    return serialized.data
+    return serializer.dump(client).data
 
 
 def get_all():
     clients = db.session.query(Client).all()
-    serialized = ClientSerializer(clients, many=True)
+    serialized = ClientSerializer(many=True).dump(clients)
     return serialized.data
 
 
@@ -47,7 +47,7 @@ def save(data, client_id=None):
         raise ClientError("Client #{0} not found".format(client.id), 404)
     client = db.session.merge(client)
     db.session.commit()
-    serialized = ClientSerializer(client)
+    serialized = ClientSerializer().dump(client)
     return serialized.data
 
 

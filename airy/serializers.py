@@ -1,7 +1,7 @@
-from marshmallow import Serializer, fields
+from marshmallow import Schema, fields
 
 
-class UserSerializer(Serializer):
+class UserSerializer(Schema):
 
     total_today = fields.Fixed(decimals=2)
     total_week = fields.Fixed(decimals=2)
@@ -16,9 +16,9 @@ class UserSerializer(Serializer):
         strict = True
 
 
-class TimeEntrySerializer(Serializer):
+class TimeEntrySerializer(Schema):
 
-    added = fields.DateTime('iso')
+    added = fields.DateTime()
     amount = fields.Fixed(decimals=2)
 
     class Meta:
@@ -32,10 +32,10 @@ class TimeEntrySerializer(Serializer):
         strict = True
 
 
-class TaskSerializer(Serializer):
+class TaskSerializer(Schema):
 
-    created = fields.DateTime('iso')
-    updated = fields.DateTime('iso')
+    created = fields.DateTime()
+    updated = fields.DateTime()
     time_entries = fields.Nested(TimeEntrySerializer, many=True)
     total_time = fields.Fixed(decimals=2)
 
@@ -54,7 +54,7 @@ class TaskSerializer(Serializer):
         strict = True
 
 
-class ProjectSerializer(Serializer):
+class ProjectSerializer(Schema):
 
     last_task = fields.Nested(TaskSerializer,
                               only=['id', 'title'],
@@ -71,7 +71,7 @@ class ProjectSerializer(Serializer):
         strict = True
 
 
-class ClientSerializer(Serializer):
+class ClientSerializer(Schema):
 
     projects = fields.Nested(ProjectSerializer,
                              only=['id', 'name'],
@@ -87,16 +87,16 @@ class ClientSerializer(Serializer):
         strict = True
 
 
-class ReportSerializer(Serializer):
+class ReportSerializer(Schema):
 
     project = fields.Nested(ProjectSerializer, only=['id', 'name'])
-    date_begin = fields.DateTime('iso')
-    date_end = fields.DateTime('iso')
+    date_begin = fields.DateTime()
+    date_end = fields.DateTime()
     tasks = fields.Nested(TaskSerializer,
                           only=['title', 'total_time'],
                           many=True)
     total_time = fields.Fixed(decimals=2)
-    created = fields.DateTime('iso')
+    created = fields.DateTime()
 
     class Meta:
         fields = [

@@ -31,10 +31,9 @@ def save(data, time_entry_id=None):
             404)
     time_entry = db.session.merge(time_entry)
     db.session.commit()
-    serialized = TimeEntrySerializer(
-        time_entry,
+    serializer = TimeEntrySerializer(
         extra={'task_total_time': str(time_entry.task.total_time)})
-    return serialized.data
+    return serializer.dump(time_entry).data
 
 
 def delete(time_entry_id):

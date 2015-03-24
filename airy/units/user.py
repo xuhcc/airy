@@ -46,4 +46,4 @@ class User(object):
         return query.scalar() or 0
 
     def serialize(self):
-        return UserSerializer(self).data
+        return UserSerializer().dump(self).data

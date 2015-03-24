@@ -64,7 +64,7 @@ class ReportManager(object):
         db.session.commit()
 
     def serialize(self):
-        serialized = ReportSerializer(self, exclude=['created'])
+        serialized = ReportSerializer(exclude=['created']).dump(self)
         return serialized.data
 
 
@@ -72,11 +72,10 @@ def get_all():
     reports = db.session.query(Report).\
         order_by(Report.created.asc()).\
         all()
-    serialized = ReportSerializer(
-        reports,
+    serializer = ReportSerializer(
         only=['project', 'created', 'total_time'],
         many=True)
-    return serialized.data
+    return serializer.dump(reports).data
 
 
 def get_timesheet(client_id):
@@ -125,7 +124,7 @@ def get_timesheet(client_id):
             daily_totals[date] += amount
 
         project_data = {
-            'project': ProjectSerializer(project).data,
+            'project': ProjectSerializer().dump(project).data,
             'time': [],
             'total': str(project_total),
         }

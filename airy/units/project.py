@@ -13,14 +13,12 @@ def get(project_id, task_status):
     project = db.session.query(Project).get(project_id)
     if not project:
         raise ProjectError("Project #{0} not found".format(project_id), 404)
-    serialized_tasks = TaskSerializer(
-        project.selected_tasks(closed=(task_status == 'closed')),
-        many=True)
-    serialized = ProjectSerializer(
-        project,
+    tasks = project.selected_tasks(closed=(task_status == 'closed'))
+    serialized_tasks = TaskSerializer(many=True).dump(tasks)
+    serializer = ProjectSerializer(
         only=['id', 'name'],
         extra={'tasks': serialized_tasks.data})
-    return serialized.data
+    return serializer.dump(project).data
 
 
 def save(data, project_id=None):
@@ -40,7 +38,7 @@ def save(data, project_id=None):
         raise ProjectError("Project #{0} not found".format(project.id), 404)
     project = db.session.merge(project)
     db.session.commit()
-    serialized = ProjectSerializer(project)
+    serialized = ProjectSerializer().dump(project)
     return serialized.data
 
 

@@ -30,7 +30,7 @@ def save(data, task_id=None):
         raise TaskError("Task #{0} not found".format(task.id), 404)
     task = db.session.merge(task)
     db.session.commit()
-    serialized = TaskSerializer(task)
+    serialized = TaskSerializer().dump(task)
     return serialized.data
 
 
