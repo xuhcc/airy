@@ -12,14 +12,6 @@ class LoginForm(Form):
                            [validators.InputRequired()])
 
 
-class ClientForm(Form):
-    id = IntegerField("Client ID")
-    name = StringField("Name", [
-        validators.InputRequired(),
-        validators.Length(max=200)])
-    contacts = TextAreaField("Contacts")
-
-
 class ProjectForm(Form):
     id = IntegerField("Project ID")
     name = StringField("Name", [

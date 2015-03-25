@@ -1,4 +1,7 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, validate, ValidationError
+
+from airy.database import db
+from airy.models import Client
 
 
 class UserSerializer(Schema):
@@ -73,6 +76,9 @@ class ProjectSerializer(Schema):
 
 class ClientSerializer(Schema):
 
+    id = fields.Integer()
+    name = fields.String(required=True)
+    contacts = fields.String(validate=validate.Length(max=200))
     projects = fields.Nested(ProjectSerializer,
                              only=['id', 'name'],
                              many=True)
@@ -84,7 +90,21 @@ class ClientSerializer(Schema):
             'contacts',
             'projects',
         ]
-        strict = True
+
+    def make_object(self, data):
+        return Client(**data)
+
+
+@ClientSerializer.validator
+def validate_unique_client_name(schema, client):
+    if client.get('name'):
+        name_query = Client.query.filter(
+            Client.name == client['name'],
+            Client.id != client.get('id'))
+        if db.session.query(name_query.exists()).scalar():
+            raise ValidationError(
+                'Client {0} already exists'.format(client['name']),
+                'name')
 
 
 class ReportSerializer(Schema):

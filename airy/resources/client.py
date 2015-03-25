@@ -14,7 +14,7 @@ class Clients(Resource):
 
     def post(self):
         # Create new client
-        return {'client': client.save(request.get_json())}
+        return {'client': client.save(request.get_json() or {})}
 
 
 class Client(Resource):
@@ -25,7 +25,7 @@ class Client(Resource):
 
     def put(self, client_id):
         # Update client
-        return {'client': client.save(request.get_json(), client_id)}
+        return {'client': client.save(request.get_json() or {}, client_id)}
 
     def delete(self, client_id):
         # Delete client
