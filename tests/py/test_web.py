@@ -5,7 +5,7 @@ from airy import settings
 
 
 def test_index(client):
-    url = url_for('web.index_view')
+    url = url_for('base.index')
     response = client.get(url)
     assert response.status_code == 200
 
@@ -14,7 +14,7 @@ def test_index(client):
 class TestLogin():
 
     def test_login(self):
-        login_url = url_for('web.login_view')
+        login_url = url_for('user_api.login')
         response = self.client.post(login_url,
                                     json={'password': settings.password})
         assert response.status_code == 200
@@ -23,33 +23,33 @@ class TestLogin():
         assert 'user' in session
 
     def test_login_error(self):
-        login_url = url_for('web.login_view')
+        login_url = url_for('user_api.login')
         response = self.client.post(login_url, json={'password': '-'})
         assert response.status_code == 400
         assert response.json['error_msg'] == 'Incorrect password'
 
     def test_logout(self):
-        login_url = url_for('web.login_view')
+        login_url = url_for('user_api.login')
         self.client.post(login_url,
                          json={'password': settings.password})
         assert 'user' in session
-        logout_url = url_for('web.logout_view')
+        logout_url = url_for('user_api.logout')
         response = self.client.get(logout_url)
         assert 'user' not in session
         assert response.status_code == 200
 
     def test_user(self):
-        login_url = url_for('web.login_view')
+        login_url = url_for('user_api.login')
         self.client.post(login_url,
                          json={'password': settings.password})
-        user_url = url_for('web.user_view')
+        user_url = url_for('user_api.user')
         response = self.client.get(user_url)
         assert response.status_code == 200
         assert response.json['user']['name'] == settings.username
         assert response.json['user']['open_tasks'] == 0
 
     def test_anonymous_user(self):
-        user_url = url_for('web.user_view')
+        user_url = url_for('user_api.user')
         response = self.client.get(user_url)
         assert response.status_code == 200
         assert response.json['user'] == {}

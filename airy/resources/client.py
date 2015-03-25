@@ -1,18 +1,9 @@
-from flask import request
-from flask_restful import Api, Resource
+from flask import Blueprint, request
+from flask_restful import Resource
 
 from airy.units import client, report
-from airy.views import requires_auth, web
-from airy.exceptions import UnitError
-
-
-class CustomApi(Api):
-
-    def handle_error(self, error):
-        if isinstance(error, UnitError):
-            data = {'error_msg': error.message}
-            return self.make_response(data, error.status_code)
-        return super().handle_error(error)
+from airy.resources import Api
+from airy.resources.user import requires_auth
 
 
 class Clients(Resource):
@@ -47,7 +38,8 @@ class TimeSheet(Resource):
         return {'timesheet': report.get_timesheet(client_id)}
 
 
-client_api = CustomApi(web, decorators=[requires_auth])
+client_api_bp = Blueprint('client_api', __name__)
+client_api = Api(client_api_bp, decorators=[requires_auth])
 client_api.add_resource(Clients, '/clients')
 client_api.add_resource(Client, '/clients/<int:client_id>')
 client_api.add_resource(TimeSheet, '/clients/<int:client_id>/timesheet')
