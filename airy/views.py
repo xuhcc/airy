@@ -1,9 +1,6 @@
 from flask import Blueprint, render_template
-import wtforms_json
 
 from airy.utils import static
-
-wtforms_json.init()
 
 base_bp = Blueprint('base', __name__)
 
