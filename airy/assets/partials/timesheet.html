@@ -10,13 +10,13 @@
         </tr>
         <tr ng-repeat="row in timesheet.data">
             <td><a ui-sref="project_detail({projectId: row.project.id})">{{ row.project.name }}</a></td>
-            <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.amount }}</td>
-            <td>{{ row.total }}</td>
+            <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.amount|time }}</td>
+            <td>{{ row.total|time }}</td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td ng-repeat="day_total in timesheet.totals.time track by $index">{{ day_total }}</td>
-            <td>{{ timesheet.totals.total }}</td>
+            <td ng-repeat="day_total in timesheet.totals.time track by $index">{{ day_total|time }}</td>
+            <td>{{ timesheet.totals.total|time }}</td>
         </tr>
     </table>
 </div>

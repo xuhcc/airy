@@ -8,7 +8,7 @@ module.exports = function (grunt) {
                 css: 'airy/assets/css/*.css',
             },
             lib: grunt.file.readJSON('airy/assets/libs.json'),
-            specs: 'tests/jasmine/*_spec.js'
+            specs: 'tests/jasmine/test_*.js'
         },
         jshint: {
             main: [
