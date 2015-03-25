@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, validate, ValidationError
 
 from airy.database import db
-from airy.models import Client, Project, Task, TaskStatus
+from airy.models import Client, Project, Task, TaskStatus, TimeEntry
 from airy.utils.date import tz_now
 
 
@@ -20,20 +20,42 @@ class UserSerializer(Schema):
         strict = True
 
 
+def validate_amount(value):
+    if value.is_nan():
+        raise ValidationError('Amount can not be NaN')
+    else:
+        validate.Range(min=0.01, max=99.99)(value)
+
+
+def validate_task_id(value):
+    if not Task.query.get(value):
+        raise ValidationError('Invalid task id.')
+
+
 class TimeEntrySerializer(Schema):
 
+    id = fields.Integer()
+    amount = fields.Decimal(places=2, as_string=True, required=True,
+                            validate=validate_amount)
+    comment = fields.String(validate=validate.Length(max=100))
+    task_id = fields.Integer(required=True,
+                             validate=validate_task_id)
+
     added_at = fields.DateTime()
-    amount = fields.Decimal(places=2, as_string=True)
 
     class Meta:
         fields = [
             'id',
-            'added_at',
             'amount',
             'comment',
             'task_id',
+            'added_at',
         ]
-        strict = True
+
+    def make_object(self, data):
+        if 'id' not in data:
+            data['added_at'] = tz_now()
+        return TimeEntry(**data)
 
 
 def validate_project_id(value):

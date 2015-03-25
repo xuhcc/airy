@@ -3,7 +3,8 @@ import pytest
 from airy.serializers import (
     ClientSerializer,
     ProjectSerializer,
-    TaskSerializer)
+    TaskSerializer,
+    TimeEntrySerializer)
 
 from factories import (
     ClientFactory,
@@ -195,3 +196,81 @@ class TestTaskSerializer():
         assert not errors
         assert instance.id == task.id
         assert instance.status == data['status']
+
+
+@pytest.mark.usefixtures('db_class')
+class TestTimeEntrySerializer():
+
+    def test_serialization(self):
+        time_entry = TimeEntryFactory.create()
+        self.db.session.commit()
+        serializer = TimeEntrySerializer(strict=True)
+        data = serializer.dump(time_entry).data
+        assert data['id'] == time_entry.id
+        assert data['amount'] == str(time_entry.amount)
+        assert data['comment'] == time_entry.comment
+        assert data['task_id'] == time_entry.task.id
+        assert 'added_at' in data
+
+    def test_create(self):
+        task = TaskFactory.create()
+        self.db.session.commit()
+        data = TimeEntryFactory.stub(task=None).__dict__
+        data['task_id'] = task.id
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load(data)
+        assert not errors
+        assert instance.id is None
+        assert instance.amount == data['amount']
+        assert instance.task_id == task.id
+        assert instance.added_at is not None
+
+    def test_update(self):
+        time_entry = TimeEntryFactory.create()
+        self.db.session.commit()
+        data = TimeEntryFactory.stub(task=None).__dict__
+        data['id'] = time_entry.id
+        data['task_id'] = time_entry.task.id
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load(data)
+        assert not errors
+        assert instance.id == time_entry.id
+        assert instance.amount == data['amount']
+        assert instance.task_id == time_entry.task.id
+
+    def test_required(self):
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load({})
+        assert 'amount' in errors
+        assert 'task_id' in errors
+
+    def test_validate_task_id(self):
+        data = TimeEntryFactory.stub(task=None).__dict__
+        data['task_id'] = 0
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load(data)
+        assert 'task_id' in errors
+
+    def test_validate_amount(self):
+        task = TaskFactory.create()
+        self.db.session.commit()
+        data = TimeEntryFactory.stub(task=None).__dict__
+        data['task_id'] = task.id
+        # NaN
+        invalid_data = data.copy()
+        invalid_data['amount'] = 'NaN'
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load(invalid_data)
+        assert 'amount' in errors
+        # Min
+        invalid_data = data.copy()
+        invalid_data['amount'] = '0.00'
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load(invalid_data)
+        assert 'amount' in errors
+        # Max
+        invalid_data = data.copy()
+        invalid_data['amount'] = '1000.00'
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load(invalid_data)
+        assert 'amount' in errors
