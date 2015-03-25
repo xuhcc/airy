@@ -2,12 +2,14 @@ import pytest
 
 from airy.serializers import (
     ClientSerializer,
-    ProjectSerializer)
+    ProjectSerializer,
+    TaskSerializer)
 
 from factories import (
     ClientFactory,
     ProjectFactory,
-    TaskFactory)
+    TaskFactory,
+    TimeEntryFactory)
 
 
 @pytest.mark.usefixtures('db_class')
@@ -119,3 +121,77 @@ class TestProjectSerializer():
         serializer = ProjectSerializer(exclude=['last_task'])
         instance, errors = serializer.load(data)
         assert 'client_id' in errors
+
+
+@pytest.mark.usefixtures('db_class')
+class TestTaskSerializer():
+
+    def test_serialization(self):
+        task = TaskFactory.create()
+        time_entry = TimeEntryFactory.create(task=task)
+        self.db.session.commit()
+        serializer = TaskSerializer(strict=True)
+        data = serializer.dump(task).data
+        assert data['id'] == task.id
+        assert data['title'] == task.title
+        assert data['description'] == task.description
+        assert data['project_id'] == task.project.id
+        assert data['total_time'] == str(time_entry.amount)
+        time_data = data['time_entries'][0]
+        assert time_data['id'] == time_entry.id
+        assert time_data['amount'] == str(time_entry.amount)
+        assert time_data['comment'] == time_entry.comment
+
+    def test_create(self):
+        project = ProjectFactory.create()
+        self.db.session.commit()
+        data = TaskFactory.stub(project=None).__dict__
+        data['project_id'] = project.id
+        serializer = TaskSerializer(
+            only=['id', 'title', 'description', 'project_id'])
+        instance, errors = serializer.load(data)
+        assert not errors
+        assert instance.id is None
+        assert instance.title == data['title']
+        assert instance.project_id == project.id
+        assert instance.created_at is not None
+        assert instance.updated_at is not None
+
+    def test_update(self):
+        task = TaskFactory.create()
+        self.db.session.commit()
+        data = TaskFactory.stub(project=None).__dict__
+        data['id'] = task.id
+        data['project_id'] = task.project.id
+        serializer = TaskSerializer(
+            only=['id', 'title', 'description', 'project_id'])
+        instance, errors = serializer.load(data)
+        assert not errors
+        assert instance.id == task.id
+        assert instance.title == data['title']
+        assert instance.project_id == task.project.id
+
+    def test_required(self):
+        serializer = TaskSerializer(
+            only=['id', 'title', 'description', 'project_id'])
+        instance, errors = serializer.load({})
+        assert 'title' in errors
+        assert 'project_id' in errors
+
+    def test_validate_project_id(self):
+        data = TaskFactory.stub(project=None).__dict__
+        data['project_id'] = 0
+        serializer = TaskSerializer(
+            only=['id', 'title', 'description', 'project_id'])
+        instance, errors = serializer.load(data)
+        assert 'project_id' in errors
+
+    def test_update_status(self):
+        task = TaskFactory.create()
+        self.db.session.commit()
+        data = {'id': task.id, 'status': 'completed'}
+        serializer = TaskSerializer(only=['id', 'status'])
+        instance, errors = serializer.load(data)
+        assert not errors
+        assert instance.id == task.id
+        assert instance.status == data['status']

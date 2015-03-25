@@ -1,50 +1,40 @@
 import logging
 
-from airy.models import Project, Task
+from airy.models import Task
 from airy.exceptions import TaskError
-from airy.utils.date import tz_now
 from airy.database import db
 from airy.serializers import TaskSerializer
-from airy.forms import TaskForm, TaskStatusForm
 
 logger = logging.getLogger(__name__)
 
 
 def save(data, task_id=None):
-    form = TaskForm.from_json(data, id=task_id)
-    if not form.validate():
-        error_msg = ", ".join("{0}: {1}".format(k, v[0])
-                              for k, v in form.errors.items())
-        raise TaskError(error_msg, 400)
-    task = Task()
-    form.populate_obj(task)
-    task.updated_at = tz_now()
-    if task.id is None:
-        task.created_at = task.updated_at
-    if not db.session.query(Project).get(task.project_id):
-        raise TaskError("Invalid project id", 400)
-    if (
-        task.id is not None
-        and not db.session.query(Task).get(task.id)
-    ):
-        raise TaskError("Task #{0} not found".format(task.id), 404)
+    data = data or {}
+    if task_id is not None:
+        if not Task.query.get(task_id):
+            raise TaskError(
+                'Task #{0} not found'.format(task_id), 404)
+        data['id'] = task_id
+    serializer = TaskSerializer(
+        only=['id', 'title', 'description', 'project_id'])
+    task, errors = serializer.load(data)
+    if errors:
+        raise TaskError(errors, 400)
     task = db.session.merge(task)
     db.session.commit()
-    serialized = TaskSerializer().dump(task)
-    return serialized.data
+    serializer = TaskSerializer(strict=True)
+    return serializer.dump(task).data
 
 
 def set_status(data, task_id):
-    form = TaskStatusForm.from_json(data, id=task_id)
-    if not form.validate():
-        error_msg = ", ".join("{0}: {1}".format(k, v[0])
-                              for k, v in form.errors.items())
-        raise TaskError(error_msg, 400)
-    task = Task()
-    form.populate_obj(task)
-    task.updated_at = tz_now()
-    if not db.session.query(Task).get(task.id):
-        raise TaskError("Task #{0} not found".format(task.id), 404)
+    data = data or {}
+    if not Task.query.get(task_id):
+        raise TaskError('Task #{0} not found'.format(task_id), 404)
+    data['id'] = task_id
+    serializer = TaskSerializer(only=['id', 'status'])
+    task, errors = serializer.load(data)
+    if errors:
+        raise TaskError(errors, 400)
     task = db.session.merge(task)
     db.session.commit()
     return task.status

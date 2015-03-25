@@ -53,7 +53,7 @@ class Project(db.Model):
             order_by(Task.status.asc(), Task.updated_at.desc())
         return query.all()
 
-Status = Enum("open", "completed", "closed", name="status")
+TaskStatus = Enum("open", "completed", "closed", name="status")
 
 
 class Task(db.Model):
@@ -67,7 +67,7 @@ class Task(db.Model):
     description = Column(Text)
     created_at = Column(DateTime(timezone=True), nullable=False)
     updated_at = Column(DateTime(timezone=True), nullable=False)
-    status = Column(Status, nullable=False, default="open")
+    status = Column(TaskStatus, nullable=False, default="open")
 
     time_entries = relationship("TimeEntry",
                                 cascade="all,delete",

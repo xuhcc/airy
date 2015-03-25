@@ -1,7 +1,8 @@
 from marshmallow import Schema, fields, validate, ValidationError
 
 from airy.database import db
-from airy.models import Client, Project
+from airy.models import Client, Project, Task, TaskStatus
+from airy.utils.date import tz_now
 
 
 class UserSerializer(Schema):
@@ -35,7 +36,26 @@ class TimeEntrySerializer(Schema):
         strict = True
 
 
+def validate_project_id(value):
+    if not Project.query.get(value):
+        raise ValidationError('Invalid project id.')
+
+
+def validate_task_status(value):
+    if value not in TaskStatus.enums:
+        raise ValidationError('Not a valid choice.')
+
+
 class TaskSerializer(Schema):
+
+    id = fields.Integer()
+    title = fields.String(required=True,
+                          validate=validate.Length(max=100))
+    status = fields.String(required=True,
+                           validate=validate_task_status)
+    description = fields.String(validate=validate.Length(max=200))
+    project_id = fields.Integer(required=True,
+                                validate=validate_project_id)
 
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
@@ -48,18 +68,23 @@ class TaskSerializer(Schema):
             'title',
             'status',
             'description',
+            'project_id',
             'created_at',
             'updated_at',
             'time_entries',
             'total_time',
-            'project_id',
         ]
-        strict = True
+
+    def make_object(self, data):
+        if 'id' not in data:
+            data['created_at'] = tz_now()
+        data['updated_at'] = tz_now()
+        return Task(**data)
 
 
 def validate_client_id(value):
     if not Client.query.get(value):
-        raise ValidationError('Invalid client id')
+        raise ValidationError('Invalid client id.')
 
 
 class ProjectSerializer(Schema):

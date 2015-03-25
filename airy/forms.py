@@ -12,22 +12,6 @@ class LoginForm(Form):
                            [validators.InputRequired()])
 
 
-class TaskForm(Form):
-    id = IntegerField("Task ID")
-    title = StringField("Title", [
-        validators.InputRequired(),
-        validators.Length(max=200)])
-    description = TextAreaField("Description")
-    project_id = IntegerField("Project ID", [validators.DataRequired()])
-
-
-class TaskStatusForm(Form):
-    id = IntegerField("Task ID")
-    status = StringField("Status", [
-        validators.InputRequired(),
-        validators.AnyOf(["open", "completed", "closed"])])
-
-
 def not_nan(form, field):
     if field.data and field.data.is_nan():
         raise validators.StopValidation('Amount can not be NaN')
