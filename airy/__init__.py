@@ -5,6 +5,7 @@ from flask import Flask
 
 from airy import database, settings, config
 from airy.views import web
+from airy.resources.client import client_api  # flake8: noqa
 from airy.utils.testing import ApiClient
 
 

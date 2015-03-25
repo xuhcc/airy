@@ -1,6 +1,6 @@
 class UnitError(Exception):
 
-    def __init__(self, message, status_code=None):
+    def __init__(self, message, status_code=200):
         super().__init__()
         self.message = message
         self.status_code = status_code

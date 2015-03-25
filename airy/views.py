@@ -13,7 +13,6 @@ from airy import exceptions, settings
 from airy.utils import static
 from airy.units import (
     user,
-    client,
     project,
     task,
     time_entry,
@@ -68,38 +67,6 @@ def user_view():
         return jsonify(user=user.User().serialize())
     else:
         return jsonify(user={})
-
-
-@web.route("/clients", methods=['GET', 'POST'])
-@requires_auth
-def clients_view():
-    if request.method == 'GET':
-        # Return list of clients
-        return jsonify(clients=client.get_all())
-    elif request.method == 'POST':
-        # Create new client
-        return jsonify(client=client.save(request.get_json()))
-
-
-@web.route("/clients/<int:client_id>", methods=['GET', 'PUT', 'DELETE'])
-@requires_auth
-def client_view(client_id):
-    if request.method == 'GET':
-        # Get client details
-        return jsonify(client=client.get(client_id))
-    elif request.method == 'PUT':
-        # Update client
-        return jsonify(client=client.save(request.get_json(), client_id))
-    elif request.method == 'DELETE':
-        # Delete client
-        client.delete(client_id)
-        return jsonify()
-
-
-@web.route('/clients/<int:client_id>/timesheet')
-@requires_auth
-def timesheet_view(client_id):
-    return jsonify(timesheet=report.get_timesheet(client_id))
 
 
 @web.route("/projects", methods=['POST'])
