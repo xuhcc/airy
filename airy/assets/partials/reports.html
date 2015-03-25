@@ -6,7 +6,7 @@
             <th>Total time</th>
         </tr>
         <tr data-ng-repeat="report in reports">
-            <td><a href="{{ 'project_detail'|route:[report.project.id] }}">{{ report.project.name }}</a></td>
+            <td><a ui-sref="project_detail({projectId: report.project.id})">{{ report.project.name }}</a></td>
             <td>{{ report.created_at|date:'dd.MM.yy' }}</td>
             <td>{{ report.total_time }}</td>
         </tr>

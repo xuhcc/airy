@@ -2,16 +2,16 @@
     <div class="clients">
         <div class="client" data-ng-repeat="client in clients">
             <div class="client-menu">
-                <a class="client-timesheet icon" href="{{ 'timesheet'|route:{clientId: client.id} }}" title="View timesheet">t</a>
+                <a class="client-timesheet icon" ui-sref="timesheet({clientId: client.id})" title="View timesheet">t</a>
                 <a class="client-edit icon" data-ng-click="showClientForm(client)">e</a>
                 <a class="client-delete icon" data-ng-click="deleteClient(client)">d</a>
             </div>
-            <div class="client-name"><h3><a href="{{ 'client_detail'|route:{clientId: client.id} }}">{{ client.name }}</a></h3></div>
+            <div class="client-name"><h3><a ui-sref="client_detail({clientId: client.id})">{{ client.name }}</a></h3></div>
             <div class="client-contacts" data-ng-bind-html="client.contacts|nl2br|linkify"></div>
             <div class="client-projects" data-ng-if="client.projects.length > 0">
                 <ul>
                     <li data-ng-repeat="project in client.projects">
-                        <a href="{{ 'project_detail'|route:{projectId: project.id} }}" title="Project">{{ project.name }}</a>
+                        <a ui-sref="project_detail({projectId: project.id})" title="Project">{{ project.name }}</a>
                     </li>
                 </ul>
             </div>

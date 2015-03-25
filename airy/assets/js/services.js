@@ -12,7 +12,7 @@
         .factory('airyModal', airyModal)
         .factory('httpErrorHandler', httpErrorHandler);
 
-    function airyUser($http, $location, airyModal) {
+    function airyUser($http, $state, airyModal) {
         var user = {};
         var load = function () {
             return $http.get('/user').success(function (data) {
@@ -25,7 +25,7 @@
                     airyModal.alert(data.error_msg);
                 } else {
                     angular.extend(user, data.user);
-                    $location.path('/clients');
+                    $state.go('client_list');
                 }
             });
         };
@@ -34,7 +34,7 @@
                 for (var prop in user) {
                     delete user[prop];
                 }
-                $location.path('/login');
+                $state.go('login');
             });
         };
         return {

@@ -50,7 +50,7 @@ describe('Controllers', function () {
             buildCtrl = function () {
                 return $controller('TimeSheetCtrl', {
                     $scope: scope,
-                    $routeParams: {clientId: clientId},
+                    $stateParams: {clientId: clientId},
                     clientResource: clientResourceMock
                 });
             };

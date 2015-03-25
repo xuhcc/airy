@@ -2,7 +2,7 @@
     <div class="current-project">
         <h2>Tasks from {{ project.name }}</h2>
     </div>
-    <a class="content-nav-link" href="{{ 'project_report'|route:[project.id] }}">view report</a>
+    <a class="content-nav-link" ui-sref="project_report({projectId: project.id})">view report</a>
     <a class="content-nav-link" data-ng-show="currentStatus == 'closed'" data-ng-click="filterByStatus('active')">view active tasks</a>
     <a class="content-nav-link" data-ng-show="currentStatus == 'active'" data-ng-click="filterByStatus('closed')">view closed tasks</a>
     <div class="tasks">

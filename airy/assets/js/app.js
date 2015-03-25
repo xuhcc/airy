@@ -3,14 +3,13 @@
 
     angular
         .module('airyApp', [
-            'ngRoute',
             'ngSanitize',
             'linkify',
-            'zj.namedRoutes',
             'ngDialog',
             'cfp.hotkeys',
             'monospaced.elastic',
             'angular-loading-bar',
+            'ui.router',
             'airyControllers',
             'airyDirectives',
             'airyFilters',
@@ -20,11 +19,12 @@
         .config(ngDialogConfig)
         .config(httpConfig);
 
-    function routeConfig($routeProvider) {
-        $routeProvider
-            .when('/login', {
+    function routeConfig($stateProvider, $urlRouterProvider) {
+        $urlRouterProvider.otherwise('/login');
+        $stateProvider
+            .state('login', {
+                url: '/login',
                 templateUrl: 'static/partials/login.html',
-                name: 'login',
                 resolve: {
                     user: function ($q, $location, airyUser) {
                         var deferred = $q.defer();
@@ -40,32 +40,29 @@
                     }
                 }
             })
-            .when('/clients', {
-                templateUrl: 'static/partials/clients.html',
-                name: 'client_list'
+            .state('client_list', {
+                url: '/clients',
+                templateUrl: 'static/partials/clients.html'
             })
-            .when('/clients/:clientId', {
-                templateUrl: 'static/partials/client.html',
-                name: 'client_detail'
+            .state('client_detail', {
+                url: '/clients/:clientId',
+                templateUrl: 'static/partials/client.html'
             })
-            .when('/clients/:clientId/timesheet', {
-                templateUrl: 'static/partials/timesheet.html',
-                name: 'timesheet'
+            .state('timesheet', {
+                url: '/clients/:clientId/timesheet',
+                templateUrl: 'static/partials/timesheet.html'
             })
-            .when('/projects/:projectId', {
-                templateUrl: 'static/partials/project.html',
-                name: 'project_detail'
+            .state('project_detail', {
+                url: '/projects/:projectId',
+                templateUrl: 'static/partials/project.html'
             })
-            .when('/projects/:projectId/report', {
-                templateUrl: 'static/partials/report.html',
-                name: 'project_report'
+            .state('project_report', {
+                url: '/projects/:projectId/report',
+                templateUrl: 'static/partials/report.html'
             })
-            .when('/reports', {
-                templateUrl: 'static/partials/reports.html',
-                name: 'report_list'
-            })
-            .otherwise({
-                redirectTo: '/login'
+            .state('report_list', {
+                url: '/reports',
+                templateUrl: 'static/partials/reports.html'
             });
     }
 

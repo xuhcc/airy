@@ -1,8 +1,8 @@
 <h1>~</h1>
 <nav data-ng-if="user.name">
     <ul class="main-menu">
-        <li><a href="{{ 'client_list'|route }}">Clients</a></li>
-        <li><a href="{{ 'report_list'|route }}">Reports</a></li>
+        <li><a ui-sref="client_list">Clients</a></li>
+        <li><a ui-sref="report_list">Reports</a></li>
         <li><a data-ng-click="logoutUser()">Logout</a></li>
     </ul>
 </nav>

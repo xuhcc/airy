@@ -20,5 +20,5 @@
         </tr>
     </table>
     <a class="report-save" data-ng-click="saveReport()">close tasks and save report</a>
-    <a class="project-tasks" href="{{ 'project_detail'|route:[report.project.id] }}">back to list of tasks</a>
+    <a class="project-tasks" ui-sref="project_detail({projectId: report.project.id})">back to list of tasks</a>
 </div>

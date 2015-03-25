@@ -94,23 +94,23 @@
         };
     }
 
-    function TimeSheetCtrl($scope, $routeParams, clientResource) {
+    function TimeSheetCtrl($scope, $stateParams, clientResource) {
         $scope.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         $scope.getTimeSheet = function () {
-            clientResource.getTimeSheet($routeParams.clientId).success(function (data) {
+            clientResource.getTimeSheet($stateParams.clientId).success(function (data) {
                 $scope.timesheet = data.timesheet;
             });
         };
         $scope.getTimeSheet();
     }
 
-    function ClientDetailController($scope, $routeParams, $rootScope, ngDialog,
+    function ClientDetailController($scope, $stateParams, $rootScope, ngDialog,
                                     hotkeys, airyModal, clientResource, projectResource) {
         $scope.client = {};
         $scope.currentProject = {};
 
         $scope.fetchClient = function () {
-            clientResource.get($routeParams.clientId).success(function (data) {
+            clientResource.get($stateParams.clientId).success(function (data) {
                 $rootScope.title = data.client.name;
                 $scope.client = data.client;
             });
@@ -179,7 +179,7 @@
         };
     }
 
-    function ProjectDetailController($scope, $routeParams, $rootScope, $interval, ngDialog, hotkeys,
+    function ProjectDetailController($scope, $stateParams, $rootScope, $interval, ngDialog, hotkeys,
                                      airyModal, airyUser, projectResource, taskResource, timeEntryResource) {
         $scope.project = {};
         $scope.currentStatus = 'active';
@@ -187,7 +187,7 @@
         $scope.currentTimeEntry = {};
 
         $scope.fetchProject = function () {
-            projectResource.get($routeParams.projectId, $scope.currentStatus)
+            projectResource.get($stateParams.projectId, $scope.currentStatus)
                 .success(function (data) {
                     $rootScope.title = data.project.name;
                     $scope.project = data.project;
@@ -358,11 +358,11 @@
         };
     }
 
-    function ProjectReportController($scope, $routeParams, $rootScope, $location, airyModal, reportResource) {
+    function ProjectReportController($scope, $stateParams, $rootScope, $state, airyModal, reportResource) {
         $scope.report = {};
 
         $scope.fetchReport = function () {
-            reportResource.get($routeParams.projectId).success(function (data) {
+            reportResource.get($stateParams.projectId).success(function (data) {
                 $rootScope.title = data.report.project.name + ' :: Report';
                 $scope.report = data.report;
             });
@@ -370,8 +370,8 @@
 
         $scope.saveReport = function () {
             airyModal.confirm('Close tasks and save report?', function () {
-                reportResource.save($routeParams.projectId).success(function (data) {
-                    $location.path('/reports');
+                reportResource.save($stateParams.projectId).success(function (data) {
+                    $state.go('report_list');
                 });
             });
         };

@@ -9,7 +9,7 @@
             <th>Total time</th>
         </tr>
         <tr ng-repeat="row in timesheet.data">
-            <td><a href="{{ 'project_detail'|route:[row.project.id] }}">{{ row.project.name }}</a></td>
+            <td><a ui-sref="project_detail({projectId: row.project.id})">{{ row.project.name }}</a></td>
             <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.amount }}</td>
             <td>{{ row.total }}</td>
         </tr>
