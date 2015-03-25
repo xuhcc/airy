@@ -53,6 +53,10 @@ class TestClientApi():
         assert 'client' in response.json
         assert response.json['client']['name'] == client.name
 
+        url = url_for('client_api.client', client_id=0)
+        response = self.client.get(url)
+        assert response.status_code == 404
+
     def test_update_client(self):
         client = ClientFactory.create(name='Old Name')
         self.db.session.commit()
@@ -122,6 +126,10 @@ class TestProjectApi():
         assert response.json['project']['name'] == project.name
         assert 'tasks' in response.json['project']
 
+        url = url_for('project_api.project', project_id=0)
+        response = self.client.get(url)
+        assert response.status_code == 404
+
     def test_update_project(self):
         project = ProjectFactory.create(name='Old Name')
         self.db.session.commit()
@@ -162,6 +170,10 @@ class TestProjectApi():
         assert report['project']['id'] == project.id
         assert len(report['tasks']) == 3
         assert report['total_time'] == str(time_entry.amount)
+
+        url = url_for('project_api.report', project_id=0)
+        response = self.client.get(url)
+        assert response.status_code == 404
 
     def test_save_report(self):
         project = ProjectFactory.create()
@@ -214,6 +226,10 @@ class TestTaskApi():
         assert 'task' in response.json
         assert response.json['task']['title'] == task_data['title']
 
+        url = url_for('task_api.task', task_id=0)
+        response = self.client.put(url, json=task_data)
+        assert response.status_code == 404
+
     def test_delete_task(self):
         task = TaskFactory.create()
         self.db.session.commit()
@@ -235,6 +251,10 @@ class TestTaskApi():
         response = self.client.post(url, json=task_data)
         assert response.status_code == 200
         assert response.json['status'] == task_data['status']
+
+        url = url_for('task_api.task_status', task_id=0)
+        response = self.client.post(url, json=task_data)
+        assert response.status_code == 404
 
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')
@@ -271,6 +291,10 @@ class TestTimeEntryApi():
         assert 'time_entry' in response.json
         assert (response.json['time_entry']['amount'] ==
                 time_entry_data['amount'])
+
+        url = url_for('time_entry_api.time_entry', time_entry_id=0)
+        response = self.client.put(url, json=time_entry_data)
+        assert response.status_code == 404
 
     def test_delete_time_entry(self):
         time_entry = TimeEntryFactory.create()
