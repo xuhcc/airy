@@ -25,7 +25,7 @@ class TestLogin():
     def test_login_error(self):
         login_url = url_for('web.login_view')
         response = self.client.post(login_url, json={'password': '-'})
-        assert response.status_code == 200
+        assert response.status_code == 400
         assert response.json['error_msg'] == 'Incorrect password'
 
     def test_logout(self):

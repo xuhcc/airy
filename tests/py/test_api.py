@@ -60,6 +60,9 @@ class TestClientApi():
         assert 'client' in response.json
         assert response.json['client']['name'] == client_data['name']
 
+        response = self.client.put(url, json={})
+        assert response.status_code == 400
+
     def test_delete_client(self):
         client = ClientFactory.create()
         self.db.session.commit()

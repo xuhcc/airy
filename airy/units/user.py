@@ -24,7 +24,7 @@ class User(object):
         if form.validate() and form.password.data == settings.password:
             session['user'] = settings.username
             return cls().serialize()
-        raise UserError('Incorrect password')
+        raise UserError('Incorrect password', 400)
 
     @property
     def open_tasks(self):

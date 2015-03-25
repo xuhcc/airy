@@ -15,7 +15,7 @@ def save(data, task_id=None):
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())
-        raise TaskError(error_msg)
+        raise TaskError(error_msg, 400)
     task = Task()
     form.populate_obj(task)
     task.updated_at = tz_now()

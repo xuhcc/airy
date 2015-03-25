@@ -26,7 +26,7 @@ def save(data, project_id=None):
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())
-        raise ProjectError(error_msg)
+        raise ProjectError(error_msg, 400)
     project = Project()
     form.populate_obj(project)
     if not db.session.query(Client).get(project.client_id):

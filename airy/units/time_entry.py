@@ -15,7 +15,7 @@ def save(data, time_entry_id=None):
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())
-        raise TimeEntryError(error_msg)
+        raise TimeEntryError(error_msg, 400)
     time_entry = TimeEntry()
     form.populate_obj(time_entry)
     if time_entry.id is None:

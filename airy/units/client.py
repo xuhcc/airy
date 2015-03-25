@@ -32,7 +32,7 @@ def save(data, client_id=None):
     if not form.validate():
         error_msg = ", ".join("{0}: {1}".format(k, v[0])
                               for k, v in form.errors.items())
-        raise ClientError(error_msg)
+        raise ClientError(error_msg, 400)
     client = Client()
     form.populate_obj(client)
     name_query = db.session.query(Client).filter(
