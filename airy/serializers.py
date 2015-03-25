@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, validate, ValidationError
 
 from airy.database import db
-from airy.models import Client
+from airy.models import Client, Project
 
 
 class UserSerializer(Schema):
@@ -57,7 +57,19 @@ class TaskSerializer(Schema):
         strict = True
 
 
+def validate_client_id(value):
+    if not Client.query.get(value):
+        raise ValidationError('Invalid client id')
+
+
 class ProjectSerializer(Schema):
+
+    id = fields.Integer()
+    name = fields.String(required=True,
+                         validate=validate.Length(max=100))
+    description = fields.String(validate=validate.Length(max=200))
+    client_id = fields.Integer(required=True,
+                               validate=validate_client_id)
 
     last_task = fields.Nested(TaskSerializer,
                               only=['id', 'title'],
@@ -68,10 +80,12 @@ class ProjectSerializer(Schema):
             'id',
             'name',
             'description',
-            'last_task',
             'client_id',
+            'last_task',
         ]
-        strict = True
+
+    def make_object(self, data):
+        return Project(**data)
 
 
 class ClientSerializer(Schema):
@@ -79,6 +93,7 @@ class ClientSerializer(Schema):
     id = fields.Integer()
     name = fields.String(required=True)
     contacts = fields.String(validate=validate.Length(max=200))
+
     projects = fields.Nested(ProjectSerializer,
                              only=['id', 'name'],
                              many=True)

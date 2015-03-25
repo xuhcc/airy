@@ -124,7 +124,7 @@ def get_timesheet(client_id):
             daily_totals[date] += amount
 
         project_data = {
-            'project': ProjectSerializer().dump(project).data,
+            'project': ProjectSerializer(strict=True).dump(project).data,
             'time': [],
             'total': str(project_total),
         }

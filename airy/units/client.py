@@ -12,7 +12,7 @@ def get(client_id):
     client = db.session.query(Client).get(client_id)
     if not client:
         raise ClientError("Client #{0} not found".format(client_id), 404)
-    serialized_projects = ProjectSerializer(many=True).\
+    serialized_projects = ProjectSerializer(many=True, strict=True).\
         dump(client.projects)
     serializer = ClientSerializer(
         only=['id', 'name'],
