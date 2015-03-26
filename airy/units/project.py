@@ -15,7 +15,7 @@ def get(project_id, task_status):
     tasks = project.selected_tasks(closed=(task_status == 'closed'))
     serialized_tasks = TaskSerializer(many=True).dump(tasks)
     serializer = ProjectSerializer(
-        only=['id', 'name'],
+        only=['id', 'name', 'description'],
         extra={'tasks': serialized_tasks.data},
         strict=True)
     return serializer.dump(project).data

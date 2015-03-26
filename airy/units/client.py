@@ -13,7 +13,7 @@ def get(client_id):
     serialized_projects = ProjectSerializer(many=True, strict=True).\
         dump(client.projects)
     serializer = ClientSerializer(
-        only=['id', 'name'],
+        only=['id', 'name', 'contacts'],
         extra={'projects': serialized_projects.data},
         strict=True)
     return serializer.dump(client).data
