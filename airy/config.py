@@ -32,13 +32,19 @@ log_config = {
             'formatter': 'nice',
         },
     },
-    'root': {
-        'handlers': ['file'],
-        'level': 'WARNING',
+    'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': 'WARNING',
+        },
+        'sqlalchemy.engine.base.Engine': {
+            'propagate': False,
+            'handlers': ['console'],
+        },
     },
 }
 if settings.debug:
-    log_config['root']['level'] = 'DEBUG'
-    log_config['root']['handlers'].append('console')
+    log_config['loggers']['']['level'] = 'DEBUG'
+    log_config['loggers']['']['handlers'].append('console')
 
 logging.config.dictConfig(log_config)

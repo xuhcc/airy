@@ -1,11 +1,9 @@
-import logging
+from sqlalchemy import func
 
-from airy.models import Client
+from airy.models import Client, Project, Task
 from airy.exceptions import ClientError
 from airy.database import db
 from airy.serializers import ClientSerializer, ProjectSerializer
-
-logger = logging.getLogger(__name__)
 
 
 def get(client_id):
@@ -22,7 +20,13 @@ def get(client_id):
 
 
 def get_all():
-    clients = db.session.query(Client).all()
+    subquery = db.session.\
+        query(Client.id, func.max(Task.updated_at).label('updated_at')).\
+        join(Client.projects).join(Project.tasks).\
+        group_by(Client.id).subquery()
+    clients = Client.query.\
+        outerjoin(subquery, Client.id == subquery.c.id).\
+        order_by(subquery.c.updated_at.desc())
     serializer = ClientSerializer(many=True, strict=True)
     return serializer.dump(clients).data
 

@@ -14,7 +14,10 @@ class Client(db.Model):
     name = Column(String, unique=True, nullable=False)
     contacts = Column(Text)
 
-    projects = relationship("Project", cascade="all,delete", backref="client")
+    projects = relationship('Project',
+                            cascade='all,delete',
+                            backref='client',
+                            lazy='joined')
 
 
 class Project(db.Model):
