@@ -26,12 +26,12 @@
                 url: '/login',
                 templateUrl: 'static/partials/login.html',
                 resolve: {
-                    user: function ($q, $location, airyUser) {
+                    user: function ($q, $state, airyUser) {
                         var deferred = $q.defer();
                         airyUser.userLoaded.then(function () {
                             if (airyUser.user.name) {
                                 deferred.reject();
-                                $location.path('/clients');
+                                $state.go('client_list');
                             } else {
                                 deferred.resolve();
                             }
