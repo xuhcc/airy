@@ -17,7 +17,8 @@ class Client(db.Model):
     projects = relationship('Project',
                             cascade='all,delete',
                             backref='client',
-                            lazy='joined')
+                            lazy='joined',
+                            order_by='Project.name')
 
 
 class Project(db.Model):
