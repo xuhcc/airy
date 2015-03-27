@@ -1,5 +1,5 @@
-import datetime
 import pytz
+import arrow
 
 from airy import settings
 
@@ -7,12 +7,12 @@ timezone = pytz.timezone(settings.timezone)
 
 
 def tz_now():
-    return datetime.datetime.now(tz=timezone)
+    return arrow.now(settings.timezone).datetime
 
 
 def day_beginning(dt):
-    return dt.replace(hour=0, minute=0, second=0, microsecond=0)
+    return arrow.get(dt).floor('day').datetime
 
 
 def week_beginning(dt):
-    return day_beginning(dt - datetime.timedelta(days=dt.weekday()))
+    return arrow.get(dt).floor('week').datetime
