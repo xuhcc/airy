@@ -89,13 +89,23 @@ class TestClientApi():
         client = time_entry.task.project.client
 
         url = url_for('client_api.timesheet', client_id=client.id)
+
         response = self.client.get(url)
+        assert response.status_code == 400
+
+        response = self.client.get(url, query_string={
+            'week_beg': week_beg.isoformat()})
         assert response.status_code == 200
         assert 'timesheet' in response.json
+        client_data = response.json['timesheet']['client']
+        assert client_data['name'] == client.name
+        assert response.json['timesheet']['week_beg'] == week_beg.isoformat()
 
         data = response.json['timesheet']['data']
         assert data[0]['time'][0]['amount'] == str(time_entry.amount)
         assert data[0]['total'] == str(time_entry.amount)
+        totals = response.json['timesheet']['totals']
+        assert totals['total'] == str(time_entry.amount)
 
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')

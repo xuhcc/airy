@@ -94,11 +94,36 @@
         };
     }
 
-    function TimeSheetCtrl($scope, $stateParams, clientResource) {
+    function TimeSheetCtrl($scope, $stateParams, $rootScope, clientResource) {
+        $scope.timesheet = {};
         $scope.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+        $scope.getRange = function () {
+            var weekBeg = moment($scope.timesheet.week_beg);
+            var weekEnd = moment(weekBeg).endOf('isoWeek');
+            return weekBeg.format('DD.MM.YY') + ' — ' + weekEnd.format('DD.MM.YY');
+        };
+
+        $scope.goBack = function () {
+            var weekBeg = moment($scope.timesheet.week_beg);
+            $scope.timesheet.week_beg = weekBeg.subtract(1, 'week').format();
+            $scope.getTimeSheet();
+        };
+
+        $scope.goForward = function () {
+            var weekBeg = moment($scope.timesheet.week_beg);
+            $scope.timesheet.week_beg = weekBeg.add(1, 'week').format();
+            $scope.getTimeSheet();
+        };
+
         $scope.getTimeSheet = function () {
-            clientResource.getTimeSheet($stateParams.clientId).success(function (data) {
+            var weekBeg = $scope.timesheet.week_beg;
+            if (!weekBeg) {
+                weekBeg = moment().startOf('isoWeek').format();
+            }
+            clientResource.getTimeSheet($stateParams.clientId, weekBeg).success(function (data) {
                 $scope.timesheet = data.timesheet;
+                $rootScope.title = data.timesheet.client.name;
             });
         };
         $scope.getTimeSheet();

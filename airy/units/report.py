@@ -1,15 +1,18 @@
 from collections import OrderedDict
-import datetime
 from decimal import Decimal
 import itertools
 
+import arrow
 from sqlalchemy.sql import func
 from sqlalchemy import between
 
-from airy.utils.date import tz_now, week_beginning
+from airy.utils.date import tz_now
 from airy.database import db
 from airy.models import Client, Project, Task, TimeEntry, Report
-from airy.serializers import ReportSerializer, ProjectSerializer
+from airy.serializers import (
+    ReportSerializer,
+    ClientSerializer,
+    ProjectSerializer)
 from airy.exceptions import ClientError, ProjectError
 
 
@@ -78,14 +81,18 @@ def get_all():
     return serializer.dump(reports).data
 
 
-def get_timesheet(client_id):
+def get_timesheet(client_id, week_beg_str):
     client = Client.query.get(client_id)
     if not client:
         raise ClientError("Client #{0} not found".format(client_id), 404)
+    if not week_beg_str:
+        raise ClientError('Invalid date', 400)
+    try:
+        week_beg = arrow.get(week_beg_str).floor('week').datetime
+    except arrow.parser.ParserError:
+        raise ClientError('Invalid date', 400)
+    week_end = arrow.get(week_beg).ceil('week').datetime
 
-    now = tz_now()
-    week_beg = week_beginning(now)
-    week_end = week_beg + datetime.timedelta(days=7)
     query = db.session.\
         query(Project, Task.title, TimeEntry.added_at, TimeEntry.amount).\
         join(Project.tasks).\
@@ -94,9 +101,11 @@ def get_timesheet(client_id):
         filter(between(TimeEntry.added_at, week_beg, week_end)).\
         order_by(Project.name.asc())
 
-    dates = [(week_beg + datetime.timedelta(days=weekday)).date()
-             for weekday in range(7)]
+    dates = [day.date() for day in
+             arrow.Arrow.range('day', week_beg, week_end)]
     timesheet = {
+        'client': ClientSerializer(
+            only=['id', 'name'], strict=True).dump(client).data,
         'week_beg': week_beg.isoformat(),
         'week_end': week_end.isoformat(),
         'data': [],
@@ -124,7 +133,8 @@ def get_timesheet(client_id):
             daily_totals[date] += amount
 
         project_data = {
-            'project': ProjectSerializer(strict=True).dump(project).data,
+            'project': ProjectSerializer(
+                only=['id', 'name'], strict=True).dump(project).data,
             'time': [],
             'total': str(project_total),
         }

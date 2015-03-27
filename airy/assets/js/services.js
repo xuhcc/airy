@@ -69,8 +69,10 @@
             'delete': function (client) {
                 return $http.delete('/clients/' + client.id);
             },
-            'getTimeSheet': function (client_id) {
-                return $http.get('/clients/' + client_id + '/timesheet');
+            'getTimeSheet': function (client_id, week_beg) {
+                return $http.get(
+                    '/clients/' + client_id + '/timesheet',
+                    {params: {week_beg: week_beg}});
             }
         };
     }

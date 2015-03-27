@@ -15,7 +15,7 @@ def css():
 def python():
     with prefix(". venv/bin/activate"):
         local("flake8 --max-complexity=8 fabfile")
-        local("flake8 --max-complexity=8 airy")
+        local("flake8 --max-complexity=10 airy")
         local('flake8 --max-complexity=8 alembic/env.py')
         local("flake8 --max-complexity=8 tests/py")
 
