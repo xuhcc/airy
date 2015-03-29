@@ -57,32 +57,22 @@ describe('Controllers', function () {
         }));
 
         it('should load the timesheet', function () {
-            spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
             buildCtrl();
             expect(scope.days.length).toBe(7);
+            expect(scope.weekBeg).toBeDefined();
+            spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
+            scope.$digest();
             expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
             expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[0]).toBe(clientId);
         });
 
-        it('should show the date range', function () {
+        it('should reload the timesheet after changing date range', function () {
             buildCtrl();
-            scope.timesheet.week_beg = '2015-03-23T00:00:00+03:00';
-            expect(scope.getRange()).toBe('23.03.15 — 29.03.15');
-        });
-
-        it('should shift the date range back and forward', function () {
+            scope.$digest();
             spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
-            buildCtrl();
-            scope.timesheet.week_beg = '2015-03-23T00:00:00+03:00';
-
-            scope.goBack();
+            scope.weekBeg = '2015-03-16T00:00:00+03:00';
+            scope.$digest();
             expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
-            expect(scope.timesheet.week_beg).toBe('2015-03-16T00:00:00+03:00');
-
-            clientResourceMock.getTimeSheet.calls.reset();
-            scope.goForward();
-            expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
-            expect(scope.timesheet.week_beg).toBe('2015-03-23T00:00:00+03:00');
         });
     });
 });

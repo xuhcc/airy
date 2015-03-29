@@ -2,11 +2,7 @@
     <div class="current-client">
         <h2>Timesheet for {{ timesheet.client.name }}</h2>
     </div>
-    <div class="report-range">
-        <a class="icon" ng-click="goBack()">l</a>
-        {{ getRange() }}
-        <a class="icon" ng-click="goForward()">r</a>
-    </div>
+    <div class="report-range" week-selector week-beg="weekBeg"></div>
     <table class="report" align="center">
         <tr>
             <th>Project</th>
