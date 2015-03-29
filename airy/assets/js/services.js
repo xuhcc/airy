@@ -148,16 +148,10 @@
 
     function reportResource($http) {
         return {
-            'list': function () {
-                return $http.get('/reports');
-            },
             'get': function (project_id, week_beg) {
                 return $http.get(
                     '/projects/' + project_id + '/report',
                     {params: {week_beg: week_beg}});
-            },
-            'save': function (project_id) {
-                return $http.post('/projects/' + project_id + '/report');
             }
         };
     }

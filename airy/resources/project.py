@@ -29,13 +29,6 @@ class Project(Resource):
         project.delete(project_id)
 
 
-class Reports(Resource):
-
-    def get(self):
-        # Get list of reports
-        return {'reports': report.get_all()}
-
-
 class Report(Resource):
 
     def get(self, project_id):
@@ -43,14 +36,9 @@ class Report(Resource):
         week_beg = request.args.get('week_beg')
         return {'report': report.get_task_report(project_id, week_beg)}
 
-    def post(self, project_id):
-        # Save report
-        report.ReportManager(project_id).save()
-
 
 project_api_bp = Blueprint('project_api', __name__)
 project_api = Api(project_api_bp, decorators=[requires_auth])
 project_api.add_resource(Projects, '/projects')
 project_api.add_resource(Project, '/projects/<int:project_id>')
-project_api.add_resource(Reports, '/reports')
 project_api.add_resource(Report, '/projects/<int:project_id>/report')

@@ -167,26 +167,3 @@ def validate_unique_client_name(schema, client):
             raise ValidationError(
                 'Client {0} already exists'.format(client['name']),
                 'name')
-
-
-class ReportSerializer(Schema):
-
-    project = fields.Nested(ProjectSerializer, only=['id', 'name'])
-    date_begin = fields.DateTime()
-    date_end = fields.DateTime()
-    tasks = fields.Nested(TaskSerializer,
-                          only=['title', 'total_time'],
-                          many=True)
-    total_time = fields.Decimal(places=2, as_string=True)
-    created_at = fields.DateTime()
-
-    class Meta:
-        fields = [
-            'project',
-            'date_begin',
-            'date_end',
-            'tasks',
-            'created_at',
-            'total_time',
-        ]
-        strict = True

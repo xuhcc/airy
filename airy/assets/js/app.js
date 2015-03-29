@@ -59,10 +59,6 @@
             .state('project_report', {
                 url: '/projects/:projectId/report',
                 templateUrl: 'static/partials/report.html'
-            })
-            .state('report_list', {
-                url: '/reports',
-                templateUrl: 'static/partials/reports.html'
             });
     }
 

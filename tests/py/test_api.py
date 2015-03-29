@@ -188,24 +188,6 @@ class TestProjectApi():
         response = self.client.get(url)
         assert response.status_code == 404
 
-    def test_save_report(self):
-        project = ProjectFactory.create()
-        TaskFactory.create_batch(3, project=project, status='completed')
-        self.db.session.commit()
-
-        url = url_for('project_api.report', project_id=project.id)
-        response = self.client.post(url)
-        assert response.status_code == 200
-
-    def test_list_reports(self):
-        ProjectFactory.create()
-        self.db.session.commit()
-
-        url = url_for('project_api.reports')
-        response = self.client.get(url)
-        assert response.status_code == 200
-        assert 'reports' in response.json
-
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')
 class TestTaskApi():

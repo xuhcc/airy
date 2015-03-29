@@ -12,8 +12,7 @@
         .controller('ProjectDetailController', ProjectDetailController)
         .controller('TaskFormController', TaskFormController)
         .controller('TimeEntryFormController', TimeEntryFormController)
-        .controller('ProjectReportController', ProjectReportController)
-        .controller('ReportListController', ReportListController);
+        .controller('ProjectReportController', ProjectReportController);
 
     function LoginController($scope, $rootScope, airyUser) {
         $rootScope.title = 'Login';
@@ -373,16 +372,5 @@
         };
         $scope.$watch('weekBeg', $scope.fetchReport);
         $scope.weekBeg = moment().startOf('isoWeek').format();
-    }
-
-    function ReportListController($scope, $rootScope, reportResource) {
-        $rootScope.title = 'Reports';
-        $scope.reports = [];
-        $scope.fetchReports = function () {
-            reportResource.list().success(function (data) {
-                $scope.reports = data.reports;
-            });
-        };
-        $scope.fetchReports();
     }
 })();

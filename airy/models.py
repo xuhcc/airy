@@ -34,8 +34,6 @@ class Project(db.Model):
     tasks = relationship("Task", cascade="all,delete", backref="project",
                          order_by="Task.status")
 
-    reports = relationship('Report', cascade='all,delete', backref='project')
-
     @property
     def last_task(self):
         session = object_session(self)
@@ -95,14 +93,3 @@ class TimeEntry(db.Model):
     amount = Column(Numeric(4, 2), nullable=False)
     comment = Column(Text)
     added_at = Column(DateTime(timezone=True), nullable=False)
-
-
-class Report(db.Model):
-
-    __tablename__ = "reports"
-
-    project_id = Column(Integer, ForeignKey("projects.id"), nullable=False)
-
-    id = Column(Integer, primary_key=True)
-    created_at = Column(DateTime(timezone=True), nullable=False)
-    total_time = Column(Numeric(6, 2), nullable=False)
