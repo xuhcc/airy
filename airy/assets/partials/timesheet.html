@@ -3,22 +3,26 @@
         <h2>Timesheet for {{ timesheet.client.name }}</h2>
     </div>
     <div class="report-range" week-selector week-beg="weekBeg"></div>
-    <table class="report" align="center">
-        <tr>
-            <th>Project</th>
-            <th ng-repeat="day in days">{{ day }}</th>
-            <th>Total time</th>
-        </tr>
-        <tr ng-repeat="row in timesheet.data">
-            <td><a ui-sref="project_detail({projectId: row.project.id})">{{ row.project.name }}</a></td>
-            <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.amount|time }}</td>
-            <td>{{ row.total|time }}</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td ng-repeat="day_total in timesheet.totals.time track by $index">{{ day_total|time }}</td>
-            <td>{{ timesheet.totals.total|time }}</td>
-        </tr>
+    <table class="pure-table pure-table-horizontal report" align="center">
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th ng-repeat="day in days">{{ day }}</th>
+                <th>Total time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in timesheet.data">
+                <td><a ui-sref="project_detail({projectId: row.project.id})">{{ row.project.name }}</a></td>
+                <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.amount|time }}</td>
+                <td>{{ row.total|time }}</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td ng-repeat="day_total in timesheet.totals.time track by $index">{{ day_total|time }}</td>
+                <td>{{ timesheet.totals.total|time }}</td>
+            </tr>
+        </tbody>
     </table>
     <a class="report-return" ui-sref="client_list">back to list of clients</a>
 </div>

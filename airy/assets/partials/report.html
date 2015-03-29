@@ -3,19 +3,23 @@
         <h2>Report on tasks for {{ report.project.name }}</h2>
     </div>
     <div class="report-range" week-selector week-beg="weekBeg"></div>
-    <table class="report" align="center">
-        <tr>
-            <th>Task</th>
-            <th>Time spent</th>
-        </tr>
-        <tr data-ng-repeat="task in report.tasks">
-            <td>{{ task.title }}</td>
-            <td>{{ task.amount|time }}</td>
-        </tr>
-        <tr>
-            <td>Total</td>
-            <td>{{ report.total|time }}</td>
-        </tr>
+    <table class="pure-table pure-table-horizontal report" align="center">
+        <thead>
+            <tr>
+                <th>Task</th>
+                <th>Time spent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-repeat="task in report.tasks">
+                <td>{{ task.title }}</td>
+                <td>{{ task.amount|time }}</td>
+            </tr>
+            <tr>
+                <td>Total</td>
+                <td>{{ report.total|time }}</td>
+            </tr>
+        </tbody>
     </table>
     <a class="report-return" ui-sref="project_detail({projectId: report.project.id})">back to list of tasks</a>
 </div>
