@@ -12,7 +12,7 @@ def get(project_id, task_status):
     project = db.session.query(Project).get(project_id)
     if not project:
         raise ProjectError("Project #{0} not found".format(project_id), 404)
-    tasks = project.selected_tasks(closed=(task_status == 'closed'))
+    tasks = project.selected_tasks(select_closed=(task_status == 'closed'))
     serialized_tasks = TaskSerializer(many=True).dump(tasks)
     serializer = ProjectSerializer(
         only=['id', 'name', 'description'],

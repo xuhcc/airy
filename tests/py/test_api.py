@@ -168,8 +168,7 @@ class TestProjectApi():
     def test_get_report(self):
         week_beg = week_beginning(tz_now())
         project = ProjectFactory.create()
-        tasks = TaskFactory.create_batch(
-            3, project=project, status='completed')
+        tasks = TaskFactory.create_batch(3, project=project)
         time_entry = TimeEntryFactory.create(task=tasks[0],
                                              added_at=week_beg)
         self.db.session.commit()
@@ -242,7 +241,7 @@ class TestTaskApi():
         assert task.status == 'open'
 
         url = url_for('task_api.task_status', task_id=task.id)
-        task_data = {'status': 'completed'}
+        task_data = {'status': 'closed'}
         response = self.client.post(url, json=task_data)
         assert response.status_code == 200
         assert response.json['status'] == task_data['status']

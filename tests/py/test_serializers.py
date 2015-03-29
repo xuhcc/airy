@@ -190,7 +190,7 @@ class TestTaskSerializer():
     def test_update_status(self):
         task = TaskFactory.create()
         self.db.session.commit()
-        data = {'id': task.id, 'status': 'completed'}
+        data = {'id': task.id, 'status': 'closed'}
         serializer = TaskSerializer(only=['id', 'status'])
         instance, errors = serializer.load(data)
         assert not errors
