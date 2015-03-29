@@ -6,6 +6,7 @@ module.exports = function (grunt) {
             app: {
                 js: 'airy/assets/js/*.js',
                 css: 'airy/assets/css/*.css',
+                partials: 'airy/assets/partials/*.html'
             },
             lib: grunt.file.readJSON('airy/assets/libs.json'),
             specs: 'tests/jasmine/test_*.js'
@@ -34,6 +35,25 @@ module.exports = function (grunt) {
         csslint: {
             main: {
                 src: '<%= paths.app.css %>'
+            }
+        },
+        htmlhint: {
+            partials: {
+                options: {
+                    'tagname-lowercase': true,
+                    'attr-lowercase': true,
+                    'attr-value-double-quotes': true,
+                    'attr-no-duplication': true,
+                    'tag-pair': true,
+                    'spec-char-escape': true,
+                    'id-unique': true,
+                    'src-not-empty': true,
+                    'doctype-html5': true,
+                    'space-tab-mixed-disabled': true,
+                    'id-class-ad-disabled': true,
+                    'attr-unsafe-chars': true
+                },
+                src: '<%= paths.app.partials %>'
             }
         },
         uglify: {
@@ -104,6 +124,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-contrib-csslint');
+    grunt.loadNpmTasks('grunt-htmlhint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');

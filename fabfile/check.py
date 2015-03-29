@@ -12,6 +12,11 @@ def css():
 
 
 @task
+def html():
+    local("node_modules/grunt-cli/bin/grunt htmlhint")
+
+
+@task
 def python():
     with prefix(". venv/bin/activate"):
         local("flake8 --max-complexity=8 fabfile")
@@ -30,5 +35,6 @@ def flask():
 def all():
     js()
     css()
+    html()
     python()
     flask()
