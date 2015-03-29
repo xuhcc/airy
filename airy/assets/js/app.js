@@ -48,7 +48,7 @@
                 url: '/clients/:clientId',
                 templateUrl: 'static/partials/client.html'
             })
-            .state('timesheet', {
+            .state('client_timesheet', {
                 url: '/clients/:clientId/timesheet',
                 templateUrl: 'static/partials/timesheet.html'
             })

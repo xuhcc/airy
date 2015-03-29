@@ -5,14 +5,14 @@
         .module('airyControllers', [])
         .controller('LoginController', LoginController)
         .controller('ClientListController', ClientListController)
-        .controller('TimeSheetCtrl', TimeSheetCtrl)
+        .controller('ClientTimeSheetCtrl', ClientTimeSheetCtrl)
         .controller('ClientFormController', ClientFormController)
         .controller('ClientDetailController', ClientDetailController)
         .controller('ProjectFormController', ProjectFormController)
         .controller('ProjectDetailController', ProjectDetailController)
+        .controller('ProjectReportController', ProjectReportController)
         .controller('TaskFormController', TaskFormController)
-        .controller('TimeEntryFormController', TimeEntryFormController)
-        .controller('ProjectReportController', ProjectReportController);
+        .controller('TimeEntryFormController', TimeEntryFormController);
 
     function LoginController($scope, $rootScope, airyUser) {
         $rootScope.title = 'Login';
@@ -93,7 +93,7 @@
         };
     }
 
-    function TimeSheetCtrl($scope, $stateParams, $rootScope, clientResource) {
+    function ClientTimeSheetCtrl($scope, $stateParams, $rootScope, clientResource) {
         $scope.timesheet = {};
         $scope.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -285,6 +285,19 @@
         $scope.fetchProject();
     }
 
+    function ProjectReportController($scope, $stateParams, $rootScope, projectResource) {
+        $scope.report = {};
+
+        $scope.getReport = function () {
+            projectResource.getReport($stateParams.projectId, $scope.weekBeg).success(function (data) {
+                $rootScope.title = data.report.project.name + ' :: Report';
+                $scope.report = data.report;
+            });
+        };
+        $scope.$watch('weekBeg', $scope.getReport);
+        $scope.weekBeg = moment().startOf('isoWeek').format();
+    }
+
     function TaskFormController($scope, airyUser, taskResource) {
         $scope.submitForm = function () {
             if (!$scope.$parent.currentTask.id) {
@@ -359,18 +372,5 @@
             var newValue = parseFloat(timeEntry.amount || 0) + 0.5;
             timeEntry.amount = newValue.toFixed(2);
         };
-    }
-
-    function ProjectReportController($scope, $stateParams, $rootScope, reportResource) {
-        $scope.report = {};
-
-        $scope.fetchReport = function () {
-            reportResource.get($stateParams.projectId, $scope.weekBeg).success(function (data) {
-                $rootScope.title = data.report.project.name + ' :: Report';
-                $scope.report = data.report;
-            });
-        };
-        $scope.$watch('weekBeg', $scope.fetchReport);
-        $scope.weekBeg = moment().startOf('isoWeek').format();
     }
 })();

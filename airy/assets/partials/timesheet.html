@@ -1,4 +1,4 @@
-<div ng-controller="TimeSheetCtrl">
+<div ng-controller="ClientTimeSheetCtrl">
     <div class="current-client">
         <h2>Timesheet for {{ timesheet.client.name }}</h2>
     </div>
@@ -20,4 +20,5 @@
             <td>{{ timesheet.totals.total|time }}</td>
         </tr>
     </table>
+    <a class="report-return" ui-sref="client_list">back to list of clients</a>
 </div>

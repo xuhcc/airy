@@ -8,7 +8,6 @@
         .factory('projectResource', projectResource)
         .factory('taskResource', taskResource)
         .factory('timeEntryResource', timeEntryResource)
-        .factory('reportResource', reportResource)
         .factory('airyModal', airyModal)
         .factory('httpErrorHandler', httpErrorHandler);
 
@@ -97,6 +96,11 @@
             },
             'delete': function (project) {
                 return $http.delete('/projects/' + project.id);
+            },
+            'getReport': function (project_id, week_beg) {
+                return $http.get(
+                    '/projects/' + project_id + '/report',
+                    {params: {week_beg: week_beg}});
             }
         };
     }
@@ -142,16 +146,6 @@
             },
             'delete': function (timeEntry) {
                 return $http.delete('/time_entries/' + timeEntry.id);
-            }
-        };
-    }
-
-    function reportResource($http) {
-        return {
-            'get': function (project_id, week_beg) {
-                return $http.get(
-                    '/projects/' + project_id + '/report',
-                    {params: {week_beg: week_beg}});
             }
         };
     }

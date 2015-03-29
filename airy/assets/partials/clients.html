@@ -2,7 +2,7 @@
     <div class="clients">
         <div class="client" data-ng-repeat="client in clients">
             <div class="client-menu">
-                <a class="client-timesheet icon" ui-sref="timesheet({clientId: client.id})" title="View timesheet">t</a>
+                <a class="client-timesheet icon" ui-sref="client_timesheet({clientId: client.id})" title="View timesheet">t</a>
                 <a class="client-edit icon" data-ng-click="showClientForm(client)">e</a>
                 <a class="client-delete icon" data-ng-click="deleteClient(client)">d</a>
             </div>
