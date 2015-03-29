@@ -1,8 +1,8 @@
 <form class="project-form pure-form pure-form-stacked" autocomplete="off">
     <fieldset>
-        <legend>{{ !currentProject.id ? 'New project' : 'Project #' + currentProject.id }}</legend>
-        <input type="text" name="name" placeholder="Name" data-ng-model="currentProject.name" data-auto-focus>
-        <textarea name="description" placeholder="Description" data-ng-model="currentProject.description" data-msd-elastic="\n"></textarea>
+        <legend>{{ !project.id ? 'New project' : 'Project #' + project.id }}</legend>
+        <input type="text" name="name" placeholder="Name" data-ng-model="project.name" data-auto-focus>
+        <textarea name="description" placeholder="Description" data-ng-model="project.description" data-msd-elastic="\n"></textarea>
         <button type="submit" class="pure-button pure-button-primary" data-ng-click="submitForm()">Save</button>
     </fieldset>
     <div class="form-message" data-ng-show="errorMessage">{{ errorMessage }}</div>

@@ -25,7 +25,6 @@
     function ClientListController($scope, $rootScope, ngDialog, hotkeys, airyModal, clientResource) {
         $rootScope.title = 'Clients';
         $scope.clients = [];
-        $scope.currentClient = {};
 
         $scope.fetchClients = function () {
             clientResource.list().success(function (data) {
@@ -34,11 +33,11 @@
         };
 
         $scope.showClientForm = function (client) {
-            $scope.currentClient = client;
             ngDialog.open({
                 template: 'static/partials/client_form.html',
                 controller: 'ClientFormController',
-                scope: $scope
+                scope: $scope,
+                data: {client: client}
             });
         };
 
@@ -62,11 +61,13 @@
     }
 
     function ClientFormController($scope, clientResource) {
+        $scope.client = angular.copy($scope.ngDialogData.client);
+
         $scope.submitForm = function () {
-            if (!$scope.$parent.currentClient.id) {
-                $scope.createClient($scope.$parent.currentClient);
+            if (!$scope.client.id) {
+                $scope.createClient($scope.client);
             } else {
-                $scope.updateClient($scope.$parent.currentClient);
+                $scope.updateClient($scope.client);
             }
         };
 
@@ -86,7 +87,7 @@
                 if (data.error_msg) {
                     $scope.errorMessage = data.error_msg;
                 } else {
-                    angular.extend(client, data.client);
+                    angular.extend($scope.ngDialogData.client, data.client);
                     $scope.closeThisDialog();
                 }
             });
@@ -110,7 +111,6 @@
     function ClientDetailController($scope, $stateParams, $rootScope, ngDialog,
                                     hotkeys, airyModal, clientResource, projectResource) {
         $scope.client = {};
-        $scope.currentProject = {};
 
         $scope.fetchClient = function () {
             clientResource.get($stateParams.clientId).success(function (data) {
@@ -127,7 +127,8 @@
             ngDialog.open({
                 template: 'static/partials/project_form.html',
                 controller: 'ProjectFormController',
-                scope: $scope
+                scope: $scope,
+                data: {project: project}
             });
         };
 
@@ -151,11 +152,13 @@
     }
 
     function ProjectFormController($scope, projectResource) {
+        $scope.project = angular.copy($scope.ngDialogData.project);
+
         $scope.submitForm = function () {
-            if (!$scope.$parent.currentProject.id) {
-                $scope.createProject($scope.$parent.currentProject);
+            if (!$scope.project.id) {
+                $scope.createProject($scope.project);
             } else {
-                $scope.updateProject($scope.$parent.currentProject);
+                $scope.updateProject($scope.project);
             }
         };
 
@@ -175,7 +178,7 @@
                 if (data.error_msg) {
                     $scope.errorMessage = data.error_msg;
                 } else {
-                    angular.extend(project, data.project);
+                    angular.extend($scope.ngDialogData.project, data.project);
                     $scope.closeThisDialog();
                 }
             });
@@ -186,8 +189,6 @@
                                      airyModal, airyUser, projectResource, taskResource, timeEntryResource) {
         $scope.project = {};
         $scope.currentStatus = 'active';
-        $scope.currentTask = {};
-        $scope.currentTimeEntry = {};
 
         $scope.fetchProject = function () {
             projectResource.get($stateParams.projectId, $scope.currentStatus)
@@ -210,7 +211,8 @@
             ngDialog.open({
                 template: 'static/partials/task_form.html',
                 controller: 'TaskFormController',
-                scope: $scope
+                scope: $scope,
+                data: {task: task}
             });
         };
 
@@ -255,12 +257,11 @@
                     timeEntry.amount = amount.toFixed(2);
                 }
             }
-            $scope.currentTask = task;
-            $scope.currentTimeEntry = timeEntry;
             ngDialog.open({
                 template: 'static/partials/time_entry_form.html',
                 controller: 'TimeEntryFormController',
-                scope: $scope
+                scope: $scope,
+                data: {task: task, timeEntry: timeEntry}
             });
         };
 
@@ -299,11 +300,13 @@
     }
 
     function TaskFormController($scope, airyUser, taskResource) {
+        $scope.task = angular.copy($scope.ngDialogData.task);
+
         $scope.submitForm = function () {
-            if (!$scope.$parent.currentTask.id) {
-                $scope.createTask($scope.$parent.currentTask);
+            if (!$scope.task.id) {
+                $scope.createTask($scope.task);
             } else {
-                $scope.updateTask($scope.$parent.currentTask);
+                $scope.updateTask($scope.task);
             }
         };
 
@@ -324,7 +327,7 @@
                 if (data.error_msg) {
                     $scope.errorMessage = data.error_msg;
                 } else {
-                    angular.extend(task, data.task);
+                    angular.extend($scope.ngDialogData.task, data.task);
                     $scope.closeThisDialog();
                 }
             });
@@ -332,11 +335,13 @@
     }
 
     function TimeEntryFormController($scope, timeEntryResource, airyUser) {
+        $scope.timeEntry = angular.copy($scope.ngDialogData.timeEntry);
+
         $scope.submitForm = function () {
-            if (!$scope.$parent.currentTimeEntry.id) {
-                $scope.createTimeEntry($scope.$parent.currentTimeEntry);
+            if (!$scope.timeEntry.id) {
+                $scope.createTimeEntry($scope.timeEntry);
             } else {
-                $scope.updateTimeEntry($scope.$parent.currentTimeEntry);
+                $scope.updateTimeEntry($scope.timeEntry);
             }
         };
 
@@ -345,9 +350,9 @@
                 if (data.error_msg) {
                     $scope.errorMessage = data.error_msg;
                 } else {
-                    $scope.$parent.currentTask.timeEntriesVisible = true;
-                    $scope.$parent.currentTask.total_time = data.time_entry.task_total_time;
-                    $scope.$parent.currentTask.time_entries.push(data.time_entry);
+                    $scope.ngDialogData.task.timeEntriesVisible = true;
+                    $scope.ngDialogData.task.total_time = data.time_entry.task_total_time;
+                    $scope.ngDialogData.task.time_entries.push(data.time_entry);
                     airyUser.reload();
                     $scope.closeThisDialog();
                 }
@@ -359,18 +364,18 @@
                 if (data.error_msg) {
                     $scope.errorMessage = data.error_msg;
                 } else {
-                    $scope.$parent.currentTask.timeEntriesVisible = true;
-                    $scope.$parent.currentTask.total_time = data.time_entry.task_total_time;
-                    angular.extend(timeEntry, data.time_entry);
+                    $scope.ngDialogData.task.timeEntriesVisible = true;
+                    $scope.ngDialogData.task.total_time = data.time_entry.task_total_time;
+                    angular.extend($scope.ngDialogData.timeEntry, data.time_entry);
                     airyUser.reload();
                     $scope.closeThisDialog();
                 }
             });
         };
 
-        $scope.incrementTimeAmount = function (timeEntry) {
-            var newValue = parseFloat(timeEntry.amount || 0) + 0.5;
-            timeEntry.amount = newValue.toFixed(2);
+        $scope.incrementTimeAmount = function () {
+            var newValue = parseFloat($scope.timeEntry.amount || 0) + 0.5;
+            $scope.timeEntry.amount = newValue.toFixed(2);
         };
     }
 })();
