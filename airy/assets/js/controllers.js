@@ -240,7 +240,7 @@
                     timer: $interval(function () {
                         task.timerData.amount = moment().diff(
                             moment(task.timerData.start), 'hours', true);
-                    }, 1000)
+                    }, 500)
                 };
             } else {
                 // Stop timer

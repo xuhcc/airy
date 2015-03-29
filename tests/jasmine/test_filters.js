@@ -18,7 +18,12 @@ describe('Filters', function () {
         expect(result1).toBe('0:00');
         var result2 = $filter('time')('2.50');
         expect(result2).toBe('2:30');
-        var result3 = $filter('time')('1.166666666');
+        var result3 = $filter('time')('1.1667');
         expect(result3).toBe('1:10');
+    });
+
+    it('timer filter', function () {
+        var result = $filter('timer')('0.001');
+        expect(result).toBe('0:00:03');
     });
 });

@@ -3,7 +3,8 @@
     angular
         .module('airyFilters', [])
         .filter('nl2br', nl2br)
-        .filter('time', time);
+        .filter('time', time)
+        .filter('timer', timer);
 
     function nl2br() {
         return function (data) {
@@ -14,15 +15,22 @@
         };
     }
 
+    function zfill(value) {
+        return ('00' + value.toFixed(0)).substr(-2);
+    }
+
     function time() {
-        function zfill(value) {
-            return ('00' + value.toFixed(0)).substr(-2);
-        }
         return function (value) {
-            value = parseFloat(value);
-            var hours = Math.floor(value);
-            var minutes = (value - hours) * 60;
-            return hours + ':' + zfill(minutes);
+            var duration = moment.duration(parseFloat(value), 'hours');
+            return duration.hours() + ':' + zfill(duration.minutes());
+        };
+    }
+
+    function timer() {
+        return function (value) {
+            var duration = moment.duration(parseFloat(value), 'hours');
+            return duration.hours() + ':' + zfill(duration.minutes()) +
+                ':' + zfill(duration.seconds());
         };
     }
 })();
