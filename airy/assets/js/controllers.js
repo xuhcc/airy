@@ -336,8 +336,26 @@
 
     function TimeEntryFormController($scope, timeEntryResource, airyUser) {
         $scope.timeEntry = angular.copy($scope.ngDialogData.timeEntry);
+        if ($scope.timeEntry.amount) {
+            $scope.time = getTime();
+        }
+
+        function getTime() {
+            var duration = moment.duration(
+                parseFloat($scope.timeEntry.amount), 'hours');
+            return {
+                hours: duration.hours(),
+                minutes: duration.minutes()
+            };
+        }
+
+        function getAmount() {
+            var duration = moment.duration($scope.time);
+            return duration.asHours();
+        }
 
         $scope.submitForm = function () {
+            $scope.timeEntry.amount = getAmount();
             if (!$scope.timeEntry.id) {
                 $scope.createTimeEntry($scope.timeEntry);
             } else {
@@ -374,8 +392,11 @@
         };
 
         $scope.incrementTimeAmount = function () {
-            var newValue = parseFloat($scope.timeEntry.amount || 0) + 0.5;
-            $scope.timeEntry.amount = newValue.toFixed(2);
+            var duration = moment.duration($scope.time).add(30, 'minutes');
+            $scope.time = {
+                hours: duration.hours(),
+                minutes: duration.minutes()
+            };
         };
     }
 })();

@@ -49,15 +49,17 @@
     display: block;
 }
 
-.time-entry-form input[name="amount"] {
+.time-entry-form input[name="hours"],
+.time-entry-form input[name="minutes"] {
     display: inline-block;
     vertical-align: middle;
-    width: 90%;
+    width: 43%;
+    margin-right: 2%;
 }
 
 .amount-increment {
     display: inline-block;
-    margin: 4px 0 4px 1%;
+    margin: 4px 0;
     vertical-align: middle;
-    width: 9%;
+    width: 10%;
 }
