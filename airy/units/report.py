@@ -149,3 +149,40 @@ def get_timesheet(client_id, week_beg_str):
                                    in daily_totals.values()]
     timesheet['totals']['total'] = str(sum(daily_totals.values()))
     return timesheet
+
+
+def get_task_report(project_id, week_beg_str):
+    project = Project.query.get(project_id)
+    if not project:
+        raise ProjectError("Project #{0} not found".format(project_id), 404)
+    if not week_beg_str:
+        raise ProjectError('Invalid date', 400)
+    try:
+        week_beg = arrow.get(week_beg_str).floor('week').datetime
+    except arrow.parser.ParserError:
+        raise ProjectError('Invalid date', 400)
+    week_end = arrow.get(week_beg).ceil('week').datetime
+
+    query = db.session.\
+        query(Task.title, func.sum(TimeEntry.amount)).\
+        join(Task.time_entries).\
+        filter(Task.project_id == project.id).\
+        filter(between(TimeEntry.added_at, week_beg, week_end)).\
+        group_by(Task.id)
+
+    report = {
+        'project': ProjectSerializer(
+            only=['id', 'name'], strict=True).dump(project).data,
+        'week_beg': week_beg.isoformat(),
+        'week_end': week_end.isoformat(),
+        'tasks': [],
+    }
+    project_total = Decimal('0.00')
+    for row in query:
+        report['tasks'].append({
+            'title': row[0],
+            'amount': str(row[1]),
+        })
+        project_total += row[1]
+    report['total'] = str(project_total)
+    return report

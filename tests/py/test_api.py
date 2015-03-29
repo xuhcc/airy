@@ -166,20 +166,23 @@ class TestProjectApi():
         assert response.status_code == 404
 
     def test_get_report(self):
+        week_beg = week_beginning(tz_now())
         project = ProjectFactory.create()
         tasks = TaskFactory.create_batch(
             3, project=project, status='completed')
-        time_entry = TimeEntryFactory.create(task=tasks[0], amount='2.00')
+        time_entry = TimeEntryFactory.create(task=tasks[0],
+                                             added_at=week_beg)
         self.db.session.commit()
 
         url = url_for('project_api.report', project_id=project.id)
-        response = self.client.get(url)
+        response = self.client.get(url, query_string={
+            'week_beg': week_beg.isoformat()})
         assert response.status_code == 200
         assert 'report' in response.json
         report = response.json['report']
         assert report['project']['id'] == project.id
-        assert len(report['tasks']) == 3
-        assert report['total_time'] == str(time_entry.amount)
+        assert len(report['tasks']) == 1
+        assert report['total'] == str(time_entry.amount)
 
         url = url_for('project_api.report', project_id=0)
         response = self.client.get(url)

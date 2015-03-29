@@ -40,7 +40,8 @@ class Report(Resource):
 
     def get(self, project_id):
         # Get report
-        return {'report': report.ReportManager(project_id).serialize()}
+        week_beg = request.args.get('week_beg')
+        return {'report': report.get_task_report(project_id, week_beg)}
 
     def post(self, project_id):
         # Save report

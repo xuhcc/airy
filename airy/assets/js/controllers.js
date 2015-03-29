@@ -362,25 +362,17 @@
         };
     }
 
-    function ProjectReportController($scope, $stateParams, $rootScope, $state, airyModal, reportResource) {
+    function ProjectReportController($scope, $stateParams, $rootScope, reportResource) {
         $scope.report = {};
 
         $scope.fetchReport = function () {
-            reportResource.get($stateParams.projectId).success(function (data) {
+            reportResource.get($stateParams.projectId, $scope.weekBeg).success(function (data) {
                 $rootScope.title = data.report.project.name + ' :: Report';
                 $scope.report = data.report;
             });
         };
-
-        $scope.saveReport = function () {
-            airyModal.confirm('Close tasks and save report?', function () {
-                reportResource.save($stateParams.projectId).success(function (data) {
-                    $state.go('report_list');
-                });
-            });
-        };
-
-        $scope.fetchReport();
+        $scope.$watch('weekBeg', $scope.fetchReport);
+        $scope.weekBeg = moment().startOf('isoWeek').format();
     }
 
     function ReportListController($scope, $rootScope, reportResource) {

@@ -1,24 +1,21 @@
 <div data-ng-controller="ProjectReportController">
     <div class="current-project" data-project-id="{{ report.project.id }}">
-        <h2>Report for {{ report.project.name }}</h2>
+        <h2>Report on tasks for {{ report.project.name }}</h2>
     </div>
-    <div class="report-range" data-ng-if="report.date_begin && report.date_end">
-        {{ report.date_begin|date:'dd.MM.yy' }} - {{ report.date_end|date:'dd.MM.yy' }}
-    </div>
+    <div class="report-range" week-selector week-beg="weekBeg"></div>
     <table class="report" align="center">
         <tr>
             <th>Task</th>
-            <th>Time spent (hours)</th>
+            <th>Time spent</th>
         </tr>
         <tr data-ng-repeat="task in report.tasks">
             <td>{{ task.title }}</td>
-            <td>{{ task.total_time }}</td>
+            <td>{{ task.amount|time }}</td>
         </tr>
         <tr>
             <td>Total</td>
-            <td>{{ report.total_time }}</td>
+            <td>{{ report.total|time }}</td>
         </tr>
     </table>
-    <a class="report-save" data-ng-click="saveReport()">close tasks and save report</a>
     <a class="project-tasks" ui-sref="project_detail({projectId: report.project.id})">back to list of tasks</a>
 </div>
