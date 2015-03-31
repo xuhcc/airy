@@ -212,7 +212,8 @@
                 template: 'static/partials/task_form.html',
                 controller: 'TaskFormController',
                 scope: $scope,
-                data: {task: task}
+                data: {task: task},
+                className: 'popup task-form-popup'
             });
         };
 

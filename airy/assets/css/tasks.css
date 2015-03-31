@@ -49,6 +49,10 @@
     display: block;
 }
 
+.popup.task-form-popup .ngdialog-content {
+    width: 700px;
+}
+
 .time-entry-form input[name="hours"],
 .time-entry-form input[name="minutes"] {
     display: inline-block;
