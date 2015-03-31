@@ -50,7 +50,7 @@
             },
             link: function (scope, element) {
                 scope.menuVisible = false;
-                scope.statuses = ['open', 'completed', 'closed'];
+                scope.statuses = ['open', 'closed'];
                 scope.showMenu = function (event) {
                     var rect = event.target.getBoundingClientRect();
                     scope.menuPosition = {
