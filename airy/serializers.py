@@ -75,7 +75,7 @@ class TaskSerializer(Schema):
                           validate=validate.Length(max=100))
     status = fields.String(required=True,
                            validate=validate_task_status)
-    description = fields.String(validate=validate.Length(max=500))
+    description = fields.String(validate=validate.Length(max=1000))
     project_id = fields.Integer(required=True,
                                 validate=validate_project_id)
 
@@ -114,7 +114,7 @@ class ProjectSerializer(Schema):
     id = fields.Integer()
     name = fields.String(required=True,
                          validate=validate.Length(max=100))
-    description = fields.String(validate=validate.Length(max=500))
+    description = fields.String(validate=validate.Length(max=700))
     client_id = fields.Integer(required=True,
                                validate=validate_client_id)
 
@@ -139,7 +139,7 @@ class ClientSerializer(Schema):
 
     id = fields.Integer()
     name = fields.String(required=True)
-    contacts = fields.String(validate=validate.Length(max=500))
+    contacts = fields.String(validate=validate.Length(max=700))
 
     projects = fields.Nested(ProjectSerializer,
                              only=['id', 'name'],
