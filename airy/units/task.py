@@ -26,18 +26,18 @@ def save(data, task_id=None):
     return serializer.dump(task).data
 
 
-def set_status(data, task_id):
-    data = data or {}
-    if not Task.query.get(task_id):
+def toggle_status(task_id):
+    task = Task.query.get(task_id)
+    if not task:
         raise TaskError('Task #{0} not found'.format(task_id), 404)
-    data['id'] = task_id
-    serializer = TaskSerializer(only=['id', 'status'])
-    task, errors = serializer.load(data)
-    if errors:
-        raise TaskError(errors, 400)
+    if task.status == 'open':
+        task.status = 'closed'
+    elif task.status == 'closed':
+        task.status = 'open'
     task = db.session.merge(task)
     db.session.commit()
-    return task.status
+    serializer = TaskSerializer(only=['id', 'is_closed'], strict=True)
+    return serializer.dump(task).data
 
 
 def delete(task_id):

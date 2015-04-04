@@ -123,8 +123,8 @@
             'delete': function (task) {
                 return $http.delete('/tasks/' + task.id);
             },
-            'setStatus': function (task, status) {
-                return $http.post('/tasks/' + task.id + '/status', {status: status});
+            'toggleStatus': function (task) {
+                return $http.post('/tasks/' + task.id + '/status');
             }
         };
     }

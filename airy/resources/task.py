@@ -28,8 +28,7 @@ class TaskStatus(Resource):
 
     def post(self, task_id):
         # Set task status
-        status = task.set_status(request.get_json(), task_id)
-        return {'status': status}
+        return {'task': task.toggle_status(task_id)}
 
 
 task_api_bp = Blueprint('task_api', __name__)

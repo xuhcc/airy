@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, validate, ValidationError
 
 from airy.database import db
-from airy.models import Client, Project, Task, TaskStatus, TimeEntry
+from airy.models import Client, Project, Task, TimeEntry
 from airy.utils.date import tz_now
 
 
@@ -63,18 +63,11 @@ def validate_project_id(value):
         raise ValidationError('Invalid project id.')
 
 
-def validate_task_status(value):
-    if value not in TaskStatus.enums:
-        raise ValidationError('Not a valid choice.')
-
-
 class TaskSerializer(Schema):
 
     id = fields.Integer()
     title = fields.String(required=True,
                           validate=validate.Length(max=100))
-    status = fields.String(required=True,
-                           validate=validate_task_status)
     description = fields.String(validate=validate.Length(max=1000))
     project_id = fields.Integer(required=True,
                                 validate=validate_project_id)
@@ -83,18 +76,19 @@ class TaskSerializer(Schema):
     updated_at = fields.DateTime()
     time_entries = fields.Nested(TimeEntrySerializer, many=True)
     total_time = fields.Decimal(places=2, as_string=True)
+    is_closed = fields.Boolean()
 
     class Meta:
         fields = [
             'id',
             'title',
-            'status',
             'description',
             'project_id',
             'created_at',
             'updated_at',
             'time_entries',
             'total_time',
+            'is_closed',
         ]
 
     def make_object(self, data):

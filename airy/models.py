@@ -82,6 +82,10 @@ class Task(db.Model):
             filter(TimeEntry.task_id == self.id)
         return query.scalar() or 0
 
+    @property
+    def is_closed(self):
+        return (self.status == 'closed')
+
 
 class TimeEntry(db.Model):
 

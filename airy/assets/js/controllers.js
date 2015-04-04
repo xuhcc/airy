@@ -226,9 +226,9 @@
             });
         };
 
-        $scope.setTaskStatus = function (task, status) {
-            taskResource.setStatus(task, status).success(function (data) {
-                task.status = data.status;
+        $scope.toggleStatus = function (task) {
+            taskResource.toggleStatus(task).success(function (data) {
+                angular.extend(task, data.task);
                 airyUser.reload();
             });
         };

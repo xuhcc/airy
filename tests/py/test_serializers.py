@@ -138,6 +138,7 @@ class TestTaskSerializer():
         assert data['description'] == task.description
         assert data['project_id'] == task.project.id
         assert data['total_time'] == str(time_entry.amount)
+        assert data['is_closed'] is False
         time_data = data['time_entries'][0]
         assert time_data['id'] == time_entry.id
         assert time_data['amount'] == str(time_entry.amount)
@@ -186,16 +187,6 @@ class TestTaskSerializer():
             only=['id', 'title', 'description', 'project_id'])
         instance, errors = serializer.load(data)
         assert 'project_id' in errors
-
-    def test_update_status(self):
-        task = TaskFactory.create()
-        self.db.session.commit()
-        data = {'id': task.id, 'status': 'closed'}
-        serializer = TaskSerializer(only=['id', 'status'])
-        instance, errors = serializer.load(data)
-        assert not errors
-        assert instance.id == task.id
-        assert instance.status == data['status']
 
 
 @pytest.mark.usefixtures('db_class')

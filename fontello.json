@@ -41,6 +41,18 @@
       "css": "right-dir",
       "code": 114,
       "src": "fontawesome"
+    },
+    {
+      "uid": "dd6c6b221a1088ff8a9b9cd32d0b3dd5",
+      "css": "check",
+      "code": 99,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "4b900d04e8ab8c82f080c1cfbac5772c",
+      "css": "check-empty",
+      "code": 111,
+      "src": "fontawesome"
     }
   ]
 }

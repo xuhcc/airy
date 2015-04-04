@@ -235,19 +235,18 @@ class TestTaskApi():
         response = self.client.delete(url)
         assert response.status_code == 404
 
-    def test_set_task_status(self):
-        task = TaskFactory.create(title='Old Title')
+    def test_toggle_task_status(self):
+        task = TaskFactory.create()
         self.db.session.commit()
-        assert task.status == 'open'
+        assert task.is_closed is False
 
         url = url_for('task_api.task_status', task_id=task.id)
-        task_data = {'status': 'closed'}
-        response = self.client.post(url, json=task_data)
+        response = self.client.post(url)
         assert response.status_code == 200
-        assert response.json['status'] == task_data['status']
+        assert response.json['task']['is_closed'] is True
 
         url = url_for('task_api.task_status', task_id=0)
-        response = self.client.post(url, json=task_data)
+        response = self.client.post(url)
         assert response.status_code == 404
 
 

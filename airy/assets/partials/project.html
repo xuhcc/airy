@@ -12,13 +12,13 @@
                 <a class="task-edit icon" title="Edit task" data-ng-click="showTaskForm(task)">e</a>
                 <a class="task-delete icon" title="Delete task" data-ng-click="deleteTask(task)">d</a>
             </div>
-            <div class="task-title"><h3><a id="task-{{ task.id }}" data-ng-click="task.detailsVisible = !task.detailsVisible">{{ task.title }}</a></h3></div>
+            <div class="task-title"><h3>
+                <a class="task-status icon" ng-click="toggleStatus(task)" title="{{ task.is_closed ? 'Reopen task' : 'Close task' }}">{{ task.is_closed ? 'c' : 'o' }}</a>
+                <a id="task-{{ task.id }}" data-ng-click="task.detailsVisible = !task.detailsVisible">{{ task.title }}</a>
+            </h3></div>
             <div class="task-created" data-ng-show="task.detailsVisible">Created at: {{ task.created_at|date:'dd.MM.yy HH:mm' }}</div>
             <div class="task-updated" data-ng-show="task.detailsVisible">Updated at: {{ task.updated_at|date:'dd.MM.yy HH:mm' }}</div>
             <div class="task-description" data-ng-bind-html="task.description|nl2br|linkify"></div>
-            <div class="task-status">
-                Status: <span data-task-status-widget data-task="task" data-set="setTaskStatus"></span>
-            </div>
             <div class="task-spent-time">
                 <span>Time spent: <a class="task-total-time" title="Show details" data-ng-click="task.timeEntriesVisible = !task.timeEntriesVisible">{{ task.total_time|time }}</a></span>
                 <a class="task-add-time-entry icon" title="Add time" data-ng-click="showTimeEntryForm(task, {})">+</a>
