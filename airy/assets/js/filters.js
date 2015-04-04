@@ -22,14 +22,16 @@
     function time() {
         return function (value) {
             var duration = moment.duration(parseFloat(value), 'hours');
-            return duration.hours() + ':' + zfill(duration.minutes());
+            var hours = duration.days() * 24 + duration.hours();
+            return hours + ':' + zfill(duration.minutes());
         };
     }
 
     function timer() {
         return function (value) {
             var duration = moment.duration(parseFloat(value), 'hours');
-            return duration.hours() + ':' + zfill(duration.minutes()) +
+            var hours = duration.days() * 24 + duration.hours();
+            return hours + ':' + zfill(duration.minutes()) +
                 ':' + zfill(duration.seconds());
         };
     }

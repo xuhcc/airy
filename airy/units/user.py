@@ -1,8 +1,10 @@
 import logging
 
+import arrow
 from sqlalchemy.sql import func
+from sqlalchemy import between
 
-from airy.utils.date import tz_now, day_beginning, week_beginning
+from airy.utils.date import tz_now
 from airy.database import db
 from airy.models import Task, TimeEntry
 from airy import settings
@@ -31,16 +33,18 @@ class User(object):
 
     @property
     def total_today(self):
-        now = tz_now()
+        day_beg = arrow.get(tz_now()).floor('day').datetime
+        day_end = arrow.get(day_beg).ceil('day').datetime
         query = db.session.query(func.sum(TimeEntry.amount)).\
-            filter(TimeEntry.added_at >= day_beginning(now))
+            filter(between(TimeEntry.added_at, day_beg, day_end))
         return query.scalar() or 0
 
     @property
     def total_week(self):
-        now = tz_now()
+        week_beg = arrow.get(tz_now()).floor('week').datetime
+        week_end = arrow.get(week_beg).ceil('week').datetime
         query = db.session.query(func.sum(TimeEntry.amount)).\
-            filter(TimeEntry.added_at >= week_beginning(now))
+            filter(between(TimeEntry.added_at, week_beg, week_end))
         return query.scalar() or 0
 
     def serialize(self):
