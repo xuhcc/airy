@@ -106,6 +106,10 @@
         };
         $scope.$watch('weekBeg', $scope.getTimeSheet);
         $scope.weekBeg = moment().startOf('isoWeek').format();
+
+        $scope.sendByEmail = function () {
+            clientResource.sendTimeSheet($stateParams.clientId, $scope.weekBeg);
+        };
     }
 
     function ClientDetailController($scope, $stateParams, $rootScope, ngDialog,

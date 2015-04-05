@@ -39,6 +39,12 @@ class TimeSheet(Resource):
                                      request.args.get('week_beg'))
         return {'timesheet': timesheet.get()}
 
+    def post(self, client_id):
+        timesheet = report.TimeSheet(
+            client_id,
+            (request.get_json() or {}).get('week_beg'))
+        timesheet.send()
+
 
 client_api_bp = Blueprint('client_api', __name__)
 client_api = Api(client_api_bp, decorators=[requires_auth])

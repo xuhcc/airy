@@ -1,6 +1,6 @@
 import datetime
 
-from airy.utils import date
+from airy.utils import date, email
 
 
 class TestDateUtils():
@@ -24,3 +24,16 @@ class TestDateUtils():
         assert beginning.minute == 0
         assert beginning.second == 0
         assert beginning.date() == dt.date() - datetime.timedelta(days=1)
+
+
+class TestEmailUtils():
+
+    def test_send(self, mocker):
+        smtp_mock = mocker.patch('airy.utils.email.smtplib.SMTP')
+        email.send('TestSubject', 'TestContent', 'test@example.net')
+        session_mock = smtp_mock.return_value
+        assert session_mock.login.called
+        assert session_mock.send_message.call_count == 1
+        message = session_mock.send_message.call_args[0][0]
+        assert message['Subject'] == 'TestSubject'
+        assert message['To'] == 'test@example.net'

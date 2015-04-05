@@ -72,6 +72,11 @@
                 return $http.get(
                     '/clients/' + client_id + '/timesheet',
                     {params: {week_beg: week_beg}});
+            },
+            'sendTimeSheet': function (client_id, week_beg) {
+                return $http.post(
+                    '/clients/' + client_id + '/timesheet',
+                    {week_beg: week_beg});
             }
         };
     }

@@ -10,5 +10,12 @@ secret_key = "1234567890"
 
 timezone = "Europe/Moscow"
 
+smtp_server = "example.com"
+smtp_port = 2525
+smtp_user = "username@example.com"
+smtp_password = "1234567890"
+smtp_sender = "no-reply@example.com"
+
 username = "username"
 password = "password"
+email = "username@example.com"

@@ -35,13 +35,14 @@ describe('Controllers', function () {
         var scope;
         var buildCtrl;
         var clientResourceMock = {
-            getTimeSheet: function (clientId) {
+            getTimeSheet: function (clientId, weekBeg) {
                 return {
                     success: function (successCallback) {
                         return {timesheet: {data: []}};
                     }
                 };
-            }
+            },
+            sendTimeSheet: function (clientId, weekBeg) {}
         };
         var clientId = 1;
 
@@ -73,6 +74,14 @@ describe('Controllers', function () {
             scope.weekBeg = '2015-03-16T00:00:00+03:00';
             scope.$digest();
             expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
+        });
+
+        it('should send timesheet by email', function () {
+            buildCtrl();
+            scope.$digest();
+            spyOn(clientResourceMock, 'sendTimeSheet').and.callThrough();
+            scope.sendByEmail();
+            expect(clientResourceMock.sendTimeSheet).toHaveBeenCalled();
         });
     });
 

@@ -82,11 +82,10 @@ class TestClientApi():
         response = self.client.delete(url)
         assert response.status_code == 404
 
-    def test_timesheet(self):
+    def test_get_timesheet(self):
         week_beg = week_beginning(tz_now())
-        time_entry = TimeEntryFactory.create(added_at=week_beg)
+        client = ClientFactory.create()
         self.db.session.commit()
-        client = time_entry.task.project.client
 
         url = url_for('client_api.timesheet', client_id=client.id)
 
@@ -101,11 +100,24 @@ class TestClientApi():
         assert client_data['name'] == client.name
         assert response.json['timesheet']['week_beg'] == week_beg.isoformat()
 
-        data = response.json['timesheet']['data']
-        assert data[0]['time'][0]['amount'] == str(time_entry.amount)
-        assert data[0]['total'] == str(time_entry.amount)
-        totals = response.json['timesheet']['totals']
-        assert totals['total'] == str(time_entry.amount)
+    def test_send_timesheet(self, mocker):
+        week_beg = week_beginning(tz_now())
+        client = ClientFactory.create()
+        self.db.session.commit()
+
+        url = url_for('client_api.timesheet', client_id=client.id)
+        send_mock = mocker.patch('airy.utils.email.send')
+
+        response = self.client.post(url)
+        assert response.status_code == 400
+
+        response = self.client.post(url, json={
+            'week_beg': week_beg.isoformat()})
+        assert response.status_code == 200
+        assert send_mock.call_count == 1
+        args = send_mock.call_args[0]
+        assert client.name in args[0]  # Subject
+        assert args[2] == settings.email
 
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')

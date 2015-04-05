@@ -6,10 +6,12 @@ import arrow
 from sqlalchemy.sql import func
 from sqlalchemy import between
 
+from airy import settings
 from airy.database import db
 from airy.models import Client, Project, Task, TimeEntry
 from airy.serializers import ClientSerializer, ProjectSerializer
 from airy.exceptions import ClientError, ProjectError
+from airy.utils import email
 
 
 class TimeSheet(object):
@@ -83,6 +85,11 @@ class TimeSheet(object):
                                        in daily_totals.values()]
         timesheet['totals']['total'] = str(sum(daily_totals.values()))
         return timesheet
+
+    def send(self):
+        email.send('Timesheet for {0}'.format(self.client.name),
+                   str(self.get()),
+                   settings.email)
 
 
 def get_task_report(project_id, week_beg_str):

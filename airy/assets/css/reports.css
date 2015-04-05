@@ -11,7 +11,3 @@
 .report tr:last-child {
     font-weight: bold;
 }
-
-.report-return {
-    display: block;
-}
