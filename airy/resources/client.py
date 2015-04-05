@@ -35,8 +35,9 @@ class Client(Resource):
 class TimeSheet(Resource):
 
     def get(self, client_id):
-        week_beg = request.args.get('week_beg')
-        return {'timesheet': report.get_timesheet(client_id, week_beg)}
+        timesheet = report.TimeSheet(client_id,
+                                     request.args.get('week_beg'))
+        return {'timesheet': timesheet.get()}
 
 
 client_api_bp = Blueprint('client_api', __name__)
