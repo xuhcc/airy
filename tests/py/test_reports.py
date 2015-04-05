@@ -1,3 +1,5 @@
+import datetime
+from decimal import Decimal
 import pytest
 
 from airy.utils.date import tz_now, week_beginning
@@ -20,16 +22,25 @@ class TestTimeSheet(object):
 
     def test_get(self):
         week_beg = week_beginning(tz_now())
-        time_entry = TimeEntryFactory.create(added_at=week_beg)
+        client = ClientFactory.create()
+        time_entries = []
+        for day in range(7):
+            time_entries.append(TimeEntryFactory.create(
+                task__project__client=client,
+                added_at=week_beg + datetime.timedelta(days=day)))
         self.db.session.commit()
-        client = time_entry.task.project.client
+
         timesheet = TimeSheet(client.id, week_beg.isoformat())
         result = timesheet.get()
 
         assert result['client']['name'] == client.name
         assert result['week_beg'] == week_beg.isoformat()
-        data = result['data']
-        assert data[0]['time'][0]['amount'] == str(time_entry.amount)
-        assert data[0]['total'] == str(time_entry.amount)
-        totals = result['totals']
-        assert totals['total'] == str(time_entry.amount)
+        assert len(result['projects']) == 7
+
+        total_1 = sum(item.amount for item in time_entries)
+        total_2 = sum(Decimal(project['total'])
+                      for project in result['projects'])
+        total_3 = sum(Decimal(amount)
+                      for amount in result['totals']['time'])
+        total_4 = Decimal(result['totals']['total'])
+        assert total_1 == total_2 == total_3 == total_4

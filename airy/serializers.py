@@ -161,3 +161,33 @@ def validate_unique_client_name(schema, client):
             raise ValidationError(
                 'Client {0} already exists'.format(client['name']),
                 'name')
+
+
+class TimeSheetSerializer(Schema):
+
+    client = fields.Nested(ClientSerializer, only=['id', 'name'])
+    week_beg = fields.Function(lambda obj: obj['week_beg'].isoformat())
+    week_end = fields.Function(lambda obj: obj['week_beg'].isoformat())
+    projects = fields.Method('serialize_projects')
+    totals = fields.Method('serialize_totals')
+
+    class Meta:
+        strict = True
+
+    def serialize_projects(self, obj):
+        data = obj['projects'].copy()
+        project_serializer = ProjectSerializer(only=['id', 'name'],
+                                               strict=True)
+        for row in data:
+            row['project'] = project_serializer.dump(row['project']).data
+            row['total'] = str(row['total'])
+            for day_data in row['time']:
+                day_data['amount'] = str(day_data['amount'])
+                day_data['tasks'] = '\n'.join(day_data['tasks'])
+        return data
+
+    def serialize_totals(self, obj):
+        totals = obj['totals'].copy()
+        totals['time'] = [str(val) for val in totals['time']]
+        totals['total'] = str(totals['total'])
+        return totals
