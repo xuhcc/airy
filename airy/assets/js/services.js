@@ -201,9 +201,8 @@
                 var template = '\
                     <form class="pure-form calculator-form">\
                         <fieldset>\
-                            <label for="price">{{ amount }} ×</label>\
-                            <input type="text" id="price" ng-model="price">\
-                            <span class="result">= {{ getResult() }}</span>\
+                            <input type="text" class="price" ng-model="price"><!--\
+                            --><input type="text" class="result" readonly value="{{ getResult() }}">\
                         </fieldset>\
                     </form>';
                 ngDialog.open({
@@ -214,7 +213,7 @@
                         $scope.price = 0;
                         $scope.getResult = function () {
                             var result = parseFloat($scope.amount) * parseInt($scope.price);
-                            return result.toFixed(2);
+                            return $scope.amount + ' × ' + $scope.price + ' = ' + result.toFixed(2);
                         };
                     },
                     data: {amount: amount}

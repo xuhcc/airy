@@ -36,6 +36,7 @@ module.exports = function (grunt) {
             options: {
                 'adjoining-classes': false,
                 'ids': false,
+                'important': false
             },
             main: {
                 src: '<%= paths.app.css %>'
