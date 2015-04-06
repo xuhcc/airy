@@ -11,3 +11,23 @@
 .report tr:last-child {
     font-weight: bold;
 }
+
+.calculator-form fieldset {
+    padding: 10px 0;
+}
+
+.calculator-form label[for="price"] {
+    display: inline-block;
+    text-align: right;
+    width: 70px;
+}
+
+.calculator-form #price {
+    width: 70px;
+}
+
+.calculator-form .result {
+    display: inline-block;
+    text-align: left;
+    width: 100px;
+}

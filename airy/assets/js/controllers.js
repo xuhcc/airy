@@ -94,7 +94,7 @@
         };
     }
 
-    function ClientTimeSheetCtrl($scope, $stateParams, $rootScope, clientResource) {
+    function ClientTimeSheetCtrl($scope, $stateParams, $rootScope, clientResource, calculator) {
         $scope.timesheet = {};
         $scope.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
@@ -106,6 +106,10 @@
         };
         $scope.$watch('weekBeg', $scope.getTimeSheet);
         $scope.weekBeg = moment().startOf('isoWeek').format();
+
+        $scope.showCalculator = function (amount) {
+            calculator.show(amount);
+        };
 
         $scope.sendByEmail = function () {
             clientResource.sendTimeSheet($stateParams.clientId, $scope.weekBeg);
@@ -291,7 +295,7 @@
         $scope.fetchProject();
     }
 
-    function ProjectReportController($scope, $stateParams, $rootScope, projectResource) {
+    function ProjectReportController($scope, $stateParams, $rootScope, projectResource, calculator) {
         $scope.report = {};
 
         $scope.getReport = function () {
@@ -302,6 +306,10 @@
         };
         $scope.$watch('weekBeg', $scope.getReport);
         $scope.weekBeg = moment().startOf('isoWeek').format();
+
+        $scope.showCalculator = function (amount) {
+            calculator.show(amount);
+        };
 
         $scope.sendByEmail = function () {
             projectResource.sendReport($stateParams.projectId, $scope.weekBeg);

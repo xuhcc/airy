@@ -9,6 +9,7 @@
         .factory('taskResource', taskResource)
         .factory('timeEntryResource', timeEntryResource)
         .factory('airyModal', airyModal)
+        .factory('calculator', calculator)
         .factory('httpErrorHandler', httpErrorHandler);
 
     function airyUser($http, $state, airyModal) {
@@ -189,6 +190,34 @@
                     if (data === 1) {
                         confirmCallback();
                     }
+                });
+            }
+        };
+    }
+
+    function calculator(ngDialog) {
+        return {
+            show: function (amount) {
+                var template = '\
+                    <form class="pure-form calculator-form">\
+                        <fieldset>\
+                            <label for="price">{{ amount }} ×</label>\
+                            <input type="text" id="price" ng-model="price">\
+                            <span class="result">= {{ getResult() }}</span>\
+                        </fieldset>\
+                    </form>';
+                ngDialog.open({
+                    template: template,
+                    plain: true,
+                    controller: function ($scope) {
+                        $scope.amount = $scope.ngDialogData.amount;
+                        $scope.price = 0;
+                        $scope.getResult = function () {
+                            var result = parseFloat($scope.amount) * parseInt($scope.price);
+                            return result.toFixed(2);
+                        };
+                    },
+                    data: {amount: amount}
                 });
             }
         };

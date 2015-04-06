@@ -20,7 +20,7 @@
             <tr>
                 <td>&nbsp;</td>
                 <td ng-repeat="day_total in timesheet.totals.time track by $index">{{ day_total|time }}</td>
-                <td>{{ timesheet.totals.total|time }}</td>
+                <td><a ng-click="showCalculator(timesheet.totals.total)">{{ timesheet.totals.total|time }}</a></td>
             </tr>
         </tbody>
     </table>

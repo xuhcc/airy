@@ -52,7 +52,8 @@ describe('Controllers', function () {
                 return $controller('ClientTimeSheetCtrl', {
                     $scope: scope,
                     $stateParams: {clientId: clientId},
-                    clientResource: clientResourceMock
+                    clientResource: clientResourceMock,
+                    calculator: {show: function () {}}
                 });
             };
         }));
@@ -106,7 +107,8 @@ describe('Controllers', function () {
                     $scope: scope,
                     $stateParams: {projectId: projectId},
                     $rootScope: $rootScope,
-                    projectResource: projectResourceMock
+                    projectResource: projectResourceMock,
+                    calculator: {show: function () {}}
                 });
             };
         }));

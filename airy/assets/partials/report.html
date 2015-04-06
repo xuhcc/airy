@@ -17,7 +17,7 @@
             </tr>
             <tr>
                 <td>Total</td>
-                <td>{{ report.total|time }}</td>
+                <td><a ng-click="showCalculator(report.total)">{{ report.total|time }}</a></td>
             </tr>
         </tbody>
     </table>
