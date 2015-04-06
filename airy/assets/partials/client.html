@@ -3,6 +3,7 @@
         <h2>Projects from {{ client.name }}</h2>
         <div class="client-contacts" data-ng-bind-html="client.contacts|nl2br|linkify"></div>
     </div>
+    <a class="content-nav-link" ui-sref="client_timesheet({clientId: client.id})">view timesheet</a>
     <div class="projects" >
         <div class="project" data-ng-repeat="project in client.projects">
             <div class="project-menu">
