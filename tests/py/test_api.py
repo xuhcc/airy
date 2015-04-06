@@ -180,8 +180,7 @@ class TestProjectApi():
     def test_get_report(self):
         week_beg = week_beginning(tz_now())
         project = ProjectFactory.create()
-        tasks = TaskFactory.create_batch(3, project=project)
-        time_entry = TimeEntryFactory.create(task=tasks[0],
+        time_entry = TimeEntryFactory.create(task__project=project,
                                              added_at=week_beg)
         self.db.session.commit()
 

@@ -33,8 +33,9 @@ class Report(Resource):
 
     def get(self, project_id):
         # Get report
-        week_beg = request.args.get('week_beg')
-        return {'report': report.get_task_report(project_id, week_beg)}
+        task_report = report.TaskReport(project_id,
+                                        request.args.get('week_beg'))
+        return {'report': task_report.get()}
 
 
 project_api_bp = Blueprint('project_api', __name__)

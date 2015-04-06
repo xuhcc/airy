@@ -11,7 +11,7 @@ from sqlalchemy import between
 from airy import settings
 from airy.database import db
 from airy.models import Client, Project, Task, TimeEntry
-from airy.serializers import ProjectSerializer, TimeSheetSerializer
+from airy.serializers import TimeSheetSerializer, TaskReportSerializer
 from airy.exceptions import ClientError, ProjectError
 from airy.utils import email
 
@@ -95,38 +95,46 @@ class TimeSheet(object):
                    settings.email)
 
 
-def get_task_report(project_id, week_beg_str):
-    project = Project.query.get(project_id)
-    if not project:
-        raise ProjectError("Project #{0} not found".format(project_id), 404)
-    if not week_beg_str:
-        raise ProjectError('Invalid date', 400)
-    try:
-        week_beg = arrow.get(week_beg_str).floor('week').datetime
-    except arrow.parser.ParserError:
-        raise ProjectError('Invalid date', 400)
-    week_end = arrow.get(week_beg).ceil('week').datetime
+class TaskReport(object):
 
-    query = db.session.\
-        query(Task.title, func.sum(TimeEntry.amount)).\
-        join(Task.time_entries).\
-        filter(Task.project_id == project.id).\
-        filter(between(TimeEntry.added_at, week_beg, week_end)).\
-        group_by(Task.id)
+    def __init__(self, project_id, week_beg_str):
+        self.project = Project.query.get(project_id)
+        if not self.project:
+            raise ProjectError(
+                'Project #{0} not found'.format(project_id), 404)
+        if not week_beg_str:
+            raise ProjectError('Invalid date', 400)
+        try:
+            self.week_beg = arrow.get(week_beg_str).floor('week').datetime
+        except arrow.parser.ParserError:
+            raise ProjectError('Invalid date', 400)
+        self.week_end = arrow.get(self.week_beg).ceil('week').datetime
 
-    report = {
-        'project': ProjectSerializer(
-            only=['id', 'name'], strict=True).dump(project).data,
-        'week_beg': week_beg.isoformat(),
-        'week_end': week_end.isoformat(),
-        'tasks': [],
-    }
-    project_total = Decimal('0.00')
-    for row in query:
-        report['tasks'].append({
-            'title': row[0],
-            'amount': str(row[1]),
-        })
-        project_total += row[1]
-    report['total'] = str(project_total)
-    return report
+    def _build(self):
+
+        query = db.session.\
+            query(Task.title, func.sum(TimeEntry.amount)).\
+            join(Task.time_entries).\
+            filter(Task.project_id == self.project.id).\
+            filter(between(TimeEntry.added_at, self.week_beg, self.week_end)).\
+            group_by(Task.id)
+
+        tasks = []
+        project_total = Decimal('0.00')
+
+        for row in query:
+            tasks.append({'title': row[0], 'amount': row[1]})
+            project_total += row[1]
+
+        report = {
+            'project': self.project,
+            'week_beg': self.week_beg,
+            'week_end': self.week_end,
+            'tasks': tasks,
+            'total': project_total,
+        }
+        return report
+
+    def get(self):
+        serializer = TaskReportSerializer()
+        return serializer.dump(self._build()).data

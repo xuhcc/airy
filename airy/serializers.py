@@ -191,3 +191,21 @@ class TimeSheetSerializer(Schema):
         totals['time'] = [str(val) for val in totals['time']]
         totals['total'] = str(totals['total'])
         return totals
+
+
+class TaskReportSerializer(Schema):
+
+    project = fields.Nested(ProjectSerializer, only=['id', 'name'])
+    week_beg = fields.Function(lambda obj: obj['week_beg'].isoformat())
+    week_end = fields.Function(lambda obj: obj['week_beg'].isoformat())
+    tasks = fields.Method('serialize_tasks')
+    total = fields.Decimal(places=2, as_string=True)
+
+    class Meta:
+        strict = True
+
+    def serialize_tasks(self, obj):
+        data = obj['tasks'].copy()
+        for row in data:
+            row['amount'] = str(row['amount'])
+        return data
