@@ -1,0 +1,27 @@
+{% extends 'email/base.html' %}
+
+{% block content %}
+<p class="header">
+    {{ week_beg.strftime('%d %b %Y') }} — {{ week_end.strftime('%d %b %Y') }}
+</p>
+<table>
+    <thead>
+        <tr>
+            <th>Task</th>
+            <th>Time spent</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in tasks %}
+        <tr>
+            <td>{{ row.title }}</td>
+            <td>{{ row.amount|time }}</td>
+        </tr>
+        {% endfor %}
+        <tr class="total">
+            <td>Total</td>
+            <td>{{ total|time }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

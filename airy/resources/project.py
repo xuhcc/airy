@@ -37,6 +37,13 @@ class Report(Resource):
                                         request.args.get('week_beg'))
         return {'report': task_report.get()}
 
+    def post(self, project_id):
+        # Send report by email
+        task_report = report.TaskReport(
+            project_id,
+            (request.get_json() or {}).get('week_beg'))
+        task_report.send()
+
 
 project_api_bp = Blueprint('project_api', __name__)
 project_api = Api(project_api_bp, decorators=[requires_auth])

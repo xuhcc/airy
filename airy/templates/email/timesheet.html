@@ -1,28 +1,7 @@
-<html>
-<style type="text/css">
-    .range {
-        font-size: large;
-        font-weight: bold;
-    }
-    table {
-        border: 1px solid #CBCBCB;
-        width: 600px;
-    }
-    thead {
-        background-color: #E0E0E0;
-    }
-    td, th {
-        border-color: #CBCBCB;
-        border-style: solid;
-        border-width: 0px 1px 1px 0px;
-        padding: 4px 8px;
-    }
-    .totals {
-        font-weight: bold;
-    }
-</style>
+{% extends 'email/base.html' %}
 
-<p class="range">
+{% block content %}
+<p class="header">
     {{ week_beg.strftime('%d %b %Y') }} — {{ week_end.strftime('%d %b %Y') }}
 </p>
 
@@ -47,7 +26,7 @@
             <td>{{ row.total|time }}</td>
         </tr>
         {% endfor %}
-        <tr class="totals">
+        <tr class="total">
             <td>&nbsp;</td>
             {% for day_total in totals.time %}
                 <td>{{ day_total|time }}</td>
@@ -56,4 +35,4 @@
         </tr>
     </tbody>
 </table>
-</html>
+{% endblock %}

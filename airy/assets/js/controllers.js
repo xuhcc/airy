@@ -302,6 +302,10 @@
         };
         $scope.$watch('weekBeg', $scope.getReport);
         $scope.weekBeg = moment().startOf('isoWeek').format();
+
+        $scope.sendByEmail = function () {
+            projectResource.sendReport($stateParams.projectId, $scope.weekBeg);
+        };
     }
 
     function TaskFormController($scope, airyUser, taskResource) {

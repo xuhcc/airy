@@ -138,3 +138,10 @@ class TaskReport(object):
     def get(self):
         serializer = TaskReportSerializer()
         return serializer.dump(self._build()).data
+
+    def send(self):
+        subject = 'Task report for {0}'.format(self.project.name)
+        html = render_template('email/task_report.html', **self._build())
+        email.send(subject,
+                   premailer.transform(html),
+                   settings.email)

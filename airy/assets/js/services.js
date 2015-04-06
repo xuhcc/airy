@@ -106,6 +106,11 @@
                 return $http.get(
                     '/projects/' + project_id + '/report',
                     {params: {week_beg: week_beg}});
+            },
+            'sendReport': function (project_id, week_beg) {
+                return $http.post(
+                    '/projects/' + project_id + '/report',
+                    {week_beg: week_beg});
             }
         };
     }

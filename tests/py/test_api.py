@@ -198,6 +198,25 @@ class TestProjectApi():
         response = self.client.get(url)
         assert response.status_code == 404
 
+    def test_send_report(self, mocker):
+        week_beg = week_beginning(tz_now())
+        project = ProjectFactory.create()
+        self.db.session.commit()
+
+        url = url_for('project_api.report', project_id=project.id)
+        send_mock = mocker.patch('airy.utils.email.send')
+
+        response = self.client.post(url)
+        assert response.status_code == 400
+
+        response = self.client.post(url, json={
+            'week_beg': week_beg.isoformat()})
+        assert response.status_code == 200
+        assert send_mock.call_count == 1
+        args = send_mock.call_args[0]
+        assert project.name in args[0]  # Subject
+        assert args[2] == settings.email
+
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')
 class TestTaskApi():
