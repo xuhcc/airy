@@ -14,7 +14,7 @@ def send(subject, text, recipients):
     if isinstance(recipients, str):
         recipients = [recipients]
     for recipient in recipients:
-        message = MIMEText(text, 'plain')
+        message = MIMEText(text, 'html')
         message['From'] = settings.smtp_sender
         message['To'] = recipient
         message['Subject'] = subject

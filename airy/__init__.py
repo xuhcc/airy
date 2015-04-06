@@ -5,6 +5,7 @@ from flask import Flask
 
 from airy import database, settings, config
 from airy.utils.testing import ApiClient
+from airy.utils import template_filters
 
 from airy.views import base_bp
 from airy.resources.client import client_api_bp
@@ -35,6 +36,8 @@ def create_app(test_sqlalchemy_url=None):
     app.register_blueprint(user_api_bp)
 
     app.test_client_class = ApiClient
+
+    app.jinja_env.filters['time'] = template_filters.time_filter
 
     return app
 

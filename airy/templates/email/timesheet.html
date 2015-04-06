@@ -1,0 +1,59 @@
+<html>
+<style type="text/css">
+    .range {
+        font-size: large;
+        font-weight: bold;
+    }
+    table {
+        border: 1px solid #CBCBCB;
+        width: 600px;
+    }
+    thead {
+        background-color: #E0E0E0;
+    }
+    td, th {
+        border-color: #CBCBCB;
+        border-style: solid;
+        border-width: 0px 1px 1px 0px;
+        padding: 4px 8px;
+    }
+    .totals {
+        font-weight: bold;
+    }
+</style>
+
+<p class="range">
+    {{ week_beg.strftime('%d %b %Y') }} — {{ week_end.strftime('%d %b %Y') }}
+</p>
+
+{% set days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] %}
+<table>
+    <thead>
+        <tr>
+            <th>Project</th>
+            {% for day in days %}
+                <th>{{ day }}</th>
+            {% endfor %}
+            <th>Total time</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in projects %}
+        <tr>
+            <td>{{ row.project.name }}</td>
+            {% for day_data in row.time %}
+                <td>{{ day_data.amount|time }}</td>
+            {% endfor %}
+            <td>{{ row.total|time }}</td>
+        </tr>
+        {% endfor %}
+        <tr class="totals">
+            <td>&nbsp;</td>
+            {% for day_total in totals.time %}
+                <td>{{ day_total|time }}</td>
+            {% endfor %}
+            <td>{{ totals.total|time }}</td>
+        </tr>
+    </tbody>
+</table>
+</html>

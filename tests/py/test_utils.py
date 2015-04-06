@@ -1,6 +1,7 @@
 import datetime
+from decimal import Decimal
 
-from airy.utils import date, email
+from airy.utils import date, email, template_filters
 
 
 class TestDateUtils():
@@ -37,3 +38,14 @@ class TestEmailUtils():
         message = session_mock.send_message.call_args[0][0]
         assert message['Subject'] == 'TestSubject'
         assert message['To'] == 'test@example.net'
+
+
+class TestTemplateFilters(object):
+
+    def test_time_filter(self):
+        result_1 = template_filters.time_filter(Decimal('0.00'))
+        assert result_1 == '0:00'
+        result_2 = template_filters.time_filter(Decimal('32.50'))
+        assert result_2 == '32:30'
+        result_3 = template_filters.time_filter(Decimal('1.1667'))
+        assert result_3 == '1:10'

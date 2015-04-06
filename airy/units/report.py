@@ -3,6 +3,8 @@ from decimal import Decimal
 import itertools
 
 import arrow
+from flask import render_template
+import premailer
 from sqlalchemy.sql import func
 from sqlalchemy import between
 
@@ -86,8 +88,10 @@ class TimeSheet(object):
         return serializer.dump(self._build()).data
 
     def send(self):
-        email.send('Timesheet for {0}'.format(self.client.name),
-                   str(self.get()),
+        subject = 'Timesheet for {0}'.format(self.client.name)
+        html = render_template('email/timesheet.html', **self._build())
+        email.send(subject,
+                   premailer.transform(html),
                    settings.email)
 
 
