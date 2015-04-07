@@ -7,16 +7,12 @@ from airy.utils.date import tz_now
 
 class UserSerializer(Schema):
 
+    name = fields.String()
+    open_tasks = fields.Integer()
     total_today = fields.Decimal(places=2, as_string=True)
     total_week = fields.Decimal(places=2, as_string=True)
 
     class Meta:
-        fields = [
-            'name',
-            'open_tasks',
-            'total_today',
-            'total_week',
-        ]
         strict = True
 
 
@@ -43,15 +39,6 @@ class TimeEntrySerializer(Schema):
 
     added_at = fields.DateTime()
 
-    class Meta:
-        fields = [
-            'id',
-            'amount',
-            'comment',
-            'task_id',
-            'added_at',
-        ]
-
     def make_object(self, data):
         if 'id' not in data:
             data['added_at'] = tz_now()
@@ -74,22 +61,11 @@ class TaskSerializer(Schema):
 
     created_at = fields.DateTime()
     updated_at = fields.DateTime()
-    time_entries = fields.Nested(TimeEntrySerializer, many=True)
+    time_entries = fields.Nested(TimeEntrySerializer,
+                                 exclude=['task_id'],
+                                 many=True)
     total_time = fields.Decimal(places=2, as_string=True)
     is_closed = fields.Boolean()
-
-    class Meta:
-        fields = [
-            'id',
-            'title',
-            'description',
-            'project_id',
-            'created_at',
-            'updated_at',
-            'time_entries',
-            'total_time',
-            'is_closed',
-        ]
 
     def make_object(self, data):
         if 'id' not in data:
@@ -112,18 +88,20 @@ class ProjectSerializer(Schema):
     client_id = fields.Integer(required=True,
                                validate=validate_client_id)
 
+    tasks = fields.Nested(TaskSerializer,
+                          exclude=['project_id'],
+                          many=True)
     last_task = fields.Nested(TaskSerializer,
                               only=['id', 'title'],
                               allow_null=True)
 
-    class Meta:
-        fields = [
-            'id',
-            'name',
-            'description',
-            'client_id',
-            'last_task',
-        ]
+    def __init__(self, *args, **kwargs):
+        task_status = kwargs.pop('task_status', None)
+        super().__init__(*args, **kwargs)
+        if task_status == 'open':
+            self.fields['tasks'].attribute = 'open_tasks'
+        elif task_status == 'closed':
+            self.fields['tasks'].attribute = 'closed_tasks'
 
     def make_object(self, data):
         return Project(**data)
@@ -136,16 +114,8 @@ class ClientSerializer(Schema):
     contacts = fields.String(validate=validate.Length(max=700))
 
     projects = fields.Nested(ProjectSerializer,
-                             only=['id', 'name'],
+                             exclude=['client_id', 'tasks'],
                              many=True)
-
-    class Meta:
-        fields = [
-            'id',
-            'name',
-            'contacts',
-            'projects',
-        ]
 
     def make_object(self, data):
         return Client(**data)

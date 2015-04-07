@@ -128,10 +128,6 @@
         };
 
         $scope.showProjectForm = function (project) {
-            if (!project.id) {
-                project.client_id = $scope.client.id;
-            }
-            $scope.currentProject = project;
             ngDialog.open({
                 template: 'static/partials/project_form.html',
                 controller: 'ProjectFormController',
@@ -163,6 +159,7 @@
         $scope.project = angular.copy($scope.ngDialogData.project);
 
         $scope.submitForm = function () {
+            $scope.project.client_id = $scope.$parent.client.id;
             if (!$scope.project.id) {
                 $scope.createProject($scope.project);
             } else {
@@ -212,10 +209,6 @@
         };
 
         $scope.showTaskForm = function (task) {
-            if (!task.id) {
-                task.project_id = $scope.project.id;
-            }
-            $scope.currentTask = task;
             ngDialog.open({
                 template: 'static/partials/task_form.html',
                 controller: 'TaskFormController',
@@ -260,17 +253,15 @@
         };
 
         $scope.showTimeEntryForm = function (task, timeEntry, amount) {
-            if (!timeEntry.id) {
-                timeEntry.task_id = task.id;
-                if (amount) {
-                    timeEntry.amount = amount.toFixed(2);
-                }
-            }
             ngDialog.open({
                 template: 'static/partials/time_entry_form.html',
                 controller: 'TimeEntryFormController',
                 scope: $scope,
-                data: {task: task, timeEntry: timeEntry}
+                data: {
+                    task: task,
+                    timeEntry: timeEntry,
+                    amount: amount
+                }
             });
         };
 
@@ -320,6 +311,7 @@
         $scope.task = angular.copy($scope.ngDialogData.task);
 
         $scope.submitForm = function () {
+            $scope.task.project_id = $scope.$parent.project.id;
             if (!$scope.task.id) {
                 $scope.createTask($scope.task);
             } else {
@@ -353,6 +345,9 @@
 
     function TimeEntryFormController($scope, timeEntryResource, airyUser) {
         $scope.timeEntry = angular.copy($scope.ngDialogData.timeEntry);
+        if ($scope.ngDialogData.amount) {
+            $scope.timeEntry.amount = $scope.ngDialogData.amount.toFixed(2);
+        }
         if ($scope.timeEntry.amount) {
             $scope.time = getTime();
         }
@@ -372,6 +367,7 @@
         }
 
         $scope.submitForm = function () {
+            $scope.timeEntry.task_id = $scope.ngDialogData.task.id;
             $scope.timeEntry.amount = getAmount();
             if (!$scope.timeEntry.id) {
                 $scope.createTimeEntry($scope.timeEntry);

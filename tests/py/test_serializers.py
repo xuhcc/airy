@@ -28,7 +28,8 @@ class TestClientSerializer():
         project_data = data['projects'][0]
         assert project_data['id'] == project.id
         assert project_data['name'] == project.name
-        assert 'last_task' not in project_data
+        assert 'client_id' not in project_data
+        assert 'tasks' not in project_data
 
     def test_create(self):
         data = ClientFactory.stub().__dict__
@@ -76,21 +77,33 @@ class TestProjectSerializer():
         assert data['name'] == project.name
         assert data['description'] == project.description
         assert data['last_task'] is None
+        assert not data['tasks']
 
-        task = TaskFactory.create(project=project)
+        task_1 = TaskFactory.create(project=project, status='open')
+        task_2 = TaskFactory.create(project=project, status='closed')
         self.db.session.commit()
         data = serializer.dump(project).data
         assert data['last_task'] is not None
-        assert data['last_task']['id'] == task.id
-        assert data['last_task']['title'] == task.title
+        assert data['last_task']['id'] == task_1.id
+        assert data['last_task']['title'] == task_1.title
         assert 'time_entries' not in data['last_task']
+
+        data = ProjectSerializer(
+            strict=True, task_status='open').dump(project).data
+        assert len(data['tasks']) == 1
+        assert data['tasks'][0]['id'] == task_1.id
+        assert 'project_id' not in data['tasks'][0]
+        data = ProjectSerializer(
+            strict=True, task_status='closed').dump(project).data
+        assert len(data['tasks']) == 1
+        assert data['tasks'][0]['id'] == task_2.id
 
     def test_create(self):
         client = ClientFactory.create()
         self.db.session.commit()
         data = ProjectFactory.stub(client=None).__dict__
         data['client_id'] = client.id
-        serializer = ProjectSerializer(exclude=['last_task'])
+        serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
         instance, errors = serializer.load(data)
         assert not errors
         assert instance.id is None
@@ -103,7 +116,7 @@ class TestProjectSerializer():
         data = ProjectFactory.stub(client=None).__dict__
         data['id'] = project.id
         data['client_id'] = project.client.id
-        serializer = ProjectSerializer(exclude=['last_task'])
+        serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
         instance, errors = serializer.load(data)
         assert not errors
         assert instance.id == project.id
@@ -111,7 +124,7 @@ class TestProjectSerializer():
         assert instance.client_id == project.client.id
 
     def test_required(self):
-        serializer = ProjectSerializer(exclude=['last_task'])
+        serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
         instance, errors = serializer.load({})
         assert 'name' in errors
         assert 'client_id' in errors
@@ -119,7 +132,7 @@ class TestProjectSerializer():
     def test_validate_client_id(self):
         data = ProjectFactory.stub(client=None).__dict__
         data['client_id'] = 0
-        serializer = ProjectSerializer(exclude=['last_task'])
+        serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
         instance, errors = serializer.load(data)
         assert 'client_id' in errors
 
@@ -143,6 +156,7 @@ class TestTaskSerializer():
         assert time_data['id'] == time_entry.id
         assert time_data['amount'] == str(time_entry.amount)
         assert time_data['comment'] == time_entry.comment
+        assert 'task_id' not in time_data
 
     def test_create(self):
         project = ProjectFactory.create()

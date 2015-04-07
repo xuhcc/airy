@@ -3,19 +3,14 @@ from sqlalchemy import func
 from airy.models import Client, Project, Task
 from airy.exceptions import ClientError
 from airy.database import db
-from airy.serializers import ClientSerializer, ProjectSerializer
+from airy.serializers import ClientSerializer
 
 
 def get(client_id):
     client = db.session.query(Client).get(client_id)
     if not client:
         raise ClientError("Client #{0} not found".format(client_id), 404)
-    serialized_projects = ProjectSerializer(many=True, strict=True).\
-        dump(client.projects)
-    serializer = ClientSerializer(
-        only=['id', 'name', 'contacts'],
-        extra={'projects': serialized_projects.data},
-        strict=True)
+    serializer = ClientSerializer(strict=True)
     return serializer.dump(client).data
 
 

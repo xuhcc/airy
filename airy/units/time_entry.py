@@ -15,13 +15,14 @@ def save(data, time_entry_id=None):
             raise TimeEntryError(
                 'Time entry #{0} not found'.format(time_entry_id), 404)
         data['id'] = time_entry_id
-    serializer = TimeEntrySerializer(exclude=['added_at'])
+    serializer = TimeEntrySerializer(exclude='added_at')
     time_entry, errors = serializer.load(data)
     if errors:
         raise TimeEntryError(errors, 400)
     time_entry = db.session.merge(time_entry)
     db.session.commit()
     serializer = TimeEntrySerializer(
+        exclude='task_id',
         extra={'task_total_time': str(time_entry.task.total_time)},
         strict=True)
     return serializer.dump(time_entry).data

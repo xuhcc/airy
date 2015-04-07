@@ -1,9 +1,9 @@
 import logging
 
-from airy.models import Project
+from airy.models import Project, TaskStatus
 from airy.exceptions import ProjectError
 from airy.database import db
-from airy.serializers import ProjectSerializer, TaskSerializer
+from airy.serializers import ProjectSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -12,16 +12,12 @@ def get(project_id, task_status):
     project = db.session.query(Project).get(project_id)
     if not project:
         raise ProjectError("Project #{0} not found".format(project_id), 404)
-    if task_status == 'open':
-        serialized_tasks = TaskSerializer(many=True).dump(project.open_tasks)
-    elif task_status == 'closed':
-        serialized_tasks = TaskSerializer(many=True).dump(project.closed_tasks)
-    else:
+    if task_status not in TaskStatus.enums:
         raise ProjectError('Invalid status')
     serializer = ProjectSerializer(
-        only=['id', 'name', 'description'],
-        extra={'tasks': serialized_tasks.data},
-        strict=True)
+        exclude='last_task',
+        strict=True,
+        task_status=task_status)
     return serializer.dump(project).data
 
 
@@ -32,13 +28,14 @@ def save(data, project_id=None):
             raise ProjectError(
                 'Project #{0} not found'.format(project_id), 404)
         data['id'] = project_id
-    serializer = ProjectSerializer(exclude=['last_task'])
+    serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
     project, errors = serializer.load(data)
     if errors:
         raise ProjectError(errors, 400)
     project = db.session.merge(project)
     db.session.commit()
-    serializer = ProjectSerializer(strict=True)
+    serializer = ProjectSerializer(exclude=['client_id', 'tasks'],
+                                   strict=True)
     return serializer.dump(project).data
 
 

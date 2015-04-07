@@ -160,14 +160,20 @@ describe('Controllers', function () {
         }));
 
         it('should show hours and minutes', function () {
-            scope.ngDialogData = {timeEntry: {amount: 1.5}};
+            scope.ngDialogData = {
+                timeEntry: {amount: 1.5},
+                task: {id: 1}
+            };
             buildCtrl();
             expect(scope.time.hours).toBe(1);
             expect(scope.time.minutes).toBe(30);
         });
 
         it('should add 30 minutes', function () {
-            scope.ngDialogData = {timeEntry: {}};
+            scope.ngDialogData = {
+                timeEntry: {},
+                task: {id: 1}
+            };
             buildCtrl();
             expect(scope.time).toBeUndefined();
             scope.incrementTimeAmount();
@@ -181,7 +187,10 @@ describe('Controllers', function () {
         });
 
         it('should create time entry', function () {
-            scope.ngDialogData = {timeEntry: {}};
+            scope.ngDialogData = {
+                timeEntry: {},
+                task: {id: 3}
+            };
             buildCtrl();
             scope.time = {hours: 1, minutes: 30};
             spyOn(timeEntryResourceMock, 'create').and.callThrough();
@@ -189,10 +198,14 @@ describe('Controllers', function () {
             expect(timeEntryResourceMock.create).toHaveBeenCalled();
             var timeEntry = timeEntryResourceMock.create.calls.argsFor(0)[0];
             expect(timeEntry.amount).toBe(1.5);
+            expect(timeEntry.task_id).toBe(3);
         });
 
         it('should update time entry', function () {
-            scope.ngDialogData = {timeEntry: {id: 1, amount: 1}};
+            scope.ngDialogData = {
+                timeEntry: {id: 1, amount: 1},
+                task: {id: 5}
+            };
             buildCtrl();
             scope.incrementTimeAmount();
             spyOn(timeEntryResourceMock, 'update').and.callThrough();
@@ -200,6 +213,7 @@ describe('Controllers', function () {
             expect(timeEntryResourceMock.update).toHaveBeenCalled();
             var timeEntry = timeEntryResourceMock.update.calls.argsFor(0)[0];
             expect(timeEntry.amount).toBe(1.5);
+            expect(timeEntry.task_id).toBe(5);
         });
     });
 });
