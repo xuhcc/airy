@@ -43,17 +43,22 @@ class Project(db.Model):
             order_by(Task.updated_at.desc())
         return query.first()
 
-    def selected_tasks(self, select_closed):
+    def select_tasks_by_status(self, status):
         session = object_session(self)
-        if select_closed:
-            status_condition = (Task.status == "closed")
-        else:
-            status_condition = (Task.status != "closed")
         query = session.query(Task).\
             filter(Task.project_id == self.id).\
-            filter(status_condition).\
+            filter(Task.status == status).\
             order_by(Task.status.asc(), Task.updated_at.desc())
         return query.all()
+
+    @property
+    def open_tasks(self):
+        return self.select_tasks_by_status('open')
+
+    @property
+    def closed_tasks(self):
+        return self.select_tasks_by_status('closed')
+
 
 TaskStatus = Enum('open', 'closed', name='status')
 

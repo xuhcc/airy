@@ -139,14 +139,27 @@ class TestProjectApi():
 
     def test_get_project(self):
         project = ProjectFactory.create()
+        task_1 = TaskFactory.create(project=project, status='open')
+        task_2 = TaskFactory.create(project=project, status='closed')
         self.db.session.commit()
 
         url = url_for('project_api.project', project_id=project.id)
-        response = self.client.get(url)
+        response = self.client.get(url, query_string={'status': 'open'})
         assert response.status_code == 200
         assert 'project' in response.json
         assert response.json['project']['name'] == project.name
-        assert 'tasks' in response.json['project']
+        tasks = response.json['project']['tasks']
+        assert len(tasks) == 1
+        assert tasks[0]['id'] == task_1.id
+
+        response = self.client.get(url, query_string={'status': 'closed'})
+        assert response.status_code == 200
+        tasks = response.json['project']['tasks']
+        assert len(tasks) == 1
+        assert tasks[0]['id'] == task_2.id
+
+        response = self.client.get(url)
+        assert response.status_code == 400
 
         url = url_for('project_api.project', project_id=0)
         response = self.client.get(url)

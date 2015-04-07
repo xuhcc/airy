@@ -4,8 +4,8 @@
         <div class="project-description" data-ng-bind-html="project.description|nl2br|linkify"></div>
     </div>
     <a class="content-nav-link" ui-sref="project_report({projectId: project.id})">view report</a>
-    <a class="content-nav-link" data-ng-show="currentStatus == 'closed'" data-ng-click="filterByStatus('active')">view active tasks</a>
-    <a class="content-nav-link" data-ng-show="currentStatus == 'active'" data-ng-click="filterByStatus('closed')">view closed tasks</a>
+    <a class="content-nav-link" data-ng-show="currentStatus == 'closed'" data-ng-click="filterByStatus('open')">view open tasks</a>
+    <a class="content-nav-link" data-ng-show="currentStatus == 'open'" data-ng-click="filterByStatus('closed')">view closed tasks</a>
     <div class="tasks">
         <div class="task task-{{ task.status }}" data-ng-repeat="task in project.tasks">
             <div class="task-menu">
