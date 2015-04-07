@@ -1,4 +1,4 @@
-<div ng-controller="ClientTimeSheetCtrl">
+<div>
     <div class="current-client">
         <h2>Timesheet for {{ timesheet.client.name }}</h2>
     </div>
@@ -13,7 +13,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="row in timesheet.projects">
-                <td><a ui-sref="project_detail({projectId: row.project.id})">{{ row.project.name }}</a></td>
+                <td><a ui-sref="project_detail({clientId: client.id, projectId: row.project.id})">{{ row.project.name }}</a></td>
                 <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.amount|time }}</td>
                 <td>{{ row.total|time }}</td>
             </tr>
@@ -25,5 +25,5 @@
         </tbody>
     </table>
     <a class="content-nav-link" ng-click="sendByEmail()">send by email</a>
-    <a class="content-nav-link" ui-sref="client_detail({clientId: timesheet.client.id})">back to client page</a>
+    <a class="content-nav-link" ui-sref="client_detail({clientId: client.id})">back to client page</a>
 </div>

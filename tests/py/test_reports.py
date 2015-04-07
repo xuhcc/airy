@@ -63,6 +63,7 @@ class TestTaskReport(object):
         result = task_report.get()
 
         assert result['project']['id'] == project.id
+        assert result['project']['client']['id'] == project.client.id
         assert len(result['tasks']) == 7
         assert result['week_beg'] == week_beg.isoformat()
 

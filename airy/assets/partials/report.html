@@ -1,6 +1,6 @@
-<div data-ng-controller="ProjectReportController">
+<div>
     <div class="current-project" data-project-id="{{ report.project.id }}">
-        <h2>Report on tasks for {{ report.project.name }}</h2>
+        <h2>Task report for {{ report.project.name }}</h2>
     </div>
     <div class="report-range" week-selector week-beg="weekBeg"></div>
     <table class="pure-table pure-table-horizontal report" align="center">
@@ -22,5 +22,5 @@
         </tbody>
     </table>
     <a class="content-nav-link" ng-click="sendByEmail()">send by email</a>
-    <a class="content-nav-link" ui-sref="project_detail({projectId: report.project.id})">back to list of tasks</a>
+    <a class="content-nav-link" ui-sref="project_detail({clientId: client.id, projectId: report.project.id})">back to list of tasks</a>
 </div>

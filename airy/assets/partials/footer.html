@@ -1,6 +1,7 @@
 <div data-ng-if="user.name">
-    user: <span class="user-name">{{ user.name }}</span> |
     open tasks: <span class="user-open-tasks">{{ user.open_tasks }}</span> |
     time spent today: <span class="user-total-today">{{ user.total_today|time }}</span> |
-    this week: <span class="user-total-week">{{ user.total_week|time }}</span>
+    this week: <span class="user-total-week">{{ user.total_week|time }}</span> |
+    user: <span class="user-name">{{ user.name }}</span> |
+    <a data-ng-click="logoutUser()">logout</a>
 </div>

@@ -31,6 +31,7 @@
                 $scope.clients = data.clients;
             });
         };
+        $scope.fetchClients();
 
         $scope.showClientForm = function (client) {
             ngDialog.open({
@@ -56,8 +57,6 @@
                 $scope.showClientForm({});
             }
         });
-
-        $scope.fetchClients();
     }
 
     function ClientFormController($scope, clientResource) {
@@ -100,8 +99,9 @@
 
         $scope.getTimeSheet = function () {
             clientResource.getTimeSheet($stateParams.clientId, $scope.weekBeg).success(function (data) {
+                $rootScope.title = data.timesheet.client.name + ' :: Timesheet';
                 $scope.timesheet = data.timesheet;
-                $rootScope.title = data.timesheet.client.name;
+                $scope.client = data.timesheet.client;
             });
         };
         $scope.$watch('weekBeg', $scope.getTimeSheet);
@@ -126,6 +126,7 @@
                 $scope.client = data.client;
             });
         };
+        $scope.fetchClient();
 
         $scope.showProjectForm = function (project) {
             ngDialog.open({
@@ -151,8 +152,6 @@
                 $scope.showProjectForm({});
             }
         });
-
-        $scope.fetchClient();
     }
 
     function ProjectFormController($scope, projectResource) {
@@ -200,8 +199,10 @@
                 .success(function (data) {
                     $rootScope.title = data.project.name;
                     $scope.project = data.project;
+                    $scope.client = data.project.client;
                 });
         };
+        $scope.fetchProject();
 
         $scope.filterByStatus = function (status) {
             $scope.currentStatus = status;
@@ -282,8 +283,6 @@
                 $scope.showTaskForm({});
             }
         });
-
-        $scope.fetchProject();
     }
 
     function ProjectReportController($scope, $stateParams, $rootScope, projectResource, calculator) {
@@ -291,8 +290,10 @@
 
         $scope.getReport = function () {
             projectResource.getReport($stateParams.projectId, $scope.weekBeg).success(function (data) {
-                $rootScope.title = data.report.project.name + ' :: Report';
+                $rootScope.title = data.report.project.name + ' :: Task report';
                 $scope.report = data.report;
+                $scope.project = data.report.project;
+                $scope.client = data.report.project.client;
             });
         };
         $scope.$watch('weekBeg', $scope.getReport);

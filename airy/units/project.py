@@ -28,14 +28,16 @@ def save(data, project_id=None):
             raise ProjectError(
                 'Project #{0} not found'.format(project_id), 404)
         data['id'] = project_id
-    serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
+    serializer = ProjectSerializer(
+        only=['id', 'name', 'description', 'client_id'])
     project, errors = serializer.load(data)
     if errors:
         raise ProjectError(errors, 400)
     project = db.session.merge(project)
     db.session.commit()
-    serializer = ProjectSerializer(exclude=['client_id', 'tasks'],
-                                   strict=True)
+    serializer = ProjectSerializer(
+        only=['id', 'name', 'description', 'last_task'],
+        strict=True)
     return serializer.dump(project).data
 
 

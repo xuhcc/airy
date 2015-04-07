@@ -94,6 +94,8 @@ class ProjectSerializer(Schema):
     last_task = fields.Nested(TaskSerializer,
                               only=['id', 'title'],
                               allow_null=True)
+    client = fields.Nested('ClientSerializer',
+                           only=['id', 'name'])
 
     def __init__(self, *args, **kwargs):
         task_status = kwargs.pop('task_status', None)
@@ -114,7 +116,7 @@ class ClientSerializer(Schema):
     contacts = fields.String(validate=validate.Length(max=700))
 
     projects = fields.Nested(ProjectSerializer,
-                             exclude=['client_id', 'tasks'],
+                             only=['id', 'name', 'description', 'last_task'],
                              many=True)
 
     def make_object(self, data):
@@ -165,7 +167,8 @@ class TimeSheetSerializer(Schema):
 
 class TaskReportSerializer(Schema):
 
-    project = fields.Nested(ProjectSerializer, only=['id', 'name'])
+    project = fields.Nested(ProjectSerializer,
+                            only=['id', 'name', 'client'])
     week_beg = fields.Function(lambda obj: obj['week_beg'].isoformat())
     week_end = fields.Function(lambda obj: obj['week_beg'].isoformat())
     tasks = fields.Method('serialize_tasks')

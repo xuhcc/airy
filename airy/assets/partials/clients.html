@@ -1,4 +1,4 @@
-<div data-ng-controller="ClientListController">
+<div>
     <div class="clients">
         <div class="client" data-ng-repeat="client in clients">
             <div class="client-menu">
@@ -11,7 +11,7 @@
             <div class="client-projects" data-ng-if="client.projects.length > 0">
                 <ul>
                     <li data-ng-repeat="project in client.projects">
-                        <a ui-sref="project_detail({projectId: project.id})" title="Project">{{ project.name }}</a>
+                        <a ui-sref="project_detail({clientId: client.id, projectId: project.id})" title="Project">{{ project.name }}</a>
                     </li>
                 </ul>
             </div>

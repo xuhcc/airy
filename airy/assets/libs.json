@@ -9,7 +9,8 @@
         "bower_components/angular-hotkeys/build/hotkeys.js",
         "bower_components/angular-elastic/elastic.js",
         "bower_components/angular-loading-bar/build/loading-bar.js",
-        "bower_components/angular-ui-router/release/angular-ui-router.js"
+        "bower_components/angular-ui-router/release/angular-ui-router.js",
+        "bower_components/angular-breadcrumb/dist/angular-breadcrumb.js"
     ],
     "css": [
         "bower_components/pure/base.css",

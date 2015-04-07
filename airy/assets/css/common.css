@@ -71,24 +71,16 @@ ul {
     width: 100%;
 }
 
-.main-menu {
+.breadcrumbs {
+    font-size: 1.2em;
     list-style-type: none;
     margin: 10px 0;
     padding: 0;
 }
 
-.main-menu li {
+.breadcrumbs li {
     display: inline-block;
-}
-
-.main-menu a {
-    border-radius: 5px;
-    display: block;
     padding: 5px;
-}
-
-.main-menu a:hover {
-    background-color: #F0F6FA;
 }
 
 .content-nav-link {

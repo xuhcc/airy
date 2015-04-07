@@ -78,6 +78,7 @@ class TestProjectSerializer():
         assert data['description'] == project.description
         assert data['last_task'] is None
         assert not data['tasks']
+        assert data['client']['id'] == project.client.id
 
         task_1 = TaskFactory.create(project=project, status='open')
         task_2 = TaskFactory.create(project=project, status='closed')
@@ -103,7 +104,8 @@ class TestProjectSerializer():
         self.db.session.commit()
         data = ProjectFactory.stub(client=None).__dict__
         data['client_id'] = client.id
-        serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
+        serializer = ProjectSerializer(
+            only=['id', 'name', 'description', 'client_id'])
         instance, errors = serializer.load(data)
         assert not errors
         assert instance.id is None
@@ -116,7 +118,8 @@ class TestProjectSerializer():
         data = ProjectFactory.stub(client=None).__dict__
         data['id'] = project.id
         data['client_id'] = project.client.id
-        serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
+        serializer = ProjectSerializer(
+            only=['id', 'name', 'description', 'client_id'])
         instance, errors = serializer.load(data)
         assert not errors
         assert instance.id == project.id
@@ -124,7 +127,8 @@ class TestProjectSerializer():
         assert instance.client_id == project.client.id
 
     def test_required(self):
-        serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
+        serializer = ProjectSerializer(
+            only=['id', 'name', 'description', 'client_id'])
         instance, errors = serializer.load({})
         assert 'name' in errors
         assert 'client_id' in errors
@@ -132,7 +136,8 @@ class TestProjectSerializer():
     def test_validate_client_id(self):
         data = ProjectFactory.stub(client=None).__dict__
         data['client_id'] = 0
-        serializer = ProjectSerializer(exclude=['tasks', 'last_task'])
+        serializer = ProjectSerializer(
+            only=['id', 'name', 'description', 'client_id'])
         instance, errors = serializer.load(data)
         assert 'client_id' in errors
 

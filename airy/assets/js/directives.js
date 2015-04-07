@@ -15,7 +15,6 @@
             scope: {},
             link: function (scope, element) {
                 scope.user = airyUser.user;
-                scope.logoutUser = airyUser.logout;
             }
         };
     }
@@ -27,6 +26,7 @@
             scope: {},
             link: function (scope, element) {
                 scope.user = airyUser.user;
+                scope.logoutUser = airyUser.logout;
             }
         };
     }
