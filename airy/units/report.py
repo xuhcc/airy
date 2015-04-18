@@ -11,24 +11,23 @@ from sqlalchemy import between
 from airy import settings
 from airy.database import db
 from airy.models import Client, Project, Task, TimeEntry
-from airy.serializers import TimeSheetSerializer, TaskReportSerializer
+from airy.serializers import (
+    DateRangeSerializer,
+    TimeSheetSerializer,
+    TaskReportSerializer)
 from airy.exceptions import ClientError, ProjectError
 from airy.utils import email
 
 
 class TimeSheet(object):
 
-    def __init__(self, client_id, week_beg_str):
+    def __init__(self, client_id, date_range):
         self.client = Client.query.get(client_id)
         if not self.client:
             raise ClientError("Client #{0} not found".format(client_id), 404)
-        if not week_beg_str:
-            raise ClientError('Invalid date', 400)
-        try:
-            self.week_beg = arrow.get(week_beg_str).floor('week').datetime
-        except arrow.parser.ParserError:
-            raise ClientError('Invalid date', 400)
-        self.week_end = arrow.get(self.week_beg).ceil('week').datetime
+        self.date_range, errors = DateRangeSerializer().load(date_range)
+        if errors:
+            raise ClientError(errors, 400)
 
     def _build(self):
         query = db.session.\
@@ -36,11 +35,11 @@ class TimeSheet(object):
             join(Project.tasks).\
             join(Task.time_entries).\
             filter(Project.client_id == self.client.id).\
-            filter(between(TimeEntry.added_at, self.week_beg, self.week_end)).\
+            filter(between(TimeEntry.added_at, *self.date_range)).\
             order_by(Project.name.asc())
 
         dates = [day.date() for day in
-                 arrow.Arrow.range('day', self.week_beg, self.week_end)]
+                 arrow.Arrow.range('day', *self.date_range)]
         daily_totals = OrderedDict()
         for date in dates:
             daily_totals[date] = Decimal('0.00')
@@ -73,8 +72,10 @@ class TimeSheet(object):
 
         timesheet = {
             'client': self.client,
-            'week_beg': self.week_beg,
-            'week_end': self.week_end,
+            'date_range': {
+                'beg': self.date_range[0],
+                'end': self.date_range[1],
+            },
             'projects': projects,
             'totals': {
                 'time': list(daily_totals.values()),
@@ -97,18 +98,14 @@ class TimeSheet(object):
 
 class TaskReport(object):
 
-    def __init__(self, project_id, week_beg_str):
+    def __init__(self, project_id, date_range):
         self.project = Project.query.get(project_id)
         if not self.project:
             raise ProjectError(
                 'Project #{0} not found'.format(project_id), 404)
-        if not week_beg_str:
-            raise ProjectError('Invalid date', 400)
-        try:
-            self.week_beg = arrow.get(week_beg_str).floor('week').datetime
-        except arrow.parser.ParserError:
-            raise ProjectError('Invalid date', 400)
-        self.week_end = arrow.get(self.week_beg).ceil('week').datetime
+        self.date_range, errors = DateRangeSerializer().load(date_range)
+        if errors:
+            raise ProjectError(errors, 400)
 
     def _build(self):
 
@@ -116,7 +113,7 @@ class TaskReport(object):
             query(Task.title, func.sum(TimeEntry.amount)).\
             join(Task.time_entries).\
             filter(Task.project_id == self.project.id).\
-            filter(between(TimeEntry.added_at, self.week_beg, self.week_end)).\
+            filter(between(TimeEntry.added_at, *self.date_range)).\
             group_by(Task.id)
 
         tasks = []
@@ -128,8 +125,10 @@ class TaskReport(object):
 
         report = {
             'project': self.project,
-            'week_beg': self.week_beg,
-            'week_end': self.week_end,
+            'date_range': {
+                'beg': self.date_range[0],
+                'end': self.date_range[1],
+            },
             'tasks': tasks,
             'total': project_total,
         }

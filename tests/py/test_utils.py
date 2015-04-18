@@ -26,6 +26,18 @@ class TestDateUtils():
         assert beginning.second == 0
         assert beginning.date() == dt.date() - datetime.timedelta(days=1)
 
+    def test_is_day_beginning(self):
+        dt_str = '2015-04-13T00:00:00+03:00'
+        assert date.is_day_beginning(dt_str)
+        dt_str = '2015-04-13T00:00:00+00:00'
+        assert not date.is_day_beginning(dt_str)
+
+    def test_is_day_end(self):
+        dt_str = '2015-04-19T23:59:59+03:00'
+        assert date.is_day_end(dt_str)
+        dt_str = '2015-04-19T23:59:59+00:00'
+        assert not date.is_day_end(dt_str)
+
 
 class TestEmailUtils():
 

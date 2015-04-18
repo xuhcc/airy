@@ -35,14 +35,15 @@ class Client(Resource):
 class TimeSheet(Resource):
 
     def get(self, client_id):
-        timesheet = report.TimeSheet(client_id,
-                                     request.args.get('week_beg'))
+        date_range = {
+            'beg': request.args.get('beg'),
+            'end': request.args.get('end'),
+        }
+        timesheet = report.TimeSheet(client_id, date_range)
         return {'timesheet': timesheet.get()}
 
     def post(self, client_id):
-        timesheet = report.TimeSheet(
-            client_id,
-            (request.get_json() or {}).get('week_beg'))
+        timesheet = report.TimeSheet(client_id, request.get_json() or {})
         timesheet.send()
 
 

@@ -98,21 +98,24 @@
         $scope.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
         $scope.getTimeSheet = function () {
-            clientResource.getTimeSheet($stateParams.clientId, $scope.weekBeg).success(function (data) {
+            clientResource.getTimeSheet($stateParams.clientId, $scope.range).success(function (data) {
                 $rootScope.title = data.timesheet.client.name + ' :: Timesheet';
                 $scope.timesheet = data.timesheet;
                 $scope.client = data.timesheet.client;
             });
         };
-        $scope.$watch('weekBeg', $scope.getTimeSheet);
-        $scope.weekBeg = moment().startOf('isoWeek').format();
+        $scope.$watch('range.beg', $scope.getTimeSheet);
+        $scope.range = {
+            beg: moment().startOf('isoWeek').format(),
+            end: moment().endOf('isoWeek').format()
+        };
 
         $scope.showCalculator = function (amount) {
             calculator.show(amount);
         };
 
         $scope.sendByEmail = function () {
-            clientResource.sendTimeSheet($stateParams.clientId, $scope.weekBeg);
+            clientResource.sendTimeSheet($stateParams.clientId, $scope.range);
         };
     }
 
@@ -289,22 +292,25 @@
         $scope.report = {};
 
         $scope.getReport = function () {
-            projectResource.getReport($stateParams.projectId, $scope.weekBeg).success(function (data) {
+            projectResource.getReport($stateParams.projectId, $scope.range).success(function (data) {
                 $rootScope.title = data.report.project.name + ' :: Task report';
                 $scope.report = data.report;
                 $scope.project = data.report.project;
                 $scope.client = data.report.project.client;
             });
         };
-        $scope.$watch('weekBeg', $scope.getReport);
-        $scope.weekBeg = moment().startOf('isoWeek').format();
+        $scope.$watch('range.beg', $scope.getReport);
+        $scope.range = {
+            beg: moment().startOf('isoWeek').format(),
+            end: moment().endOf('isoWeek').format()
+        };
 
         $scope.showCalculator = function (amount) {
             calculator.show(amount);
         };
 
         $scope.sendByEmail = function () {
-            projectResource.sendReport($stateParams.projectId, $scope.weekBeg);
+            projectResource.sendReport($stateParams.projectId, $scope.range);
         };
     }
 

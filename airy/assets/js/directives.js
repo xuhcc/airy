@@ -6,7 +6,7 @@
         .directive('airyHeader', airyHeader)
         .directive('airyFooter', airyFooter)
         .directive('autoFocus', autoFocus)
-        .directive('weekSelector', weekSelector);
+        .directive('rangeSelector', rangeSelector);
 
     function airyHeader(airyUser) {
         return {
@@ -42,32 +42,32 @@
         };
     }
 
-    function weekSelector() {
+    function rangeSelector() {
         return {
             restrict: 'A',
             template: '\
                 <a class="shift-back icon" ng-click="shiftBack()">l</a>\
-                <span>{{ getRange() }}</span>\
+                <span>{{ formatRange() }}</span>\
                 <a class="shift-forward icon" ng-click="shiftForward()">r</a>\
             ',
             scope: {
-                weekBeg: '='
+                range: '='
             },
             link: function (scope, element) {
-                scope.getRange = function () {
-                    var weekBeg = moment(scope.weekBeg);
-                    var weekEnd = moment(weekBeg).endOf('isoWeek');
-                    return weekBeg.format('DD.MM.YY') + ' — ' + weekEnd.format('DD.MM.YY');
+                scope.formatRange = function () {
+                    var rangeBeg = moment(scope.range.beg);
+                    var rangeEnd = moment(scope.range.end);
+                    return rangeBeg.format('DD.MM.YY') + ' — ' + rangeEnd.format('DD.MM.YY');
                 };
 
                 scope.shiftBack = function () {
-                    var weekBeg = moment(scope.weekBeg);
-                    scope.weekBeg = weekBeg.subtract(1, 'week').format();
+                    scope.range.beg = moment(scope.range.beg).subtract(1, 'week').format();
+                    scope.range.end = moment(scope.range.end).subtract(1, 'week').format();
                 };
 
                 scope.shiftForward = function () {
-                    var weekBeg = moment(scope.weekBeg);
-                    scope.weekBeg = weekBeg.add(1, 'week').format();
+                    scope.range.beg = moment(scope.range.beg).add(1, 'week').format();
+                    scope.range.end = moment(scope.range.end).add(1, 'week').format();
                 };
             }
         };

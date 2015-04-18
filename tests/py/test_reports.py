@@ -1,27 +1,64 @@
 import datetime
 from decimal import Decimal
+import arrow
 import pytest
 
 from airy.utils.date import tz_now, week_beginning
 from airy.units.report import TimeSheet, TaskReport
-from factories import ClientFactory, ProjectFactory, TimeEntryFactory
+from airy.serializers import DateRangeSerializer
+from factories import (
+    ClientFactory,
+    ProjectFactory,
+    TimeEntryFactory,
+    DateRangeFactory)
+
+
+class TestDateRangeSerializer():
+
+    def test_serialization(self):
+        week_beg = week_beginning(tz_now())
+        week_end = arrow.get(week_beg).ceil('week').datetime
+        date_range = {
+            'beg': week_beg,
+            'end': week_end,
+        }
+        serializer = DateRangeSerializer(strict=True)
+        data = serializer.dump(date_range).data
+        date_range = serializer.load(data).data
+        assert date_range == (week_beg, week_end)
+
+    def test_required(self):
+        serializer = DateRangeSerializer()
+        date_range, errors = serializer.load({})
+        assert 'beg' in errors
+        assert 'end' in errors
+
+    def test_validate(self):
+        serializer = DateRangeSerializer()
+        data = {
+            'beg': '2015-04-13T00:00:00+04:00',
+            'end': '2015-04-19T00:00:00+03:00',
+        }
+        date_range, errors = serializer.load(data)
+        assert 'beg' in errors
+        assert 'end' in errors
 
 
 @pytest.mark.usefixtures('db_class')
 class TestTimeSheet(object):
 
     def test_init(self):
-        week_beg = week_beginning(tz_now())
+        date_range = DateRangeFactory.create()
         client = ClientFactory.create()
         self.db.session.commit()
 
-        timesheet = TimeSheet(client.id, week_beg.isoformat())
+        timesheet = TimeSheet(client.id, date_range)
         assert timesheet.client.id == client.id
-        assert timesheet.week_beg == week_beg
-        assert timesheet.week_end is not None
+        assert len(timesheet.date_range) == 2
 
     def test_get(self):
         week_beg = week_beginning(tz_now())
+        date_range = DateRangeFactory(beg=week_beg.isoformat())
         client = ClientFactory.create()
         time_entries = []
         for day in range(7):
@@ -30,11 +67,11 @@ class TestTimeSheet(object):
                 added_at=week_beg + datetime.timedelta(days=day)))
         self.db.session.commit()
 
-        timesheet = TimeSheet(client.id, week_beg.isoformat())
+        timesheet = TimeSheet(client.id, date_range)
         result = timesheet.get()
 
         assert result['client']['name'] == client.name
-        assert result['week_beg'] == week_beg.isoformat()
+        assert result['date_range']['beg'] == week_beg.isoformat()
         assert len(result['projects']) == 7
 
         total_1 = sum(item.amount for item in time_entries)
@@ -51,6 +88,7 @@ class TestTaskReport(object):
 
     def test_get(self):
         week_beg = week_beginning(tz_now())
+        date_range = DateRangeFactory(beg=week_beg.isoformat())
         project = ProjectFactory.create()
         time_entries = []
         for day in range(7):
@@ -59,13 +97,13 @@ class TestTaskReport(object):
                 added_at=week_beg + datetime.timedelta(days=day)))
         self.db.session.commit()
 
-        task_report = TaskReport(project.id, week_beg.isoformat())
+        task_report = TaskReport(project.id, date_range)
         result = task_report.get()
 
         assert result['project']['id'] == project.id
         assert result['project']['client']['id'] == project.client.id
         assert len(result['tasks']) == 7
-        assert result['week_beg'] == week_beg.isoformat()
+        assert result['date_range']['beg'] == week_beg.isoformat()
 
         total_1 = sum(item.amount for item in time_entries)
         total_2 = sum(Decimal(task['amount'])

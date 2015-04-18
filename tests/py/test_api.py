@@ -7,7 +7,8 @@ from factories import (
     ClientFactory,
     ProjectFactory,
     TaskFactory,
-    TimeEntryFactory)
+    TimeEntryFactory,
+    DateRangeFactory)
 
 
 @pytest.fixture(scope='module')
@@ -83,8 +84,8 @@ class TestClientApi():
         assert response.status_code == 404
 
     def test_get_timesheet(self):
-        week_beg = week_beginning(tz_now())
         client = ClientFactory.create()
+        date_range = DateRangeFactory.create()
         self.db.session.commit()
 
         url = url_for('client_api.timesheet', client_id=client.id)
@@ -92,17 +93,18 @@ class TestClientApi():
         response = self.client.get(url)
         assert response.status_code == 400
 
-        response = self.client.get(url, query_string={
-            'week_beg': week_beg.isoformat()})
+        response = self.client.get(url, query_string=date_range)
         assert response.status_code == 200
         assert 'timesheet' in response.json
         client_data = response.json['timesheet']['client']
         assert client_data['name'] == client.name
-        assert response.json['timesheet']['week_beg'] == week_beg.isoformat()
+        range_data = response.json['timesheet']['date_range']
+        assert range_data['beg'] == date_range['beg']
+        assert range_data['end'] == date_range['end']
 
     def test_send_timesheet(self, mocker):
-        week_beg = week_beginning(tz_now())
         client = ClientFactory.create()
+        date_range = DateRangeFactory.create()
         self.db.session.commit()
 
         url = url_for('client_api.timesheet', client_id=client.id)
@@ -111,8 +113,7 @@ class TestClientApi():
         response = self.client.post(url)
         assert response.status_code == 400
 
-        response = self.client.post(url, json={
-            'week_beg': week_beg.isoformat()})
+        response = self.client.post(url, json=date_range)
         assert response.status_code == 200
         assert send_mock.call_count == 1
         args = send_mock.call_args[0]
@@ -192,14 +193,14 @@ class TestProjectApi():
 
     def test_get_report(self):
         week_beg = week_beginning(tz_now())
+        date_range = DateRangeFactory.create(beg=week_beg.isoformat())
         project = ProjectFactory.create()
         time_entry = TimeEntryFactory.create(task__project=project,
                                              added_at=week_beg)
         self.db.session.commit()
 
         url = url_for('project_api.report', project_id=project.id)
-        response = self.client.get(url, query_string={
-            'week_beg': week_beg.isoformat()})
+        response = self.client.get(url, query_string=date_range)
         assert response.status_code == 200
         assert 'report' in response.json
         report = response.json['report']
@@ -212,7 +213,7 @@ class TestProjectApi():
         assert response.status_code == 404
 
     def test_send_report(self, mocker):
-        week_beg = week_beginning(tz_now())
+        date_range = DateRangeFactory.create()
         project = ProjectFactory.create()
         self.db.session.commit()
 
@@ -222,8 +223,7 @@ class TestProjectApi():
         response = self.client.post(url)
         assert response.status_code == 400
 
-        response = self.client.post(url, json={
-            'week_beg': week_beg.isoformat()})
+        response = self.client.post(url, json=date_range)
         assert response.status_code == 200
         assert send_mock.call_count == 1
         args = send_mock.call_args[0]

@@ -69,15 +69,15 @@
             'delete': function (client) {
                 return $http.delete('/clients/' + client.id);
             },
-            'getTimeSheet': function (client_id, week_beg) {
+            'getTimeSheet': function (client_id, range) {
                 return $http.get(
                     '/clients/' + client_id + '/timesheet',
-                    {params: {week_beg: week_beg}});
+                    {params: range});
             },
-            'sendTimeSheet': function (client_id, week_beg) {
+            'sendTimeSheet': function (client_id, range) {
                 return $http.post(
                     '/clients/' + client_id + '/timesheet',
-                    {week_beg: week_beg});
+                    range);
             }
         };
     }
@@ -103,15 +103,15 @@
             'delete': function (project) {
                 return $http.delete('/projects/' + project.id);
             },
-            'getReport': function (project_id, week_beg) {
+            'getReport': function (project_id, range) {
                 return $http.get(
                     '/projects/' + project_id + '/report',
-                    {params: {week_beg: week_beg}});
+                    {params: range});
             },
-            'sendReport': function (project_id, week_beg) {
+            'sendReport': function (project_id, range) {
                 return $http.post(
                     '/projects/' + project_id + '/report',
-                    {week_beg: week_beg});
+                    range);
             }
         };
     }

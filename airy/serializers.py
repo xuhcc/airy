@@ -2,7 +2,7 @@ from marshmallow import Schema, fields, validate, ValidationError
 
 from airy.database import db
 from airy.models import Client, Project, Task, TimeEntry
-from airy.utils.date import tz_now
+from airy.utils.date import tz_now, is_day_beginning, is_day_end
 
 
 class UserSerializer(Schema):
@@ -135,11 +135,34 @@ def validate_unique_client_name(schema, client):
                 'name')
 
 
+def validate_range_beginning(value):
+    if not is_day_beginning(value):
+        raise ValidationError('Invalid beginning of the range')
+
+
+def validate_range_end(value):
+    if not is_day_end(value):
+        raise ValidationError('Invalid end of the range')
+
+
+class DateRangeSerializer(Schema):
+
+    beg = fields.LocalDateTime(required=True,
+                               validate=validate_range_beginning)
+    end = fields.LocalDateTime(required=True,
+                               validate=validate_range_end)
+
+    def make_object(self, data):
+        """
+        Make tuple
+        """
+        return data.get('beg'), data.get('end')
+
+
 class TimeSheetSerializer(Schema):
 
     client = fields.Nested(ClientSerializer, only=['id', 'name'])
-    week_beg = fields.Function(lambda obj: obj['week_beg'].isoformat())
-    week_end = fields.Function(lambda obj: obj['week_beg'].isoformat())
+    date_range = fields.Nested(DateRangeSerializer)
     projects = fields.Method('serialize_projects')
     totals = fields.Method('serialize_totals')
 
@@ -169,8 +192,7 @@ class TaskReportSerializer(Schema):
 
     project = fields.Nested(ProjectSerializer,
                             only=['id', 'name', 'client'])
-    week_beg = fields.Function(lambda obj: obj['week_beg'].isoformat())
-    week_end = fields.Function(lambda obj: obj['week_beg'].isoformat())
+    date_range = fields.Nested(DateRangeSerializer)
     tasks = fields.Method('serialize_tasks')
     total = fields.Decimal(places=2, as_string=True)
 

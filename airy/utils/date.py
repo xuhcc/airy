@@ -16,3 +16,14 @@ def day_beginning(dt):
 
 def week_beginning(dt):
     return arrow.get(dt).floor('week').datetime
+
+
+def is_day_beginning(dt):
+    dt = arrow.get(dt)
+    return dt == dt.to(settings.timezone).floor('day')
+
+
+def is_day_end(dt):
+    dt = arrow.get(dt)
+    return (dt.replace(microsecond=0) ==
+            dt.to(settings.timezone).ceil('day').replace(microsecond=0))

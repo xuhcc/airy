@@ -1,9 +1,11 @@
+import arrow
+
 import factory
 from factory.alchemy import SQLAlchemyModelFactory
 from factory.fuzzy import FuzzyDecimal
 
 from airy import database, models
-from airy.utils.date import tz_now
+from airy.utils.date import tz_now, week_beginning
 
 
 class ClientFactory(SQLAlchemyModelFactory):
@@ -50,3 +52,13 @@ class TimeEntryFactory(SQLAlchemyModelFactory):
     amount = FuzzyDecimal(0.01, 5.00)
     comment = factory.Sequence(lambda n: 'Comment {0:02d}'.format(n))
     added_at = tz_now()
+
+
+class DateRangeFactory(factory.DictFactory):
+
+    beg = week_beginning(tz_now()).isoformat()
+
+    @factory.lazy_attribute
+    def end(self):
+        week_end = arrow.get(self.beg).ceil('week').datetime
+        return week_end.isoformat()

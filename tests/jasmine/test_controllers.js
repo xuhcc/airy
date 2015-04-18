@@ -35,14 +35,14 @@ describe('Controllers', function () {
         var scope;
         var buildCtrl;
         var clientResourceMock = {
-            getTimeSheet: function (clientId, weekBeg) {
+            getTimeSheet: function (clientId, range) {
                 return {
                     success: function (successCallback) {
                         return {timesheet: {data: []}};
                     }
                 };
             },
-            sendTimeSheet: function (clientId, weekBeg) {}
+            sendTimeSheet: function (clientId, range) {}
         };
         var clientId = 1;
 
@@ -61,18 +61,22 @@ describe('Controllers', function () {
         it('should load the timesheet', function () {
             buildCtrl();
             expect(scope.days.length).toBe(7);
-            expect(scope.weekBeg).toBeDefined();
+            expect(scope.range).toBeDefined();
             spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
             scope.$digest();
             expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
             expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[0]).toBe(clientId);
+            expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[1]).toBe(scope.range);
         });
 
         it('should reload the timesheet after changing date range', function () {
             buildCtrl();
             scope.$digest();
             spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
-            scope.weekBeg = '2015-03-16T00:00:00+03:00';
+            scope.range = {
+                beg: '2015-04-06T00:00:00+03:00',
+                end: '2015-04-12T23:59:59+03:00'
+            };
             scope.$digest();
             expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
         });
@@ -90,7 +94,7 @@ describe('Controllers', function () {
         var scope;
         var buildCtrl;
         var projectResourceMock = {
-            getReport: function (projectId) {
+            getReport: function (projectId, range) {
                 return {
                     success: function (successCallback) {
                         return {report: {tasks: []}};
@@ -115,18 +119,22 @@ describe('Controllers', function () {
 
         it('should load the task report', function () {
             buildCtrl();
-            expect(scope.weekBeg).toBeDefined();
+            expect(scope.range).toBeDefined();
             spyOn(projectResourceMock, 'getReport').and.callThrough();
             scope.$digest();
             expect(projectResourceMock.getReport).toHaveBeenCalled();
             expect(projectResourceMock.getReport.calls.argsFor(0)[0]).toBe(projectId);
+            expect(projectResourceMock.getReport.calls.argsFor(0)[1]).toBe(scope.range);
         });
 
         it('should reload the task report after changing date range', function () {
             buildCtrl();
             scope.$digest();
             spyOn(projectResourceMock, 'getReport').and.callThrough();
-            scope.weekBeg = '2015-03-16T00:00:00+03:00';
+            scope.range = {
+                beg: '2015-04-06T00:00:00+03:00',
+                end: '2015-04-12T23:59:59+03:00'
+            };
             scope.$digest();
             expect(projectResourceMock.getReport).toHaveBeenCalled();
         });
