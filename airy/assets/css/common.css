@@ -1,10 +1,10 @@
 @font-face {
     font-family: 'icons';
-    src: url('../fonts/icons.eot?41172654');
-    src: url('../fonts/icons.eot?41172654#iefix') format('embedded-opentype'),
-        url('../fonts/icons.woff?41172654') format('woff'),
-        url('../fonts/icons.ttf?41172654') format('truetype'),
-        url('../fonts/icons.svg?41172654#icons') format('svg');
+    src: url('../fonts/icons.eot?51151210');
+    src: url('../fonts/icons.eot?51151210#iefix') format('embedded-opentype'),
+        url('../fonts/icons.woff?51151210') format('woff'),
+        url('../fonts/icons.ttf?51151210') format('truetype'),
+        url('../fonts/icons.svg?51151210#icons') format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -80,7 +80,16 @@ ul {
 
 .breadcrumbs li {
     display: inline-block;
+}
+
+.breadcrumbs li a,
+.breadcrumbs li span {
+    display: inline-block;
     padding: 5px;
+}
+
+.breadcrumbs .separator {
+    color: #999;
 }
 
 .content-nav-link {

@@ -47,7 +47,7 @@
                 templateUrl: 'static/partials/clients.html',
                 controller: 'ClientListController',
                 ncyBreadcrumb: {
-                    label: '~'
+                    label: 'h'
                 }
             })
             .state('client_detail', {
@@ -100,14 +100,7 @@
 
     function breadcrumbConfig($breadcrumbProvider) {
         $breadcrumbProvider.setOptions({
-            template: '\
-                <ol class="breadcrumbs">\
-                    <li ng-repeat="step in steps" ng-class="{active: $last}" ng-switch="$last || !!step.abstract">\
-                        <a ng-switch-when="false" href="{{step.ncyBreadcrumbLink}}">{{step.ncyBreadcrumbLabel}}</a>\
-                        <span ng-switch-when="false">&nbsp;</span>\
-                        <span ng-switch-when="true">{{step.ncyBreadcrumbLabel}}</span>\
-                    </li>\
-                </ol>'
+            templateUrl: 'static/partials/breadcrumbs.html'
         });
     }
 })();
