@@ -120,6 +120,8 @@ describe('Controllers', function () {
         it('should load the task report', function () {
             buildCtrl();
             expect(scope.range).toBeDefined();
+            expect(scope.periods.length).toBe(2);
+            expect(scope.period).toBeDefined();
             spyOn(projectResourceMock, 'getReport').and.callThrough();
             scope.$digest();
             expect(projectResourceMock.getReport).toHaveBeenCalled();
@@ -135,6 +137,16 @@ describe('Controllers', function () {
                 beg: '2015-04-06T00:00:00+03:00',
                 end: '2015-04-12T23:59:59+03:00'
             };
+            scope.$digest();
+            expect(projectResourceMock.getReport).toHaveBeenCalled();
+        });
+
+        it('should reload the task report after changing range length', function () {
+            buildCtrl();
+            scope.$digest();
+            spyOn(projectResourceMock, 'getReport').and.callThrough();
+            scope.period = scope.periods[1];
+            scope.setPeriod();
             scope.$digest();
             expect(projectResourceMock.getReport).toHaveBeenCalled();
         });

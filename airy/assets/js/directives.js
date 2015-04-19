@@ -61,13 +61,21 @@
                 };
 
                 scope.shiftBack = function () {
-                    scope.range.beg = moment(scope.range.beg).subtract(1, 'week').format();
-                    scope.range.end = moment(scope.range.end).subtract(1, 'week').format();
+                    var rangeBeg = moment(scope.range.beg);
+                    var rangeEnd = moment(scope.range.end);
+                    scope.range = {
+                        beg: rangeBeg.subtract(1, 'week').format(),
+                        end: rangeEnd.subtract(1, 'week').format()
+                    };
                 };
 
                 scope.shiftForward = function () {
-                    scope.range.beg = moment(scope.range.beg).add(1, 'week').format();
-                    scope.range.end = moment(scope.range.end).add(1, 'week').format();
+                    var rangeBeg = moment(scope.range.beg);
+                    var rangeEnd = moment(scope.range.end);
+                    scope.range = {
+                        beg: rangeBeg.add(1, 'week').format(),
+                        end: rangeEnd.add(1, 'week').format()
+                    };
                 };
             }
         };

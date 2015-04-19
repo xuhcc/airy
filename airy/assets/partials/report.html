@@ -2,7 +2,10 @@
     <div class="current-project" data-project-id="{{ report.project.id }}">
         <h2>Task report for {{ report.project.name }}</h2>
     </div>
-    <div class="report-range" range-selector range="range"></div>
+    <div class="report-range">
+        <div range-selector range="range"></div>
+        <select class="set-period" ng-model="period" ng-change="setPeriod()" ng-options="period.label for period in periods"></select>
+    </div>
     <table class="pure-table pure-table-horizontal report" align="center">
         <thead>
             <tr>

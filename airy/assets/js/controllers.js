@@ -104,7 +104,7 @@
                 $scope.client = data.timesheet.client;
             });
         };
-        $scope.$watch('range.beg', $scope.getTimeSheet);
+        $scope.$watch('range', $scope.getTimeSheet, true);
         $scope.range = {
             beg: moment().startOf('isoWeek').format(),
             end: moment().endOf('isoWeek').format()
@@ -291,6 +291,19 @@
     function ProjectReportController($scope, $stateParams, $rootScope, projectResource, calculator) {
         $scope.report = {};
 
+        $scope.periods = [{
+            label: '1 week',
+            getRangeEnd: function (rangeBeg) {
+                return moment(rangeBeg).endOf('isoWeek').format();
+            }
+        }, {
+            label: '2 weeks',
+            getRangeEnd: function (rangeBeg) {
+                return moment(rangeBeg).add(1, 'week').endOf('isoWeek').format();
+            }
+        }];
+        $scope.period = $scope.periods[0];
+
         $scope.getReport = function () {
             projectResource.getReport($stateParams.projectId, $scope.range).success(function (data) {
                 $rootScope.title = data.report.project.name + ' :: Task report';
@@ -299,10 +312,14 @@
                 $scope.client = data.report.project.client;
             });
         };
-        $scope.$watch('range.beg', $scope.getReport);
+        $scope.$watch('range', $scope.getReport, true);
         $scope.range = {
             beg: moment().startOf('isoWeek').format(),
             end: moment().endOf('isoWeek').format()
+        };
+
+        $scope.setPeriod = function () {
+            $scope.range.end = $scope.period.getRangeEnd($scope.range.beg);
         };
 
         $scope.showCalculator = function (amount) {
