@@ -2,4 +2,5 @@
 flake8>=2.2.4
 pytest-flask==0.7.5
 pytest-mock==0.4.2
+pytest-cov==1.8.1
 factory-boy==2.4.1

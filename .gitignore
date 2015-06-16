@@ -8,3 +8,4 @@ airy/static
 airy/settings.py
 fabfile/deploy.py
 test.db
+.coverage
