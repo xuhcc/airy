@@ -121,7 +121,14 @@ module.exports = function (grunt) {
                     vendor: [
                         '<%= paths.lib.js %>',
                         'bower_components/angular-mocks/angular-mocks.js'
-                    ]
+                    ],
+                    template: require('grunt-template-jasmine-istanbul'),
+                    templateOptions: {
+                        coverage: '.jasmine.coverage',
+                        report: {
+                            type: 'text'
+                        }
+                    }
                 }
             }
         }

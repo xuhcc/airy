@@ -9,3 +9,4 @@ airy/settings.py
 fabfile/deploy.py
 test.db
 .coverage
+.jasmine.coverage
