@@ -11,7 +11,7 @@ def venv(production=False):
     with settings(warn_only=True):
         test_command = "test requirements.txt -ot venv/bin/activate"
         if not production:
-            test_command += " -o requirements-dev.txt -ot venv/bin/activate"
+            test_command += " -a requirements-dev.txt -ot venv/bin/activate"
         result = env.run(test_command)
     if result.failed:
         env.run("virtualenv venv")
