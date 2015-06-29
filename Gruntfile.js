@@ -1,5 +1,13 @@
 module.exports = function (grunt) {
     'use strict';
+
+    var istanbulTemplate;
+    try {
+        istanbulTemplate = require('grunt-template-jasmine-istanbul');
+    } catch (error) {
+        grunt.log.error(error);
+    }
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         paths: {
@@ -122,7 +130,7 @@ module.exports = function (grunt) {
                         '<%= paths.lib.js %>',
                         'bower_components/angular-mocks/angular-mocks.js'
                     ],
-                    template: require('grunt-template-jasmine-istanbul'),
+                    template: istanbulTemplate,
                     templateOptions: {
                         coverage: '.jasmine.coverage',
                         report: {
