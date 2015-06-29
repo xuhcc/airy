@@ -5,7 +5,6 @@ import itertools
 import arrow
 from flask import render_template
 import premailer
-from sqlalchemy.sql import func
 from sqlalchemy import between
 
 from airy import settings
@@ -15,7 +14,7 @@ from airy.serializers import (
     DateRangeSerializer,
     TimeSheetSerializer,
     TaskReportSerializer)
-from airy.exceptions import ClientError, ProjectError
+from airy.exceptions import ClientError
 from airy.utils import email
 
 
@@ -98,39 +97,56 @@ class TimeSheet(object):
 
 class TaskReport(object):
 
-    def __init__(self, project_id, date_range):
-        self.project = Project.query.get(project_id)
-        if not self.project:
-            raise ProjectError(
-                'Project #{0} not found'.format(project_id), 404)
+    def __init__(self, client_id, date_range):
+        self.client = Client.query.get(client_id)
+        if not self.client:
+            raise ClientError('Client #{0} not found'.format(client_id), 404)
         self.date_range, errors = DateRangeSerializer().load(date_range)
         if errors:
-            raise ProjectError(errors, 400)
+            raise ClientError(errors, 400)
 
     def _build(self):
 
         query = db.session.\
-            query(Task.title, func.sum(TimeEntry.amount)).\
+            query(Project, Task.id, Task.title, TimeEntry.amount).\
+            join(Project.tasks).\
             join(Task.time_entries).\
-            filter(Task.project_id == self.project.id).\
+            filter(Project.client_id == self.client.id).\
             filter(between(TimeEntry.added_at, *self.date_range)).\
-            group_by(Task.id)
+            order_by(Project.name.asc(), Task.id.asc())
 
-        tasks = []
-        project_total = Decimal('0.00')
+        projects = []
+        client_total = Decimal('0.00')
 
-        for row in query:
-            tasks.append({'title': row[0], 'amount': row[1]})
-            project_total += row[1]
+        for project, group in itertools.groupby(query, lambda row: row[0]):
+
+            tasks = []
+            project_total = Decimal('0.00')
+
+            for task, group in itertools.groupby(group, lambda row: row[1]):
+                amount = Decimal('0.00')
+                for row in group:
+                    title = row[2]
+                    amount += row[3]
+                tasks.append({'title': title, 'amount': amount})
+                project_total += amount
+
+            projects.append({
+                'project': project,
+                'tasks': tasks,
+                'total': project_total,
+            })
+
+            client_total += project_total
 
         report = {
-            'project': self.project,
+            'client': self.client,
             'date_range': {
                 'beg': self.date_range[0],
                 'end': self.date_range[1],
             },
-            'tasks': tasks,
-            'total': project_total,
+            'projects': projects,
+            'total': client_total,
         }
         return report
 
@@ -139,7 +155,7 @@ class TaskReport(object):
         return serializer.dump(self._build()).data
 
     def send(self):
-        subject = 'Task report for {0}'.format(self.project.name)
+        subject = 'Task report for {0}'.format(self.client.name)
         html = render_template('email/task_report.html', **self._build())
         email.send(subject,
                    premailer.transform(html),

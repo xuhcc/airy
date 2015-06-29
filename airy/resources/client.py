@@ -47,8 +47,26 @@ class TimeSheet(Resource):
         timesheet.send()
 
 
+class Report(Resource):
+
+    def get(self, client_id):
+        # Get report
+        date_range = {
+            'beg': request.args.get('beg'),
+            'end': request.args.get('end'),
+        }
+        task_report = report.TaskReport(client_id, date_range)
+        return {'report': task_report.get()}
+
+    def post(self, client_id):
+        # Send report by email
+        task_report = report.TaskReport(client_id, request.get_json() or {})
+        task_report.send()
+
+
 client_api_bp = Blueprint('client_api', __name__)
 client_api = Api(client_api_bp, decorators=[requires_auth])
 client_api.add_resource(Clients, '/clients')
 client_api.add_resource(Client, '/clients/<int:client_id>')
 client_api.add_resource(TimeSheet, '/clients/<int:client_id>/timesheet')
+client_api.add_resource(Report, '/clients/<int:client_id>/report')

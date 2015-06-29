@@ -19,7 +19,7 @@
                 <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.amount|time }}</td>
                 <td>{{ row.total|time }}</td>
             </tr>
-            <tr>
+            <tr class="report-total">
                 <td>&nbsp;</td>
                 <td ng-repeat="day_total in timesheet.totals.time track by $index">{{ day_total|time }}</td>
                 <td><a ng-click="showCalculator(timesheet.totals.total)">{{ timesheet.totals.total|time }}</a></td>

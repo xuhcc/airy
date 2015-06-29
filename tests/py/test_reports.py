@@ -8,7 +8,6 @@ from airy.units.report import TimeSheet, TaskReport
 from airy.serializers import DateRangeSerializer
 from factories import (
     ClientFactory,
-    ProjectFactory,
     TimeEntryFactory,
     DateRangeFactory)
 
@@ -89,24 +88,23 @@ class TestTaskReport(object):
     def test_get(self):
         week_beg = week_beginning(tz_now())
         date_range = DateRangeFactory(beg=week_beg.isoformat())
-        project = ProjectFactory.create()
+        client = ClientFactory.create()
         time_entries = []
         for day in range(7):
             time_entries.append(TimeEntryFactory.create(
-                task__project=project,
+                task__project__client=client,
                 added_at=week_beg + datetime.timedelta(days=day)))
         self.db.session.commit()
 
-        task_report = TaskReport(project.id, date_range)
+        task_report = TaskReport(client.id, date_range)
         result = task_report.get()
 
-        assert result['project']['id'] == project.id
-        assert result['project']['client']['id'] == project.client.id
-        assert len(result['tasks']) == 7
+        assert result['client']['id'] == client.id
+        assert len(result['projects']) == 7
         assert result['date_range']['beg'] == week_beg.isoformat()
 
         total_1 = sum(item.amount for item in time_entries)
-        total_2 = sum(Decimal(task['amount'])
-                      for task in result['tasks'])
+        total_2 = sum(Decimal(row['total'])
+                      for row in result['projects'])
         total_3 = Decimal(result['total'])
         assert total_1 == total_2 == total_3

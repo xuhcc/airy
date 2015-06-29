@@ -120,6 +120,45 @@ class TestClientApi():
         assert client.name in args[0]  # Subject
         assert args[2] == settings.email
 
+    def test_get_report(self):
+        week_beg = week_beginning(tz_now())
+        date_range = DateRangeFactory.create(beg=week_beg.isoformat())
+        client = ClientFactory.create()
+        time_entry = TimeEntryFactory.create(task__project__client=client,
+                                             added_at=week_beg)
+        self.db.session.commit()
+
+        url = url_for('client_api.report', client_id=client.id)
+        response = self.client.get(url, query_string=date_range)
+        assert response.status_code == 200
+        assert 'report' in response.json
+        report = response.json['report']
+        assert report['client']['id'] == client.id
+        assert len(report['projects']) == 1
+        assert report['total'] == str(time_entry.amount)
+
+        url = url_for('client_api.report', client_id=0)
+        response = self.client.get(url)
+        assert response.status_code == 404
+
+    def test_send_report(self, mocker):
+        date_range = DateRangeFactory.create()
+        client = ClientFactory.create()
+        self.db.session.commit()
+
+        url = url_for('client_api.report', client_id=client.id)
+        send_mock = mocker.patch('airy.utils.email.send')
+
+        response = self.client.post(url)
+        assert response.status_code == 400
+
+        response = self.client.post(url, json=date_range)
+        assert response.status_code == 200
+        assert send_mock.call_count == 1
+        args = send_mock.call_args[0]
+        assert client.name in args[0]  # Subject
+        assert args[2] == settings.email
+
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')
 class TestProjectApi():
@@ -190,45 +229,6 @@ class TestProjectApi():
 
         response = self.client.delete(url)
         assert response.status_code == 404
-
-    def test_get_report(self):
-        week_beg = week_beginning(tz_now())
-        date_range = DateRangeFactory.create(beg=week_beg.isoformat())
-        project = ProjectFactory.create()
-        time_entry = TimeEntryFactory.create(task__project=project,
-                                             added_at=week_beg)
-        self.db.session.commit()
-
-        url = url_for('project_api.report', project_id=project.id)
-        response = self.client.get(url, query_string=date_range)
-        assert response.status_code == 200
-        assert 'report' in response.json
-        report = response.json['report']
-        assert report['project']['id'] == project.id
-        assert len(report['tasks']) == 1
-        assert report['total'] == str(time_entry.amount)
-
-        url = url_for('project_api.report', project_id=0)
-        response = self.client.get(url)
-        assert response.status_code == 404
-
-    def test_send_report(self, mocker):
-        date_range = DateRangeFactory.create()
-        project = ProjectFactory.create()
-        self.db.session.commit()
-
-        url = url_for('project_api.report', project_id=project.id)
-        send_mock = mocker.patch('airy.utils.email.send')
-
-        response = self.client.post(url)
-        assert response.status_code == 400
-
-        response = self.client.post(url, json=date_range)
-        assert response.status_code == 200
-        assert send_mock.call_count == 1
-        args = send_mock.call_args[0]
-        assert project.name in args[0]  # Subject
-        assert args[2] == settings.email
 
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')

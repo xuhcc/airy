@@ -10,7 +10,7 @@
         .controller('ClientDetailController', ClientDetailController)
         .controller('ProjectFormController', ProjectFormController)
         .controller('ProjectDetailController', ProjectDetailController)
-        .controller('ProjectReportController', ProjectReportController)
+        .controller('ClientReportController', ClientReportController)
         .controller('TaskFormController', TaskFormController)
         .controller('TimeEntryFormController', TimeEntryFormController);
 
@@ -288,7 +288,7 @@
         });
     }
 
-    function ProjectReportController($scope, $stateParams, $rootScope, projectResource, calculator) {
+    function ClientReportController($scope, $stateParams, $rootScope, clientResource, calculator) {
         $scope.report = {};
 
         $scope.periods = [{
@@ -305,11 +305,10 @@
         $scope.period = $scope.periods[0];
 
         $scope.getReport = function () {
-            projectResource.getReport($stateParams.projectId, $scope.range).success(function (data) {
-                $rootScope.title = data.report.project.name + ' :: Task report';
+            clientResource.getReport($stateParams.clientId, $scope.range).success(function (data) {
+                $rootScope.title = data.report.client.name + ' :: Task report';
                 $scope.report = data.report;
-                $scope.project = data.report.project;
-                $scope.client = data.report.project.client;
+                $scope.client = data.report.client;
             });
         };
         $scope.$watch('range', $scope.getReport, true);
@@ -327,7 +326,7 @@
         };
 
         $scope.sendByEmail = function () {
-            projectResource.sendReport($stateParams.projectId, $scope.range);
+            clientResource.sendReport($stateParams.clientId, $scope.range);
         };
     }
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 from flask_restful import Resource
 
-from airy.units import project, report
+from airy.units import project
 from airy.resources import Api
 from airy.resources.user import requires_auth
 
@@ -29,25 +29,7 @@ class Project(Resource):
         project.delete(project_id)
 
 
-class Report(Resource):
-
-    def get(self, project_id):
-        # Get report
-        date_range = {
-            'beg': request.args.get('beg'),
-            'end': request.args.get('end'),
-        }
-        task_report = report.TaskReport(project_id, date_range)
-        return {'report': task_report.get()}
-
-    def post(self, project_id):
-        # Send report by email
-        task_report = report.TaskReport(project_id, request.get_json() or {})
-        task_report.send()
-
-
 project_api_bp = Blueprint('project_api', __name__)
 project_api = Api(project_api_bp, decorators=[requires_auth])
 project_api.add_resource(Projects, '/projects')
 project_api.add_resource(Project, '/projects/<int:project_id>')
-project_api.add_resource(Report, '/projects/<int:project_id>/report')

@@ -78,6 +78,16 @@
                 return $http.post(
                     '/clients/' + client_id + '/timesheet',
                     range);
+            },
+            'getReport': function (client_id, range) {
+                return $http.get(
+                    '/clients/' + client_id + '/report',
+                    {params: range});
+            },
+            'sendReport': function (client_id, range) {
+                return $http.post(
+                    '/clients/' + client_id + '/report',
+                    range);
             }
         };
     }
@@ -102,16 +112,6 @@
             },
             'delete': function (project) {
                 return $http.delete('/projects/' + project.id);
-            },
-            'getReport': function (project_id, range) {
-                return $http.get(
-                    '/projects/' + project_id + '/report',
-                    {params: range});
-            },
-            'sendReport': function (project_id, range) {
-                return $http.post(
-                    '/projects/' + project_id + '/report',
-                    range);
             }
         };
     }

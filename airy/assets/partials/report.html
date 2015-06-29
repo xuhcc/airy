@@ -1,6 +1,6 @@
 <div>
-    <div class="current-project" data-project-id="{{ report.project.id }}">
-        <h2>Task report for {{ report.project.name }}</h2>
+    <div class="current-client" data-client-id="{{ report.client.id }}">
+        <h2>Task report for {{ report.client.name }}</h2>
     </div>
     <div class="report-range">
         <div range-selector range="range"></div>
@@ -14,16 +14,23 @@
             </tr>
         </thead>
         <tbody>
-            <tr data-ng-repeat="task in report.tasks">
+            <tr ng-repeat-start="row in report.projects" class="report-section-header">
+                <td colspan="2">{{ row.project.name }}</td>
+            </tr>
+            <tr ng-repeat="task in row.tasks">
                 <td>{{ task.title }}</td>
                 <td>{{ task.amount|time }}</td>
             </tr>
-            <tr>
+            <tr ng-repeat-end class="report-total">
                 <td>Total</td>
+                <td><a ng-click="showCalculator(row.total)">{{ row.total|time }}</a></td>
+            </tr>
+            <tr class="report-total">
+                <td>Grand Total</td>
                 <td><a ng-click="showCalculator(report.total)">{{ report.total|time }}</a></td>
             </tr>
         </tbody>
     </table>
     <a class="content-nav-link" ng-click="sendByEmail()">send by email</a>
-    <a class="content-nav-link" ui-sref="project_detail({clientId: client.id, projectId: report.project.id})">back to list of tasks</a>
+    <a class="content-nav-link" ui-sref="client_detail({clientId: report.client.id})">back to client page</a>
 </div>

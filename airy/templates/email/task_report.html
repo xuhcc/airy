@@ -12,14 +12,23 @@
         </tr>
     </thead>
     <tbody>
-        {% for row in tasks %}
-        <tr>
-            <td>{{ row.title }}</td>
-            <td>{{ row.amount|time }}</td>
-        </tr>
+        {% for row in projects %}
+            <tr class="section-header">
+                <td colspan="2">{{ row.project.name }}</td>
+            </tr>
+            {% for task in row.tasks %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.amount|time }}</td>
+            </tr>
+            {% endfor %}
+            <tr class="total">
+                <td>Total</td>
+                <td>{{ row.total|time }}</td>
+            </tr>
         {% endfor %}
         <tr class="total">
-            <td>Total</td>
+            <td>Grant Total</td>
             <td>{{ total|time }}</td>
         </tr>
     </tbody>

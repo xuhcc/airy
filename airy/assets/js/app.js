@@ -68,6 +68,15 @@
                     label: 'Timesheet'
                 }
             })
+            .state('client_report', {
+                url: '/clients/:clientId/report',
+                templateUrl: 'static/partials/report.html',
+                controller: 'ClientReportController',
+                ncyBreadcrumb: {
+                    parent: 'client_detail',
+                    label: 'Task report'
+                }
+            })
             .state('project_detail', {
                 url: '/clients/:clientId/projects/:projectId',
                 templateUrl: 'static/partials/project.html',
@@ -75,15 +84,6 @@
                 ncyBreadcrumb: {
                     parent: 'client_detail',
                     label: '{{ project.name }}'
-                }
-            })
-            .state('project_report', {
-                url: '/clients/:clientId/projects/:projectId/report',
-                templateUrl: 'static/partials/report.html',
-                controller: 'ProjectReportController',
-                ncyBreadcrumb: {
-                    parent: 'project_detail',
-                    label: 'Task report'
                 }
             });
     }

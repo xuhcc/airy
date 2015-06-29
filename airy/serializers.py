@@ -190,17 +190,21 @@ class TimeSheetSerializer(Schema):
 
 class TaskReportSerializer(Schema):
 
-    project = fields.Nested(ProjectSerializer,
-                            only=['id', 'name', 'client'])
+    client = fields.Nested(ClientSerializer, only=['id', 'name'])
     date_range = fields.Nested(DateRangeSerializer)
-    tasks = fields.Method('serialize_tasks')
+    projects = fields.Method('serialize_projects')
     total = fields.Decimal(places=2, as_string=True)
 
     class Meta:
         strict = True
 
-    def serialize_tasks(self, obj):
-        data = obj['tasks'].copy()
+    def serialize_projects(self, obj):
+        data = obj['projects'].copy()
+        project_serializer = ProjectSerializer(only=['id', 'name'],
+                                               strict=True)
         for row in data:
-            row['amount'] = str(row['amount'])
+            row['project'] = project_serializer.dump(row['project']).data
+            row['total'] = str(row['total'])
+            for task_data in row['tasks']:
+                task_data['amount'] = str(task_data['amount'])
         return data
