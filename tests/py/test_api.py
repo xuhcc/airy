@@ -11,7 +11,7 @@ from factories import (
     DateRangeFactory)
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture()
 def login(client):
     login_url = url_for('user_api.login')
     client.post(login_url,
