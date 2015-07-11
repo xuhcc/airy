@@ -1,5 +1,12 @@
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.types import Integer, String, Text, DateTime, Enum, Numeric
+from sqlalchemy.types import (
+    Integer,
+    String,
+    Text,
+    DateTime,
+    Enum,
+    Numeric,
+    Interval)
 from sqlalchemy.orm import relationship, object_session
 from sqlalchemy.sql import func
 
@@ -99,6 +106,7 @@ class TimeEntry(db.Model):
     task_id = Column(Integer, ForeignKey("tasks.id"), nullable=False)
 
     id = Column(Integer, primary_key=True)
-    amount = Column(Numeric(4, 2), nullable=False)
+    amount = Column(Numeric(4, 2))
+    duration = Column(Interval)
     comment = Column(Text)
     added_at = Column(DateTime(timezone=True), nullable=False)
