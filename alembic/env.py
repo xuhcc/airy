@@ -19,7 +19,10 @@ from airy import database
 
 target_metadata = database.db.metadata
 
-config.set_main_option('sqlalchemy.url', database.sqlalchemy_url)
+testing = config.attributes.get('testing', False)
+config.set_main_option(
+    'sqlalchemy.url',
+    database.get_sqlalchemy_url(testing=testing))
 
 
 def run_migrations_offline():
