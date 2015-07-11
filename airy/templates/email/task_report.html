@@ -19,7 +19,7 @@
             {% for task in row.tasks %}
             <tr>
                 <td>{{ task.title }}</td>
-                <td>{{ task.amount|time }}</td>
+                <td>{{ task.total|time }}</td>
             </tr>
             {% endfor %}
             <tr class="total">

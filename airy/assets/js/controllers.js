@@ -244,19 +244,19 @@
                 task.timerData = {
                     start: moment(),
                     timer: $interval(function () {
-                        task.timerData.amount = moment().diff(
-                            moment(task.timerData.start), 'hours', true);
+                        task.timerData.duration = moment().diff(
+                            moment(task.timerData.start), 'seconds', true);
                     }, 500)
                 };
             } else {
                 // Stop timer
                 $interval.cancel(task.timerData.timer);
-                $scope.showTimeEntryForm(task, {}, task.timerData.amount);
+                $scope.showTimeEntryForm(task, {}, task.timerData.duration);
                 delete task.timerData;
             }
         };
 
-        $scope.showTimeEntryForm = function (task, timeEntry, amount) {
+        $scope.showTimeEntryForm = function (task, timeEntry, duration) {
             ngDialog.open({
                 template: 'static/partials/time_entry_form.html',
                 controller: 'TimeEntryFormController',
@@ -264,7 +264,7 @@
                 data: {
                     task: task,
                     timeEntry: timeEntry,
-                    amount: amount
+                    duration: duration
                 }
             });
         };
@@ -368,30 +368,30 @@
 
     function TimeEntryFormController($scope, timeEntryResource, airyUser) {
         $scope.timeEntry = angular.copy($scope.ngDialogData.timeEntry);
-        if ($scope.ngDialogData.amount) {
-            $scope.timeEntry.amount = $scope.ngDialogData.amount.toFixed(2);
+        if ($scope.ngDialogData.duration) {
+            $scope.timeEntry.duration = $scope.ngDialogData.duration;
         }
-        if ($scope.timeEntry.amount) {
+        if ($scope.timeEntry.duration) {
             $scope.time = getTime();
         }
 
         function getTime() {
             var duration = moment.duration(
-                parseFloat($scope.timeEntry.amount), 'hours');
+                $scope.timeEntry.duration, 'seconds');
             return {
                 hours: duration.hours(),
                 minutes: duration.minutes()
             };
         }
 
-        function getAmount() {
+        function getDuration() {
             var duration = moment.duration($scope.time);
-            return duration.asHours();
+            return duration.asSeconds();
         }
 
         $scope.submitForm = function () {
             $scope.timeEntry.task_id = $scope.ngDialogData.task.id;
-            $scope.timeEntry.amount = getAmount();
+            $scope.timeEntry.duration = getDuration();
             if (!$scope.timeEntry.id) {
                 $scope.createTimeEntry($scope.timeEntry);
             } else {
@@ -427,7 +427,7 @@
             });
         };
 
-        $scope.incrementTimeAmount = function () {
+        $scope.incrementDuration = function () {
             var duration = moment.duration($scope.time).add(30, 'minutes');
             $scope.time = {
                 hours: duration.hours(),

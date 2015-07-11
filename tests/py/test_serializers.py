@@ -155,11 +155,10 @@ class TestTaskSerializer():
         assert data['title'] == task.title
         assert data['description'] == task.description
         assert data['project_id'] == task.project.id
-        assert data['total_time'] == str(time_entry.amount)
+        assert data['total_time'] == time_entry.duration.total_seconds()
         assert data['is_closed'] is False
         time_data = data['time_entries'][0]
         assert time_data['id'] == time_entry.id
-        assert time_data['amount'] == str(time_entry.amount)
         assert time_data['comment'] == time_entry.comment
         assert 'task_id' not in time_data
 
@@ -217,7 +216,7 @@ class TestTimeEntrySerializer():
         serializer = TimeEntrySerializer(strict=True)
         data = serializer.dump(time_entry).data
         assert data['id'] == time_entry.id
-        assert data['amount'] == str(time_entry.amount)
+        assert data['duration'] == time_entry.duration.total_seconds()
         assert data['comment'] == time_entry.comment
         assert data['task_id'] == time_entry.task.id
         assert 'added_at' in data
@@ -227,11 +226,12 @@ class TestTimeEntrySerializer():
         self.db.session.commit()
         data = TimeEntryFactory.stub(task=None).__dict__
         data['task_id'] = task.id
+        data['duration'] = data['duration'].total_seconds()
         serializer = TimeEntrySerializer(exclude=['added_at'])
         instance, errors = serializer.load(data)
         assert not errors
         assert instance.id is None
-        assert instance.amount == data['amount']
+        assert instance.duration.total_seconds() == data['duration']
         assert instance.task_id == task.id
         assert instance.added_at is not None
 
@@ -241,17 +241,18 @@ class TestTimeEntrySerializer():
         data = TimeEntryFactory.stub(task=None).__dict__
         data['id'] = time_entry.id
         data['task_id'] = time_entry.task.id
+        data['duration'] = data['duration'].total_seconds()
         serializer = TimeEntrySerializer(exclude=['added_at'])
         instance, errors = serializer.load(data)
         assert not errors
         assert instance.id == time_entry.id
-        assert instance.amount == data['amount']
+        assert instance.duration.total_seconds() == data['duration']
         assert instance.task_id == time_entry.task.id
 
     def test_required(self):
         serializer = TimeEntrySerializer(exclude=['added_at'])
         instance, errors = serializer.load({})
-        assert 'amount' in errors
+        assert 'duration' in errors
         assert 'task_id' in errors
 
     def test_validate_task_id(self):
@@ -261,26 +262,20 @@ class TestTimeEntrySerializer():
         instance, errors = serializer.load(data)
         assert 'task_id' in errors
 
-    def test_validate_amount(self):
+    def test_validate_duration(self):
         task = TaskFactory.create()
         self.db.session.commit()
         data = TimeEntryFactory.stub(task=None).__dict__
         data['task_id'] = task.id
-        # NaN
-        invalid_data = data.copy()
-        invalid_data['amount'] = 'NaN'
-        serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load(invalid_data)
-        assert 'amount' in errors
         # Min
         invalid_data = data.copy()
-        invalid_data['amount'] = '0.00'
+        invalid_data['duration'] = 30
         serializer = TimeEntrySerializer(exclude=['added_at'])
         instance, errors = serializer.load(invalid_data)
-        assert 'amount' in errors
+        assert 'duration' in errors
         # Max
         invalid_data = data.copy()
-        invalid_data['amount'] = '1000.00'
+        invalid_data['duration'] = 101 * 3600
         serializer = TimeEntrySerializer(exclude=['added_at'])
         instance, errors = serializer.load(invalid_data)
-        assert 'amount' in errors
+        assert 'duration' in errors

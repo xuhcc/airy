@@ -3,7 +3,7 @@
         <legend>{{ !timeEntry.id ? 'New time entry' : 'Time entry #' + timeEntry.id }}</legend>
         <input type="number" min="0" max="99" name="hours" placeholder="Hours" data-ng-model="time.hours"><!--
         --><input type="number" min="0" max="59" name="minutes" placeholder="Minutes" data-ng-model="time.minutes" data-auto-focus><!--
-        --><button class="pure-button amount-increment" data-ng-click="incrementTimeAmount()">+30</button>
+        --><button class="pure-button amount-increment" data-ng-click="incrementDuration()">+30</button>
         <textarea name="comment" placeholder="Comment" data-ng-model="timeEntry.comment" data-msd-elastic="\n"></textarea>
         <button type="submit" class="pure-button pure-button-primary" data-ng-click="submitForm()" ng-disabled="form.$invalid">Save</button>
     </fieldset>

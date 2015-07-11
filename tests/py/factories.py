@@ -1,8 +1,9 @@
+import datetime
 import arrow
 
 import factory
 from factory.alchemy import SQLAlchemyModelFactory
-from factory.fuzzy import FuzzyDecimal
+from factory.fuzzy import BaseFuzzyAttribute, _random
 
 from airy import database, models
 from airy.utils.date import tz_now, week_beginning
@@ -42,6 +43,19 @@ class TaskFactory(SQLAlchemyModelFactory):
     updated_at = tz_now()
 
 
+class FuzzyTimeDelta(BaseFuzzyAttribute):
+
+    def __init__(self, low, high, **kwargs):
+        self.low = low
+        self.high = high
+        super().__init__(**kwargs)
+
+    def fuzz(self):
+        seconds = _random.uniform(self.low.total_seconds(),
+                                  self.high.total_seconds())
+        return datetime.timedelta(seconds=int(seconds))
+
+
 class TimeEntryFactory(SQLAlchemyModelFactory):
 
     class Meta:
@@ -49,7 +63,8 @@ class TimeEntryFactory(SQLAlchemyModelFactory):
         sqlalchemy_session = database.db.session
 
     task = factory.SubFactory(TaskFactory)
-    amount = FuzzyDecimal(0.01, 5.00)
+    duration = FuzzyTimeDelta(datetime.timedelta(minutes=1),
+                              datetime.timedelta(hours=100))
     comment = factory.Sequence(lambda n: 'Comment {0:02d}'.format(n))
     added_at = tz_now()
 

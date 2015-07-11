@@ -1,5 +1,5 @@
+import datetime
 from collections import OrderedDict
-from decimal import Decimal
 import itertools
 
 import arrow
@@ -30,7 +30,7 @@ class TimeSheet(object):
 
     def _build(self):
         query = db.session.\
-            query(Project, Task.title, TimeEntry.added_at, TimeEntry.amount).\
+            query(Project, Task.title, TimeEntry.added_at, TimeEntry.duration).\
             join(Project.tasks).\
             join(Task.time_entries).\
             filter(Project.client_id == self.client.id).\
@@ -41,27 +41,27 @@ class TimeSheet(object):
                  arrow.Arrow.range('day', *self.date_range)]
         daily_totals = OrderedDict()
         for date in dates:
-            daily_totals[date] = Decimal('0.00')
+            daily_totals[date] = datetime.timedelta()
         projects = []
 
         for project, group in itertools.groupby(query, lambda row: row[0]):
 
-            project_total = Decimal('0.00')
+            project_total = datetime.timedelta()
             daily_data = OrderedDict()
             for date in dates:
                 daily_data[date] = {
-                    'amount': Decimal('0.00'),
+                    'total': datetime.timedelta(),
                     'tasks': set(),
                 }
 
             for row in group:
                 task_title = row[1]
                 date = row[2].date()
-                amount = row[3]
+                duration = row[3]
                 daily_data[date]['tasks'].add(task_title)
-                daily_data[date]['amount'] += amount
-                project_total += amount
-                daily_totals[date] += amount
+                daily_data[date]['total'] += duration
+                project_total += duration
+                daily_totals[date] += duration
 
             projects.append({
                 'project': project,
@@ -78,7 +78,7 @@ class TimeSheet(object):
             'projects': projects,
             'totals': {
                 'time': list(daily_totals.values()),
-                'total': sum(daily_totals.values()),
+                'total': sum(daily_totals.values(), datetime.timedelta()),
             },
         }
         return timesheet
@@ -108,7 +108,7 @@ class TaskReport(object):
     def _build(self):
 
         query = db.session.\
-            query(Project, Task.id, Task.title, TimeEntry.amount).\
+            query(Project, Task.id, Task.title, TimeEntry.duration).\
             join(Project.tasks).\
             join(Task.time_entries).\
             filter(Project.client_id == self.client.id).\
@@ -116,20 +116,20 @@ class TaskReport(object):
             order_by(Project.name.asc(), Task.id.asc())
 
         projects = []
-        client_total = Decimal('0.00')
+        client_total = datetime.timedelta()
 
         for project, group in itertools.groupby(query, lambda row: row[0]):
 
             tasks = []
-            project_total = Decimal('0.00')
+            project_total = datetime.timedelta()
 
             for task, group in itertools.groupby(group, lambda row: row[1]):
-                amount = Decimal('0.00')
+                task_total = datetime.timedelta()
                 for row in group:
                     title = row[2]
-                    amount += row[3]
-                tasks.append({'title': title, 'amount': amount})
-                project_total += amount
+                    task_total += row[3]
+                tasks.append({'title': title, 'total': task_total})
+                project_total += task_total
 
             projects.append({
                 'project': project,

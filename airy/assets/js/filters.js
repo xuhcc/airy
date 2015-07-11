@@ -21,7 +21,7 @@
 
     function time() {
         return function (value) {
-            var duration = moment.duration(parseFloat(value), 'hours');
+            var duration = moment.duration(value, 'seconds');
             var hours = duration.days() * 24 + duration.hours();
             return hours + ':' + zfill(duration.minutes());
         };
@@ -29,7 +29,7 @@
 
     function timer() {
         return function (value) {
-            var duration = moment.duration(parseFloat(value), 'hours');
+            var duration = moment.duration(value, 'seconds');
             var hours = duration.days() * 24 + duration.hours();
             return hours + ':' + zfill(duration.minutes()) +
                 ':' + zfill(duration.seconds());

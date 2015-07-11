@@ -35,17 +35,17 @@ class User(object):
     def total_today(self):
         day_beg = arrow.get(tz_now()).floor('day').datetime
         day_end = arrow.get(day_beg).ceil('day').datetime
-        query = db.session.query(func.sum(TimeEntry.amount)).\
+        query = db.session.query(func.sum(TimeEntry.duration)).\
             filter(between(TimeEntry.added_at, day_beg, day_end))
-        return query.scalar() or 0
+        return query.scalar()
 
     @property
     def total_week(self):
         week_beg = arrow.get(tz_now()).floor('week').datetime
         week_end = arrow.get(week_beg).ceil('week').datetime
-        query = db.session.query(func.sum(TimeEntry.amount)).\
+        query = db.session.query(func.sum(TimeEntry.duration)).\
             filter(between(TimeEntry.added_at, week_beg, week_end))
-        return query.scalar() or 0
+        return query.scalar()
 
     def serialize(self):
         return UserSerializer().dump(self).data

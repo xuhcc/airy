@@ -22,11 +22,11 @@
                 <span>Time spent: <a class="task-total-time" title="Show details" data-ng-click="task.timeEntriesVisible = !task.timeEntriesVisible">{{ task.total_time|time }}</a></span>
                 <a class="task-add-time-entry icon" title="Add time" data-ng-click="showTimeEntryForm(task, {})">+</a>
                 <a class="task-toggle-timer icon" title="Toggle timer" data-ng-click="toggleTimer(task)">t</a>
-                <sup class="task-timer" data-ng-show="task.timerData">{{ task.timerData.amount|timer }}</sup>
+                <sup class="task-timer" data-ng-show="task.timerData">{{ task.timerData.duration|timer }}</sup>
             </div>
             <div class="task-time-entries" data-ng-show="task.timeEntriesVisible"><ul>
                 <li class="time-entry" data-ng-repeat="timeEntry in task.time_entries" data-ng-mouseenter="timeEntry.deleteIconVisible = true" data-ng-mouseleave="timeEntry.deleteIconVisible = false">
-                    <a class="time-entry-amount" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.amount|time }}</a>
+                    <a class="time-entry-amount" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.duration|time }}</a>
                     <span data-ng-if="timeEntry.comment">
                         — <a class="time-entry-comment" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" data-ng-click="showTimeEntryForm(task, timeEntry)">{{ timeEntry.comment }}</a>
                     </span>

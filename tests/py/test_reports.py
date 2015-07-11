@@ -1,5 +1,4 @@
 import datetime
-from decimal import Decimal
 import arrow
 import pytest
 
@@ -73,12 +72,11 @@ class TestTimeSheet(object):
         assert result['date_range']['beg'] == week_beg.isoformat()
         assert len(result['projects']) == 7
 
-        total_1 = sum(item.amount for item in time_entries)
-        total_2 = sum(Decimal(project['total'])
-                      for project in result['projects'])
-        total_3 = sum(Decimal(amount)
-                      for amount in result['totals']['time'])
-        total_4 = Decimal(result['totals']['total'])
+        total_1 = sum((item.duration for item in time_entries),
+                      datetime.timedelta()).total_seconds()
+        total_2 = sum(project['total'] for project in result['projects'])
+        total_3 = sum(result['totals']['time'])
+        total_4 = result['totals']['total']
         assert total_1 == total_2 == total_3 == total_4
 
 
@@ -103,8 +101,8 @@ class TestTaskReport(object):
         assert len(result['projects']) == 7
         assert result['date_range']['beg'] == week_beg.isoformat()
 
-        total_1 = sum(item.amount for item in time_entries)
-        total_2 = sum(Decimal(row['total'])
-                      for row in result['projects'])
-        total_3 = Decimal(result['total'])
+        total_1 = sum((item.duration for item in time_entries),
+                      datetime.timedelta()).total_seconds()
+        total_2 = sum(row['total'] for row in result['projects'])
+        total_3 = result['total']
         assert total_1 == total_2 == total_3

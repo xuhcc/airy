@@ -14,16 +14,16 @@ describe('Filters', function () {
     });
 
     it('time filter', function () {
-        var result1 = $filter('time')('0.00');
+        var result1 = $filter('time')(0);
         expect(result1).toBe('0:00');
-        var result2 = $filter('time')('32.50');
+        var result2 = $filter('time')(117000);
         expect(result2).toBe('32:30');
-        var result3 = $filter('time')('1.1667');
+        var result3 = $filter('time')(4200);
         expect(result3).toBe('1:10');
     });
 
     it('timer filter', function () {
-        var result = $filter('timer')('0.001');
+        var result = $filter('timer')(3);
         expect(result).toBe('0:00:03');
     });
 });

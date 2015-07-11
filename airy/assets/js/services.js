@@ -143,7 +143,7 @@
     function timeEntryResource($http) {
         var prepare = function (timeEntry) {
             return {
-                amount: timeEntry.amount,
+                duration: timeEntry.duration,
                 comment: timeEntry.comment,
                 task_id: timeEntry.task_id
             };

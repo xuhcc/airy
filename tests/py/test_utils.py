@@ -1,5 +1,4 @@
 import datetime
-from decimal import Decimal
 
 from airy.utils import date, email, template_filters
 
@@ -55,9 +54,11 @@ class TestEmailUtils():
 class TestTemplateFilters(object):
 
     def test_time_filter(self):
-        result_1 = template_filters.time_filter(Decimal('0.00'))
+        result_1 = template_filters.time_filter(datetime.timedelta())
         assert result_1 == '0:00'
-        result_2 = template_filters.time_filter(Decimal('32.50'))
+        result_2 = template_filters.time_filter(
+            datetime.timedelta(hours=32.5))
         assert result_2 == '32:30'
-        result_3 = template_filters.time_filter(Decimal('1.1667'))
+        result_3 = template_filters.time_filter(
+            datetime.timedelta(hours=1.1667))
         assert result_3 == '1:10'

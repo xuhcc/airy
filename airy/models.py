@@ -90,9 +90,9 @@ class Task(db.Model):
     @property
     def total_time(self):
         session = object_session(self)
-        query = session.query(func.sum(TimeEntry.amount)).\
+        query = session.query(func.sum(TimeEntry.duration)).\
             filter(TimeEntry.task_id == self.id)
-        return query.scalar() or 0
+        return query.scalar()
 
     @property
     def is_closed(self):

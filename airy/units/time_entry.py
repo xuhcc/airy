@@ -21,9 +21,13 @@ def save(data, time_entry_id=None):
         raise TimeEntryError(errors, 400)
     time_entry = db.session.merge(time_entry)
     db.session.commit()
+    if time_entry.task.total_time:
+        task_total_time = time_entry.task.total_time.total_seconds()
+    else:
+        task_total_time = 0
     serializer = TimeEntrySerializer(
         exclude='task_id',
-        extra={'task_total_time': str(time_entry.task.total_time)},
+        extra={'task_total_time': task_total_time},
         strict=True)
     return serializer.dump(time_entry).data
 
@@ -37,4 +41,4 @@ def delete(time_entry_id):
     task = time_entry.task
     db.session.delete(time_entry)
     db.session.commit()
-    return str(task.total_time)
+    return task.total_time.total_seconds() if task.total_time else 0

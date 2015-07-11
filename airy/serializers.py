@@ -1,3 +1,4 @@
+import datetime
 from marshmallow import Schema, fields, validate, ValidationError
 
 from airy.database import db
@@ -9,18 +10,11 @@ class UserSerializer(Schema):
 
     name = fields.String()
     open_tasks = fields.Integer()
-    total_today = fields.Decimal(places=2, as_string=True)
-    total_week = fields.Decimal(places=2, as_string=True)
+    total_today = fields.TimeDelta()
+    total_week = fields.TimeDelta()
 
     class Meta:
         strict = True
-
-
-def validate_amount(value):
-    if value.is_nan():
-        raise ValidationError('Amount can not be NaN')
-    else:
-        validate.Range(min=0.01, max=99.99)(value)
 
 
 def validate_task_id(value):
@@ -31,8 +25,11 @@ def validate_task_id(value):
 class TimeEntrySerializer(Schema):
 
     id = fields.Integer()
-    amount = fields.Decimal(places=2, as_string=True, required=True,
-                            validate=validate_amount)
+    duration = fields.TimeDelta(
+        required=True,
+        validate=validate.Range(
+            min=datetime.timedelta(minutes=1),
+            max=datetime.timedelta(hours=100)))
     comment = fields.String(validate=validate.Length(max=100))
     task_id = fields.Integer(required=True,
                              validate=validate_task_id)
@@ -64,7 +61,7 @@ class TaskSerializer(Schema):
     time_entries = fields.Nested(TimeEntrySerializer,
                                  exclude=['task_id'],
                                  many=True)
-    total_time = fields.Decimal(places=2, as_string=True)
+    total_time = fields.TimeDelta(default=0)
     is_closed = fields.Boolean()
 
     def make_object(self, data):
@@ -175,16 +172,16 @@ class TimeSheetSerializer(Schema):
                                                strict=True)
         for row in data:
             row['project'] = project_serializer.dump(row['project']).data
-            row['total'] = str(row['total'])
+            row['total'] = row['total'].total_seconds()
             for day_data in row['time']:
-                day_data['amount'] = str(day_data['amount'])
+                day_data['total'] = day_data['total'].total_seconds()
                 day_data['tasks'] = '\n'.join(day_data['tasks'])
         return data
 
     def serialize_totals(self, obj):
         totals = obj['totals'].copy()
-        totals['time'] = [str(val) for val in totals['time']]
-        totals['total'] = str(totals['total'])
+        totals['time'] = [val.total_seconds() for val in totals['time']]
+        totals['total'] = totals['total'].total_seconds()
         return totals
 
 
@@ -193,7 +190,7 @@ class TaskReportSerializer(Schema):
     client = fields.Nested(ClientSerializer, only=['id', 'name'])
     date_range = fields.Nested(DateRangeSerializer)
     projects = fields.Method('serialize_projects')
-    total = fields.Decimal(places=2, as_string=True)
+    total = fields.TimeDelta()
 
     class Meta:
         strict = True
@@ -204,7 +201,7 @@ class TaskReportSerializer(Schema):
                                                strict=True)
         for row in data:
             row['project'] = project_serializer.dump(row['project']).data
-            row['total'] = str(row['total'])
+            row['total'] = row['total'].total_seconds()
             for task_data in row['tasks']:
-                task_data['amount'] = str(task_data['amount'])
+                task_data['total'] = task_data['total'].total_seconds()
         return data

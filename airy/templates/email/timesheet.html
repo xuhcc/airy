@@ -21,7 +21,7 @@
         <tr>
             <td>{{ row.project.name }}</td>
             {% for day_data in row.time %}
-                <td>{{ day_data.amount|time }}</td>
+                <td>{{ day_data.total|time }}</td>
             {% endfor %}
             <td>{{ row.total|time }}</td>
         </tr>

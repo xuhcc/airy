@@ -135,7 +135,7 @@ class TestClientApi():
         report = response.json['report']
         assert report['client']['id'] == client.id
         assert len(report['projects']) == 1
-        assert report['total'] == str(time_entry.amount)
+        assert report['total'] == time_entry.duration.total_seconds()
 
         url = url_for('client_api.report', client_id=0)
         response = self.client.get(url)
@@ -303,15 +303,15 @@ class TestTimeEntryApi():
         url = url_for('time_entry_api.time_entries')
         time_entry_data = {
             'task_id': task.id,
-            'amount': '1.50',
+            'duration': 5400,
         }
         response = self.client.post(url, json=time_entry_data)
         assert response.status_code == 200
         assert 'time_entry' in response.json
         assert (response.json['time_entry']['task_id'] ==
                 time_entry_data['task_id'])
-        assert (response.json['time_entry']['amount'] ==
-                time_entry_data['amount'])
+        assert (response.json['time_entry']['duration'] ==
+                time_entry_data['duration'])
 
     def test_update_time_entry(self):
         time_entry = TimeEntryFactory.create()
@@ -320,13 +320,13 @@ class TestTimeEntryApi():
         url = url_for('time_entry_api.time_entry', time_entry_id=time_entry.id)
         time_entry_data = {
             'task_id': time_entry.task_id,
-            'amount': '0.60',
+            'duration': 2160,
         }
         response = self.client.put(url, json=time_entry_data)
         assert response.status_code == 200
         assert 'time_entry' in response.json
-        assert (response.json['time_entry']['amount'] ==
-                time_entry_data['amount'])
+        assert (response.json['time_entry']['duration'] ==
+                time_entry_data['duration'])
 
         url = url_for('time_entry_api.time_entry', time_entry_id=0)
         response = self.client.put(url, json=time_entry_data)
