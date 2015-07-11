@@ -17,7 +17,7 @@ def venv(production=False):
         env.run("virtualenv venv")
         with prefix(". venv/bin/activate"):
             if production:
-                env.run("pip install -r requirements.txt --upgrade")
+                env.run("pip install -q -r requirements.txt --upgrade")
             else:
                 env.run("pip install -r requirements-dev.txt --upgrade")
         env.run("touch venv/bin/activate")
