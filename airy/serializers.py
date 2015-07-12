@@ -22,14 +22,22 @@ def validate_task_id(value):
         raise ValidationError('Invalid task id.')
 
 
+def validate_duration(value):
+    if value.seconds % 60 != 0:
+        raise ValidationError('Seconds are not allowed.')
+
+
 class TimeEntrySerializer(Schema):
 
     id = fields.Integer()
     duration = fields.TimeDelta(
         required=True,
-        validate=validate.Range(
-            min=datetime.timedelta(minutes=1),
-            max=datetime.timedelta(hours=100)))
+        validate=[
+            validate.Range(
+                min=datetime.timedelta(minutes=1),
+                max=datetime.timedelta(hours=100)),
+            validate_duration,
+        ])
     comment = fields.String(validate=validate.Length(max=100))
     task_id = fields.Integer(required=True,
                              validate=validate_task_id)

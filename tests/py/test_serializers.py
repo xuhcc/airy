@@ -279,3 +279,9 @@ class TestTimeEntrySerializer():
         serializer = TimeEntrySerializer(exclude=['added_at'])
         instance, errors = serializer.load(invalid_data)
         assert 'duration' in errors
+        # Seconds
+        invalid_data = data.copy()
+        invalid_data['duration'] = 11111
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load(invalid_data)
+        assert 'duration' in errors

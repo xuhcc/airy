@@ -45,15 +45,17 @@ class TaskFactory(SQLAlchemyModelFactory):
 
 class FuzzyTimeDelta(BaseFuzzyAttribute):
 
-    def __init__(self, low, high, **kwargs):
+    def __init__(self, low, high, precision=60, **kwargs):
         self.low = low
         self.high = high
+        self.precision = precision
         super().__init__(**kwargs)
 
     def fuzz(self):
-        seconds = _random.uniform(self.low.total_seconds(),
-                                  self.high.total_seconds())
-        return datetime.timedelta(seconds=int(seconds))
+        seconds = int(_random.uniform(self.low.total_seconds(),
+                                      self.high.total_seconds()))
+        seconds -= seconds % self.precision
+        return datetime.timedelta(seconds=seconds)
 
 
 class TimeEntryFactory(SQLAlchemyModelFactory):
