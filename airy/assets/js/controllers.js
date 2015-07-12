@@ -110,8 +110,8 @@
             end: moment().endOf('isoWeek').format()
         };
 
-        $scope.showCalculator = function (amount) {
-            calculator.show(amount);
+        $scope.showCalculator = function (duration) {
+            calculator.show(duration);
         };
 
         $scope.sendByEmail = function () {
@@ -321,8 +321,8 @@
             $scope.range.end = $scope.period.getRangeEnd($scope.range.beg);
         };
 
-        $scope.showCalculator = function (amount) {
-            calculator.show(amount);
+        $scope.showCalculator = function (duration) {
+            calculator.show(duration);
         };
 
         $scope.sendByEmail = function () {

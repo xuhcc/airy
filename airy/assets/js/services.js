@@ -197,7 +197,7 @@
 
     function calculator(ngDialog) {
         return {
-            show: function (amount) {
+            show: function (duration) {
                 var template = '\
                     <form class="pure-form calculator-form">\
                         <fieldset>\
@@ -209,14 +209,15 @@
                     template: template,
                     plain: true,
                     controller: function ($scope) {
-                        $scope.amount = $scope.ngDialogData.amount;
+                        $scope.duration = moment.duration($scope.ngDialogData.duration, 'seconds');
                         $scope.price = 0;
                         $scope.getResult = function () {
-                            var result = parseFloat($scope.amount) * parseInt($scope.price);
-                            return $scope.amount + ' × ' + $scope.price + ' = ' + result.toFixed(2);
+                            var hours = $scope.duration.asHours().toFixed(2);
+                            var result = hours * parseInt($scope.price);
+                            return hours + ' × ' + $scope.price + ' = ' + result.toFixed(2);
                         };
                     },
-                    data: {amount: amount}
+                    data: {duration: duration}
                 });
             }
         };
