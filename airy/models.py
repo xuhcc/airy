@@ -82,9 +82,10 @@ class Task(db.Model):
     updated_at = Column(DateTime(timezone=True), nullable=False)
     status = Column(TaskStatus, nullable=False, default="open")
 
-    time_entries = relationship("TimeEntry",
-                                cascade="all,delete",
-                                backref="task")
+    time_entries = relationship('TimeEntry',
+                                cascade='all,delete',
+                                backref='task',
+                                order_by='TimeEntry.added_at')
 
     @property
     def total_time(self):
