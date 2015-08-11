@@ -213,7 +213,7 @@
                         $scope.price = 0;
                         $scope.getResult = function () {
                             var hours = $scope.duration.asHours().toFixed(2);
-                            var result = hours * parseInt($scope.price);
+                            var result = hours * parseFloat($scope.price);
                             return hours + ' × ' + $scope.price + ' = ' + result.toFixed(2);
                         };
                     },
