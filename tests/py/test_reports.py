@@ -7,6 +7,7 @@ from airy.units.report import TimeSheet, TaskReport
 from airy.serializers import DateRangeSerializer
 from factories import (
     ClientFactory,
+    TaskFactory,
     TimeEntryFactory,
     DateRangeFactory)
 
@@ -58,11 +59,19 @@ class TestTimeSheet(object):
         week_beg = week_beginning(tz_now())
         date_range = DateRangeFactory(beg=week_beg.isoformat())
         client = ClientFactory.create()
+
         time_entries = []
         for day in range(7):
             time_entries.append(TimeEntryFactory.create(
                 task__project__client=client,
                 added_at=week_beg + datetime.timedelta(days=day)))
+        task = TaskFactory.create(project__client=client)
+        for day in range(7):
+            time_entries.append(TimeEntryFactory.create(
+                task=task,
+                duration=datetime.timedelta(minutes=30),
+                added_at=week_beg + datetime.timedelta(days=day)))
+
         self.db.session.commit()
 
         timesheet = TimeSheet(client.id, date_range)
@@ -70,7 +79,7 @@ class TestTimeSheet(object):
 
         assert result['client']['name'] == client.name
         assert result['date_range']['beg'] == week_beg.isoformat()
-        assert len(result['projects']) == 7
+        assert len(result['projects']) == 8
 
         total_1 = sum((item.duration for item in time_entries),
                       datetime.timedelta()).total_seconds()
@@ -87,18 +96,26 @@ class TestTaskReport(object):
         week_beg = week_beginning(tz_now())
         date_range = DateRangeFactory(beg=week_beg.isoformat())
         client = ClientFactory.create()
+
         time_entries = []
         for day in range(7):
             time_entries.append(TimeEntryFactory.create(
                 task__project__client=client,
                 added_at=week_beg + datetime.timedelta(days=day)))
+        task = TaskFactory.create(project__client=client)
+        for day in range(7):
+            time_entries.append(TimeEntryFactory.create(
+                task=task,
+                duration=datetime.timedelta(minutes=30),
+                added_at=week_beg + datetime.timedelta(days=day)))
+
         self.db.session.commit()
 
         task_report = TaskReport(client.id, date_range)
         result = task_report.get()
 
         assert result['client']['id'] == client.id
-        assert len(result['projects']) == 7
+        assert len(result['projects']) == 8
         assert result['date_range']['beg'] == week_beg.isoformat()
 
         total_1 = sum((item.duration for item in time_entries),

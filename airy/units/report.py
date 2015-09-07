@@ -30,7 +30,7 @@ class TimeSheet(object):
 
     def _build(self):
         query = db.session.\
-            query(Project, Task.title, TimeEntry.added_at, TimeEntry.duration).\
+            query(Project, Task, TimeEntry).\
             join(Project.tasks).\
             join(Task.time_entries).\
             filter(Project.client_id == self.client.id).\
@@ -55,9 +55,9 @@ class TimeSheet(object):
                 }
 
             for row in group:
-                task_title = row[1]
-                date = row[2].date()
-                duration = row[3]
+                task_title = row[1].title
+                date = row[2].added_at.date()
+                duration = row[2].duration
                 daily_data[date]['tasks'].add(task_title)
                 daily_data[date]['total'] += duration
                 project_total += duration
@@ -108,7 +108,7 @@ class TaskReport(object):
     def _build(self):
 
         query = db.session.\
-            query(Project, Task.id, Task.title, TimeEntry.duration).\
+            query(Project, Task, TimeEntry).\
             join(Project.tasks).\
             join(Task.time_entries).\
             filter(Project.client_id == self.client.id).\
@@ -126,8 +126,8 @@ class TaskReport(object):
             for task, group in itertools.groupby(group, lambda row: row[1]):
                 task_total = datetime.timedelta()
                 for row in group:
-                    title = row[2]
-                    task_total += row[3]
+                    title = task.title
+                    task_total += row[2].duration
                 tasks.append({'title': title, 'total': task_total})
                 project_total += task_total
 
