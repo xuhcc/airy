@@ -119,9 +119,9 @@
     function taskResource($http) {
         var prepare = function (task) {
             return {
-                    title: task.title,
-                    description: task.description,
-                    project_id: task.project_id
+                title: task.title,
+                description: task.description,
+                project_id: task.project_id
             };
         };
         return {
