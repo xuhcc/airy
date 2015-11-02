@@ -4,6 +4,7 @@ import itertools
 
 import arrow
 from flask import render_template
+import premailer
 from sqlalchemy import between
 
 from airy import settings
@@ -90,7 +91,7 @@ class TimeSheet(object):
         subject = 'Timesheet for {0}'.format(self.client.name)
         html = render_template('email/timesheet.html', **self._build())
         email.send(subject,
-                   html,
+                   premailer.transform(html),
                    settings.email)
 
 
@@ -157,5 +158,5 @@ class TaskReport(object):
         subject = 'Task report for {0}'.format(self.client.name)
         html = render_template('email/task_report.html', **self._build())
         email.send(subject,
-                   html,
+                   premailer.transform(html),
                    settings.email)
