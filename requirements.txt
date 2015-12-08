@@ -6,7 +6,7 @@ Flask-SQLAlchemy==2.1
 psycopg2==2.6.1
 alembic==0.8.3
 Jinja2==2.8
-marshmallow==1.2.6
+marshmallow==2.4.1
 pytz>=2014.2
 arrow==0.5.4
 premailer==2.8.3

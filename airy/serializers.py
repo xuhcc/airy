@@ -1,5 +1,7 @@
 import datetime
-from marshmallow import Schema, fields, validate, ValidationError
+from marshmallow import (
+    Schema, fields, post_load,
+    validate, validates_schema, ValidationError)
 
 from airy.database import db
 from airy.models import Client, Project, Task, TimeEntry
@@ -44,7 +46,8 @@ class TimeEntrySerializer(Schema):
 
     added_at = fields.DateTime()
 
-    def make_object(self, data):
+    @post_load
+    def make_time_entry(self, data):
         if 'id' not in data:
             data['added_at'] = tz_now()
         return TimeEntry(**data)
@@ -72,7 +75,8 @@ class TaskSerializer(Schema):
     total_time = fields.TimeDelta(default=0)
     is_closed = fields.Boolean()
 
-    def make_object(self, data):
+    @post_load
+    def make_task(self, data):
         if 'id' not in data:
             data['created_at'] = tz_now()
         data['updated_at'] = tz_now()
@@ -110,7 +114,8 @@ class ProjectSerializer(Schema):
         elif task_status == 'closed':
             self.fields['tasks'].attribute = 'closed_tasks'
 
-    def make_object(self, data):
+    @post_load
+    def make_project(self, data):
         return Project(**data)
 
 
@@ -124,20 +129,20 @@ class ClientSerializer(Schema):
                              only=['id', 'name', 'description', 'last_task'],
                              many=True)
 
-    def make_object(self, data):
+    @validates_schema
+    def validate_unique_client_name(self, client):
+        if client.get('name'):
+            name_query = Client.query.filter(
+                Client.name == client['name'],
+                Client.id != client.get('id'))
+            if db.session.query(name_query.exists()).scalar():
+                raise ValidationError(
+                    'Client {0} already exists'.format(client['name']),
+                    'name')
+
+    @post_load
+    def make_client(self, data):
         return Client(**data)
-
-
-@ClientSerializer.validator
-def validate_unique_client_name(schema, client):
-    if client.get('name'):
-        name_query = Client.query.filter(
-            Client.name == client['name'],
-            Client.id != client.get('id'))
-        if db.session.query(name_query.exists()).scalar():
-            raise ValidationError(
-                'Client {0} already exists'.format(client['name']),
-                'name')
 
 
 def validate_range_beginning(value):
@@ -157,7 +162,8 @@ class DateRangeSerializer(Schema):
     end = fields.LocalDateTime(required=True,
                                validate=validate_range_end)
 
-    def make_object(self, data):
+    @post_load
+    def make_date_range(self, data):
         """
         Make tuple
         """
