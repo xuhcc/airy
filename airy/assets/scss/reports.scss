@@ -22,18 +22,20 @@
     font-weight: bold;
 }
 
-.calculator-form fieldset {
-    font-size: 1.2em;
-    padding: 10px 0;
-}
+.calculator-form {
+    fieldset {
+        font-size: 1.2em;
+        padding: 10px 0;
+    }
 
-.calculator-form .price {
-    border-radius: 4px 0 0 4px !important;
-    width: 80px;
-}
+    .price {
+        border-radius: 4px 0 0 4px !important;
+        width: 80px;
+    }
 
-.calculator-form .result {
-    border-radius: 0 4px 4px 0 !important;
-    display: inline-block;
-    width: 250px;
+    .result {
+        border-radius: 0 4px 4px 0 !important;
+        display: inline-block;
+        width: 250px;
+    }
 }

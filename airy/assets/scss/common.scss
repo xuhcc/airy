@@ -76,20 +76,20 @@ ul {
     list-style-type: none;
     margin: 10px 0;
     padding: 0;
-}
 
-.breadcrumbs li {
-    display: inline-block;
-}
+    li {
+        display: inline-block;
 
-.breadcrumbs li a,
-.breadcrumbs li span {
-    display: inline-block;
-    padding: 5px;
-}
+        a,
+        span {
+            display: inline-block;
+            padding: 5px;
+        }
+    }
 
-.breadcrumbs .separator {
-    color: #999;
+    .separator {
+        color: #999;
+    }
 }
 
 .content-nav-link {
@@ -102,63 +102,64 @@ footer {
     margin-top: 20px;
 }
 
-.popup .ngdialog-content {
-    background-color: white;
-    bottom: auto;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    position: fixed;
-    top: 30%;
-    width: 500px;
-}
+.popup {
+    .ngdialog-content {
+        background-color: white;
+        bottom: auto;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        position: fixed;
+        top: 30%;
+        width: 500px;
+    }
 
-.popup .ngdialog-close {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
+    .ngdialog-close {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
 
-.popup .ngdialog-close:before {
-    background: transparent;
-    border-radius: 3px;
-    color: #BBB;
-    font-size: 26px;
-    font-weight: 400;
-    height: 30px;
-    line-height: 26px;
-    position: absolute;
-    right: 3px;
-    text-align: center;
-    top: 3px;
-    width: 30px;
-}
+    .ngdialog-close:before {
+        background: transparent;
+        border-radius: 3px;
+        color: #BBB;
+        font-size: 26px;
+        font-weight: 400;
+        height: 30px;
+        line-height: 26px;
+        position: absolute;
+        right: 3px;
+        text-align: center;
+        top: 3px;
+        width: 30px;
+    }
 
-.popup .ngdialog-close:hover:before,
-.popup .ngdialog-close:active:before {
-    color: #777;
+    .ngdialog-close:hover:before,
+    .ngdialog-close:active:before {
+        color: #777;
+    }
+
+    form {
+        padding: 10px 35px;
+        text-align: center;
+    }
+
+    input,
+    textarea {
+        width: 100%;
+    }
 }
 
 .alert,
 .confirm {
     padding: 20px 10px;
     text-align: center;
-}
 
-.alert button,
-.confirm button {
-    margin-top: 10px;
-}
-
-.popup form {
-    padding: 10px 35px;
-    text-align: center;
-}
-
-.popup input,
-.popup textarea {
-    width: 100%;
+    button {
+        margin-top: 10px;
+    }
 }
 
 .form-message {
