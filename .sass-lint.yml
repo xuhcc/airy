@@ -9,7 +9,6 @@ rules:
     - style: uppercase
 
   no-color-literals: 0
-  no-color-keywords: 0
   no-qualifying-elements: 0
   no-duplicate-properties: 0
   no-important: 0

@@ -1,3 +1,5 @@
+@import 'colors';
+
 @font-face {
     font-family: 'icons';
     font-style: normal;
@@ -20,21 +22,21 @@ body {
 }
 
 a {
-    color: #3B6180;
+    color: $link-color;
     cursor: pointer;
     text-decoration: none;
 }
 
 a:hover {
-    color: #5693C5;
+    color: $link-hover-color;
 }
 
 a.icon {
-    color: #7DA4C4;
+    color: $icon-color;
 }
 
 a.icon:hover {
-    color: #5693C5;
+    color: $link-hover-color;
 }
 
 textarea {
@@ -42,7 +44,6 @@ textarea {
 }
 
 h1 {
-    color: #273E51;
     margin: 0;
 }
 
@@ -88,7 +89,7 @@ ul {
     }
 
     .separator {
-        color: #999;
+        color: $secondary-color;
     }
 }
 
@@ -98,13 +99,13 @@ ul {
 }
 
 footer {
-    color: #999;
+    color: $secondary-color;
     margin-top: 20px;
 }
 
 .popup {
     .ngdialog-content {
-        background-color: white;
+        background-color: #FFF;
         bottom: auto;
         left: 0;
         margin-left: auto;
@@ -163,5 +164,5 @@ footer {
 }
 
 .form-message {
-    color: red;
+    color: $error-color;
 }

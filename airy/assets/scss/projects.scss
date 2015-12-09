@@ -1,5 +1,7 @@
+@import 'colors';
+
 .project {
-    border: 3px solid #D9E6F1;
+    border: 3px solid $main-color;
     border-radius: 5px;
     margin-bottom: 5px;
     padding: 5px 10px;
@@ -12,12 +14,12 @@
 }
 
 .project-description {
-    color: #999;
+    color: $secondary-color;
     margin-bottom: 5px;
 }
 
 .project-last-task {
-    border-top: 2px dotted #D9E6F1;
+    border-top: 2px dotted $main-color;
 }
 
 .project-add {

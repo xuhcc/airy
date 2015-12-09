@@ -1,5 +1,7 @@
+@import 'colors';
+
 .task {
-    border: 3px solid #D9E6F1;
+    border: 3px solid $main-color;
     border-radius: 5px;
     margin-bottom: 5px;
     padding: 5px 10px;
@@ -18,7 +20,7 @@
 }
 
 .task-description {
-    color: #999;
+    color: $secondary-color;
 }
 
 .task-add-time-entry {
@@ -26,7 +28,7 @@
 }
 
 .task-time-entries ul {
-    color: #3B6180;
+    color: $link-color;
     list-style-position: inside;
     list-style-type: disc;
     margin: 0;
