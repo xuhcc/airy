@@ -152,6 +152,12 @@ module.exports = function (grunt) {
                     }
                 }
             }
+        },
+        watch: {
+            css: {
+                files: ['<%= paths.app.scss %>'],
+                tasks: ['sass']
+            }
         }
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
