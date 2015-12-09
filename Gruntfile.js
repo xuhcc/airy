@@ -13,6 +13,7 @@ module.exports = function (grunt) {
         paths: {
             app: {
                 js: 'airy/assets/js/*.js',
+                scss: 'airy/assets/scss/*.scss',
                 css: 'airy/assets/css/*.css',
                 partials: 'airy/assets/partials/*.html'
             },
@@ -47,7 +48,7 @@ module.exports = function (grunt) {
                 'important': false
             },
             main: {
-                src: '<%= paths.app.css %>'
+                src: '<%= paths.app.scss %>'
             }
         },
         htmlhint: {
@@ -121,6 +122,18 @@ module.exports = function (grunt) {
                 nonull: true
             },
         },
+        sass: {
+            options: {
+                sourceMap: true
+            },
+            main: {
+                src: '<%= paths.app.scss %>',
+                dest: 'airy/assets/css/',
+                expand: true,
+                flatten: true,
+                ext: '.css'
+            }
+        },
         jasmine: {
             main: {
                 src: '<%= paths.app.js %>',
@@ -150,18 +163,21 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-sass');
     grunt.registerTask('default', []);
     grunt.registerTask('build:development', function () {
         grunt.task.run([
             'copy:dev_lib_js',
-            'copy:dev_lib_css'
+            'copy:dev_lib_css',
+            'sass'
         ]);
     });
     grunt.registerTask('build:production', function () {
         grunt.task.run([
             'copy:production',
-            'uglify:production',
-            'cssmin:production'
+            'sass',
+            'cssmin:production',
+            'uglify:production'
         ]);
     });
 };

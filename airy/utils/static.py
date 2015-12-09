@@ -20,9 +20,11 @@ def get_assets():
                 assets['css'].append(path)
         # Application files
         for filename in os.listdir(os.path.join(static_dir, 'js')):
-            assets['js'].append(os.path.join('js', filename))
+            if filename.endswith('.js'):
+                assets['js'].append(os.path.join('js', filename))
         for filename in os.listdir(os.path.join(static_dir, 'css')):
-            assets['css'].append(os.path.join('css', filename))
+            if filename.endswith('.css'):
+                assets['css'].append(os.path.join('css', filename))
     else:
         assets['js'].append(os.path.join('js', 'scripts.min.js'))
         assets['css'].append(os.path.join('css', 'styles.min.css'))
