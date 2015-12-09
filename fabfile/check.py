@@ -8,7 +8,7 @@ def js():
 
 @task
 def css():
-    local("node_modules/grunt-cli/bin/grunt csslint")
+    local("node_modules/grunt-cli/bin/grunt sasslint sass csslint")
 
 
 @task

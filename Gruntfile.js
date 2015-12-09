@@ -41,6 +41,12 @@ module.exports = function (grunt) {
                 disallowQuotedKeysInObjects: null
             }
         },
+        sasslint: {
+            options: {
+                configFile: '.sass-lint.yml'
+            },
+            target: ['<%= paths.app.scss %>']
+        },
         csslint: {
             options: {
                 'adjoining-classes': false,
@@ -48,7 +54,7 @@ module.exports = function (grunt) {
                 'important': false
             },
             main: {
-                src: '<%= paths.app.scss %>'
+                src: '<%= paths.app.css %>'
             }
         },
         htmlhint: {
@@ -124,6 +130,8 @@ module.exports = function (grunt) {
         },
         sass: {
             options: {
+                indentWidth: 4,
+                outputStyle: 'expanded',
                 sourceMap: true
             },
             main: {
@@ -170,6 +178,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-sass');
+    grunt.loadNpmTasks('grunt-sass-lint');
     grunt.registerTask('default', []);
     grunt.registerTask('build:development', function () {
         grunt.task.run([

@@ -1,0 +1,20 @@
+rules:
+  indentation: 0
+  quotes: 0
+  leading-zero:
+    - 1
+    - include: true
+  hex-notation:
+    - 1
+    - style: uppercase
+
+  no-color-literals: 0
+  no-color-keywords: 0
+  no-qualifying-elements: 0
+  property-sort-order: 0
+  no-duplicate-properties: 0
+  no-important: 0
+
+  force-pseudo-nesting: 0
+  force-element-nesting: 0
+  force-attribute-nesting: 0
