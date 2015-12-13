@@ -202,6 +202,10 @@ module.exports = function (grunt) {
                 files: ['<%= paths.app.js %>'],
                 tasks: ['copy:appJs'],
             },
+            appPartials: {
+                files: ['<%= paths.app.partials %>'],
+                tasks: ['copy:appPartials'],
+            },
         },
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');

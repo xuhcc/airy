@@ -31,7 +31,7 @@
             })
             .state('client_list', {
                 url: '/clients',
-                templateUrl: 'static/partials/clients.html',
+                templateUrl: 'static/partials/client_list.html',
                 controller: 'ClientListController',
                 ncyBreadcrumb: {
                     label: 'h',
@@ -39,7 +39,7 @@
             })
             .state('client_detail', {
                 url: '/clients/:clientId',
-                templateUrl: 'static/partials/client.html',
+                templateUrl: 'static/partials/client_detail.html',
                 controller: 'ClientDetailController',
                 ncyBreadcrumb: {
                     parent: 'client_list',
@@ -48,7 +48,7 @@
             })
             .state('client_timesheet', {
                 url: '/clients/:clientId/timesheet',
-                templateUrl: 'static/partials/timesheet.html',
+                templateUrl: 'static/partials/client_timesheet.html',
                 controller: 'ClientTimeSheetCtrl',
                 ncyBreadcrumb: {
                     parent: 'client_detail',
@@ -57,7 +57,7 @@
             })
             .state('client_report', {
                 url: '/clients/:clientId/report',
-                templateUrl: 'static/partials/report.html',
+                templateUrl: 'static/partials/client_report.html',
                 controller: 'ClientReportController',
                 ncyBreadcrumb: {
                     parent: 'client_detail',
@@ -66,7 +66,7 @@
             })
             .state('project_detail', {
                 url: '/clients/:clientId/projects/:projectId',
-                templateUrl: 'static/partials/project.html',
+                templateUrl: 'static/partials/project_detail.html',
                 controller: 'ProjectDetailController',
                 ncyBreadcrumb: {
                     parent: 'client_detail',

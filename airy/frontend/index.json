@@ -28,11 +28,11 @@
             "airy/frontend/app/directives.js",
             "airy/frontend/app/filters.js"
         ],
-        "scss": "airy/frontend/scss/*.scss",
+        "partials": "airy/frontend/app/**/*.html",
+        "scss": "airy/frontend/app/**/*.scss",
         "css": "airy/frontend/css/*.css",
         "cssmaps": "airy/frontend/css/*.css.map",
-        "fonts": "airy/frontend/fonts/*",
-        "partials": "airy/frontend/partials/*.html"
+        "fonts": "airy/frontend/fonts/*"
     },
     "specs": "airy/frontend/app/**/*.spec.js",
     "lib": {
