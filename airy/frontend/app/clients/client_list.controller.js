@@ -5,7 +5,7 @@
         .module('airy.clientList')
         .controller('ClientListController', ClientListController);
 
-    function ClientListController($scope, $rootScope, ngDialog, hotkeys, airyModal, clientResource) {
+    function ClientListController($scope, $rootScope, ngDialog, hotkeys, airyPopup, clientResource) {
         $rootScope.title = 'Clients';
         $scope.clients = [];
 
@@ -26,7 +26,7 @@
         };
 
         $scope.deleteClient = function (client) {
-            airyModal.confirm('Delete client?', function () {
+            airyPopup.confirm('Delete client?', function () {
                 clientResource.delete(client).success(function (data) {
                     $scope.clients.splice($scope.clients.indexOf(client), 1);
                 });

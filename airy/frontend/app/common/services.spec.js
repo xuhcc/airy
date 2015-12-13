@@ -5,14 +5,14 @@ describe('Services', function () {
         var httpBackend;
         var airyUser;
         var stateMock;
-        var airyModalMock;
+        var airyPopupMock;
 
         beforeEach(function () {
             module('airy.services', function ($provide) {
                 stateMock = jasmine.createSpyObj('state', ['go']);
                 $provide.value('$state', stateMock);
-                airyModalMock = jasmine.createSpyObj('airyModal', ['alert']);
-                $provide.value('airyModal', airyModalMock);
+                airyPopupMock = jasmine.createSpyObj('airyPopup', ['alert']);
+                $provide.value('airyPopup', airyPopupMock);
             });
             inject(function ($httpBackend, _airyUser_) {
                 httpBackend = $httpBackend;
@@ -42,7 +42,7 @@ describe('Services', function () {
 
             airyUser.login('pwd');
             httpBackend.flush();
-            expect(airyModalMock.alert).toHaveBeenCalledWith('error');
+            expect(airyPopupMock.alert).toHaveBeenCalledWith('error');
         });
     });
 });

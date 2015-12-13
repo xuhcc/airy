@@ -6,7 +6,7 @@
         .controller('ClientDetailController', ClientDetailController);
 
     function ClientDetailController($scope, $stateParams, $rootScope, ngDialog,
-                                    hotkeys, airyModal, clientResource, projectResource) {
+                                    hotkeys, airyPopup, clientResource, projectResource) {
         $scope.client = {};
 
         $scope.fetchClient = function () {
@@ -27,7 +27,7 @@
         };
 
         $scope.deleteProject = function (project) {
-            airyModal.confirm('Delete project?', function () {
+            airyPopup.confirm('Delete project?', function () {
                 projectResource.delete(project).success(function (data) {
                     $scope.fetchClient();
                 });

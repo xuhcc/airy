@@ -6,7 +6,7 @@
         .controller('ProjectDetailController', ProjectDetailController);
 
     function ProjectDetailController($scope, $stateParams, $rootScope, $interval, ngDialog, hotkeys,
-                                     airyModal, airyUser, projectResource, taskResource, timeEntryResource) {
+                                     airyPopup, airyUser, projectResource, taskResource, timeEntryResource) {
         $scope.project = {};
         $scope.currentStatus = 'open';
 
@@ -36,7 +36,7 @@
         };
 
         $scope.deleteTask = function (task) {
-            airyModal.confirm('Delete task?', function () {
+            airyPopup.confirm('Delete task?', function () {
                 taskResource.delete(task).success(function (data) {
                     $scope.fetchProject();
                     airyUser.reload();
@@ -83,7 +83,7 @@
         };
 
         $scope.deleteTimeEntry = function (task, timeEntry) {
-            airyModal.confirm('Delete time entry?', function () {
+            airyPopup.confirm('Delete time entry?', function () {
                 timeEntryResource.delete(timeEntry).success(function (data) {
                     task.total_time = data.task_total_time;
                     task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);

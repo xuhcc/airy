@@ -19,6 +19,7 @@
             'airy.resources',
             'airy.header',
             'airy.footer',
+            'airy.popup',
             'airy.login',
             'airy.clientList',
             'airy.clientForm',
