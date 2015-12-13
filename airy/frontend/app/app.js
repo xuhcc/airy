@@ -17,6 +17,8 @@
             'airy.filters',
             'airy.services',
             'airy.resources',
+            'airy.header',
+            'airy.footer',
             'airy.login',
             'airy.clientList',
             'airy.clientForm',

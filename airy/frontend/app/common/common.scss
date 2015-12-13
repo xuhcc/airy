@@ -72,35 +72,9 @@ ul {
     width: 100%;
 }
 
-.breadcrumbs {
-    font-size: 1.2em;
-    list-style-type: none;
-    margin: 10px 0;
-    padding: 0;
-
-    li {
-        display: inline-block;
-
-        a,
-        span {
-            display: inline-block;
-            padding: 5px;
-        }
-    }
-
-    .separator {
-        color: $secondary-color;
-    }
-}
-
 .content-nav-link {
     display: block;
     margin: 5px 0;
-}
-
-footer {
-    color: $secondary-color;
-    margin-top: 20px;
 }
 
 .popup {

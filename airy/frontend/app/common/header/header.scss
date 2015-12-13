@@ -1,0 +1,22 @@
+@import '../colors';
+
+.breadcrumbs {
+    font-size: 1.2em;
+    list-style-type: none;
+    margin: 10px 0;
+    padding: 0;
+
+    li {
+        display: inline-block;
+
+        a,
+        span {
+            display: inline-block;
+            padding: 5px;
+        }
+    }
+
+    .separator {
+        color: $secondary-color;
+    }
+}

@@ -3,6 +3,10 @@
         "js": [
             "airy/frontend/app/app.js",
             "airy/frontend/app/config.js",
+            "airy/frontend/app/common/header/header.module.js",
+            "airy/frontend/app/common/header/header.directive.js",
+            "airy/frontend/app/common/footer/footer.module.js",
+            "airy/frontend/app/common/footer/footer.directive.js",
             "airy/frontend/app/login/login.module.js",
             "airy/frontend/app/login/login.controller.js",
             "airy/frontend/app/client_list/client_list.module.js",

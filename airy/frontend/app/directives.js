@@ -3,33 +3,8 @@
 
     angular
         .module('airy.directives', [])
-        .directive('airyHeader', airyHeader)
-        .directive('airyFooter', airyFooter)
         .directive('autoFocus', autoFocus)
         .directive('rangeSelector', rangeSelector);
-
-    function airyHeader(airyUser) {
-        return {
-            restrict: 'A',
-            templateUrl: 'static/partials/header.html',
-            scope: {},
-            link: function (scope, element) {
-                scope.user = airyUser.user;
-            },
-        };
-    }
-
-    function airyFooter(airyUser) {
-        return {
-            restrict: 'A',
-            templateUrl: 'static/partials/footer.html',
-            scope: {},
-            link: function (scope, element) {
-                scope.user = airyUser.user;
-                scope.logoutUser = airyUser.logout;
-            },
-        };
-    }
 
     function autoFocus($timeout) {
         return {
