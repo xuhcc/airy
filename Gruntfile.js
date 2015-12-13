@@ -15,6 +15,7 @@ module.exports = function (grunt) {
                 js: 'airy/assets/js/*.js',
                 scss: 'airy/assets/scss/*.scss',
                 css: 'airy/assets/css/*.css',
+                fonts: 'airy/assets/fonts/*',
                 partials: 'airy/assets/partials/*.html',
             },
             lib: grunt.file.readJSON('airy/assets/libs.json'),
@@ -103,28 +104,54 @@ module.exports = function (grunt) {
             },
         },
         copy: {
-            production: {
+            appJs: {
+                src: '<%= paths.app.js %>',
+                dest: 'airy/static/js/',
+                expand: true,
+                flatten: true,
+                filter: 'isFile',
+            },
+            appCss: {
+                src: 'airy/assets/css/*',
+                dest: 'airy/static/css/',
+                expand: true,
+                flatten: true,
+                filter: 'isFile',
+            },
+            appFonts: {
+                src: '<%= paths.app.fonts %>',
+                dest: 'airy/static/fonts/',
+                expand: true,
+                flatten: true,
+                filter: 'isFile',
+            },
+            appPartials: {
+                src: '<%= paths.app.partials %>',
+                dest: 'airy/static/partials/',
+                expand: true,
+                flatten: true,
+                filter: 'isFile',
+            },
+            appMisc: {
                 expand: true,
                 cwd: 'airy/assets',
                 src: [
-                    'fonts/*',
-                    'partials/*',
                     'favicon.ico',
                 ],
                 dest: 'airy/static/',
                 filter: 'isFile',
             },
-            dev_lib_js: {
+            libJs: {
                 src: '<%= paths.lib.js %>',
-                dest: 'airy/assets/lib/js/',
+                dest: 'airy/static/js/lib/',
                 expand: true,
                 flatten: true,
                 filter: 'isFile',
                 nonull: true,
             },
-            dev_lib_css: {
+            libCss: {
                 src: '<%= paths.lib.css %>',
-                dest: 'airy/assets/lib/css/',
+                dest: 'airy/static/css/lib/',
                 expand: true,
                 flatten: true,
                 filter: 'isFile',
@@ -165,9 +192,13 @@ module.exports = function (grunt) {
             },
         },
         watch: {
-            css: {
+            appCss: {
                 files: ['<%= paths.app.scss %>'],
-                tasks: ['sass'],
+                tasks: ['sass', 'copy:appCss'],
+            },
+            appJs: {
+                files: ['<%= paths.app.js %>'],
+                tasks: ['copy:appJs'],
             },
         },
     });
@@ -185,17 +216,18 @@ module.exports = function (grunt) {
     grunt.registerTask('default', []);
     grunt.registerTask('build:development', function () {
         grunt.task.run([
-            'copy:dev_lib_js',
-            'copy:dev_lib_css',
             'sass',
+            'copy',
         ]);
     });
     grunt.registerTask('build:production', function () {
         grunt.task.run([
-            'copy:production',
             'sass',
             'cssmin:production',
             'uglify:production',
+            'copy:appFonts',
+            'copy:appPartials',
+            'copy:appMisc',
         ]);
     });
 };

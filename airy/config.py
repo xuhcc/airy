@@ -7,8 +7,7 @@ project_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 log_dir = os.path.join(project_dir, 'logs')
 app_dir = os.path.join(project_dir, 'airy')
-
-static_dir = os.path.join(app_dir, 'assets' if settings.debug else 'static')
+static_dir = os.path.join(app_dir, 'static')
 
 log_config = {
     'version': 1,

@@ -1,20 +1,32 @@
-airy
-====
+# airy
 
 Time tracker
 
-Requirements:
+## Requirements
+
 * python 3
 * virtualenv
 * nodejs
 * fabric
 
-Installation
-----
+## Development
+
+Prepare environment and install packages:
 
 ```
 fab build
 cp airy/settings.py.dist airy/settings.py
+```
+
+Start watcher:
+
+```
+fab build.watch
+```
+
+Start server:
+
+```
 . venv/bin/activate
 python airy
 ```

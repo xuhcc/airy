@@ -7,9 +7,6 @@
         {% for filename in assets.css %}
             <link rel="stylesheet" href="{{ url_for('static', filename=filename) }}">
         {% endfor %}
-        {% for filename in assets.js %}
-            <script src="{{ url_for('static', filename=filename) }}"></script>
-        {% endfor %}
     </head>
     <body>
         <div class="container">
@@ -17,5 +14,8 @@
             <div class="content" data-ui-view></div>
             <footer data-airy-footer></footer>
         </div>
+        {% for filename in assets.js %}
+            <script src="{{ url_for('static', filename=filename) }}"></script>
+        {% endfor %}
     </body>
 </html>
