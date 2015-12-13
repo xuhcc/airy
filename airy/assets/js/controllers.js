@@ -38,7 +38,7 @@
                 template: 'static/partials/client_form.html',
                 controller: 'ClientFormController',
                 scope: $scope,
-                data: {client: client}
+                data: {client: client},
             });
         };
 
@@ -55,7 +55,7 @@
             callback: function (event) {
                 event.preventDefault();
                 $scope.showClientForm({});
-            }
+            },
         });
     }
 
@@ -107,7 +107,7 @@
         $scope.$watch('range', $scope.getTimeSheet, true);
         $scope.range = {
             beg: moment().startOf('isoWeek').format(),
-            end: moment().endOf('isoWeek').format()
+            end: moment().endOf('isoWeek').format(),
         };
 
         $scope.showCalculator = function (duration) {
@@ -136,7 +136,7 @@
                 template: 'static/partials/project_form.html',
                 controller: 'ProjectFormController',
                 scope: $scope,
-                data: {project: project}
+                data: {project: project},
             });
         };
 
@@ -153,7 +153,7 @@
             callback: function (event) {
                 event.preventDefault();
                 $scope.showProjectForm({});
-            }
+            },
         });
     }
 
@@ -218,7 +218,7 @@
                 controller: 'TaskFormController',
                 scope: $scope,
                 data: {task: task},
-                className: 'popup task-form-popup'
+                className: 'popup task-form-popup',
             });
         };
 
@@ -246,7 +246,7 @@
                     timer: $interval(function () {
                         task.timerData.duration = moment().diff(
                             moment(task.timerData.start), 'seconds', true);
-                    }, 500)
+                    }, 500),
                 };
             } else {
                 // Stop timer
@@ -264,8 +264,8 @@
                 data: {
                     task: task,
                     timeEntry: timeEntry,
-                    duration: duration
-                }
+                    duration: duration,
+                },
             });
         };
 
@@ -284,24 +284,27 @@
             callback: function (event) {
                 event.preventDefault();
                 $scope.showTaskForm({});
-            }
+            },
         });
     }
 
     function ClientReportController($scope, $stateParams, $rootScope, clientResource, calculator) {
         $scope.report = {};
 
-        $scope.periods = [{
-            label: '1 week',
-            getRangeEnd: function (rangeBeg) {
-                return moment(rangeBeg).endOf('isoWeek').format();
-            }
-        }, {
-            label: '2 weeks',
-            getRangeEnd: function (rangeBeg) {
-                return moment(rangeBeg).add(1, 'week').endOf('isoWeek').format();
-            }
-        }];
+        $scope.periods = [
+            {
+                label: '1 week',
+                getRangeEnd: function (rangeBeg) {
+                    return moment(rangeBeg).endOf('isoWeek').format();
+                },
+            },
+            {
+                label: '2 weeks',
+                getRangeEnd: function (rangeBeg) {
+                    return moment(rangeBeg).add(1, 'week').endOf('isoWeek').format();
+                },
+            },
+        ];
         $scope.period = $scope.periods[0];
 
         $scope.getReport = function () {
@@ -314,7 +317,7 @@
         $scope.$watch('range', $scope.getReport, true);
         $scope.range = {
             beg: moment().startOf('isoWeek').format(),
-            end: moment().endOf('isoWeek').format()
+            end: moment().endOf('isoWeek').format(),
         };
 
         $scope.setPeriod = function () {
@@ -380,7 +383,7 @@
                 $scope.timeEntry.duration, 'seconds');
             return {
                 hours: duration.hours(),
-                minutes: duration.minutes()
+                minutes: duration.minutes(),
             };
         }
 
@@ -431,7 +434,7 @@
             var duration = moment.duration($scope.time).add(30, 'minutes');
             $scope.time = {
                 hours: duration.hours(),
-                minutes: duration.minutes()
+                minutes: duration.minutes(),
             };
         };
     }

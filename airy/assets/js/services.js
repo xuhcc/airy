@@ -42,7 +42,7 @@
             userLoaded: load(),
             reload: load,
             login: login,
-            logout: logout
+            logout: logout,
         };
     }
 
@@ -50,7 +50,7 @@
         var prepare = function (client) {
             return {
                 name: client.name,
-                contacts: client.contacts
+                contacts: client.contacts,
             };
         };
         return {
@@ -88,7 +88,7 @@
                 return $http.post(
                     '/clients/' + client_id + '/report',
                     range);
-            }
+            },
         };
     }
 
@@ -97,7 +97,7 @@
             return {
                 name: project.name,
                 description: project.description,
-                client_id: project.client_id
+                client_id: project.client_id,
             };
         };
         return {
@@ -112,7 +112,7 @@
             },
             'delete': function (project) {
                 return $http.delete('/projects/' + project.id);
-            }
+            },
         };
     }
 
@@ -121,7 +121,7 @@
             return {
                 title: task.title,
                 description: task.description,
-                project_id: task.project_id
+                project_id: task.project_id,
             };
         };
         return {
@@ -136,7 +136,7 @@
             },
             'toggleStatus': function (task) {
                 return $http.post('/tasks/' + task.id + '/status');
-            }
+            },
         };
     }
 
@@ -145,7 +145,7 @@
             return {
                 duration: timeEntry.duration,
                 comment: timeEntry.comment,
-                task_id: timeEntry.task_id
+                task_id: timeEntry.task_id,
             };
         };
         return {
@@ -157,7 +157,7 @@
             },
             'delete': function (timeEntry) {
                 return $http.delete('/time_entries/' + timeEntry.id);
-            }
+            },
         };
     }
 
@@ -172,7 +172,7 @@
                 ngDialog.open({
                     template: template,
                     plain: true,
-                    data: {message: message}
+                    data: {message: message},
                 });
             },
             confirm: function (message, confirmCallback) {
@@ -185,13 +185,13 @@
                 ngDialog.openConfirm({
                     template: template,
                     plain: true,
-                    data: {message: message}
+                    data: {message: message},
                 }).then(function (data) {
                     if (data === 1) {
                         confirmCallback();
                     }
                 });
-            }
+            },
         };
     }
 
@@ -217,9 +217,9 @@
                             return hours + ' × ' + $scope.price + ' = ' + result.toFixed(2);
                         };
                     },
-                    data: {duration: duration}
+                    data: {duration: duration},
                 });
-            }
+            },
         };
     }
 
@@ -235,7 +235,7 @@
                     airyModal.alert(errorMessage);
                 }
                 return $q.reject(rejection);
-            }
+            },
         };
     }
 })();

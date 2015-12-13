@@ -9,14 +9,14 @@ describe('Controllers', function () {
         var airyUser = {
             login: function (password) {
                 this.password = password;
-            }
+            },
         };
 
         beforeEach(inject(function ($controller, $rootScope) {
             scope = $rootScope.$new();
             ctrl = $controller('LoginController', {
                 $scope: scope,
-                airyUser: airyUser
+                airyUser: airyUser,
             });
         }));
 
@@ -39,10 +39,10 @@ describe('Controllers', function () {
                 return {
                     success: function (successCallback) {
                         return {timesheet: {data: []}};
-                    }
+                    },
                 };
             },
-            sendTimeSheet: function (clientId, range) {}
+            sendTimeSheet: function (clientId, range) {},
         };
         var clientId = 1;
 
@@ -53,7 +53,7 @@ describe('Controllers', function () {
                     $scope: scope,
                     $stateParams: {clientId: clientId},
                     clientResource: clientResourceMock,
-                    calculator: {show: function () {}}
+                    calculator: {show: function () {}},
                 });
             };
         }));
@@ -75,7 +75,7 @@ describe('Controllers', function () {
             spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
             scope.range = {
                 beg: '2015-04-06T00:00:00+03:00',
-                end: '2015-04-12T23:59:59+03:00'
+                end: '2015-04-12T23:59:59+03:00',
             };
             scope.$digest();
             expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
@@ -98,9 +98,9 @@ describe('Controllers', function () {
                 return {
                     success: function (successCallback) {
                         return {report: {projects: []}};
-                    }
+                    },
                 };
-            }
+            },
         };
         var clientId = 1;
 
@@ -112,7 +112,7 @@ describe('Controllers', function () {
                     $stateParams: {clientId: clientId},
                     $rootScope: $rootScope,
                     clientResource: clientResourceMock,
-                    calculator: {show: function () {}}
+                    calculator: {show: function () {}},
                 });
             };
         }));
@@ -135,7 +135,7 @@ describe('Controllers', function () {
             spyOn(clientResourceMock, 'getReport').and.callThrough();
             scope.range = {
                 beg: '2015-04-06T00:00:00+03:00',
-                end: '2015-04-12T23:59:59+03:00'
+                end: '2015-04-12T23:59:59+03:00',
             };
             scope.$digest();
             expect(clientResourceMock.getReport).toHaveBeenCalled();
@@ -158,14 +158,14 @@ describe('Controllers', function () {
         var timeEntryResourceMock = {
             create: function (timeEntry) {
                 return {
-                    success: function (successCallback) {}
+                    success: function (successCallback) {},
                 };
             },
             update: function (timeEntry) {
                 return {
-                    success: function (successCallback) {}
+                    success: function (successCallback) {},
                 };
-            }
+            },
         };
 
         beforeEach(inject(function ($controller, $rootScope) {
@@ -174,7 +174,7 @@ describe('Controllers', function () {
                 return $controller('TimeEntryFormController', {
                     $scope: scope,
                     timeEntryResource: timeEntryResourceMock,
-                    airyUser: {}
+                    airyUser: {},
                 });
             };
         }));
@@ -182,7 +182,7 @@ describe('Controllers', function () {
         it('should show hours and minutes', function () {
             scope.ngDialogData = {
                 timeEntry: {duration: 4680},
-                task: {id: 1}
+                task: {id: 1},
             };
             buildCtrl();
             expect(scope.time.hours).toBe(1);
@@ -192,7 +192,7 @@ describe('Controllers', function () {
         it('should add 30 minutes', function () {
             scope.ngDialogData = {
                 timeEntry: {},
-                task: {id: 1}
+                task: {id: 1},
             };
             buildCtrl();
             expect(scope.time).toBeUndefined();
@@ -209,7 +209,7 @@ describe('Controllers', function () {
         it('should create time entry', function () {
             scope.ngDialogData = {
                 timeEntry: {},
-                task: {id: 3}
+                task: {id: 3},
             };
             buildCtrl();
             scope.time = {hours: 1, minutes: 30};
@@ -224,7 +224,7 @@ describe('Controllers', function () {
         it('should update time entry', function () {
             scope.ngDialogData = {
                 timeEntry: {id: 1, duration: 3600},
-                task: {id: 5}
+                task: {id: 5},
             };
             buildCtrl();
             scope.incrementDuration();

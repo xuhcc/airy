@@ -15,7 +15,7 @@
             scope: {},
             link: function (scope, element) {
                 scope.user = airyUser.user;
-            }
+            },
         };
     }
 
@@ -27,7 +27,7 @@
             link: function (scope, element) {
                 scope.user = airyUser.user;
                 scope.logoutUser = airyUser.logout;
-            }
+            },
         };
     }
 
@@ -38,7 +38,7 @@
                 $timeout(function () {
                     element[0].focus();
                 }, 10);
-            }
+            },
         };
     }
 
@@ -51,7 +51,7 @@
                 <a class="shift-forward icon" ng-click="shiftForward()">r</a>\
             ',
             scope: {
-                range: '='
+                range: '=',
             },
             link: function (scope, element) {
                 scope.formatRange = function () {
@@ -65,7 +65,7 @@
                     var rangeEnd = moment(scope.range.end);
                     scope.range = {
                         beg: rangeBeg.subtract(1, 'week').format(),
-                        end: rangeEnd.subtract(1, 'week').format()
+                        end: rangeEnd.subtract(1, 'week').format(),
                     };
                 };
 
@@ -74,10 +74,10 @@
                     var rangeEnd = moment(scope.range.end);
                     scope.range = {
                         beg: rangeBeg.add(1, 'week').format(),
-                        end: rangeEnd.add(1, 'week').format()
+                        end: rangeEnd.add(1, 'week').format(),
                     };
                 };
-            }
+            },
         };
     }
 })();

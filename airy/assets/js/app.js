@@ -14,7 +14,7 @@
             'airyControllers',
             'airyDirectives',
             'airyFilters',
-            'airyServices'
+            'airyServices',
         ])
         .config(routeConfig)
         .config(ngDialogConfig)
@@ -39,16 +39,16 @@
                             }
                         });
                         return deferred.promise;
-                    }
-                }
+                    },
+                },
             })
             .state('client_list', {
                 url: '/clients',
                 templateUrl: 'static/partials/clients.html',
                 controller: 'ClientListController',
                 ncyBreadcrumb: {
-                    label: 'h'
-                }
+                    label: 'h',
+                },
             })
             .state('client_detail', {
                 url: '/clients/:clientId',
@@ -56,8 +56,8 @@
                 controller: 'ClientDetailController',
                 ncyBreadcrumb: {
                     parent: 'client_list',
-                    label: '{{ client.name }}'
-                }
+                    label: '{{ client.name }}',
+                },
             })
             .state('client_timesheet', {
                 url: '/clients/:clientId/timesheet',
@@ -65,8 +65,8 @@
                 controller: 'ClientTimeSheetCtrl',
                 ncyBreadcrumb: {
                     parent: 'client_detail',
-                    label: 'Timesheet'
-                }
+                    label: 'Timesheet',
+                },
             })
             .state('client_report', {
                 url: '/clients/:clientId/report',
@@ -74,8 +74,8 @@
                 controller: 'ClientReportController',
                 ncyBreadcrumb: {
                     parent: 'client_detail',
-                    label: 'Task report'
-                }
+                    label: 'Task report',
+                },
             })
             .state('project_detail', {
                 url: '/clients/:clientId/projects/:projectId',
@@ -83,14 +83,14 @@
                 controller: 'ProjectDetailController',
                 ncyBreadcrumb: {
                     parent: 'client_detail',
-                    label: '{{ project.name }}'
-                }
+                    label: '{{ project.name }}',
+                },
             });
     }
 
     function ngDialogConfig(ngDialogProvider) {
         ngDialogProvider.setDefaults({
-            className: 'popup'
+            className: 'popup',
         });
     }
 
@@ -100,7 +100,7 @@
 
     function breadcrumbConfig($breadcrumbProvider) {
         $breadcrumbProvider.setOptions({
-            templateUrl: 'static/partials/breadcrumbs.html'
+            templateUrl: 'static/partials/breadcrumbs.html',
         });
     }
 })();

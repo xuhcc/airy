@@ -15,47 +15,50 @@ module.exports = function (grunt) {
                 js: 'airy/assets/js/*.js',
                 scss: 'airy/assets/scss/*.scss',
                 css: 'airy/assets/css/*.css',
-                partials: 'airy/assets/partials/*.html'
+                partials: 'airy/assets/partials/*.html',
             },
             lib: grunt.file.readJSON('airy/assets/libs.json'),
-            specs: 'tests/jasmine/test_*.js'
+            specs: 'tests/jasmine/test_*.js',
         },
         jshint: {
             main: [
                 'Gruntfile.js',
                 '<%= paths.app.js %>',
-                '<%= paths.specs %>'
+                '<%= paths.specs %>',
             ],
             options: {
                 multistr: true,
                 eqeqeq: true,
                 strict: true,
-                curly: true
-            }
+                curly: true,
+            },
         },
         jscs: {
             main: '<%= jshint.main %>',
             options: {
                 preset: 'yandex',
                 disallowMultipleLineStrings: null,
-                disallowQuotedKeysInObjects: null
-            }
+                disallowQuotedKeysInObjects: null,
+                requireTrailingComma: {
+                    ignoreSingleLine: true,
+                },
+            },
         },
         sasslint: {
             options: {
-                configFile: '.sass-lint.yml'
+                configFile: '.sass-lint.yml',
             },
-            target: ['<%= paths.app.scss %>']
+            target: ['<%= paths.app.scss %>'],
         },
         csslint: {
             options: {
                 'adjoining-classes': false,
                 'ids': false,
-                'important': false
+                'important': false,
             },
             main: {
-                src: '<%= paths.app.css %>'
-            }
+                src: '<%= paths.app.css %>',
+            },
         },
         htmlhint: {
             partials: {
@@ -71,33 +74,33 @@ module.exports = function (grunt) {
                     'doctype-html5': true,
                     'space-tab-mixed-disabled': true,
                     'id-class-ad-disabled': true,
-                    'attr-unsafe-chars': true
+                    'attr-unsafe-chars': true,
                 },
-                src: '<%= paths.app.partials %>'
-            }
+                src: '<%= paths.app.partials %>',
+            },
         },
         uglify: {
             options: {
-                mangle: false
+                mangle: false,
             },
             production: {
                 src: [
                     '<%= paths.lib.js %>',
-                    '<%= paths.app.js %>'
+                    '<%= paths.app.js %>',
                 ],
                 dest: 'airy/static/js/scripts.min.js',
-                nonull: true
-            }
+                nonull: true,
+            },
         },
         cssmin: {
             production: {
                 src: [
                     '<%= paths.lib.css %>',
-                    '<%= paths.app.css %>'
+                    '<%= paths.app.css %>',
                 ],
                 dest: 'airy/static/css/styles.min.css',
-                nonull: true
-            }
+                nonull: true,
+            },
         },
         copy: {
             production: {
@@ -109,7 +112,7 @@ module.exports = function (grunt) {
                     'favicon.ico',
                 ],
                 dest: 'airy/static/',
-                filter: 'isFile'
+                filter: 'isFile',
             },
             dev_lib_js: {
                 src: '<%= paths.lib.js %>',
@@ -117,7 +120,7 @@ module.exports = function (grunt) {
                 expand: true,
                 flatten: true,
                 filter: 'isFile',
-                nonull: true
+                nonull: true,
             },
             dev_lib_css: {
                 src: '<%= paths.lib.css %>',
@@ -125,22 +128,22 @@ module.exports = function (grunt) {
                 expand: true,
                 flatten: true,
                 filter: 'isFile',
-                nonull: true
+                nonull: true,
             },
         },
         sass: {
             options: {
                 indentWidth: 4,
                 outputStyle: 'expanded',
-                sourceMap: true
+                sourceMap: true,
             },
             main: {
                 src: '<%= paths.app.scss %>',
                 dest: 'airy/assets/css/',
                 expand: true,
                 flatten: true,
-                ext: '.css'
-            }
+                ext: '.css',
+            },
         },
         jasmine: {
             main: {
@@ -149,24 +152,24 @@ module.exports = function (grunt) {
                     specs: '<%= paths.specs %>',
                     vendor: [
                         '<%= paths.lib.js %>',
-                        'bower_components/angular-mocks/angular-mocks.js'
+                        'bower_components/angular-mocks/angular-mocks.js',
                     ],
                     template: istanbulTemplate,
                     templateOptions: {
                         coverage: '.jasmine.coverage',
                         report: {
-                            type: 'text'
-                        }
-                    }
-                }
-            }
+                            type: 'text',
+                        },
+                    },
+                },
+            },
         },
         watch: {
             css: {
                 files: ['<%= paths.app.scss %>'],
-                tasks: ['sass']
-            }
-        }
+                tasks: ['sass'],
+            },
+        },
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
@@ -184,7 +187,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'copy:dev_lib_js',
             'copy:dev_lib_css',
-            'sass'
+            'sass',
         ]);
     });
     grunt.registerTask('build:production', function () {
@@ -192,7 +195,7 @@ module.exports = function (grunt) {
             'copy:production',
             'sass',
             'cssmin:production',
-            'uglify:production'
+            'uglify:production',
         ]);
     });
 };
