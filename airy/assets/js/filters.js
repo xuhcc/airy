@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular
-        .module('airyFilters', [])
+        .module('airy.filters', [])
         .filter('nl2br', nl2br)
         .filter('time', time)
         .filter('timer', timer);

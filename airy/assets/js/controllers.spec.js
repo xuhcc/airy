@@ -1,7 +1,7 @@
 describe('Controllers', function () {
     'use strict';
 
-    beforeEach(module('airyControllers'));
+    beforeEach(module('airy.controllers'));
 
     describe('test login controller', function () {
         var scope;

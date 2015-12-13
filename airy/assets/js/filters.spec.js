@@ -3,7 +3,7 @@ describe('Filters', function () {
 
     var $filter;
 
-    beforeEach(module('airyFilters'));
+    beforeEach(module('airy.filters'));
     beforeEach(inject(function (_$filter_) {
         $filter = _$filter_;
     }));

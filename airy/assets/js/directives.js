@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('airyDirectives', [])
+        .module('airy.directives', [])
         .directive('airyHeader', airyHeader)
         .directive('airyFooter', airyFooter)
         .directive('autoFocus', autoFocus)

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('airyServices', [])
+        .module('airy.services', [])
         .factory('airyUser', airyUser)
         .factory('clientResource', clientResource)
         .factory('projectResource', projectResource)

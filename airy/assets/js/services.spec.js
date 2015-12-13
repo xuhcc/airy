@@ -8,7 +8,7 @@ describe('Services', function () {
         var airyModalMock;
 
         beforeEach(function () {
-            module('airyServices', function ($provide) {
+            module('airy.services', function ($provide) {
                 stateMock = jasmine.createSpyObj('state', ['go']);
                 $provide.value('$state', stateMock);
                 airyModalMock = jasmine.createSpyObj('airyModal', ['alert']);

@@ -3,7 +3,7 @@ describe('Directives', function () {
     var scope;
     var element;
 
-    beforeEach(module('airyDirectives'));
+    beforeEach(module('airy.directives'));
 
     describe('test week selector', function () {
         var element;

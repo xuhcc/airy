@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('airyControllers', [])
+        .module('airy.controllers', [])
         .controller('LoginController', LoginController)
         .controller('ClientListController', ClientListController)
         .controller('ClientTimeSheetCtrl', ClientTimeSheetCtrl)
