@@ -24,6 +24,15 @@ module.exports = function (grunt) {
             lib: grunt.file.readJSON('airy/assets/libs.json'),
             specs: 'airy/assets/js/*.spec.js',
         },
+        jsonlint: {
+            main: {
+                src: [
+                    'package.json',
+                    'bower.json',
+                    'airy/assets/libs.json',
+                ],
+            },
+        },
         jshint: {
             main: [
                 'Gruntfile.js',
@@ -216,6 +225,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-sass-lint');
+    grunt.loadNpmTasks('grunt-jsonlint');
     grunt.registerTask('default', []);
     grunt.registerTask('build:development', function () {
         grunt.task.run([

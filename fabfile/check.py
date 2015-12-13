@@ -3,7 +3,7 @@ from fabric.api import task, local, prefix
 
 @task
 def js():
-    local("node_modules/grunt-cli/bin/grunt jshint jscs jasmine")
+    local("node_modules/grunt-cli/bin/grunt jsonlint jshint jscs jasmine")
 
 
 @task
