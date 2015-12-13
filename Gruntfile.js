@@ -10,26 +10,13 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        paths: {
-            app: {
-                js: [
-                    'airy/assets/js/*.js',
-                    '!airy/assets/js/*.spec.js',
-                ],
-                scss: 'airy/assets/scss/*.scss',
-                css: 'airy/assets/css/*.css',
-                fonts: 'airy/assets/fonts/*',
-                partials: 'airy/assets/partials/*.html',
-            },
-            lib: grunt.file.readJSON('airy/assets/libs.json'),
-            specs: 'airy/assets/js/*.spec.js',
-        },
+        paths: grunt.file.readJSON('airy/assets/index.json'),
         jsonlint: {
             main: {
                 src: [
                     'package.json',
                     'bower.json',
-                    'airy/assets/libs.json',
+                    'airy/assets/index.json',
                 ],
             },
         },
@@ -124,7 +111,10 @@ module.exports = function (grunt) {
                 filter: 'isFile',
             },
             appCss: {
-                src: 'airy/assets/css/*',
+                src: [
+                    '<%= paths.app.css %>',
+                    '<%= paths.app.cssmaps %>',
+                ],
                 dest: 'airy/static/css/',
                 expand: true,
                 flatten: true,
