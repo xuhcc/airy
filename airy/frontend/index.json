@@ -1,0 +1,62 @@
+{
+    "app": {
+        "js": [
+            "airy/frontend/app/app.js",
+            "airy/frontend/app/config.js",
+            "airy/frontend/app/login/login.module.js",
+            "airy/frontend/app/login/login.controller.js",
+            "airy/frontend/app/client_list/client_list.module.js",
+            "airy/frontend/app/client_list/client_list.controller.js",
+            "airy/frontend/app/client_form/client_form.module.js",
+            "airy/frontend/app/client_form/client_form.controller.js",
+            "airy/frontend/app/client_detail/client_detail.module.js",
+            "airy/frontend/app/client_detail/client_detail.controller.js",
+            "airy/frontend/app/client_timesheet/client_timesheet.module.js",
+            "airy/frontend/app/client_timesheet/client_timesheet.controller.js",
+            "airy/frontend/app/client_report/client_report.module.js",
+            "airy/frontend/app/client_report/client_report.controller.js",
+            "airy/frontend/app/project_form/project_form.module.js",
+            "airy/frontend/app/project_form/project_form.controller.js",
+            "airy/frontend/app/project_detail/project_detail.module.js",
+            "airy/frontend/app/project_detail/project_detail.controller.js",
+            "airy/frontend/app/task_form/task_form.module.js",
+            "airy/frontend/app/task_form/task_form.controller.js",
+            "airy/frontend/app/time_entry_form/time_entry_form.module.js",
+            "airy/frontend/app/time_entry_form/time_entry_form.controller.js",
+            "airy/frontend/app/services.js",
+            "airy/frontend/app/resources.js",
+            "airy/frontend/app/directives.js",
+            "airy/frontend/app/filters.js"
+        ],
+        "scss": "airy/frontend/scss/*.scss",
+        "css": "airy/frontend/css/*.css",
+        "cssmaps": "airy/frontend/css/*.css.map",
+        "fonts": "airy/frontend/fonts/*",
+        "partials": "airy/frontend/partials/*.html"
+    },
+    "specs": "airy/frontend/app/**/*.spec.js",
+    "lib": {
+        "js": [
+            "bower_components/jquery/dist/jquery.js",
+            "bower_components/momentjs/moment.js",
+            "bower_components/angular/angular.js",
+            "bower_components/angular-sanitize/angular-sanitize.js",
+            "bower_components/angular-linkify/angular-linkify.js",
+            "bower_components/ngDialog/js/ngDialog.js",
+            "bower_components/angular-hotkeys/build/hotkeys.js",
+            "bower_components/angular-elastic/elastic.js",
+            "bower_components/angular-loading-bar/build/loading-bar.js",
+            "bower_components/angular-ui-router/release/angular-ui-router.js",
+            "bower_components/angular-breadcrumb/dist/angular-breadcrumb.js"
+        ],
+        "css": [
+            "bower_components/pure/base.css",
+            "bower_components/pure/forms.css",
+            "bower_components/pure/buttons.css",
+            "bower_components/pure/tables.css",
+            "bower_components/ngDialog/css/ngDialog.css",
+            "bower_components/angular-loading-bar/build/loading-bar.css"
+        ]
+    }
+}
+

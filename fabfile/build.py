@@ -25,6 +25,7 @@ def venv(production=False):
 
 @task
 def frontend(production=False):
+    env.run('rm -rf airy/frontend/css/')
     env.run('rm -rf airy/static/')
     if production:
         env.run("npm install --production")

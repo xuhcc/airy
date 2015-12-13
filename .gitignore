@@ -3,8 +3,8 @@
 /bower_components
 /logs
 *.pyc
-airy/assets/lib
 airy/assets/css
+airy/frontend/css
 airy/static
 airy/settings.py
 fabfile/deploy.py

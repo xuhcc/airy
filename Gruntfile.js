@@ -10,13 +10,13 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        paths: grunt.file.readJSON('airy/assets/index.json'),
+        paths: grunt.file.readJSON('airy/frontend/index.json'),
         jsonlint: {
             main: {
                 src: [
                     'package.json',
                     'bower.json',
-                    'airy/assets/index.json',
+                    'airy/frontend/index.json',
                 ],
             },
         },
@@ -136,7 +136,7 @@ module.exports = function (grunt) {
             },
             appMisc: {
                 expand: true,
-                cwd: 'airy/assets',
+                cwd: 'airy/frontend',
                 src: [
                     'favicon.ico',
                 ],
@@ -168,7 +168,7 @@ module.exports = function (grunt) {
             },
             main: {
                 src: '<%= paths.app.scss %>',
-                dest: 'airy/assets/css/',
+                dest: 'airy/frontend/css/',
                 expand: true,
                 flatten: true,
                 ext: '.css',

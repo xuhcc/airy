@@ -9,7 +9,8 @@ from airy.config import app_dir, static_dir
 def get_assets():
     assets = defaultdict(list)
     if settings.debug:
-        with open(os.path.join(app_dir, 'assets', 'index.json')) as index_file:
+        with open(os.path.join(app_dir, 'frontend',
+                               'index.json')) as index_file:
             index = json.load(index_file)
             # Bower components
             for path in index['lib']['js']:
