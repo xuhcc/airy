@@ -2,20 +2,8 @@
     'use strict';
 
     angular
-        .module('airy.directives', [])
-        .directive('autoFocus', autoFocus)
+        .module('airy.rangeSelector')
         .directive('rangeSelector', rangeSelector);
-
-    function autoFocus($timeout) {
-        return {
-            restrict: 'A',
-            link: function (scope, element) {
-                $timeout(function () {
-                    element[0].focus();
-                }, 10);
-            },
-        };
-    }
 
     function rangeSelector() {
         return {

@@ -25,6 +25,7 @@
             'airy.clientDetail',
             'airy.clientTimeSheet',
             'airy.clientReport',
+            'airy.rangeSelector',
             'airy.calculator',
             'airy.projectForm',
             'airy.projectDetail',
