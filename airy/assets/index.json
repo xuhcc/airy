@@ -24,6 +24,7 @@
             "airy/assets/js/time_entry_form/time_entry_form.module.js",
             "airy/assets/js/time_entry_form/time_entry_form.controller.js",
             "airy/assets/js/services.js",
+            "airy/assets/js/resources.js",
             "airy/assets/js/directives.js",
             "airy/assets/js/filters.js"
         ],

@@ -11,11 +11,12 @@
             'angular-loading-bar',
             'ncy-angular-breadcrumb',
             'ui.router',
+            // Application
             'airy.config',
             'airy.directives',
             'airy.filters',
             'airy.services',
-            // Components
+            'airy.resources',
             'airy.login',
             'airy.clientList',
             'airy.clientForm',
