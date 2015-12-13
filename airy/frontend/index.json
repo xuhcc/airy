@@ -19,6 +19,8 @@
             "airy/frontend/app/reports/client_timesheet.controller.js",
             "airy/frontend/app/reports/client_report.module.js",
             "airy/frontend/app/reports/client_report.controller.js",
+            "airy/frontend/app/reports/calculator.module.js",
+            "airy/frontend/app/reports/calculator.service.js",
             "airy/frontend/app/projects/project_form.module.js",
             "airy/frontend/app/projects/project_form.controller.js",
             "airy/frontend/app/projects/project_detail.module.js",

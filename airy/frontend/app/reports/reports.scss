@@ -21,21 +21,3 @@
 .report-total {
     font-weight: bold;
 }
-
-.calculator-form {
-    fieldset {
-        font-size: 1.2em;
-        padding: 10px 0;
-    }
-
-    .price {
-        border-radius: 4px 0 0 4px !important;
-        width: 80px;
-    }
-
-    .result {
-        border-radius: 0 4px 4px 0 !important;
-        display: inline-block;
-        width: 250px;
-    }
-}
