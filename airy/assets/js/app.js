@@ -12,9 +12,19 @@
             'ncy-angular-breadcrumb',
             'ui.router',
             'airy.config',
-            'airy.controllers',
             'airy.directives',
             'airy.filters',
             'airy.services',
+            // Components
+            'airy.login',
+            'airy.clientList',
+            'airy.clientForm',
+            'airy.clientDetail',
+            'airy.clientTimeSheet',
+            'airy.clientReport',
+            'airy.projectForm',
+            'airy.projectDetail',
+            'airy.taskForm',
+            'airy.timeEntryForm',
         ]);
 })();
