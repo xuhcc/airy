@@ -12,14 +12,17 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         paths: {
             app: {
-                js: 'airy/assets/js/*.js',
+                js: [
+                    'airy/assets/js/*.js',
+                    '!airy/assets/js/*.spec.js',
+                ],
                 scss: 'airy/assets/scss/*.scss',
                 css: 'airy/assets/css/*.css',
                 fonts: 'airy/assets/fonts/*',
                 partials: 'airy/assets/partials/*.html',
             },
             lib: grunt.file.readJSON('airy/assets/libs.json'),
-            specs: 'tests/jasmine/test_*.js',
+            specs: 'airy/assets/js/*.spec.js',
         },
         jshint: {
             main: [

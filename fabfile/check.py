@@ -22,13 +22,15 @@ def python():
         local("flake8 --max-complexity=8 fabfile")
         local("flake8 --max-complexity=10 airy")
         local('flake8 --max-complexity=8 alembic/env.py')
-        local("flake8 --max-complexity=8 tests/py")
 
 
 @task
 def flask():
     with prefix('. venv/bin/activate'):
-        local('py.test -v -x --pdb --cov airy tests/py')
+        local('py.test -v -x --pdb '
+              '--cov airy '
+              '--cov-config .coveragerc '
+              'airy/tests')
 
 
 @task(default=True)
