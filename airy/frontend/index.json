@@ -9,6 +9,8 @@
             "airy/frontend/app/common/footer/footer.directive.js",
             "airy/frontend/app/common/popup/popup.module.js",
             "airy/frontend/app/common/popup/popup.service.js",
+            "airy/frontend/app/common/user/user.module.js",
+            "airy/frontend/app/common/user/user.service.js",
             "airy/frontend/app/common/services.js",
             "airy/frontend/app/common/resources.js",
             "airy/frontend/app/common/directives.js",
