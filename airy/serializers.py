@@ -44,7 +44,7 @@ class TimeEntrySerializer(Schema):
     task_id = fields.Integer(required=True,
                              validate=validate_task_id)
 
-    added_at = fields.DateTime()
+    added_at = fields.DateTime(dump_only=True)
 
     @post_load
     def make_time_entry(self, data):
@@ -67,13 +67,15 @@ class TaskSerializer(Schema):
     project_id = fields.Integer(required=True,
                                 validate=validate_project_id)
 
-    created_at = fields.DateTime()
-    updated_at = fields.DateTime()
+    created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
     time_entries = fields.Nested(TimeEntrySerializer,
                                  exclude=['task_id'],
-                                 many=True)
-    total_time = fields.TimeDelta(default=0)
-    is_closed = fields.Boolean()
+                                 many=True,
+                                 dump_only=True)
+    total_time = fields.TimeDelta(default=0,
+                                  dump_only=True)
+    is_closed = fields.Boolean(dump_only=True)
 
     @post_load
     def make_task(self, data):
@@ -99,12 +101,14 @@ class ProjectSerializer(Schema):
 
     tasks = fields.Nested(TaskSerializer,
                           exclude=['project_id'],
-                          many=True)
+                          many=True,
+                          dump_only=True)
     last_task = fields.Nested(TaskSerializer,
                               only=['id', 'title'],
-                              allow_null=True)
+                              dump_only=True)
     client = fields.Nested('ClientSerializer',
-                           only=['id', 'name'])
+                           only=['id', 'name'],
+                           dump_only=True)
 
     def __init__(self, *args, **kwargs):
         task_status = kwargs.pop('task_status', None)
@@ -128,7 +132,8 @@ class ClientSerializer(Schema):
 
     projects = fields.Nested(ProjectSerializer,
                              only=['id', 'name', 'description', 'last_task'],
-                             many=True)
+                             many=True,
+                             dump_only=True)
 
     @validates_schema
     def validate_unique_client_name(self, client):
