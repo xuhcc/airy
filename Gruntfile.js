@@ -44,6 +44,25 @@ module.exports = function (grunt) {
                 },
             },
         },
+        jasmine: {
+            main: {
+                src: '<%= paths.app.js %>',
+                options: {
+                    specs: '<%= paths.specs %>',
+                    vendor: [
+                        '<%= paths.lib.js %>',
+                        'bower_components/angular-mocks/angular-mocks.js',
+                    ],
+                    template: istanbulTemplate,
+                    templateOptions: {
+                        coverage: '.jasmine.coverage',
+                        report: {
+                            type: 'text',
+                        },
+                    },
+                },
+            },
+        },
         sasslint: {
             options: {
                 configFile: '.sass-lint.yml',
@@ -77,29 +96,6 @@ module.exports = function (grunt) {
                     'attr-unsafe-chars': true,
                 },
                 src: '<%= paths.app.partials %>',
-            },
-        },
-        uglify: {
-            options: {
-                mangle: false,
-            },
-            production: {
-                src: [
-                    '<%= paths.lib.js %>',
-                    '<%= paths.app.js %>',
-                ],
-                dest: 'airy/static/js/scripts.min.js',
-                nonull: true,
-            },
-        },
-        cssmin: {
-            production: {
-                src: [
-                    '<%= paths.lib.css %>',
-                    '<%= paths.app.css %>',
-                ],
-                dest: 'airy/static/css/styles.min.css',
-                nonull: true,
             },
         },
         copy: {
@@ -174,23 +170,27 @@ module.exports = function (grunt) {
                 ext: '.css',
             },
         },
-        jasmine: {
-            main: {
-                src: '<%= paths.app.js %>',
-                options: {
-                    specs: '<%= paths.specs %>',
-                    vendor: [
-                        '<%= paths.lib.js %>',
-                        'bower_components/angular-mocks/angular-mocks.js',
-                    ],
-                    template: istanbulTemplate,
-                    templateOptions: {
-                        coverage: '.jasmine.coverage',
-                        report: {
-                            type: 'text',
-                        },
-                    },
-                },
+        uglify: {
+            options: {
+                mangle: false,
+            },
+            production: {
+                src: [
+                    '<%= paths.lib.js %>',
+                    '<%= paths.app.js %>',
+                ],
+                dest: 'airy/static/js/scripts.min.js',
+                nonull: true,
+            },
+        },
+        cssmin: {
+            production: {
+                src: [
+                    '<%= paths.lib.css %>',
+                    '<%= paths.app.css %>',
+                ],
+                dest: 'airy/static/css/styles.min.css',
+                nonull: true,
             },
         },
         watch: {
