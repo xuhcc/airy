@@ -55,12 +55,23 @@ class TestClientSerializer():
         instance, errors = serializer.load({})
         assert 'name' in errors
 
-    def test_unique_name(self):
+    def test_validate_name_unique(self):
         client = ClientFactory.create()
         self.db.session.commit()
 
         data = ClientFactory.stub(name=client.name).__dict__
         serializer = ClientSerializer(exclude=['projects'])
+        instance, errors = serializer.load(data)
+        assert 'name' in errors
+
+    def test_validate_name_length(self):
+        serializer = ClientSerializer(exclude=['projects'])
+        # Min
+        data = ClientFactory.stub(name='x').__dict__
+        instance, errors = serializer.load(data)
+        assert 'name' in errors
+        # Max
+        data = ClientFactory.stub(name='x' * 101).__dict__
         instance, errors = serializer.load(data)
         assert 'name' in errors
 
@@ -141,6 +152,18 @@ class TestProjectSerializer():
         instance, errors = serializer.load(data)
         assert 'client_id' in errors
 
+    def test_validate_name_length(self):
+        serializer = ProjectSerializer(
+            only=['id', 'name', 'description', 'client_id'])
+        # Min
+        data = ProjectFactory.stub(name='x').__dict__
+        instance, errors = serializer.load(data)
+        assert 'name' in errors
+        # Max
+        data = ProjectFactory.stub(name='x' * 101).__dict__
+        instance, errors = serializer.load(data)
+        assert 'name' in errors
+
 
 @pytest.mark.usefixtures('db_class')
 class TestTaskSerializer():
@@ -205,6 +228,18 @@ class TestTaskSerializer():
             only=['id', 'title', 'description', 'project_id'])
         instance, errors = serializer.load(data)
         assert 'project_id' in errors
+
+    def test_validate_title_length(self):
+        serializer = TaskSerializer(
+            only=['id', 'title', 'description', 'project_id'])
+        # Min
+        data = TaskFactory.stub(title='x').__dict__
+        instance, errors = serializer.load(data)
+        assert 'title' in errors
+        # Max
+        data = TaskFactory.stub(title='x' * 101).__dict__
+        instance, errors = serializer.load(data)
+        assert 'title' in errors
 
 
 @pytest.mark.usefixtures('db_class')
