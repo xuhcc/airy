@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('airy.services', [])
+        .module('airy.errorHandler')
         .factory('httpErrorHandler', httpErrorHandler);
 
     function httpErrorHandler($q, $injector) {

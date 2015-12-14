@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('airy.directives', [])
+        .module('airy.popup')
         .directive('autoFocus', autoFocus);
 
     function autoFocus($timeout) {

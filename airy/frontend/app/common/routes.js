@@ -2,11 +2,8 @@
     'use strict';
 
     angular
-        .module('airy.config', [])
-        .config(routeConfig)
-        .config(ngDialogConfig)
-        .config(httpConfig)
-        .config(breadcrumbConfig);
+        .module('airy.routes', [])
+        .config(routeConfig);
 
     function routeConfig($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/login');
@@ -73,21 +70,5 @@
                     label: '{{ project.name }}',
                 },
             });
-    }
-
-    function ngDialogConfig(ngDialogProvider) {
-        ngDialogProvider.setDefaults({
-            className: 'popup',
-        });
-    }
-
-    function httpConfig($httpProvider) {
-        $httpProvider.interceptors.push('httpErrorHandler');
-    }
-
-    function breadcrumbConfig($breadcrumbProvider) {
-        $breadcrumbProvider.setOptions({
-            templateUrl: 'static/partials/breadcrumbs.html',
-        });
     }
 })();
