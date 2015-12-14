@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html data-ng-app="airy">
+<html ng-app="airy">
     <head>
-        <title data-ng-bind="'Airy :: ' + title">Airy</title>
+        <title ng-bind="'Airy :: ' + title">Airy</title>
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic">
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
         {% for filename in assets.css %}
@@ -10,9 +10,9 @@
     </head>
     <body>
         <div class="container">
-            <header data-airy-header></header>
-            <div class="content" data-ui-view></div>
-            <footer data-airy-footer></footer>
+            <header airy-header></header>
+            <div class="content" ui-view></div>
+            <footer airy-footer></footer>
         </div>
         {% for filename in assets.js %}
             <script src="{{ url_for('static', filename=filename) }}"></script>

@@ -1,11 +1,11 @@
 <form class="time-entry-form pure-form pure-form-stacked" name="form" autocomplete="off" novalidate>
     <fieldset>
         <legend>{{ !timeEntry.id ? 'New time entry' : 'Time entry #' + timeEntry.id }}</legend>
-        <input type="number" min="0" max="99" name="hours" placeholder="Hours" data-ng-model="time.hours"><!--
-        --><input type="number" min="0" max="59" name="minutes" placeholder="Minutes" data-ng-model="time.minutes" data-auto-focus><!--
-        --><button class="pure-button amount-increment" data-ng-click="incrementDuration()">+30</button>
-        <textarea name="comment" placeholder="Comment" data-ng-model="timeEntry.comment" data-msd-elastic="\n"></textarea>
-        <button type="submit" class="pure-button pure-button-primary" data-ng-click="submitForm()" ng-disabled="form.$invalid">Save</button>
+        <input type="number" min="0" max="99" name="hours" placeholder="Hours" ng-model="time.hours"><!--
+        --><input type="number" min="0" max="59" name="minutes" placeholder="Minutes" ng-model="time.minutes" auto-focus><!--
+        --><button class="pure-button amount-increment" ng-click="incrementDuration()">+30</button>
+        <textarea name="comment" placeholder="Comment" ng-model="timeEntry.comment" msd-elastic="\n"></textarea>
+        <button type="submit" class="pure-button pure-button-primary" ng-click="submitForm()" ng-disabled="form.$invalid">Save</button>
     </fieldset>
-    <div class="form-message" data-ng-show="errorMessage">{{ errorMessage }}</div>
+    <div class="form-message" ng-show="errorMessage">{{ errorMessage }}</div>
 </form>
