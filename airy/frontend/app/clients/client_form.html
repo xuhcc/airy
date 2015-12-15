@@ -1,9 +1,8 @@
 <form class="client-form pure-form pure-form-stacked" autocomplete="off">
     <fieldset>
-        <legend>{{ !client.id ? 'New client' : 'Client #' + client.id }}</legend>
+        <legend>{{ formTitle }}</legend>
         <input type="text" name="name" placeholder="Name" ng-model="client.name" auto-focus>
         <textarea name="contacts" placeholder="Contacts" ng-model="client.contacts" msd-elastic="\n"></textarea>
         <button type="submit" class="pure-button pure-button-primary" ng-click="submitForm()">Save</button>
     </fieldset>
-    <div class="form-message" ng-show="errorMessage">{{ errorMessage }}</div>
 </form>

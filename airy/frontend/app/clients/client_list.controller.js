@@ -16,12 +16,27 @@
         };
         $scope.fetchClients();
 
-        $scope.showClientForm = function (client) {
+        $scope.createClient = function () {
             ngDialog.open({
                 template: 'static/partials/client_form.html',
-                controller: 'ClientFormController',
-                scope: $scope,
-                data: {client: client},
+                controller: 'ClientCreationController',
+                resolve: {
+                    clients: function () {
+                        return $scope.clients;
+                    },
+                },
+            });
+        };
+
+        $scope.updateClient = function (client) {
+            ngDialog.open({
+                template: 'static/partials/client_form.html',
+                controller: 'ClientUpdateController',
+                resolve: {
+                    client: function () {
+                        return client;
+                    },
+                },
             });
         };
 
@@ -37,7 +52,7 @@
             combo: 'alt+a',
             callback: function (event) {
                 event.preventDefault();
-                $scope.showClientForm({});
+                $scope.createClient();
             },
         });
     }
