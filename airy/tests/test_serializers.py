@@ -324,3 +324,14 @@ class TestTimeEntrySerializer():
         serializer = TimeEntrySerializer(exclude=['added_at'])
         instance, errors = serializer.load(invalid_data)
         assert 'duration' in errors
+
+    def test_validate_comment_null(self):
+        task = TaskFactory.create()
+        self.db.session.commit()
+        valid_data = TimeEntryFactory.stub(task=None, comment=None).__dict__
+        valid_data['task_id'] = task.id
+        valid_data['duration'] = valid_data['duration'].total_seconds()
+        assert valid_data['comment'] is None
+        serializer = TimeEntrySerializer(exclude=['added_at'])
+        instance, errors = serializer.load(valid_data)
+        assert not errors

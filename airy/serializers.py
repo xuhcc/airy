@@ -40,7 +40,8 @@ class TimeEntrySerializer(Schema):
                 max=datetime.timedelta(hours=100)),
             validate_duration,
         ])
-    comment = fields.String(validate=validate.Length(max=100))
+    comment = fields.String(validate=validate.Length(max=100),
+                            allow_none=True)
     task_id = fields.Integer(required=True,
                              validate=validate_task_id)
 
@@ -63,7 +64,8 @@ class TaskSerializer(Schema):
     id = fields.Integer()
     title = fields.String(required=True,
                           validate=validate.Length(min=3, max=100))
-    description = fields.String(validate=validate.Length(max=1000))
+    description = fields.String(validate=validate.Length(max=1000),
+                                allow_none=True)
     project_id = fields.Integer(required=True,
                                 validate=validate_project_id)
 
@@ -94,7 +96,8 @@ class ProjectSerializer(Schema):
     id = fields.Integer()
     name = fields.String(required=True,
                          validate=validate.Length(min=3, max=100))
-    description = fields.String(validate=validate.Length(max=700))
+    description = fields.String(validate=validate.Length(max=700),
+                                allow_none=True)
     client_id = fields.Integer(required=True,
                                validate=validate_client_id)
 
@@ -126,7 +129,8 @@ class ClientSerializer(Schema):
     id = fields.Integer()
     name = fields.String(required=True,
                          validate=validate.Length(min=3, max=100))
-    contacts = fields.String(validate=validate.Length(max=700))
+    contacts = fields.String(validate=validate.Length(max=700),
+                             allow_none=True)
 
     projects = fields.Nested(ProjectSerializer,
                              only=['id', 'name', 'description',
