@@ -1,4 +1,4 @@
-describe('Time entry form controller', function () {
+describe('Time entry form', function () {
     'use strict';
 
     var scope;
@@ -6,24 +6,33 @@ describe('Time entry form controller', function () {
     var timeEntryResourceMock = {
         create: function (timeEntry) {
             return {
-                success: function (successCallback) {},
+                success: function (successCallback) {
+                    successCallback({time_entry: {task_total_time: 0}});
+                },
             };
         },
         update: function (timeEntry) {
             return {
-                success: function (successCallback) {},
+                success: function (successCallback) {
+                    successCallback({time_entry: {task_total_time: 0}});
+                },
             };
         },
     };
+    var airyUserMock = {
+        reload: function () {},
+    };
 
     beforeEach(module('airy.timeEntryForm'));
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(function ($controller, $rootScope, _TimeEntryDuration_) {
         scope = $rootScope.$new();
+        scope.closeThisDialog = function () {};
         buildCtrl = function () {
             return $controller('TimeEntryFormController', {
                 $scope: scope,
                 timeEntryResource: timeEntryResourceMock,
-                airyUser: {},
+                airyUser: airyUserMock,
+                TimeEntryDuration: _TimeEntryDuration_,
             });
         };
     }));
@@ -34,8 +43,8 @@ describe('Time entry form controller', function () {
             task: {id: 1},
         };
         buildCtrl();
-        expect(scope.time.hours).toBe(1);
-        expect(scope.time.minutes).toBe(18);
+        expect(scope.duration.hours).toBe(1);
+        expect(scope.duration.minutes).toBe(18);
     });
 
     it('should add 30 minutes', function () {
@@ -44,30 +53,34 @@ describe('Time entry form controller', function () {
             task: {id: 1},
         };
         buildCtrl();
-        expect(scope.time).toBeUndefined();
-        scope.incrementDuration();
-        expect(scope.time.hours).toBe(0);
-        expect(scope.time.minutes).toBe(30);
+        expect(scope.duration.hours).toBe(0);
+        expect(scope.duration.minutes).toBe(0);
+        scope.duration.increment();
+        expect(scope.duration.hours).toBe(0);
+        expect(scope.duration.minutes).toBe(30);
 
-        scope.time.minutes = 59;
-        scope.incrementDuration();
-        expect(scope.time.hours).toBe(1);
-        expect(scope.time.minutes).toBe(29);
+        scope.duration.minutes = 59;
+        scope.duration.increment();
+        expect(scope.duration.hours).toBe(1);
+        expect(scope.duration.minutes).toBe(29);
     });
 
     it('should create time entry', function () {
         scope.ngDialogData = {
             timeEntry: {},
-            task: {id: 3},
+            task: {id: 3, time_entries: []},
         };
         buildCtrl();
-        scope.time = {hours: 1, minutes: 30};
+        scope.duration.hours = 1;
+        scope.duration.minutes = 30;
         spyOn(timeEntryResourceMock, 'create').and.callThrough();
+        spyOn(airyUserMock, 'reload').and.callThrough();
         scope.submitForm();
         expect(timeEntryResourceMock.create).toHaveBeenCalled();
         var timeEntry = timeEntryResourceMock.create.calls.argsFor(0)[0];
         expect(timeEntry.duration).toBe(5400);
         expect(timeEntry.task_id).toBe(3);
+        expect(airyUserMock.reload).toHaveBeenCalled();
     });
 
     it('should update time entry', function () {
@@ -76,12 +89,14 @@ describe('Time entry form controller', function () {
             task: {id: 5},
         };
         buildCtrl();
-        scope.incrementDuration();
+        scope.duration.increment();
         spyOn(timeEntryResourceMock, 'update').and.callThrough();
+        spyOn(airyUserMock, 'reload').and.callThrough();
         scope.submitForm();
         expect(timeEntryResourceMock.update).toHaveBeenCalled();
         var timeEntry = timeEntryResourceMock.update.calls.argsFor(0)[0];
         expect(timeEntry.duration).toBe(5400);
         expect(timeEntry.task_id).toBe(5);
+        expect(airyUserMock.reload).toHaveBeenCalled();
     });
 });
