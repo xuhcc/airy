@@ -35,14 +35,14 @@ describe('Client creation', function () {
     });
 
     it('should create client', function () {
-        scope.client = {id: 2};
+        scope.client = {name: 'test'};
         spyOn(clientResourceMock, 'create').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();
         scope.submitForm();
         expect(clientResourceMock.create).toHaveBeenCalled();
         var callArgs = clientResourceMock.create.calls.argsFor(0);
-        expect(callArgs[0].id).toBe(scope.client.id);
-        expect(clients[1].id).toBe(scope.client.id);
+        expect(callArgs[0].name).toBe(scope.client.name);
+        expect(clients[1].name).toBe(scope.client.name);
         expect(clients.length).toBe(2);
         expect(scope.closeThisDialog).toHaveBeenCalled();
     });

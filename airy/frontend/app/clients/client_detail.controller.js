@@ -17,12 +17,27 @@
         };
         $scope.fetchClient();
 
-        $scope.showProjectForm = function (project) {
+        $scope.createProject = function () {
             ngDialog.open({
                 template: 'static/partials/project_form.html',
-                controller: 'ProjectFormController',
-                scope: $scope,
-                data: {project: project},
+                controller: 'ProjectCreationController',
+                resolve: {
+                    client: function () {
+                        return $scope.client;
+                    },
+                },
+            });
+        };
+
+        $scope.updateProject = function (project) {
+            ngDialog.open({
+                template: 'static/partials/project_form.html',
+                controller: 'ProjectUpdateController',
+                resolve: {
+                    project: function () {
+                        return project;
+                    },
+                },
             });
         };
 
@@ -38,7 +53,7 @@
             combo: 'alt+a',
             callback: function (event) {
                 event.preventDefault();
-                $scope.showProjectForm({});
+                $scope.createProject();
             },
         });
     }

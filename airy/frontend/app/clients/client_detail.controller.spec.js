@@ -1,10 +1,10 @@
-describe('Client list', function () {
+describe('Client detail', function () {
     'use strict';
 
     var scope;
     var rootScope;
     var buildCtrl;
-    var clients;
+    var client;
     var ngDialogMock = {
         open: function (config) {},
     };
@@ -17,14 +17,16 @@ describe('Client list', function () {
         },
     };
     var clientResourceMock = {
-        list: function () {
+        get: function () {
             return {
                 success: function (successCallback) {
-                    successCallback({clients: clients});
+                    successCallback({client: client});
                 },
             };
         },
-        delete: function (client) {
+    };
+    var projectResourceMock = {
+        delete: function () {
             return {
                 success: function (successCallback) {
                     successCallback();
@@ -33,55 +35,63 @@ describe('Client list', function () {
         },
     };
 
-    beforeEach(module('airy.clientList'));
+    beforeEach(module('airy.clientDetail'));
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         rootScope = $rootScope.$new();
-        clients = [
-            {id: 1},
-            {id: 2},
-        ];
+        client = {
+            id: 1,
+            name: 'test',
+            projects: [
+                {id: 1},
+                {id: 2},
+            ],
+        };
         buildCtrl = function () {
-            return $controller('ClientListController', {
+            return $controller('ClientDetailController', {
                 $scope: scope,
+                $stateParams: {clientId: 1},
                 $rootScope: rootScope,
                 ngDialog: ngDialogMock,
                 hotkeys: hotkeysMock,
                 airyPopup: airyPopupMock,
                 clientResource: clientResourceMock,
+                projectResource: projectResourceMock,
             });
         };
     }));
 
     it('should load controller', function () {
-        spyOn(clientResourceMock, 'list').and.callThrough();
+        spyOn(clientResourceMock, 'get').and.callThrough();
         buildCtrl();
-        expect(clientResourceMock.list).toHaveBeenCalled();
-        expect(rootScope.title).toEqual('Clients');
-        expect(scope.clients).toEqual(clients);
+        expect(clientResourceMock.get).toHaveBeenCalled();
+        expect(rootScope.title).toEqual(client.name);
+        expect(scope.client).toEqual(client);
     });
 
-    it('should create client', function () {
+    it('should create project', function () {
         buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        scope.createClient();
+        scope.createProject();
         expect(ngDialogMock.open).toHaveBeenCalled();
     });
 
-    it('should update client', function () {
+    it('should update project', function () {
         buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        scope.updateClient();
+        scope.updateProject();
         expect(ngDialogMock.open).toHaveBeenCalled();
     });
 
-    it('should delete client', function () {
+    it('should delete project', function () {
         buildCtrl();
-        expect(clients.length).toBe(2);
-        spyOn(clientResourceMock, 'delete').and.callThrough();
-        scope.deleteClient(clients[1]);
-        expect(clientResourceMock.delete).toHaveBeenCalled();
-        var callArgs = clientResourceMock.delete.calls.argsFor(0);
-        expect(clients.length).toBe(1);
+        spyOn(clientResourceMock, 'get').and.callThrough();
+        spyOn(projectResourceMock, 'delete').and.callThrough();
+        var project = client.projects[1];
+        scope.deleteProject(project);
+        expect(projectResourceMock.delete).toHaveBeenCalled();
+        var callArgs = projectResourceMock.delete.calls.argsFor(0);
+        expect(callArgs[0].id).toEqual(project.id);
+        expect(clientResourceMock.get).toHaveBeenCalled();
     });
 });
