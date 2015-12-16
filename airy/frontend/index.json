@@ -41,7 +41,8 @@
             "airy/frontend/app/projects/project_detail.module.js",
             "airy/frontend/app/projects/project_detail.controller.js",
             "airy/frontend/app/tasks/task_form.module.js",
-            "airy/frontend/app/tasks/task_form.controller.js",
+            "airy/frontend/app/tasks/task_form.creation.controller.js",
+            "airy/frontend/app/tasks/task_form.update.controller.js",
             "airy/frontend/app/tasks/time_entry_form.module.js",
             "airy/frontend/app/tasks/time_entry_form.controller.js"
         ],

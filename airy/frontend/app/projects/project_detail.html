@@ -8,7 +8,7 @@
     <div class="tasks">
         <div class="task task-{{ task.status }}" ng-repeat="task in project.tasks">
             <div class="task-menu">
-                <a class="task-edit icon" title="Edit task" ng-click="showTaskForm(task)">e</a>
+                <a class="task-edit icon" title="Edit task" ng-click="updateTask(task)">e</a>
                 <a class="task-delete icon" title="Delete task" ng-click="deleteTask(task)">d</a>
             </div>
             <div class="task-title"><h3>
@@ -35,5 +35,5 @@
             </ul></div>
         </div>
     </div>
-    <a class="task-add icon" title="Add task" ng-click="showTaskForm({})">+</a>
+    <a class="task-add icon" title="Add task" ng-click="createTask()">+</a>
 </div>

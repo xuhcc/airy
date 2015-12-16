@@ -25,13 +25,29 @@
             $scope.fetchProject();
         };
 
-        $scope.showTaskForm = function (task) {
+        $scope.createTask = function () {
             ngDialog.open({
                 template: 'static/partials/task_form.html',
-                controller: 'TaskFormController',
-                scope: $scope,
-                data: {task: task},
+                controller: 'TaskCreationController',
                 className: 'popup task-form-popup',
+                resolve: {
+                    project: function () {
+                        return $scope.project;
+                    },
+                },
+            });
+        };
+
+        $scope.updateTask = function (task) {
+            ngDialog.open({
+                template: 'static/partials/task_form.html',
+                controller: 'TaskUpdateController',
+                className: 'popup task-form-popup',
+                resolve: {
+                    task: function () {
+                        return task;
+                    },
+                },
             });
         };
 
@@ -96,7 +112,7 @@
             combo: 'alt+a',
             callback: function (event) {
                 event.preventDefault();
-                $scope.showTaskForm({});
+                $scope.createTask();
             },
         });
     }
