@@ -175,7 +175,10 @@ class TestProjectApi():
         response = self.client.post(url, json=project_data)
         assert response.status_code == 200
         assert 'project' in response.json
-        assert response.json['project']['name'] == project_data['name']
+        assert (response.json['project']['name'] ==
+                project_data['name'])
+        assert (response.json['project']['client_id'] ==
+                project_data['client_id'])
 
     def test_get_project(self):
         project = ProjectFactory.create()
@@ -188,6 +191,7 @@ class TestProjectApi():
         assert response.status_code == 200
         assert 'project' in response.json
         assert response.json['project']['name'] == project.name
+        assert 'last_task' not in response.json['project']
         tasks = response.json['project']['tasks']
         assert len(tasks) == 1
         assert tasks[0]['id'] == task_1.id
@@ -217,7 +221,10 @@ class TestProjectApi():
         response = self.client.put(url, json=project_data)
         assert response.status_code == 200
         assert 'project' in response.json
-        assert response.json['project']['name'] == project_data['name']
+        assert (response.json['project']['name'] ==
+                project_data['name'])
+        assert (response.json['project']['client_id'] ==
+                project_data['client_id'])
 
     def test_delete_project(self):
         project = ProjectFactory.create()
@@ -262,6 +269,7 @@ class TestTaskApi():
         assert response.status_code == 200
         assert 'task' in response.json
         assert response.json['task']['title'] == task_data['title']
+        assert response.json['task']['project_id'] == task_data['project_id']
 
         url = url_for('task_api.task', task_id=0)
         response = self.client.put(url, json=task_data)
@@ -312,6 +320,8 @@ class TestTimeEntryApi():
                 time_entry_data['task_id'])
         assert (response.json['time_entry']['duration'] ==
                 time_entry_data['duration'])
+        assert (response.json['time_entry']['task_total_time'] ==
+                time_entry_data['duration'])
 
     def test_update_time_entry(self):
         time_entry = TimeEntryFactory.create()
@@ -326,6 +336,8 @@ class TestTimeEntryApi():
         assert response.status_code == 200
         assert 'time_entry' in response.json
         assert (response.json['time_entry']['duration'] ==
+                time_entry_data['duration'])
+        assert (response.json['time_entry']['task_total_time'] ==
                 time_entry_data['duration'])
 
         url = url_for('time_entry_api.time_entry', time_entry_id=0)

@@ -26,7 +26,6 @@ def save(data, time_entry_id=None):
     else:
         task_total_time = 0
     serializer = TimeEntrySerializer(
-        exclude='task_id',
         extra={'task_total_time': task_total_time},
         strict=True)
     return serializer.dump(time_entry).data

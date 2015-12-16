@@ -22,7 +22,7 @@ def save(data, task_id=None):
         raise TaskError(errors, 400)
     task = db.session.merge(task)
     db.session.commit()
-    serializer = TaskSerializer(exclude='project_id', strict=True)
+    serializer = TaskSerializer(strict=True)
     return serializer.dump(task).data
 
 

@@ -70,7 +70,6 @@ class TaskSerializer(Schema):
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
     time_entries = fields.Nested(TimeEntrySerializer,
-                                 exclude=['task_id'],
                                  many=True,
                                  dump_only=True)
     total_time = fields.TimeDelta(default=0,
@@ -100,7 +99,6 @@ class ProjectSerializer(Schema):
                                validate=validate_client_id)
 
     tasks = fields.Nested(TaskSerializer,
-                          exclude=['project_id'],
                           many=True,
                           dump_only=True)
     last_task = fields.Nested(TaskSerializer,
@@ -131,7 +129,8 @@ class ClientSerializer(Schema):
     contacts = fields.String(validate=validate.Length(max=700))
 
     projects = fields.Nested(ProjectSerializer,
-                             only=['id', 'name', 'description', 'last_task'],
+                             only=['id', 'name', 'description',
+                                   'client_id', 'last_task'],
                              many=True,
                              dump_only=True)
 

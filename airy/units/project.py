@@ -15,7 +15,7 @@ def get(project_id, task_status):
     if task_status not in TaskStatus.enums:
         raise ProjectError('Invalid status')
     serializer = ProjectSerializer(
-        exclude='last_task',
+        exclude=['last_task'],
         strict=True,
         task_status=task_status)
     return serializer.dump(project).data
@@ -36,7 +36,7 @@ def save(data, project_id=None):
     project = db.session.merge(project)
     db.session.commit()
     serializer = ProjectSerializer(
-        only=['id', 'name', 'description', 'last_task'],
+        only=['id', 'name', 'description', 'client_id', 'last_task'],
         strict=True)
     return serializer.dump(project).data
 

@@ -28,7 +28,7 @@ class TestClientSerializer():
         project_data = data['projects'][0]
         assert project_data['id'] == project.id
         assert project_data['name'] == project.name
-        assert 'client_id' not in project_data
+        assert project_data['client_id'] == client.id
         assert 'tasks' not in project_data
 
     def test_create(self):
@@ -94,21 +94,25 @@ class TestProjectSerializer():
         task_1 = TaskFactory.create(project=project, status='open')
         task_2 = TaskFactory.create(project=project, status='closed')
         self.db.session.commit()
+
+        # Last task
         data = serializer.dump(project).data
         assert data['last_task'] is not None
         assert data['last_task']['id'] == task_1.id
         assert data['last_task']['title'] == task_1.title
         assert 'time_entries' not in data['last_task']
 
+        # Tasks (with filtering)
         data = ProjectSerializer(
             strict=True, task_status='open').dump(project).data
         assert len(data['tasks']) == 1
         assert data['tasks'][0]['id'] == task_1.id
-        assert 'project_id' not in data['tasks'][0]
+        assert data['tasks'][0]['project_id'] == project.id
         data = ProjectSerializer(
             strict=True, task_status='closed').dump(project).data
         assert len(data['tasks']) == 1
         assert data['tasks'][0]['id'] == task_2.id
+        assert data['tasks'][0]['project_id'] == project.id
 
     def test_create(self):
         client = ClientFactory.create()
@@ -183,7 +187,7 @@ class TestTaskSerializer():
         time_data = data['time_entries'][0]
         assert time_data['id'] == time_entry.id
         assert time_data['comment'] == time_entry.comment
-        assert 'task_id' not in time_data
+        assert time_data['task_id'] == task.id
 
     def test_create(self):
         project = ProjectFactory.create()
