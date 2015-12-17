@@ -29,7 +29,7 @@
             .state('client_list', {
                 url: '/clients',
                 templateUrl: 'static/partials/client_list.html',
-                controller: 'ClientListController',
+                controller: 'ClientListController as ctrl',
                 ncyBreadcrumb: {
                     label: 'h',
                 },

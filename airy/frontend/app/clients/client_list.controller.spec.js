@@ -42,7 +42,7 @@ describe('Client list', function () {
             {id: 2},
         ];
         buildCtrl = function () {
-            return $controller('ClientListController', {
+            return $controller('ClientListController as ctrl', {
                 $scope: scope,
                 $rootScope: rootScope,
                 ngDialog: ngDialogMock,
@@ -58,20 +58,20 @@ describe('Client list', function () {
         buildCtrl();
         expect(clientResourceMock.list).toHaveBeenCalled();
         expect(rootScope.title).toEqual('Clients');
-        expect(scope.clients).toEqual(clients);
+        expect(scope.ctrl.clients).toEqual(clients);
     });
 
     it('should create client', function () {
         buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        scope.createClient();
+        scope.ctrl.createClient();
         expect(ngDialogMock.open).toHaveBeenCalled();
     });
 
     it('should update client', function () {
         buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        scope.updateClient();
+        scope.ctrl.updateClient();
         expect(ngDialogMock.open).toHaveBeenCalled();
     });
 
@@ -79,7 +79,7 @@ describe('Client list', function () {
         buildCtrl();
         expect(clients.length).toBe(2);
         spyOn(clientResourceMock, 'delete').and.callThrough();
-        scope.deleteClient(clients[1]);
+        scope.ctrl.deleteClient(clients[1]);
         expect(clientResourceMock.delete).toHaveBeenCalled();
         var callArgs = clientResourceMock.delete.calls.argsFor(0);
         expect(clients.length).toBe(1);

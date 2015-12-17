@@ -5,30 +5,30 @@
         .module('airy.clientList')
         .controller('ClientListController', ClientListController);
 
-    function ClientListController($scope, $rootScope, ngDialog, hotkeys, airyPopup, clientResource) {
-        $rootScope.title = 'Clients';
-        $scope.clients = [];
+    function ClientListController($rootScope, ngDialog, hotkeys, airyPopup, clientResource) {
+        var self = this;
+        self.clients = [];
 
-        $scope.fetchClients = function () {
+        self.fetchClients = function () {
             clientResource.list().success(function (data) {
-                $scope.clients = data.clients;
+                self.clients = data.clients;
             });
         };
-        $scope.fetchClients();
+        self.fetchClients();
 
-        $scope.createClient = function () {
+        self.createClient = function () {
             ngDialog.open({
                 template: 'static/partials/client_form.html',
                 controller: 'ClientCreationController',
                 resolve: {
                     clients: function () {
-                        return $scope.clients;
+                        return self.clients;
                     },
                 },
             });
         };
 
-        $scope.updateClient = function (client) {
+        self.updateClient = function (client) {
             ngDialog.open({
                 template: 'static/partials/client_form.html',
                 controller: 'ClientUpdateController',
@@ -40,19 +40,21 @@
             });
         };
 
-        $scope.deleteClient = function (client) {
+        self.deleteClient = function (client) {
             airyPopup.confirm('Delete client?', function () {
                 clientResource.delete(client).success(function (data) {
-                    $scope.clients.splice($scope.clients.indexOf(client), 1);
+                    self.clients.splice(self.clients.indexOf(client), 1);
                 });
             });
         };
+
+        $rootScope.title = 'Clients';
 
         hotkeys.add({
             combo: 'alt+a',
             callback: function (event) {
                 event.preventDefault();
-                $scope.createClient();
+                self.createClient();
             },
         });
     }
