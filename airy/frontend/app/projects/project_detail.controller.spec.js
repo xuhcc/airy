@@ -5,6 +5,7 @@ describe('Project detail', function () {
     var rootScope;
     var buildCtrl;
     var project;
+    var $interval;
     var ngDialogMock = {
         open: function (config) {},
     };
@@ -40,7 +41,7 @@ describe('Project detail', function () {
     var timeEntryResourceMock = {};
 
     beforeEach(module('airy.projectDetail'));
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(function ($controller, $rootScope, _$interval_) {
         scope = $rootScope.$new();
         rootScope = $rootScope.$new();
         project = {
@@ -52,12 +53,13 @@ describe('Project detail', function () {
                 {id: 7},
             ],
         };
+        $interval = _$interval_;
         buildCtrl = function () {
             return $controller('ProjectDetailController', {
                 $scope: scope,
                 $stateParams: {projectId: 1, currentStatus: 'open'},
                 $rootScope: rootScope,
-                $interval: function () {},
+                $interval: $interval,
                 ngDialog: ngDialogMock,
                 hotkeys: hotkeysMock,
                 airyPopup: airyPopupMock,
@@ -104,5 +106,21 @@ describe('Project detail', function () {
         expect(callArgs[0].id).toEqual(task.id);
         expect(projectResourceMock.get).toHaveBeenCalled();
         expect(airyUserMock.reload).toHaveBeenCalled();
+    });
+
+    it('should toggle timer', function () {
+        buildCtrl();
+        spyOn(scope, 'showTimeEntryForm').and.callThrough();
+        var task = project.tasks[1];
+        scope.toggleTimer(task);
+        expect(task.timerData).toBeDefined();
+        $interval.flush(1000);
+        scope.toggleTimer(task);
+        expect(scope.showTimeEntryForm).toHaveBeenCalled();
+        var args = scope.showTimeEntryForm.calls.argsFor(0);
+        expect(args[0]).toEqual(task);
+        expect(args[1]).toEqual({});
+        expect(args[2]).toBeGreaterThan(0);
+        expect(task.timerData).toBeUndefined();
     });
 });
