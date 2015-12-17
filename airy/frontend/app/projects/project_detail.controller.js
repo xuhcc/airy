@@ -80,20 +80,37 @@
             } else {
                 // Stop timer
                 $interval.cancel(task.timerData.timer);
-                $scope.showTimeEntryForm(task, {}, task.timerData.duration);
+                $scope.createTimeEntry(task, task.timerData.duration);
                 delete task.timerData;
             }
         };
 
-        $scope.showTimeEntryForm = function (task, timeEntry, duration) {
+        $scope.createTimeEntry = function (task, duration) {
             ngDialog.open({
                 template: 'static/partials/time_entry_form.html',
-                controller: 'TimeEntryFormController',
-                scope: $scope,
-                data: {
-                    task: task,
-                    timeEntry: timeEntry,
-                    duration: duration,
+                controller: 'TimeEntryCreationController',
+                resolve: {
+                    task: function () {
+                        return task;
+                    },
+                    duration: function () {
+                        return duration;
+                    },
+                },
+            });
+        };
+
+        $scope.updateTimeEntry = function (task, timeEntry) {
+            ngDialog.open({
+                template: 'static/partials/time_entry_form.html',
+                controller: 'TimeEntryUpdateController',
+                resolve: {
+                    task: function () {
+                        return task;
+                    },
+                    timeEntry: function () {
+                        return timeEntry;
+                    },
                 },
             });
         };

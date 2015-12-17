@@ -38,7 +38,15 @@ describe('Project detail', function () {
             };
         },
     };
-    var timeEntryResourceMock = {};
+    var timeEntryResourceMock = {
+        delete: function (timeEntry) {
+            return {
+                success: function (successCallback) {
+                    successCallback({task_total_time: 0});
+                },
+            };
+        },
+    };
 
     beforeEach(module('airy.projectDetail'));
     beforeEach(inject(function ($controller, $rootScope, _$interval_) {
@@ -49,8 +57,8 @@ describe('Project detail', function () {
             name: 'test',
             client: {id: 1},
             tasks: [
-                {id: 6},
-                {id: 7},
+                {id: 6, time_entries: [{id: 33}]},
+                {id: 7, time_entries: [{id: 34}]},
             ],
         };
         $interval = _$interval_;
@@ -110,17 +118,54 @@ describe('Project detail', function () {
 
     it('should toggle timer', function () {
         buildCtrl();
-        spyOn(scope, 'showTimeEntryForm').and.callThrough();
+        spyOn(scope, 'createTimeEntry').and.callThrough();
         var task = project.tasks[1];
         scope.toggleTimer(task);
         expect(task.timerData).toBeDefined();
         $interval.flush(1000);
         scope.toggleTimer(task);
-        expect(scope.showTimeEntryForm).toHaveBeenCalled();
-        var args = scope.showTimeEntryForm.calls.argsFor(0);
+        expect(scope.createTimeEntry).toHaveBeenCalled();
+        var args = scope.createTimeEntry.calls.argsFor(0);
         expect(args[0]).toEqual(task);
-        expect(args[1]).toEqual({});
-        expect(args[2]).toBeGreaterThan(0);
+        expect(args[1]).toBeGreaterThan(0);
         expect(task.timerData).toBeUndefined();
+    });
+
+    it('should create time entry', function () {
+        buildCtrl();
+        spyOn(ngDialogMock, 'open').and.callThrough();
+        var task = {id: 43};
+        var duration = 600;
+        scope.createTimeEntry(task, duration);
+        expect(ngDialogMock.open).toHaveBeenCalled();
+        var ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
+        expect(ngDialogConfig.resolve.task()).toEqual(task);
+        expect(ngDialogConfig.resolve.duration()).toEqual(duration);
+    });
+
+    it('should update time entry', function () {
+        buildCtrl();
+        spyOn(ngDialogMock, 'open').and.callThrough();
+        var task = {id: 44};
+        var timeEntry = {id: 93};
+        scope.updateTimeEntry(task, timeEntry);
+        expect(ngDialogMock.open).toHaveBeenCalled();
+        var ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
+        expect(ngDialogConfig.resolve.task()).toEqual(task);
+        expect(ngDialogConfig.resolve.timeEntry()).toEqual(timeEntry);
+    });
+
+    it('should delete time entry', function () {
+        buildCtrl();
+        spyOn(timeEntryResourceMock, 'delete').and.callThrough();
+        spyOn(airyUserMock, 'reload').and.callThrough();
+        var task = project.tasks[1];
+        var timeEntry = task.time_entries[0];
+        scope.deleteTimeEntry(task, timeEntry);
+        expect(timeEntryResourceMock.delete).toHaveBeenCalled();
+        var callArgs = timeEntryResourceMock.delete.calls.argsFor(0);
+        expect(callArgs[0].id).toEqual(timeEntry.id);
+        expect(task.time_entries.length).toBe(0);
+        expect(airyUserMock.reload).toHaveBeenCalled();
     });
 });

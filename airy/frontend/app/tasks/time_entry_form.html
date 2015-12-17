@@ -1,6 +1,6 @@
 <form class="time-entry-form pure-form pure-form-stacked" name="form" autocomplete="off" novalidate>
     <fieldset>
-        <legend>{{ !timeEntry.id ? 'New time entry' : 'Time entry #' + timeEntry.id }}</legend>
+        <legend>{{ formTitle }}</legend>
         <input type="number" min="0" max="99" name="hours" placeholder="Hours" ng-model="duration.hours"><!--
         --><input type="number" min="0" max="59" name="minutes" placeholder="Minutes" ng-model="duration.minutes" auto-focus><!--
         --><button class="pure-button amount-increment" ng-click="duration.increment()">+30</button>

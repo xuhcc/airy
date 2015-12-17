@@ -44,7 +44,8 @@
             "airy/frontend/app/tasks/task_form.creation.controller.js",
             "airy/frontend/app/tasks/task_form.update.controller.js",
             "airy/frontend/app/tasks/time_entry_form.module.js",
-            "airy/frontend/app/tasks/time_entry_form.controller.js",
+            "airy/frontend/app/tasks/time_entry_form.creation.controller.js",
+            "airy/frontend/app/tasks/time_entry_form.update.controller.js",
             "airy/frontend/app/tasks/time_entry_form.duration.service.js"
         ],
         "partials": "airy/frontend/app/**/*.html",
