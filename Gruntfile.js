@@ -23,6 +23,7 @@ module.exports = function (grunt) {
         jshint: {
             main: [
                 'Gruntfile.js',
+                'karma.conf.js',
                 '<%= paths.app.js %>',
                 '<%= paths.specs %>',
             ],
@@ -59,6 +60,22 @@ module.exports = function (grunt) {
                         report: {
                             type: 'text',
                         },
+                    },
+                },
+            },
+        },
+        karma: {
+            main: {
+                configFile: 'karma.conf.js',
+                options: {
+                    files: [
+                        '<%= paths.lib.js %>',
+                        'bower_components/angular-mocks/angular-mocks.js',
+                        '<%= paths.app.js %>',
+                        '<%= paths.specs %>',
+                    ],
+                    preprocessors: {
+                        'airy/frontend/app/**/!(*spec).js': ['coverage'],
                     },
                 },
             },
@@ -220,6 +237,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-sass-lint');
     grunt.loadNpmTasks('grunt-jsonlint');
+    grunt.loadNpmTasks('grunt-karma');
     grunt.registerTask('default', []);
     grunt.registerTask('build:development', function () {
         grunt.task.run([
