@@ -16,6 +16,10 @@ module.exports = function (grunt) {
                 src: [
                     'package.json',
                     'bower.json',
+                    '.jshintrc',
+                    '.jscsrc',
+                    '.csslintrc',
+                    '.htmlhintrc',
                     'airy/frontend/index.json',
                 ],
             },
@@ -28,21 +32,13 @@ module.exports = function (grunt) {
                 '<%= paths.specs %>',
             ],
             options: {
-                multistr: true,
-                eqeqeq: true,
-                strict: true,
-                curly: true,
+                jshintrc: '.jshintrc',
             },
         },
         jscs: {
             main: '<%= jshint.main %>',
             options: {
-                preset: 'yandex',
-                disallowMultipleLineStrings: null,
-                disallowQuotedKeysInObjects: null,
-                requireTrailingComma: {
-                    ignoreSingleLine: true,
-                },
+                config: '.jscsrc',
             },
         },
         jasmine: {
@@ -88,9 +84,7 @@ module.exports = function (grunt) {
         },
         csslint: {
             options: {
-                'adjoining-classes': false,
-                'ids': false,
-                'important': false,
+                csslintrc: '.csslintrc',
             },
             main: {
                 src: '<%= paths.app.css %>',
@@ -99,18 +93,7 @@ module.exports = function (grunt) {
         htmlhint: {
             partials: {
                 options: {
-                    'tagname-lowercase': true,
-                    'attr-lowercase': true,
-                    'attr-value-double-quotes': true,
-                    'attr-no-duplication': true,
-                    'tag-pair': true,
-                    'spec-char-escape': true,
-                    'id-unique': true,
-                    'src-not-empty': true,
-                    'doctype-html5': true,
-                    'space-tab-mixed-disabled': true,
-                    'id-class-ad-disabled': true,
-                    'attr-unsafe-chars': true,
+                    htmlhintrc: '.htmlhintrc',
                 },
                 src: '<%= paths.app.partials %>',
             },

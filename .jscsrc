@@ -1,0 +1,8 @@
+{
+    "preset": "yandex",
+    "disallowMultipleLineStrings": null,
+    "disallowQuotedKeysInObjects": null,
+    "requireTrailingComma": {
+        "ignoreSingleLine": true
+    }
+}

@@ -1,0 +1,6 @@
+{
+    "multistr": true,
+    "eqeqeq": true,
+    "strict": true,
+    "curly": true
+}
