@@ -9,7 +9,7 @@ module.exports = function (config) {
         preprocessors: {},
         reporters: ['spec', 'coverage'],
         coverageReporter: {
-            type: 'text',
+            type: 'text-summary',
         },
         port: 9876,
         colors: true,

@@ -21,7 +21,7 @@ describe('Project detail', function () {
         reload: function () {},
     };
     var projectResourceMock = {
-        get: function () {
+        get: function (projectId, status) {
             return {
                 success: function (successCallback) {
                     successCallback({project: project});
@@ -30,6 +30,14 @@ describe('Project detail', function () {
         },
     };
     var taskResourceMock = {
+        toggleStatus: function (task) {
+            return {
+                success: function (successCallback) {
+                    task.is_closed = !task.is_closed;
+                    successCallback({task: task});
+                },
+            };
+        },
         delete: function (task) {
             return {
                 success: function (successCallback) {
@@ -57,15 +65,15 @@ describe('Project detail', function () {
             name: 'test',
             client: {id: 1},
             tasks: [
-                {id: 6, time_entries: [{id: 33}]},
-                {id: 7, time_entries: [{id: 34}]},
+                {id: 6, is_closed: false, time_entries: [{id: 33}]},
+                {id: 7, is_closed: false, time_entries: [{id: 34}]},
             ],
         };
         $interval = _$interval_;
         buildCtrl = function () {
             return $controller('ProjectDetailController', {
                 $scope: scope,
-                $stateParams: {projectId: 1, currentStatus: 'open'},
+                $stateParams: {projectId: project.id, currentStatus: 'open'},
                 $rootScope: rootScope,
                 $interval: $interval,
                 ngDialog: ngDialogMock,
@@ -83,9 +91,24 @@ describe('Project detail', function () {
         spyOn(projectResourceMock, 'get').and.callThrough();
         buildCtrl();
         expect(projectResourceMock.get).toHaveBeenCalled();
+        var callArgs = projectResourceMock.get.calls.argsFor(0);
+        expect(callArgs[0]).toEqual(project.id);
+        expect(callArgs[1]).toEqual(scope.currentStatus);
+        expect(scope.currentStatus).toBe('open');
         expect(rootScope.title).toEqual(project.name);
         expect(scope.project).toEqual(project);
         expect(scope.client).toEqual(project.client);
+    });
+
+    it('should filter tasks by status', function () {
+        buildCtrl();
+        spyOn(projectResourceMock, 'get').and.callThrough();
+        scope.filterByStatus('closed');
+        expect(projectResourceMock.get).toHaveBeenCalled();
+        var callArgs = projectResourceMock.get.calls.argsFor(0);
+        expect(callArgs[0]).toEqual(project.id);
+        expect(callArgs[1]).toEqual(scope.currentStatus);
+        expect(scope.currentStatus).toBe('closed');
     });
 
     it('should create task', function () {
@@ -116,18 +139,30 @@ describe('Project detail', function () {
         expect(airyUserMock.reload).toHaveBeenCalled();
     });
 
+    it('should toggle task status', function () {
+        buildCtrl();
+        spyOn(taskResourceMock, 'toggleStatus').and.callThrough();
+        spyOn(airyUserMock, 'reload').and.callThrough();
+        var task = project.tasks[1];
+        scope.toggleStatus(task);
+        expect(taskResourceMock.toggleStatus).toHaveBeenCalled();
+        var callArgs = taskResourceMock.toggleStatus.calls.argsFor(0);
+        expect(task.is_closed).toBe(true);
+        expect(airyUserMock.reload).toHaveBeenCalled();
+    });
+
     it('should toggle timer', function () {
         buildCtrl();
-        spyOn(scope, 'createTimeEntry').and.callThrough();
+        spyOn(ngDialogMock, 'open').and.callThrough();
         var task = project.tasks[1];
         scope.toggleTimer(task);
         expect(task.timerData).toBeDefined();
         $interval.flush(1000);
         scope.toggleTimer(task);
-        expect(scope.createTimeEntry).toHaveBeenCalled();
-        var args = scope.createTimeEntry.calls.argsFor(0);
-        expect(args[0]).toEqual(task);
-        expect(args[1]).toBeGreaterThan(0);
+        expect(ngDialogMock.open).toHaveBeenCalled();
+        var ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
+        expect(ngDialogConfig.resolve.task()).toEqual(task);
+        expect(ngDialogConfig.resolve.duration()).toBeGreaterThan(0);
         expect(task.timerData).toBeUndefined();
     });
 
