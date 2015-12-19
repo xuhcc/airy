@@ -6,13 +6,16 @@
         .directive('airyHeader', airyHeader);
 
     function airyHeader(airyUser) {
-        return {
+        var directive = {
             restrict: 'A',
             templateUrl: 'static/partials/header.html',
             scope: {},
-            link: function (scope, element) {
-                scope.user = airyUser.user;
-            },
+            link: link,
         };
+        return directive;
+
+        function link(scope, element) {
+            scope.user = airyUser.user;
+        }
     }
 })();
