@@ -6,10 +6,13 @@
         .controller('LoginController', LoginController);
 
     function LoginController($scope, $rootScope, airyUser) {
+        $scope.password = '';
+        $scope.loginUser = loginUser;
+
         $rootScope.title = 'Login';
 
-        $scope.loginUser = function () {
+        function loginUser() {
             airyUser.login($scope.password);
-        };
+        }
     }
 })();

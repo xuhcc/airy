@@ -8,15 +8,29 @@
     function ClientListController($rootScope, ngDialog, hotkeys, airyPopup, clientResource) {
         var self = this;
         self.clients = [];
+        self.createClient = createClient;
+        self.updateClient = updateClient;
+        self.deleteClient = deleteClient;
 
-        self.fetchClients = function () {
+        fetchClients();
+
+        $rootScope.title = 'Clients';
+
+        hotkeys.add({
+            combo: 'alt+a',
+            callback: function (event) {
+                event.preventDefault();
+                createClient();
+            },
+        });
+
+        function fetchClients() {
             clientResource.list().success(function (data) {
                 self.clients = data.clients;
             });
-        };
-        self.fetchClients();
+        }
 
-        self.createClient = function () {
+        function createClient() {
             ngDialog.open({
                 template: 'static/partials/client_form.html',
                 controller: 'ClientCreationController',
@@ -26,9 +40,9 @@
                     },
                 },
             });
-        };
+        }
 
-        self.updateClient = function (client) {
+        function updateClient(client) {
             ngDialog.open({
                 template: 'static/partials/client_form.html',
                 controller: 'ClientUpdateController',
@@ -38,24 +52,14 @@
                     },
                 },
             });
-        };
+        }
 
-        self.deleteClient = function (client) {
+        function deleteClient(client) {
             airyPopup.confirm('Delete client?', function () {
                 clientResource.delete(client).success(function (data) {
                     self.clients.splice(self.clients.indexOf(client), 1);
                 });
             });
-        };
-
-        $rootScope.title = 'Clients';
-
-        hotkeys.add({
-            combo: 'alt+a',
-            callback: function (event) {
-                event.preventDefault();
-                self.createClient();
-            },
-        });
+        }
     }
 })();

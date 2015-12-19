@@ -9,8 +9,9 @@
         $scope.timeEntry = {task_id: task.id};
         $scope.duration = new TimeEntryDuration(duration || 0);
         $scope.formTitle = 'New time entry';
+        $scope.submitForm = createTimeEntry;
 
-        $scope.submitForm = function () {
+        function createTimeEntry() {
             $scope.timeEntry.duration = $scope.duration.toSeconds();
             timeEntryResource.create($scope.timeEntry).success(function (data) {
                 task.timeEntriesVisible = true;
@@ -19,6 +20,6 @@
                 airyUser.reload();
                 $scope.closeThisDialog();
             });
-        };
+        }
     }
 })();

@@ -8,12 +8,13 @@
     function ClientCreationController($scope, clientResource, clients) {
         $scope.client = {};
         $scope.formTitle = 'New client';
+        $scope.submitForm = createClient;
 
-        $scope.submitForm = function () {
+        function createClient() {
             clientResource.create($scope.client).success(function (data) {
                 clients.push(data.client);
                 $scope.closeThisDialog();
             });
-        };
+        }
     }
 })();

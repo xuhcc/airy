@@ -7,7 +7,6 @@
 
     function ClientReportController($scope, $stateParams, $rootScope, clientResource, calculator) {
         $scope.report = {};
-
         $scope.periods = [
             {
                 label: '1 week',
@@ -23,30 +22,33 @@
             },
         ];
         $scope.period = $scope.periods[0];
+        $scope.setPeriod = setPeriod;
+        $scope.range = {
+            beg: moment().startOf('isoWeek').format(),
+            end: moment().endOf('isoWeek').format(),
+        };
+        $scope.$watch('range', getReport, true);
+        $scope.showCalculator = showCalculator;
+        $scope.sendByEmail = sendByEmail;
 
-        $scope.getReport = function () {
+        function getReport() {
             clientResource.getReport($stateParams.clientId, $scope.range).success(function (data) {
                 $rootScope.title = data.report.client.name + ' :: Task report';
                 $scope.report = data.report;
                 $scope.client = data.report.client;
             });
-        };
-        $scope.$watch('range', $scope.getReport, true);
-        $scope.range = {
-            beg: moment().startOf('isoWeek').format(),
-            end: moment().endOf('isoWeek').format(),
-        };
+        }
 
-        $scope.setPeriod = function () {
+        function setPeriod() {
             $scope.range.end = $scope.period.getRangeEnd($scope.range.beg);
-        };
+        }
 
-        $scope.showCalculator = function (duration) {
+        function showCalculator(duration) {
             calculator.show(duration);
-        };
+        }
 
-        $scope.sendByEmail = function () {
+        function sendByEmail() {
             clientResource.sendReport($stateParams.clientId, $scope.range);
-        };
+        }
     }
 })();

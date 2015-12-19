@@ -9,23 +9,41 @@
                                      airyPopup, airyUser, projectResource, taskResource, timeEntryResource) {
         $scope.project = {};
         $scope.currentStatus = 'open';
+        $scope.filterByStatus = filterByStatus;
+        $scope.createTask = createTask;
+        $scope.updateTask = updateTask;
+        $scope.deleteTask = deleteTask;
+        $scope.toggleStatus = toggleStatus;
+        $scope.toggleTimer = toggleTimer;
+        $scope.createTimeEntry = createTimeEntry;
+        $scope.updateTimeEntry = updateTimeEntry;
+        $scope.deleteTimeEntry = deleteTimeEntry;
 
-        $scope.fetchProject = function () {
+        fetchProject();
+
+        hotkeys.add({
+            combo: 'alt+a',
+            callback: function (event) {
+                event.preventDefault();
+                createTask();
+            },
+        });
+
+        function fetchProject() {
             projectResource.get($stateParams.projectId, $scope.currentStatus)
                 .success(function (data) {
                     $rootScope.title = data.project.name;
                     $scope.project = data.project;
                     $scope.client = data.project.client;
                 });
-        };
-        $scope.fetchProject();
+        }
 
-        $scope.filterByStatus = function (status) {
+        function filterByStatus(status) {
             $scope.currentStatus = status;
-            $scope.fetchProject();
-        };
+            fetchProject();
+        }
 
-        $scope.createTask = function () {
+        function createTask() {
             ngDialog.open({
                 template: 'static/partials/task_form.html',
                 controller: 'TaskCreationController',
@@ -36,9 +54,9 @@
                     },
                 },
             });
-        };
+        }
 
-        $scope.updateTask = function (task) {
+        function updateTask(task) {
             ngDialog.open({
                 template: 'static/partials/task_form.html',
                 controller: 'TaskUpdateController',
@@ -49,25 +67,25 @@
                     },
                 },
             });
-        };
+        }
 
-        $scope.deleteTask = function (task) {
+        function deleteTask(task) {
             airyPopup.confirm('Delete task?', function () {
                 taskResource.delete(task).success(function (data) {
-                    $scope.fetchProject();
+                    fetchProject();
                     airyUser.reload();
                 });
             });
-        };
+        }
 
-        $scope.toggleStatus = function (task) {
+        function toggleStatus(task) {
             taskResource.toggleStatus(task).success(function (data) {
                 angular.extend(task, data.task);
                 airyUser.reload();
             });
-        };
+        }
 
-        $scope.toggleTimer = function (task) {
+        function toggleTimer(task) {
             if (!task.timerData) {
                 // Start timer
                 task.timerData = {
@@ -80,12 +98,12 @@
             } else {
                 // Stop timer
                 $interval.cancel(task.timerData.timer);
-                $scope.createTimeEntry(task, task.timerData.duration);
+                createTimeEntry(task, task.timerData.duration);
                 delete task.timerData;
             }
-        };
+        }
 
-        $scope.createTimeEntry = function (task, duration) {
+        function createTimeEntry(task, duration) {
             ngDialog.open({
                 template: 'static/partials/time_entry_form.html',
                 controller: 'TimeEntryCreationController',
@@ -98,9 +116,9 @@
                     },
                 },
             });
-        };
+        }
 
-        $scope.updateTimeEntry = function (task, timeEntry) {
+        function updateTimeEntry(task, timeEntry) {
             ngDialog.open({
                 template: 'static/partials/time_entry_form.html',
                 controller: 'TimeEntryUpdateController',
@@ -113,9 +131,9 @@
                     },
                 },
             });
-        };
+        }
 
-        $scope.deleteTimeEntry = function (task, timeEntry) {
+        function deleteTimeEntry(task, timeEntry) {
             airyPopup.confirm('Delete time entry?', function () {
                 timeEntryResource.delete(timeEntry).success(function (data) {
                     task.total_time = data.task_total_time;
@@ -123,14 +141,6 @@
                     airyUser.reload();
                 });
             });
-        };
-
-        hotkeys.add({
-            combo: 'alt+a',
-            callback: function (event) {
-                event.preventDefault();
-                $scope.createTask();
-            },
-        });
+        }
     }
 })();

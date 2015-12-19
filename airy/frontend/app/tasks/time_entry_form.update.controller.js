@@ -9,8 +9,9 @@
         $scope.timeEntry = angular.copy(timeEntry);
         $scope.duration = new TimeEntryDuration($scope.timeEntry.duration);
         $scope.formTitle = 'Time entry #' + $scope.timeEntry.id;
+        $scope.submitForm = updateTimeEntry;
 
-        $scope.submitForm = function () {
+        function updateTimeEntry() {
             $scope.timeEntry.duration = $scope.duration.toSeconds();
             timeEntryResource.update($scope.timeEntry).success(function (data) {
                 task.timeEntriesVisible = true;
@@ -19,6 +20,6 @@
                 airyUser.reload();
                 $scope.closeThisDialog();
             });
-        };
+        }
     }
 })();
