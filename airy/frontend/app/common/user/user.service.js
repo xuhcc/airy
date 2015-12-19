@@ -7,12 +7,22 @@
 
     function airyUser($http, $state, airyPopup) {
         var user = {};
-        var load = function () {
+        var service = {
+            user: user,
+            userLoaded: load(),
+            reload: load,
+            login: login,
+            logout: logout,
+        };
+        return service;
+
+        function load() {
             return $http.get('/user').success(function (data) {
                 angular.extend(user, data.user);
             });
-        };
-        var login = function (password) {
+        }
+
+        function login(password) {
             $http.post('/login', {password: password}).success(function (data) {
                 if (data.error_msg) {
                     airyPopup.alert(data.error_msg);
@@ -21,21 +31,15 @@
                     $state.go('client_list');
                 }
             });
-        };
-        var logout =  function () {
+        }
+
+        function logout() {
             $http.get('/logout').success(function (data) {
                 for (var prop in user) {
                     delete user[prop];
                 }
                 $state.go('login');
             });
-        };
-        return {
-            user: user,
-            userLoaded: load(),
-            reload: load,
-            login: login,
-            logout: logout,
-        };
+        }
     }
 })();
