@@ -12,6 +12,7 @@
             'ncy-angular-breadcrumb',
             'ui.router',
             // Application
+            'airy.configs',
             'airy.routes',
             'airy.filters',
             'airy.resources',
