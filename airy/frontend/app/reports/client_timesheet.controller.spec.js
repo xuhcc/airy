@@ -1,4 +1,4 @@
-describe('Timesheet contoller', function () {
+describe('Timesheet', function () {
     'use strict';
 
     var scope;
@@ -13,6 +13,9 @@ describe('Timesheet contoller', function () {
         },
         sendTimeSheet: function (clientId, range) {},
     };
+    var calculatorMock = {
+        show: function () {},
+    };
     var clientId = 1;
 
     beforeEach(module('airy.clientTimeSheet'));
@@ -23,7 +26,7 @@ describe('Timesheet contoller', function () {
                 $scope: scope,
                 $stateParams: {clientId: clientId},
                 clientResource: clientResourceMock,
-                calculator: {show: function () {}},
+                calculator: calculatorMock,
             });
         };
     }));
@@ -49,6 +52,14 @@ describe('Timesheet contoller', function () {
         };
         scope.$digest();
         expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
+    });
+
+    it('should show calculator', function () {
+        buildCtrl();
+        spyOn(calculatorMock, 'show').and.callThrough();
+        scope.showCalculator(600);
+        expect(calculatorMock.show).toHaveBeenCalled();
+        expect(calculatorMock.show.calls.argsFor(0)[0]).toBe(600);
     });
 
     it('should send timesheet by email', function () {

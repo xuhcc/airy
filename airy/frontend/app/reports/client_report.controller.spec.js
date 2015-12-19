@@ -1,4 +1,4 @@
-describe('Task report controller', function () {
+describe('Task report', function () {
     'use strict';
 
     var scope;
@@ -11,6 +11,10 @@ describe('Task report controller', function () {
                 },
             };
         },
+        sendReport: function (clientId, range) {},
+    };
+    var calculatorMock = {
+        show: function () {},
     };
     var clientId = 1;
 
@@ -23,7 +27,7 @@ describe('Task report controller', function () {
                 $stateParams: {clientId: clientId},
                 $rootScope: $rootScope,
                 clientResource: clientResourceMock,
-                calculator: {show: function () {}},
+                calculator: calculatorMock,
             });
         };
     }));
@@ -60,5 +64,22 @@ describe('Task report controller', function () {
         scope.setPeriod();
         scope.$digest();
         expect(clientResourceMock.getReport).toHaveBeenCalled();
+    });
+
+    it('should show calculator', function () {
+        buildCtrl();
+        spyOn(calculatorMock, 'show').and.callThrough();
+        scope.showCalculator(600);
+        expect(calculatorMock.show).toHaveBeenCalled();
+        expect(calculatorMock.show.calls.argsFor(0)[0]).toBe(600);
+    });
+
+    it('should send email', function () {
+        buildCtrl();
+        spyOn(clientResourceMock, 'sendReport').and.callThrough();
+        scope.sendByEmail();
+        expect(clientResourceMock.sendReport).toHaveBeenCalled();
+        expect(clientResourceMock.sendReport.calls.argsFor(0)[0]).toBe(clientId);
+        expect(clientResourceMock.sendReport.calls.argsFor(0)[1]).toBe(scope.range);
     });
 });
