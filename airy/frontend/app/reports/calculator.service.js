@@ -18,15 +18,7 @@
                 ngDialog.open({
                     template: template,
                     plain: true,
-                    controller: function ($scope) {
-                        $scope.duration = moment.duration($scope.ngDialogData.duration, 'seconds');
-                        $scope.price = 0;
-                        $scope.getResult = function () {
-                            var hours = $scope.duration.asHours().toFixed(2);
-                            var result = hours * parseFloat($scope.price);
-                            return hours + ' × ' + $scope.price + ' = ' + result.toFixed(2);
-                        };
-                    },
+                    controller: 'CalculatorController',
                     data: {duration: duration},
                 });
             },

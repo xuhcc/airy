@@ -30,6 +30,7 @@
             "airy/frontend/app/reports/client_report.module.js",
             "airy/frontend/app/reports/client_report.controller.js",
             "airy/frontend/app/reports/calculator.module.js",
+            "airy/frontend/app/reports/calculator.controller.js",
             "airy/frontend/app/reports/calculator.service.js",
             "airy/frontend/app/reports/range_selector.module.js",
             "airy/frontend/app/reports/range_selector.directive.js",
