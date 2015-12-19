@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('airy.routes', [])
+        .module('airy')
         .config(routeConfig);
 
     function routeConfig($stateProvider, $urlRouterProvider) {

@@ -1,10 +1,10 @@
 {
     "app": {
         "js": [
-            "airy/frontend/app/app.js",
-            "airy/frontend/app/common/configs.js",
-            "airy/frontend/app/common/routes.js",
-            "airy/frontend/app/common/filters.js",
+            "airy/frontend/app/app.module.js",
+            "airy/frontend/app/app.configs.js",
+            "airy/frontend/app/app.routes.js",
+            "airy/frontend/app/common/filters.module.js",
             "airy/frontend/app/common/header/header.module.js",
             "airy/frontend/app/common/header/header.directive.js",
             "airy/frontend/app/common/footer/footer.module.js",

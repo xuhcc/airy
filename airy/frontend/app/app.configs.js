@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('airy.configs', [])
+        .module('airy')
         .config(httpConfig)
         .config(breadcrumbConfig)
         .config(ngDialogConfig);
