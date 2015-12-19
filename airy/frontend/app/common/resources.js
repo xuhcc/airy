@@ -16,37 +16,37 @@
             };
         };
         return {
-            'list': function () {
+            list: function () {
                 return $http.get('/clients');
             },
-            'create': function (client) {
+            create: function (client) {
                 return $http.post('/clients', prepare(client));
             },
-            'get': function (client_id) {
+            get: function (client_id) {
                 return $http.get('/clients/' + client_id);
             },
-            'update': function (client) {
+            update: function (client) {
                 return $http.put('/clients/' + client.id, prepare(client));
             },
-            'delete': function (client) {
+            delete: function (client) {
                 return $http.delete('/clients/' + client.id);
             },
-            'getTimeSheet': function (client_id, range) {
+            getTimeSheet: function (client_id, range) {
                 return $http.get(
                     '/clients/' + client_id + '/timesheet',
                     {params: range});
             },
-            'sendTimeSheet': function (client_id, range) {
+            sendTimeSheet: function (client_id, range) {
                 return $http.post(
                     '/clients/' + client_id + '/timesheet',
                     range);
             },
-            'getReport': function (client_id, range) {
+            getReport: function (client_id, range) {
                 return $http.get(
                     '/clients/' + client_id + '/report',
                     {params: range});
             },
-            'sendReport': function (client_id, range) {
+            sendReport: function (client_id, range) {
                 return $http.post(
                     '/clients/' + client_id + '/report',
                     range);
@@ -63,16 +63,16 @@
             };
         };
         return {
-            'create': function (project, status) {
+            create: function (project, status) {
                 return $http.post('/projects', prepare(project));
             },
-            'get': function (project_id, status) {
+            get: function (project_id, status) {
                 return $http.get('/projects/' + project_id, {params: {status: status}});
             },
-            'update': function (project) {
+            update: function (project) {
                 return $http.put('/projects/' + project.id, prepare(project));
             },
-            'delete': function (project) {
+            delete: function (project) {
                 return $http.delete('/projects/' + project.id);
             },
         };
@@ -87,16 +87,16 @@
             };
         };
         return {
-            'create': function (task) {
+            create: function (task) {
                 return $http.post('/tasks', prepare(task));
             },
-            'update': function (task) {
+            update: function (task) {
                 return $http.put('/tasks/' + task.id, prepare(task));
             },
-            'delete': function (task) {
+            delete: function (task) {
                 return $http.delete('/tasks/' + task.id);
             },
-            'toggleStatus': function (task) {
+            toggleStatus: function (task) {
                 return $http.post('/tasks/' + task.id + '/status');
             },
         };
@@ -111,13 +111,13 @@
             };
         };
         return {
-            'create': function (timeEntry) {
+            create: function (timeEntry) {
                 return $http.post('/time_entries', prepare(timeEntry));
             },
-            'update': function (timeEntry) {
+            update: function (timeEntry) {
                 return $http.put('/time_entries/' + timeEntry.id, prepare(timeEntry));
             },
-            'delete': function (timeEntry) {
+            delete: function (timeEntry) {
                 return $http.delete('/time_entries/' + timeEntry.id);
             },
         };

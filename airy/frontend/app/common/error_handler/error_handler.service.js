@@ -7,7 +7,7 @@
 
     function httpErrorHandler($q, $injector) {
         return {
-            'responseError': function (rejection) {
+            responseError: function (rejection) {
                 if (rejection.status === 403) {
                     var airyUser = $injector.get('airyUser');
                     airyUser.logout();
