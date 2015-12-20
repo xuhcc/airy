@@ -61,19 +61,24 @@ module.exports = function (grunt) {
             },
         },
         karma: {
-            main: {
+            options: {
                 configFile: 'karma.conf.js',
-                options: {
-                    files: [
-                        '<%= paths.lib.js %>',
-                        'bower_components/angular-mocks/angular-mocks.js',
-                        '<%= paths.app.js %>',
-                        '<%= paths.specs %>',
-                    ],
-                    preprocessors: {
-                        'airy/frontend/app/**/!(*spec).js': ['coverage'],
-                    },
+                files: [
+                    '<%= paths.lib.js %>',
+                    'bower_components/angular-mocks/angular-mocks.js',
+                    '<%= paths.app.js %>',
+                    '<%= paths.specs %>',
+                ],
+                preprocessors: {
+                    'airy/frontend/app/**/!(*spec).js': ['coverage'],
                 },
+            },
+            phantomjs: {
+                browsers: ['PhantomJS'],
+            },
+            chrome: {
+                browsers: ['Chrome'],
+                singleRun: false,
             },
         },
         sasslint: {

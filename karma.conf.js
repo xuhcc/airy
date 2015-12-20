@@ -4,9 +4,7 @@ module.exports = function (config) {
     config.set({
         basePath: '',
         frameworks: ['jasmine'],
-        files: [],
         exclude: [],
-        preprocessors: {},
         reporters: ['spec', 'coverage'],
         coverageReporter: {
             type: 'text-summary',
@@ -15,7 +13,6 @@ module.exports = function (config) {
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: false,
-        browsers: ['PhantomJS'],
         singleRun: true,
         concurrency: Infinity,
     });

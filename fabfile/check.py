@@ -3,7 +3,8 @@ from fabric.api import task, local, prefix
 
 @task
 def js():
-    local('node_modules/grunt-cli/bin/grunt jsonlint jshint jscs karma')
+    local('node_modules/grunt-cli/bin/grunt '
+          'jsonlint jshint jscs karma:phantomjs')
 
 
 @task
