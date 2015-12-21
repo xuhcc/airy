@@ -1,13 +1,6 @@
 module.exports = function (grunt) {
     'use strict';
 
-    var istanbulTemplate;
-    try {
-        istanbulTemplate = require('grunt-template-jasmine-istanbul');
-    } catch (error) {
-        grunt.log.error(error);
-    }
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         paths: grunt.file.readJSON('airy/frontend/index.json'),
@@ -39,25 +32,6 @@ module.exports = function (grunt) {
             main: '<%= jshint.main %>',
             options: {
                 config: '.jscsrc',
-            },
-        },
-        jasmine: {
-            main: {
-                src: '<%= paths.app.js %>',
-                options: {
-                    specs: '<%= paths.specs %>',
-                    vendor: [
-                        '<%= paths.lib.js %>',
-                        'bower_components/angular-mocks/angular-mocks.js',
-                    ],
-                    template: istanbulTemplate,
-                    templateOptions: {
-                        coverage: '.jasmine.coverage',
-                        report: {
-                            type: 'text',
-                        },
-                    },
-                },
             },
         },
         karma: {
@@ -212,7 +186,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-sass-lint');
     grunt.loadNpmTasks('grunt-jsonlint');
