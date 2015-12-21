@@ -1,13 +1,15 @@
 import os
 import json
-from collections import defaultdict
 
 from airy import settings
 from airy.config import app_dir, static_dir
 
 
 def get_assets():
-    assets = defaultdict(list)
+    assets = {
+        'js': {'lib': [], 'app': []},
+        'css': [],
+    }
     if settings.debug:
         with open(os.path.join(app_dir, 'frontend',
                                'index.json')) as index_file:
@@ -15,14 +17,14 @@ def get_assets():
             # Bower components
             for path in index['lib']['js']:
                 path = os.path.join('js', 'lib', os.path.basename(path))
-                assets['js'].append(path)
+                assets['js']['lib'].append(path)
             for path in index['lib']['css']:
                 path = os.path.join('css', 'lib', os.path.basename(path))
                 assets['css'].append(path)
             # Application JS files
-            for path in index['app']['js']:
+            for path in index['app']['es']:
                 path = os.path.join('js', os.path.basename(path))
-                assets['js'].append(path)
+                assets['js']['app'].append(path)
         # Application styles
         for filename in os.listdir(os.path.join(static_dir, 'css')):
             if filename.endswith('.css'):

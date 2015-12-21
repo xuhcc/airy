@@ -5,9 +5,20 @@ module.exports = function (config) {
 
     var files = [].concat(
         paths.lib.js,
-        ['bower_components/angular-mocks/angular-mocks.js'],
-        paths.app.js,
-        [paths.specs]);
+        [
+            'bower_components/angular-mocks/angular-mocks.js',
+            'airy/frontend/system-test.conf.js',
+        ]);
+    paths.app.es.forEach(function (path) {
+        files.push({
+            pattern: path,
+            included: false,
+        });
+    });
+    files.push({
+        pattern: paths.specs,
+        included: false,
+    });
 
     config.set({
         basePath: '',
@@ -15,7 +26,13 @@ module.exports = function (config) {
         files: files,
         exclude: [],
         preprocessors: {
-            'airy/frontend/app/**/!(*spec).js': ['coverage'],
+            'airy/frontend/app/**/!(*spec).js': ['babel', 'coverage'],
+            'airy/frontend/app/**/*.spec.js': ['babel'],
+        },
+        babelPreprocessor: {
+            options: {
+                sourceMap: 'inline',
+            },
         },
         reporters: ['spec', 'coverage'],
         coverageReporter: {

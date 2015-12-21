@@ -14,8 +14,16 @@
             <div class="content" ui-view></div>
             <footer airy-footer></footer>
         </div>
-        {% for filename in assets.js %}
+        {% for filename in assets.js.lib %}
             <script src="{{ url_for('static', filename=filename) }}"></script>
         {% endfor %}
+        <script>
+            System.config({
+                baseURL: 'static/',
+            });
+            {% for filename in assets.js.app %}
+                System.import('{{ filename }}');
+            {% endfor %}
+        </script>
     </body>
 </html>

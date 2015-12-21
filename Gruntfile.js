@@ -21,7 +21,7 @@ module.exports = function (grunt) {
             main: [
                 'Gruntfile.js',
                 'karma.conf.js',
-                '<%= paths.app.js %>',
+                '<%= paths.app.es %>',
                 '<%= paths.specs %>',
             ],
             options: {
@@ -70,7 +70,10 @@ module.exports = function (grunt) {
         },
         copy: {
             appJs: {
-                src: '<%= paths.app.js %>',
+                src: [
+                    '<%= paths.app.js %>',
+                    '<%= paths.app.jsmaps %>',
+                ],
                 dest: 'airy/static/js/',
                 expand: true,
                 flatten: true,
@@ -140,6 +143,21 @@ module.exports = function (grunt) {
                 ext: '.css',
             },
         },
+        babel: {
+            options: {
+                sourceMap: true,
+            },
+            main: {
+                files: [
+                    {
+                        src: '<%= paths.app.es %>',
+                        dest: 'airy/frontend/js/',
+                        expand: true,
+                        flatten: true,
+                    },
+                ],
+            },
+        },
         uglify: {
             options: {
                 mangle: false,
@@ -169,8 +187,8 @@ module.exports = function (grunt) {
                 tasks: ['sass', 'copy:appCss'],
             },
             appJs: {
-                files: ['<%= paths.app.js %>'],
-                tasks: ['copy:appJs'],
+                files: ['<%= paths.app.es %>'],
+                tasks: ['babel', 'copy:appJs'],
             },
             appPartials: {
                 files: ['<%= paths.app.partials %>'],
@@ -190,9 +208,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-sass-lint');
     grunt.loadNpmTasks('grunt-jsonlint');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-babel');
     grunt.registerTask('default', []);
     grunt.registerTask('build:development', function () {
         grunt.task.run([
+            'babel',
             'sass',
             'copy',
         ]);
@@ -200,6 +220,7 @@ module.exports = function (grunt) {
     grunt.registerTask('build:production', function () {
         grunt.task.run([
             'sass',
+            'babel',
             'cssmin:production',
             'uglify:production',
             'copy:appFonts',
