@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+import airyHeader from 'common/header/header.directive.js';
 
-    angular.module('airy.header', []);
-})();
+export default angular.module('airy.header', [])
+    .directive('airyHeader', airyHeader);

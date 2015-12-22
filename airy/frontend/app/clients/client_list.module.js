@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+import ClientListController from 'clients/client_list.controller.js';
 
-    angular.module('airy.clientList', []);
-})();
+export default angular.module('airy.clientList', [])
+    .controller('ClientListController', ClientListController);

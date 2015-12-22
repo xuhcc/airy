@@ -1,3 +1,5 @@
+import 'common/user/user.module.js';
+
 describe('airyUser factory', function () {
     'use strict';
 

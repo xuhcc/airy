@@ -1,3 +1,5 @@
+import 'clients/client_list.module.js';
+
 describe('Client list', function () {
     'use strict';
 

@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+import airyFooter from 'common/footer/footer.directive.js';
 
-    angular.module('airy.footer', []);
-})();
+export default angular.module('airy.footer', [])
+    .directive('airyFooter', airyFooter);

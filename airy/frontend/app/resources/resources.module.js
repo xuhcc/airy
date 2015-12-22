@@ -1,5 +1,10 @@
-(function () {
-    'use strict';
+import clientResource from 'resources/client_resource.service.js';
+import projectResource from 'resources/project_resource.service.js';
+import taskResource from 'resources/task_resource.service.js';
+import timeEntryResource from 'resources/time_entry_resource.service.js';
 
-    angular.module('airy.resources', []);
-})();
+export default angular.module('airy.resources', [])
+    .factory('clientResource', clientResource)
+    .factory('projectResource', projectResource)
+    .factory('taskResource', taskResource)
+    .factory('timeEntryResource', timeEntryResource);

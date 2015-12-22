@@ -1,18 +1,12 @@
-(function () {
-    'use strict';
+function LoginController($scope, $rootScope, airyUser) {
+    $scope.password = '';
+    $scope.loginUser = loginUser;
 
-    angular
-        .module('airy.login')
-        .controller('LoginController', LoginController);
+    $rootScope.title = 'Login';
 
-    function LoginController($scope, $rootScope, airyUser) {
-        $scope.password = '';
-        $scope.loginUser = loginUser;
-
-        $rootScope.title = 'Login';
-
-        function loginUser() {
-            airyUser.login($scope.password);
-        }
+    function loginUser() {
+        airyUser.login($scope.password);
     }
-})();
+}
+
+export default LoginController;

@@ -26,6 +26,7 @@
             "airy/frontend/app/common/header/header.directive.js",
             "airy/frontend/app/common/footer/footer.directive.js",
             "airy/frontend/app/common/error_handler/error_handler.service.js",
+            "airy/frontend/app/common/popup/auto_focus.directive.js",
             "airy/frontend/app/common/popup/popup.service.js",
             "airy/frontend/app/common/user/user.service.js",
             "airy/frontend/app/resources/client_resource.service.js",

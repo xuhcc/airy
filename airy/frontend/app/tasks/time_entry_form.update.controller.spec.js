@@ -1,3 +1,5 @@
+import 'tasks/time_entry_form.module.js';
+
 describe('Time entry update', function () {
     'use strict';
 

@@ -1,3 +1,5 @@
+import 'reports/client_report.module.js';
+
 describe('Task report', function () {
     'use strict';
 

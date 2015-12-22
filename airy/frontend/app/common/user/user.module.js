@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+import airyUser from 'common/user/user.service.js';
 
-    angular.module('airy.user', []);
-})();
+export default angular.module('airy.user', [])
+    .factory('airyUser', airyUser);

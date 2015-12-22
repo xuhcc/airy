@@ -1,3 +1,5 @@
+import 'clients/client_form.module.js';
+
 describe('Client update', function () {
     'use strict';
 

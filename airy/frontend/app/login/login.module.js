@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+import LoginController from 'login/login.controller.js';
 
-    angular.module('airy.login', []);
-})();
+export default angular.module('airy.login', [])
+    .controller('LoginController', LoginController);

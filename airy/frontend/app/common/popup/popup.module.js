@@ -1,5 +1,6 @@
-(function () {
-    'use strict';
+import airyPopup from 'common/popup/popup.service.js';
+import autoFocus from 'common/popup/auto_focus.directive.js';
 
-    angular.module('airy.popup', []);
-})();
+export default angular.module('airy.popup', [])
+    .factory('airyPopup', airyPopup)
+    .directive('autoFocus', autoFocus);

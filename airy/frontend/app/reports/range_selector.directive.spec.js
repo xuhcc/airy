@@ -1,3 +1,5 @@
+import 'reports/range_selector.module.js';
+
 describe('Range selector directive', function () {
     'use strict';
 

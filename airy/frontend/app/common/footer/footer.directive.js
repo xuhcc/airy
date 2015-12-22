@@ -1,22 +1,16 @@
-(function () {
-    'use strict';
+function airyFooter(airyUser) {
+    var directive = {
+        restrict: 'A',
+        templateUrl: 'static/partials/footer.html',
+        scope: {},
+        link: link,
+    };
+    return directive;
 
-    angular
-        .module('airy.footer')
-        .directive('airyFooter', airyFooter);
-
-    function airyFooter(airyUser) {
-        var directive = {
-            restrict: 'A',
-            templateUrl: 'static/partials/footer.html',
-            scope: {},
-            link: link,
-        };
-        return directive;
-
-        function link(scope, element) {
-            scope.user = airyUser.user;
-            scope.logoutUser = airyUser.logout;
-        }
+    function link(scope, element) {
+        scope.user = airyUser.user;
+        scope.logoutUser = airyUser.logout;
     }
-})();
+}
+
+export default airyFooter;

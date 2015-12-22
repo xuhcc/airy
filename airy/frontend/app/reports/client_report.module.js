@@ -1,5 +1,6 @@
-(function () {
-    'use strict';
+import ClientReportController from 'reports/client_report.controller.js';
+import 'reports/calculator.module.js';
+import 'reports/range_selector.module.js';
 
-    angular.module('airy.clientReport', []);
-})();
+export default angular.module('airy.clientReport', [])
+    .controller('ClientReportController', ClientReportController);

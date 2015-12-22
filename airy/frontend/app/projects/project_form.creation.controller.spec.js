@@ -1,3 +1,5 @@
+import 'projects/project_form.module.js';
+
 describe('Project creation', function () {
     'use strict';
 

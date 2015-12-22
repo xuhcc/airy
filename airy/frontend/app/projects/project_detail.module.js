@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+import ProjectDetailController from 'projects/project_detail.controller.js';
 
-    angular.module('airy.projectDetail', []);
-})();
+export default angular.module('airy.projectDetail', [])
+    .controller('ProjectDetailController', ProjectDetailController);

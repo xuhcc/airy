@@ -1,3 +1,5 @@
+import 'tasks/task_form.module.js';
+
 describe('Task creation', function () {
     'use strict';
 

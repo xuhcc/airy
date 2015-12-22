@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+import ClientDetailController from 'clients/client_detail.controller.js';
 
-    angular.module('airy.clientDetail', []);
-})();
+export default angular.module('airy.clientDetail', [])
+    .controller('ClientDetailController', ClientDetailController);

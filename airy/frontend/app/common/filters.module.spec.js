@@ -1,3 +1,5 @@
+import 'common/filters.module.js';
+
 describe('Filters', function () {
     'use strict';
 

@@ -1,5 +1,4 @@
-(function () {
-    'use strict';
+import httpErrorHandler from 'common/error_handler/error_handler.service.js';
 
-    angular.module('airy.errorHandler', []);
-})();
+export default angular.module('airy.errorHandler', [])
+     .factory('httpErrorHandler', httpErrorHandler);

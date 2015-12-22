@@ -2,5 +2,7 @@
     "multistr": true,
     "eqeqeq": true,
     "strict": true,
-    "curly": true
+    "curly": true,
+    "esnext": true,
+    "strict": false
 }

@@ -1,21 +1,15 @@
-(function () {
-    'use strict';
+function airyHeader(airyUser) {
+    var directive = {
+        restrict: 'A',
+        templateUrl: 'static/partials/header.html',
+        scope: {},
+        link: link,
+    };
+    return directive;
 
-    angular
-        .module('airy.header')
-        .directive('airyHeader', airyHeader);
-
-    function airyHeader(airyUser) {
-        var directive = {
-            restrict: 'A',
-            templateUrl: 'static/partials/header.html',
-            scope: {},
-            link: link,
-        };
-        return directive;
-
-        function link(scope, element) {
-            scope.user = airyUser.user;
-        }
+    function link(scope, element) {
+        scope.user = airyUser.user;
     }
-})();
+}
+
+export default airyHeader;

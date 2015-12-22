@@ -1,33 +1,27 @@
-(function () {
-    'use strict';
+function TimeEntryDuration() {
+    return function (duration) {
+        var _duration = moment.duration(duration, 'seconds');
 
-    angular
-        .module('airy.timeEntryForm')
-        .factory('TimeEntryDuration', TimeEntryDuration);
+        this.hours = _duration.hours();
+        this.minutes = _duration.minutes();
 
-    function TimeEntryDuration() {
-        return function (duration) {
-            var _duration = moment.duration(duration, 'seconds');
+        this.toSeconds = function () {
+            _duration = moment.duration({
+                hours: this.hours,
+                minutes: this.minutes,
+            });
+            return _duration.asSeconds();
+        };
 
+        this.increment = function () {
+            _duration = moment.duration({
+                hours: this.hours,
+                minutes: this.minutes,
+            }).add(30, 'minutes');
             this.hours = _duration.hours();
             this.minutes = _duration.minutes();
-
-            this.toSeconds = function () {
-                _duration = moment.duration({
-                    hours: this.hours,
-                    minutes: this.minutes,
-                });
-                return _duration.asSeconds();
-            };
-
-            this.increment = function () {
-                _duration = moment.duration({
-                    hours: this.hours,
-                    minutes: this.minutes,
-                }).add(30, 'minutes');
-                this.hours = _duration.hours();
-                this.minutes = _duration.minutes();
-            };
         };
-    }
-})();
+    };
+}
+
+export default TimeEntryDuration;

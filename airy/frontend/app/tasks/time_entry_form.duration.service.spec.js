@@ -1,3 +1,5 @@
+import 'tasks/time_entry_form.module.js';
+
 describe('Time entry duration service', function () {
     'use strict';
 

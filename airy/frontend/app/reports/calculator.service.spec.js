@@ -1,3 +1,5 @@
+import 'reports/calculator.module.js';
+
 describe('Calculator service', function () {
     'use strict';
 

@@ -1,3 +1,5 @@
+import 'reports/client_timesheet.module.js';
+
 describe('Timesheet', function () {
     'use strict';
 

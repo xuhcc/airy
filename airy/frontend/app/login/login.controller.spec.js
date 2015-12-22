@@ -1,3 +1,5 @@
+import 'login/login.module.js';
+
 describe('Login controller', function () {
     'use strict';
 
