@@ -3,5 +3,11 @@
     "disallowMultipleLineStrings": null,
     "requireTrailingComma": {
         "ignoreSingleLine": true
-    }
+    },
+    "requireSpacesInAnonymousFunctionExpression": {
+        "beforeOpeningRoundBrace": true,
+        "beforeOpeningCurlyBrace": true,
+        "allExcept": ["shorthand"]
+    },
+    "esnext": true
 }
