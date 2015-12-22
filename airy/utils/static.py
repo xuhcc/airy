@@ -23,7 +23,7 @@ def get_assets():
                 assets['css'].append(path)
             # Application JS files
             for path in index['app']['es']:
-                path = os.path.join('js', os.path.basename(path))
+                path = path.replace('airy/frontend/app/', '')
                 assets['js']['app'].append(path)
         # Application styles
         for filename in os.listdir(os.path.join(static_dir, 'css')):

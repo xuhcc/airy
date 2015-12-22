@@ -19,7 +19,7 @@
         {% endfor %}
         <script>
             System.config({
-                baseURL: 'static/',
+                baseURL: 'static/js',
             });
             {% for filename in assets.js.app %}
                 System.import('{{ filename }}');

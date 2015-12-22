@@ -70,14 +70,10 @@ module.exports = function (grunt) {
         },
         copy: {
             appJs: {
-                src: [
-                    '<%= paths.app.js %>',
-                    '<%= paths.app.jsmaps %>',
-                ],
+                cwd: 'airy/frontend/js/',
+                src: '**/*',
                 dest: 'airy/static/js/',
                 expand: true,
-                flatten: true,
-                filter: 'isFile',
             },
             appCss: {
                 src: [
@@ -150,10 +146,13 @@ module.exports = function (grunt) {
             main: {
                 files: [
                     {
-                        src: '<%= paths.app.es %>',
+                        cwd: 'airy/frontend/app/',
+                        src: [
+                            '**/*.js',
+                            '!**/*.spec.js',
+                        ],
                         dest: 'airy/frontend/js/',
                         expand: true,
-                        flatten: true,
                     },
                 ],
             },
