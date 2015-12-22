@@ -198,6 +198,11 @@ module.exports = function (grunt) {
                 nonull: true,
             },
         },
+        clean: {
+            static: ['airy/static'],
+            js: ['airy/frontend/js'],
+            css: ['airy/frontend/css'],
+        },
         watch: {
             appCss: {
                 files: ['<%= paths.app.scss %>'],
@@ -227,9 +232,11 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-systemjs-builder');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.registerTask('default', []);
     grunt.registerTask('build:development', function () {
         grunt.task.run([
+            'clean',
             'babel',
             'sass',
             'copy',
@@ -237,9 +244,10 @@ module.exports = function (grunt) {
     });
     grunt.registerTask('build:production', function () {
         grunt.task.run([
+            'clean',
             'sass',
-            'babel',
             'cssmin:production',
+            'babel',
             'uglify:production',
             'systemjs',
             'copy:appFonts',

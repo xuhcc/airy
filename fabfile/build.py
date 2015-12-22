@@ -25,7 +25,6 @@ def venv(production=False):
 
 @task
 def frontend(production=False):
-    clean()
     if production:
         env.run("npm install --production")
         env.run("node_modules/bower/bin/bower install --production")
@@ -39,13 +38,6 @@ def frontend(production=False):
 @task
 def watch():
     env.run("node_modules/grunt-cli/bin/grunt watch")
-
-
-@task
-def clean():
-    env.run('rm -rf airy/frontend/js/')
-    env.run('rm -rf airy/frontend/css/')
-    env.run('rm -rf airy/static/')
 
 
 @task(default=True)
