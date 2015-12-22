@@ -1,4 +1,4 @@
-__karma__.loaded = function() {};
+__karma__.loaded = function () {};
 
 System.config({
     baseURL: 'base/airy/frontend/app/',

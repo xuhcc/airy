@@ -13,6 +13,7 @@ module.exports = function (grunt) {
                     '.jscsrc',
                     '.csslintrc',
                     '.htmlhintrc',
+                    '.babelrc',
                     'airy/frontend/index.json',
                 ],
             },
@@ -21,6 +22,7 @@ module.exports = function (grunt) {
             main: [
                 'Gruntfile.js',
                 'karma.conf.js',
+                'airy/frontend/system-test.conf.js',
                 '<%= paths.app.es %>',
                 '<%= paths.specs %>',
             ],
@@ -147,10 +149,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         cwd: 'airy/frontend/app/',
-                        src: [
-                            '**/*.js',
-                            '!**/*.spec.js',
-                        ],
+                        src: '**/!(*spec).js',
                         dest: 'airy/frontend/js/',
                         expand: true,
                     },

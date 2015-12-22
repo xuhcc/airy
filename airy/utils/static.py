@@ -7,7 +7,7 @@ from airy.config import app_dir, static_dir
 
 def get_assets():
     assets = {
-        'js': {'lib': [], 'app': []},
+        'js': [],
         'css': [],
     }
     if settings.debug:
@@ -17,14 +17,10 @@ def get_assets():
             # Bower components
             for path in index['lib']['js']:
                 path = os.path.join('js', 'lib', os.path.basename(path))
-                assets['js']['lib'].append(path)
+                assets['js'].append(path)
             for path in index['lib']['css']:
                 path = os.path.join('css', 'lib', os.path.basename(path))
                 assets['css'].append(path)
-            # Application JS files
-            for path in index['app']['es']:
-                path = path.replace('airy/frontend/app/', '')
-                assets['js']['app'].append(path)
         # Application styles
         for filename in os.listdir(os.path.join(static_dir, 'css')):
             if filename.endswith('.css'):

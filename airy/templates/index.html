@@ -14,7 +14,7 @@
             <div class="content" ui-view></div>
             <footer airy-footer></footer>
         </div>
-        {% for filename in assets.js.lib %}
+        {% for filename in assets.js %}
             <script src="{{ url_for('static', filename=filename) }}"></script>
         {% endfor %}
         <script>

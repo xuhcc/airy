@@ -8,27 +8,20 @@ module.exports = function (config) {
         [
             'bower_components/angular-mocks/angular-mocks.js',
             'airy/frontend/system-test.conf.js',
+            {pattern: paths.app.es, included: false},
+            {pattern: paths.specs, included: false},
         ]);
-    paths.app.es.forEach(function (path) {
-        files.push({
-            pattern: path,
-            included: false,
-        });
-    });
-    files.push({
-        pattern: paths.specs,
-        included: false,
-    });
+
+    var preprocessors = {};
+    preprocessors[paths.app.es] = ['babel', 'coverage'];
+    preprocessors[paths.specs] = ['babel'];
 
     config.set({
         basePath: '',
         frameworks: ['jasmine'],
         files: files,
         exclude: [],
-        preprocessors: {
-            'airy/frontend/app/**/!(*spec).js': ['babel', 'coverage'],
-            'airy/frontend/app/**/*.spec.js': ['babel'],
-        },
+        preprocessors: preprocessors,
         babelPreprocessor: {
             options: {
                 sourceMap: 'inline',
