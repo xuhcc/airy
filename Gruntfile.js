@@ -156,6 +156,26 @@ module.exports = function (grunt) {
                 ],
             },
         },
+        systemjs: {
+            options: {
+                sfx: false,
+                baseURL: 'airy/frontend/js/',
+                minify: true,
+                build: {
+                    mangle: false,
+                },
+            },
+            main: {
+                files: [
+                    {
+                        src: 'app.module.js',
+                        dest: 'airy/static/js/',
+                        expand: true,
+                        nonull: true,
+                    },
+                ],
+            },
+        },
         uglify: {
             options: {
                 mangle: false,
@@ -163,7 +183,6 @@ module.exports = function (grunt) {
             production: {
                 src: [
                     '<%= paths.lib.js %>',
-                    '<%= paths.app.js %>',
                 ],
                 dest: 'airy/static/js/scripts.min.js',
                 nonull: true,
@@ -207,6 +226,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-jsonlint');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-babel');
+    grunt.loadNpmTasks('grunt-systemjs-builder');
     grunt.registerTask('default', []);
     grunt.registerTask('build:development', function () {
         grunt.task.run([
@@ -221,6 +241,7 @@ module.exports = function (grunt) {
             'babel',
             'cssmin:production',
             'uglify:production',
+            'systemjs',
             'copy:appFonts',
             'copy:appPartials',
             'copy:appMisc',
