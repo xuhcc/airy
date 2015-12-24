@@ -1,5 +1,6 @@
 function ClientReportController($scope, $stateParams, $rootScope, clientResource, calculator) {
     $scope.report = {};
+    $scope.client = {};
     $scope.periods = [
         {
             label: '1 week',

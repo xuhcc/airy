@@ -36,6 +36,8 @@ describe('Task report', function () {
 
     it('should load the task report', function () {
         buildCtrl();
+        expect(scope.report).toBeDefined();
+        expect(scope.client).toBeDefined();
         expect(scope.range).toBeDefined();
         expect(scope.periods.length).toBe(2);
         expect(scope.period).toBeDefined();

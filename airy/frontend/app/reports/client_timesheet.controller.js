@@ -1,5 +1,6 @@
 function ClientTimeSheetCtrl($scope, $stateParams, $rootScope, clientResource, calculator) {
     $scope.timesheet = {};
+    $scope.client = {};
     $scope.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     $scope.range = {
         beg: moment().startOf('isoWeek').format(),

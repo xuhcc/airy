@@ -35,6 +35,8 @@ describe('Timesheet', function () {
 
     it('should load the timesheet', function () {
         buildCtrl();
+        expect(scope.timesheet).toBeDefined();
+        expect(scope.client).toBeDefined();
         expect(scope.days.length).toBe(7);
         expect(scope.range).toBeDefined();
         spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();

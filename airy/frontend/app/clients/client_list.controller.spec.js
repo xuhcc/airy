@@ -3,8 +3,8 @@ import 'clients/client_list.module.js';
 describe('Client list', function () {
     'use strict';
 
-    let scope;
     let rootScope;
+    let ctrl;
     let buildCtrl;
     let clients;
     let ngDialogMock = {
@@ -37,7 +37,7 @@ describe('Client list', function () {
 
     beforeEach(module('airy.clientList'));
     beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
+        let scope = $rootScope.$new();
         rootScope = $rootScope.$new();
         clients = [
             {id: 1},
@@ -57,31 +57,31 @@ describe('Client list', function () {
 
     it('should load controller', function () {
         spyOn(clientResourceMock, 'list').and.callThrough();
-        buildCtrl();
+        let ctrl = buildCtrl();
         expect(clientResourceMock.list).toHaveBeenCalled();
         expect(rootScope.title).toEqual('Clients');
-        expect(scope.ctrl.clients).toEqual(clients);
+        expect(ctrl.clients).toEqual(clients);
     });
 
     it('should create client', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        scope.ctrl.createClient();
+        ctrl.createClient();
         expect(ngDialogMock.open).toHaveBeenCalled();
     });
 
     it('should update client', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        scope.ctrl.updateClient();
+        ctrl.updateClient();
         expect(ngDialogMock.open).toHaveBeenCalled();
     });
 
     it('should delete client', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         expect(clients.length).toBe(2);
         spyOn(clientResourceMock, 'delete').and.callThrough();
-        scope.ctrl.deleteClient(clients[1]);
+        ctrl.deleteClient(clients[1]);
         expect(clientResourceMock.delete).toHaveBeenCalled();
         let callArgs = clientResourceMock.delete.calls.argsFor(0);
         expect(clients.length).toBe(1);
