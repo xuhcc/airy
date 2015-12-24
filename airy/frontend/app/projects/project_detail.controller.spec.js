@@ -3,26 +3,26 @@ import 'projects/project_detail.module.js';
 describe('Project detail', function () {
     'use strict';
 
-    var scope;
-    var rootScope;
-    var buildCtrl;
-    var project;
-    var $interval;
-    var ngDialogMock = {
+    let scope;
+    let rootScope;
+    let buildCtrl;
+    let project;
+    let $interval;
+    let ngDialogMock = {
         open: function (config) {},
     };
-    var hotkeysMock = {
+    let hotkeysMock = {
         add: function (config) {},
     };
-    var airyPopupMock = {
+    let airyPopupMock = {
         confirm: function (message, confirmCallback) {
             confirmCallback();
         },
     };
-    var airyUserMock = {
+    let airyUserMock = {
         reload: function () {},
     };
-    var projectResourceMock = {
+    let projectResourceMock = {
         get: function (projectId, status) {
             return {
                 success: function (successCallback) {
@@ -31,7 +31,7 @@ describe('Project detail', function () {
             };
         },
     };
-    var taskResourceMock = {
+    let taskResourceMock = {
         toggleStatus: function (task) {
             return {
                 success: function (successCallback) {
@@ -48,7 +48,7 @@ describe('Project detail', function () {
             };
         },
     };
-    var timeEntryResourceMock = {
+    let timeEntryResourceMock = {
         delete: function (timeEntry) {
             return {
                 success: function (successCallback) {
@@ -93,7 +93,7 @@ describe('Project detail', function () {
         spyOn(projectResourceMock, 'get').and.callThrough();
         buildCtrl();
         expect(projectResourceMock.get).toHaveBeenCalled();
-        var callArgs = projectResourceMock.get.calls.argsFor(0);
+        let callArgs = projectResourceMock.get.calls.argsFor(0);
         expect(callArgs[0]).toEqual(project.id);
         expect(callArgs[1]).toEqual(scope.currentStatus);
         expect(scope.currentStatus).toBe('open');
@@ -107,7 +107,7 @@ describe('Project detail', function () {
         spyOn(projectResourceMock, 'get').and.callThrough();
         scope.filterByStatus('closed');
         expect(projectResourceMock.get).toHaveBeenCalled();
-        var callArgs = projectResourceMock.get.calls.argsFor(0);
+        let callArgs = projectResourceMock.get.calls.argsFor(0);
         expect(callArgs[0]).toEqual(project.id);
         expect(callArgs[1]).toEqual(scope.currentStatus);
         expect(scope.currentStatus).toBe('closed');
@@ -132,10 +132,10 @@ describe('Project detail', function () {
         spyOn(taskResourceMock, 'delete').and.callThrough();
         spyOn(projectResourceMock, 'get').and.callThrough();
         spyOn(airyUserMock, 'reload').and.callThrough();
-        var task = project.tasks[1];
+        let task = project.tasks[1];
         scope.deleteTask(task);
         expect(taskResourceMock.delete).toHaveBeenCalled();
-        var callArgs = taskResourceMock.delete.calls.argsFor(0);
+        let callArgs = taskResourceMock.delete.calls.argsFor(0);
         expect(callArgs[0].id).toEqual(task.id);
         expect(projectResourceMock.get).toHaveBeenCalled();
         expect(airyUserMock.reload).toHaveBeenCalled();
@@ -145,10 +145,10 @@ describe('Project detail', function () {
         buildCtrl();
         spyOn(taskResourceMock, 'toggleStatus').and.callThrough();
         spyOn(airyUserMock, 'reload').and.callThrough();
-        var task = project.tasks[1];
+        let task = project.tasks[1];
         scope.toggleStatus(task);
         expect(taskResourceMock.toggleStatus).toHaveBeenCalled();
-        var callArgs = taskResourceMock.toggleStatus.calls.argsFor(0);
+        let callArgs = taskResourceMock.toggleStatus.calls.argsFor(0);
         expect(task.is_closed).toBe(true);
         expect(airyUserMock.reload).toHaveBeenCalled();
     });
@@ -156,13 +156,13 @@ describe('Project detail', function () {
     it('should toggle timer', function () {
         buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        var task = project.tasks[1];
+        let task = project.tasks[1];
         scope.toggleTimer(task);
         expect(task.timerData).toBeDefined();
         $interval.flush(1000);
         scope.toggleTimer(task);
         expect(ngDialogMock.open).toHaveBeenCalled();
-        var ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
+        let ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
         expect(ngDialogConfig.resolve.task()).toEqual(task);
         expect(ngDialogConfig.resolve.duration()).toBeGreaterThan(0);
         expect(task.timerData).toBeUndefined();
@@ -171,11 +171,11 @@ describe('Project detail', function () {
     it('should create time entry', function () {
         buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        var task = {id: 43};
-        var duration = 600;
+        let task = {id: 43};
+        let duration = 600;
         scope.createTimeEntry(task, duration);
         expect(ngDialogMock.open).toHaveBeenCalled();
-        var ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
+        let ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
         expect(ngDialogConfig.resolve.task()).toEqual(task);
         expect(ngDialogConfig.resolve.duration()).toEqual(duration);
     });
@@ -183,11 +183,11 @@ describe('Project detail', function () {
     it('should update time entry', function () {
         buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        var task = {id: 44};
-        var timeEntry = {id: 93};
+        let task = {id: 44};
+        let timeEntry = {id: 93};
         scope.updateTimeEntry(task, timeEntry);
         expect(ngDialogMock.open).toHaveBeenCalled();
-        var ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
+        let ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
         expect(ngDialogConfig.resolve.task()).toEqual(task);
         expect(ngDialogConfig.resolve.timeEntry()).toEqual(timeEntry);
     });
@@ -196,11 +196,11 @@ describe('Project detail', function () {
         buildCtrl();
         spyOn(timeEntryResourceMock, 'delete').and.callThrough();
         spyOn(airyUserMock, 'reload').and.callThrough();
-        var task = project.tasks[1];
-        var timeEntry = task.time_entries[0];
+        let task = project.tasks[1];
+        let timeEntry = task.time_entries[0];
         scope.deleteTimeEntry(task, timeEntry);
         expect(timeEntryResourceMock.delete).toHaveBeenCalled();
-        var callArgs = timeEntryResourceMock.delete.calls.argsFor(0);
+        let callArgs = timeEntryResourceMock.delete.calls.argsFor(0);
         expect(callArgs[0].id).toEqual(timeEntry.id);
         expect(task.time_entries.length).toBe(0);
         expect(airyUserMock.reload).toHaveBeenCalled();

@@ -3,10 +3,10 @@ import 'projects/project_form.module.js';
 describe('Project creation', function () {
     'use strict';
 
-    var scope;
-    var ctrl;
-    var client;
-    var projectResourceMock = {
+    let scope;
+    let ctrl;
+    let client;
+    let projectResourceMock = {
         create: function (project) {
             return {
                 success: function (successCallback) {
@@ -45,7 +45,7 @@ describe('Project creation', function () {
         spyOn(scope, 'closeThisDialog').and.callThrough();
         scope.submitForm();
         expect(projectResourceMock.create).toHaveBeenCalled();
-        var callArgs = projectResourceMock.create.calls.argsFor(0);
+        let callArgs = projectResourceMock.create.calls.argsFor(0);
         expect(callArgs[0].name).toBe(scope.project.name);
         expect(callArgs[0].client_id).toBe(client.id);
         expect(client.projects[1].name).toBe('p2');

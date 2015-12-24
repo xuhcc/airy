@@ -1,5 +1,5 @@
 function reportRangeSelector() {
-    var directive = {
+    let directive = {
         restrict: 'A',
         template: '\
             <a class="shift-back icon" ng-click="shiftBack()">l</a>\
@@ -15,14 +15,14 @@ function reportRangeSelector() {
 
     function link(scope, element) {
         scope.formatRange = function () {
-            var rangeBeg = moment(scope.range.beg);
-            var rangeEnd = moment(scope.range.end);
+            let rangeBeg = moment(scope.range.beg);
+            let rangeEnd = moment(scope.range.end);
             return rangeBeg.format('DD.MM.YY') + ' — ' + rangeEnd.format('DD.MM.YY');
         };
 
         scope.shiftBack = function () {
-            var rangeBeg = moment(scope.range.beg);
-            var rangeEnd = moment(scope.range.end);
+            let rangeBeg = moment(scope.range.beg);
+            let rangeEnd = moment(scope.range.end);
             scope.range = {
                 beg: rangeBeg.subtract(1, 'week').format(),
                 end: rangeEnd.subtract(1, 'week').format(),
@@ -30,8 +30,8 @@ function reportRangeSelector() {
         };
 
         scope.shiftForward = function () {
-            var rangeBeg = moment(scope.range.beg);
-            var rangeEnd = moment(scope.range.end);
+            let rangeBeg = moment(scope.range.beg);
+            let rangeEnd = moment(scope.range.end);
             scope.range = {
                 beg: rangeBeg.add(1, 'week').format(),
                 end: rangeEnd.add(1, 'week').format(),

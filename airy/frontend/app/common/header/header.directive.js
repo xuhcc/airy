@@ -1,5 +1,5 @@
 function airyHeader(airyUser) {
-    var directive = {
+    let directive = {
         restrict: 'A',
         templateUrl: 'static/partials/header.html',
         scope: {},

@@ -3,7 +3,7 @@ import 'tasks/time_entry_form.module.js';
 describe('Time entry duration service', function () {
     'use strict';
 
-    var TimeEntryDuration;
+    let TimeEntryDuration;
 
     beforeEach(module('airy.timeEntryForm'));
     beforeEach(inject(function (_TimeEntryDuration_) {
@@ -11,14 +11,14 @@ describe('Time entry duration service', function () {
     }));
 
     it('should convert between different representations', function () {
-        var duration = new TimeEntryDuration(5940);
+        let duration = new TimeEntryDuration(5940);
         expect(duration.hours).toBe(1);
         expect(duration.minutes).toBe(39);
         expect(duration.toSeconds()).toBe(5940);
     });
 
     it('should add 30 minutes', function () {
-        var duration = new TimeEntryDuration(0);
+        let duration = new TimeEntryDuration(0);
         expect(duration.hours).toBe(0);
         expect(duration.minutes).toBe(0);
         duration.increment();

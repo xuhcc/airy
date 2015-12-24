@@ -1,5 +1,5 @@
 function airyFooter(airyUser) {
-    var directive = {
+    let directive = {
         restrict: 'A',
         templateUrl: 'static/partials/footer.html',
         scope: {},

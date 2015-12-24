@@ -3,9 +3,9 @@ import 'login/login.module.js';
 describe('Login controller', function () {
     'use strict';
 
-    var scope;
-    var ctrl;
-    var airyUser = {
+    let scope;
+    let ctrl;
+    let airyUser = {
         login: function (password) {
             this.password = password;
         },

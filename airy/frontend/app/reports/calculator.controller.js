@@ -4,8 +4,8 @@ function CalculatorController($scope) {
     $scope.getResult = getResult;
 
     function getResult() {
-        var hours = $scope.duration.asHours().toFixed(2);
-        var result = hours * parseFloat($scope.price);
+        let hours = $scope.duration.asHours().toFixed(2);
+        let result = hours * parseFloat($scope.price);
         return hours + ' × ' + $scope.price + ' = ' + result.toFixed(2);
     }
 }

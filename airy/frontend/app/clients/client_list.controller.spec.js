@@ -3,22 +3,22 @@ import 'clients/client_list.module.js';
 describe('Client list', function () {
     'use strict';
 
-    var scope;
-    var rootScope;
-    var buildCtrl;
-    var clients;
-    var ngDialogMock = {
+    let scope;
+    let rootScope;
+    let buildCtrl;
+    let clients;
+    let ngDialogMock = {
         open: function (config) {},
     };
-    var hotkeysMock = {
+    let hotkeysMock = {
         add: function (config) {},
     };
-    var airyPopupMock = {
+    let airyPopupMock = {
         confirm: function (message, confirmCallback) {
             confirmCallback();
         },
     };
-    var clientResourceMock = {
+    let clientResourceMock = {
         list: function () {
             return {
                 success: function (successCallback) {
@@ -83,7 +83,7 @@ describe('Client list', function () {
         spyOn(clientResourceMock, 'delete').and.callThrough();
         scope.ctrl.deleteClient(clients[1]);
         expect(clientResourceMock.delete).toHaveBeenCalled();
-        var callArgs = clientResourceMock.delete.calls.argsFor(0);
+        let callArgs = clientResourceMock.delete.calls.argsFor(0);
         expect(clients.length).toBe(1);
     });
 });

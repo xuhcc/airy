@@ -1,5 +1,5 @@
 function taskResource($http) {
-    var service = {
+    let service = {
         create: createTask,
         update: updateTask,
         delete: deleteTask,

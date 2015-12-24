@@ -3,10 +3,10 @@ import 'tasks/task_form.module.js';
 describe('Task creation', function () {
     'use strict';
 
-    var scope;
-    var ctrl;
-    var project;
-    var taskResourceMock = {
+    let scope;
+    let ctrl;
+    let project;
+    let taskResourceMock = {
         create: function (task) {
             return {
                 success: function (successCallback) {
@@ -15,7 +15,7 @@ describe('Task creation', function () {
             };
         },
     };
-    var airyUserMock = {
+    let airyUserMock = {
         reload: function () {},
     };
 
@@ -50,7 +50,7 @@ describe('Task creation', function () {
         spyOn(airyUserMock, 'reload').and.callThrough();
         scope.submitForm();
         expect(taskResourceMock.create).toHaveBeenCalled();
-        var callArgs = taskResourceMock.create.calls.argsFor(0);
+        let callArgs = taskResourceMock.create.calls.argsFor(0);
         expect(callArgs[0].title).toBe(scope.task.title);
         expect(callArgs[0].project_id).toBe(project.id);
         expect(project.tasks[1].title).toBe('t2');

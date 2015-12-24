@@ -1,12 +1,12 @@
 function airyPopup(ngDialog) {
-    var service = {
+    let service = {
         alert: showAlert,
         confirm: showConfirm,
     };
     return service;
 
     function showAlert(message) {
-        var template = '\
+        const template = '\
             <div class="alert">\
                 <div class="alert-message">{{ ngDialogData.message }}</div>\
                 <button class="pure-button" ng-click="closeThisDialog()">OK</button>\
@@ -19,7 +19,7 @@ function airyPopup(ngDialog) {
     }
 
     function showConfirm(message, confirmCallback) {
-        var template = '\
+        const template = '\
             <div class="confirm">\
                 <div class="confirm-message">{{ ngDialogData.message }}</div>\
                 <button class="pure-button" ng-click="confirm(1)">Yes</button>\

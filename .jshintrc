@@ -1,8 +1,9 @@
 {
     "multistr": true,
     "eqeqeq": true,
-    "strict": true,
     "curly": true,
     "esnext": true,
-    "strict": false
+    "strict": false,
+    "varstmt": true,
+    "futurehostile": true
 }

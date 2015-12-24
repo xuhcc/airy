@@ -3,11 +3,11 @@ import 'tasks/time_entry_form.module.js';
 describe('Time entry creation', function () {
     'use strict';
 
-    var scope;
-    var task;
-    var duration;
-    var buildCtrl;
-    var timeEntryResourceMock = {
+    let scope;
+    let task;
+    let duration;
+    let buildCtrl;
+    let timeEntryResourceMock = {
         create: function (timeEntry) {
             return {
                 success: function (successCallback) {
@@ -17,7 +17,7 @@ describe('Time entry creation', function () {
             };
         },
     };
-    var airyUserMock = {
+    let airyUserMock = {
         reload: function () {},
     };
 
@@ -63,7 +63,7 @@ describe('Time entry creation', function () {
         spyOn(scope, 'closeThisDialog').and.callThrough();
         scope.submitForm();
         expect(timeEntryResourceMock.create).toHaveBeenCalled();
-        var args = timeEntryResourceMock.create.calls.argsFor(0);
+        let args = timeEntryResourceMock.create.calls.argsFor(0);
         expect(args[0].duration).toBe(5400);
         expect(args[0].task_id).toBe(task.id);
         expect(task.timeEntriesVisible).toBe(true);

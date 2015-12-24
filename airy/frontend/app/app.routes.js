@@ -6,7 +6,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
             templateUrl: 'static/partials/login.html',
             resolve: {
                 user: function ($q, $state, airyUser) {
-                    var deferred = $q.defer();
+                    let deferred = $q.defer();
                     airyUser.userLoaded.then(function () {
                         if (airyUser.user.name) {
                             deferred.reject();

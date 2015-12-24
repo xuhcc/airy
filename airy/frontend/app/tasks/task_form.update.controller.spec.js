@@ -3,10 +3,10 @@ import 'tasks/task_form.module.js';
 describe('Task update', function () {
     'use strict';
 
-    var scope;
-    var ctrl;
-    var task;
-    var taskResourceMock = {
+    let scope;
+    let ctrl;
+    let task;
+    let taskResourceMock = {
         update: function (task) {
             return {
                 success: function (successCallback) {
@@ -40,7 +40,7 @@ describe('Task update', function () {
         spyOn(scope, 'closeThisDialog').and.callThrough();
         scope.submitForm();
         expect(taskResourceMock.update).toHaveBeenCalled();
-        var callArgs = taskResourceMock.update.calls.argsFor(0);
+        let callArgs = taskResourceMock.update.calls.argsFor(0);
         expect(callArgs[0].id).toBe(scope.task.id);
         expect(callArgs[0].project_id).toBe(scope.task.project_id);
         expect(task.title).toBe('new');

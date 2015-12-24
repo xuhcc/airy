@@ -3,10 +3,10 @@ import 'clients/client_form.module.js';
 describe('Client creation', function () {
     'use strict';
 
-    var scope;
-    var ctrl;
-    var clients;
-    var clientResourceMock = {
+    let scope;
+    let ctrl;
+    let clients;
+    let clientResourceMock = {
         create: function (client) {
             return {
                 success: function (successCallback) {
@@ -42,7 +42,7 @@ describe('Client creation', function () {
         spyOn(scope, 'closeThisDialog').and.callThrough();
         scope.submitForm();
         expect(clientResourceMock.create).toHaveBeenCalled();
-        var callArgs = clientResourceMock.create.calls.argsFor(0);
+        let callArgs = clientResourceMock.create.calls.argsFor(0);
         expect(callArgs[0].name).toBe(scope.client.name);
         expect(clients[1].name).toBe(scope.client.name);
         expect(clients.length).toBe(2);

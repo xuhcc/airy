@@ -6,7 +6,7 @@ Time tracker
 
 * python 3
 * virtualenv
-* nodejs
+* nodejs 5+
 * fabric
 
 ## Development

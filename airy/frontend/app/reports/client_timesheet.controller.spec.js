@@ -3,9 +3,9 @@ import 'reports/client_timesheet.module.js';
 describe('Timesheet', function () {
     'use strict';
 
-    var scope;
-    var buildCtrl;
-    var clientResourceMock = {
+    let scope;
+    let buildCtrl;
+    let clientResourceMock = {
         getTimeSheet: function (clientId, range) {
             return {
                 success: function (successCallback) {
@@ -15,10 +15,10 @@ describe('Timesheet', function () {
         },
         sendTimeSheet: function (clientId, range) {},
     };
-    var calculatorMock = {
+    let calculatorMock = {
         show: function () {},
     };
-    var clientId = 1;
+    let clientId = 1;
 
     beforeEach(module('airy.clientTimeSheet'));
     beforeEach(inject(function ($controller, $rootScope) {

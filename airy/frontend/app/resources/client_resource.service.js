@@ -1,5 +1,5 @@
 function clientResource($http) {
-    var service = {
+    let service = {
         list: listClients,
         create: createClient,
         get: getClient,

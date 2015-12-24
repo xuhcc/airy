@@ -3,22 +3,22 @@ import 'clients/client_detail.module.js';
 describe('Client detail', function () {
     'use strict';
 
-    var scope;
-    var rootScope;
-    var buildCtrl;
-    var client;
-    var ngDialogMock = {
-        open: function (config) {},
+    let scope;
+    let rootScope;
+    let buildCtrl;
+    let client;
+    let ngDialogMock = {
+        open: (config) => {},
     };
-    var hotkeysMock = {
-        add: function (config) {},
+    let hotkeysMock = {
+        add: (config) => {},
     };
-    var airyPopupMock = {
+    let airyPopupMock = {
         confirm: function (message, confirmCallback) {
             confirmCallback();
         },
     };
-    var clientResourceMock = {
+    let clientResourceMock = {
         get: function () {
             return {
                 success: function (successCallback) {
@@ -27,7 +27,7 @@ describe('Client detail', function () {
             };
         },
     };
-    var projectResourceMock = {
+    let projectResourceMock = {
         delete: function () {
             return {
                 success: function (successCallback) {
@@ -89,10 +89,10 @@ describe('Client detail', function () {
         buildCtrl();
         spyOn(clientResourceMock, 'get').and.callThrough();
         spyOn(projectResourceMock, 'delete').and.callThrough();
-        var project = client.projects[1];
+        let project = client.projects[1];
         scope.deleteProject(project);
         expect(projectResourceMock.delete).toHaveBeenCalled();
-        var callArgs = projectResourceMock.delete.calls.argsFor(0);
+        let callArgs = projectResourceMock.delete.calls.argsFor(0);
         expect(callArgs[0].id).toEqual(project.id);
         expect(clientResourceMock.get).toHaveBeenCalled();
     });

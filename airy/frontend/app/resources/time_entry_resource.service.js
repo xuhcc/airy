@@ -1,5 +1,5 @@
 function timeEntryResource($http) {
-    var service = {
+    let service = {
         create: createTimeEntry,
         update: updateTimeEntry,
         delete: deleteTimeEntry,

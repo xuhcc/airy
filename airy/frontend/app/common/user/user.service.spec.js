@@ -3,10 +3,10 @@ import 'common/user/user.module.js';
 describe('airyUser factory', function () {
     'use strict';
 
-    var httpBackend;
-    var airyUser;
-    var stateMock;
-    var airyPopupMock;
+    let httpBackend;
+    let airyUser;
+    let stateMock;
+    let airyPopupMock;
 
     beforeEach(function () {
         module('airy.user', function ($provide) {
@@ -27,7 +27,7 @@ describe('airyUser factory', function () {
     });
 
     it('should log in the user', function () {
-        var user = {name: 'test'};
+        let user = {name: 'test'};
         httpBackend.expectGET('/user').respond({user: {}});
         httpBackend.expectPOST('/login').respond({user: user});
 

@@ -1,11 +1,11 @@
 function calculator(ngDialog) {
-    var service = {
+    let service = {
         show: showCalculator,
     };
     return service;
 
     function showCalculator(duration) {
-        var template = '\
+        const template = '\
             <form class="pure-form calculator-form">\
                 <fieldset>\
                     <input type="text" class="price" ng-model="price"><!--\

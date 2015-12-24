@@ -3,9 +3,9 @@ import 'reports/range_selector.module.js';
 describe('Range selector directive', function () {
     'use strict';
 
-    var scope;
-    var element;
-    var compile;
+    let scope;
+    let element;
+    let compile;
 
     beforeEach(module('airy.rangeSelector'));
     beforeEach(inject(function (_$compile_, $rootScope) {

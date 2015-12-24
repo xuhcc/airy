@@ -1,18 +1,17 @@
-var paths = require('./airy/frontend/index.json');
-
 module.exports = function (config) {
     'use strict';
 
-    var files = [].concat(
-        paths.lib.js,
-        [
-            'bower_components/angular-mocks/angular-mocks.js',
-            'airy/frontend/system-test.conf.js',
-            {pattern: paths.app.es, included: false},
-            {pattern: paths.specs, included: false},
-        ]);
+    let paths = require('./airy/frontend/index.json');
 
-    var preprocessors = {};
+    let files = [
+        ...paths.lib.js,
+        'bower_components/angular-mocks/angular-mocks.js',
+        'airy/frontend/system-test.conf.js',
+        {pattern: paths.app.es, included: false},
+        {pattern: paths.specs, included: false},
+    ];
+
+    let preprocessors = {};
     preprocessors[paths.app.es] = ['babel', 'coverage'];
     preprocessors[paths.specs] = ['babel'];
 

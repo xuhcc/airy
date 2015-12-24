@@ -1,6 +1,6 @@
 function airyUser($http, $state, airyPopup) {
-    var user = {};
-    var service = {
+    let user = {};
+    let service = {
         user: user,
         userLoaded: load(),
         reload: load,
@@ -28,7 +28,7 @@ function airyUser($http, $state, airyPopup) {
 
     function logout() {
         $http.get('/logout').success(function (data) {
-            for (var prop in user) {
+            for (let prop in user) {
                 delete user[prop];
             }
             $state.go('login');

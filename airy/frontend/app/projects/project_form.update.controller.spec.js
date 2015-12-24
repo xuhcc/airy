@@ -3,10 +3,10 @@ import 'projects/project_form.module.js';
 describe('Project update', function () {
     'use strict';
 
-    var scope;
-    var ctrl;
-    var project;
-    var projectResourceMock = {
+    let scope;
+    let ctrl;
+    let project;
+    let projectResourceMock = {
         update: function (project) {
             return {
                 success: function (successCallback) {
@@ -40,7 +40,7 @@ describe('Project update', function () {
         spyOn(scope, 'closeThisDialog').and.callThrough();
         scope.submitForm();
         expect(projectResourceMock.update).toHaveBeenCalled();
-        var callArgs = projectResourceMock.update.calls.argsFor(0);
+        let callArgs = projectResourceMock.update.calls.argsFor(0);
         expect(callArgs[0].id).toBe(scope.project.id);
         expect(callArgs[0].client_id).toBe(scope.project.client_id);
         expect(project.name).toBe('new');

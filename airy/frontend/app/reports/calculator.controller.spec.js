@@ -3,8 +3,8 @@ import 'reports/calculator.module.js';
 describe('Calculator', function () {
     'use strict';
 
-    var scope;
-    var buildCtrl;
+    let scope;
+    let buildCtrl;
 
     beforeEach(module('airy.calculator'));
     beforeEach(inject(function ($controller, $rootScope) {

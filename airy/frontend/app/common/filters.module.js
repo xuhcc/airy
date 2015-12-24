@@ -19,16 +19,16 @@ function zfill(value) {
 
 function time() {
     return function (value) {
-        var duration = moment.duration(value, 'seconds');
-        var hours = duration.days() * 24 + duration.hours();
+        let duration = moment.duration(value, 'seconds');
+        let hours = duration.days() * 24 + duration.hours();
         return hours + ':' + zfill(duration.minutes());
     };
 }
 
 function timer() {
     return function (value) {
-        var duration = moment.duration(value, 'seconds');
-        var hours = duration.days() * 24 + duration.hours();
+        let duration = moment.duration(value, 'seconds');
+        let hours = duration.days() * 24 + duration.hours();
         return hours + ':' + zfill(duration.minutes()) +
             ':' + zfill(duration.seconds());
     };

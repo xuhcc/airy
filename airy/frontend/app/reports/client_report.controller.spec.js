@@ -3,9 +3,9 @@ import 'reports/client_report.module.js';
 describe('Task report', function () {
     'use strict';
 
-    var scope;
-    var buildCtrl;
-    var clientResourceMock = {
+    let scope;
+    let buildCtrl;
+    let clientResourceMock = {
         getReport: function (clientId, range) {
             return {
                 success: function (successCallback) {
@@ -15,10 +15,10 @@ describe('Task report', function () {
         },
         sendReport: function (clientId, range) {},
     };
-    var calculatorMock = {
+    let calculatorMock = {
         show: function () {},
     };
-    var clientId = 1;
+    let clientId = 1;
 
     beforeEach(module('airy.clientReport'));
     beforeEach(inject(function ($controller, $rootScope) {

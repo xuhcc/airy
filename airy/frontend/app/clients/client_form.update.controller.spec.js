@@ -3,10 +3,10 @@ import 'clients/client_form.module.js';
 describe('Client update', function () {
     'use strict';
 
-    var scope;
-    var ctrl;
-    var client;
-    var clientResourceMock = {
+    let scope;
+    let ctrl;
+    let client;
+    let clientResourceMock = {
         update: function (client) {
             return {
                 success: function (successCallback) {
@@ -40,7 +40,7 @@ describe('Client update', function () {
         spyOn(scope, 'closeThisDialog').and.callThrough();
         scope.submitForm();
         expect(clientResourceMock.update).toHaveBeenCalled();
-        var callArgs = clientResourceMock.update.calls.argsFor(0);
+        let callArgs = clientResourceMock.update.calls.argsFor(0);
         expect(callArgs[0].id).toBe(scope.client.id);
         expect(client.name).toBe('new');
         expect(scope.closeThisDialog).toHaveBeenCalled();

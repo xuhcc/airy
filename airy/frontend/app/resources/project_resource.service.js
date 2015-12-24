@@ -1,5 +1,5 @@
 function projectResource($http) {
-    var service = {
+    let service = {
         create: createProject,
         get: getProject,
         update: updateProject,

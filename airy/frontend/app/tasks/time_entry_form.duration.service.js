@@ -1,6 +1,6 @@
 function TimeEntryDuration() {
     return function (duration) {
-        var _duration = moment.duration(duration, 'seconds');
+        let _duration = moment.duration(duration, 'seconds');
 
         this.hours = _duration.hours();
         this.minutes = _duration.minutes();
