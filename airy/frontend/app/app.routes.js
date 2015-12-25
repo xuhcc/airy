@@ -4,6 +4,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state('login', {
             url: '/login',
             templateUrl: 'static/partials/login.html',
+            controller: 'LoginController as ctrl',
             resolve: {
                 user: function ($q, $state, airyUser) {
                     let deferred = $q.defer();
@@ -30,16 +31,16 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state('client_detail', {
             url: '/clients/:clientId',
             templateUrl: 'static/partials/client_detail.html',
-            controller: 'ClientDetailController',
+            controller: 'ClientDetailController as ctrl',
             ncyBreadcrumb: {
                 parent: 'client_list',
-                label: '{{ client.name }}',
+                label: '{{ ctrl.client.name }}',
             },
         })
         .state('client_timesheet', {
             url: '/clients/:clientId/timesheet',
             templateUrl: 'static/partials/client_timesheet.html',
-            controller: 'ClientTimeSheetCtrl',
+            controller: 'ClientTimeSheetCtrl as ctrl',
             ncyBreadcrumb: {
                 parent: 'client_detail',
                 label: 'Timesheet',
@@ -48,7 +49,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state('client_report', {
             url: '/clients/:clientId/report',
             templateUrl: 'static/partials/client_report.html',
-            controller: 'ClientReportController',
+            controller: 'ClientReportController as ctrl',
             ncyBreadcrumb: {
                 parent: 'client_detail',
                 label: 'Task report',
@@ -57,10 +58,10 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state('project_detail', {
             url: '/clients/:clientId/projects/:projectId',
             templateUrl: 'static/partials/project_detail.html',
-            controller: 'ProjectDetailController',
+            controller: 'ProjectDetailController as ctrl',
             ncyBreadcrumb: {
                 parent: 'client_detail',
-                label: '{{ project.name }}',
+                label: '{{ ctrl.project.name }}',
             },
         });
 }

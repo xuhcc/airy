@@ -1,16 +1,18 @@
-function ProjectDetailController($scope, $stateParams, $rootScope, $interval, ngDialog, hotkeys,
+function ProjectDetailController($stateParams, $rootScope, $interval, ngDialog, hotkeys,
                                  airyPopup, airyUser, projectResource, taskResource, timeEntryResource) {
-    $scope.project = {};
-    $scope.currentStatus = 'open';
-    $scope.filterByStatus = filterByStatus;
-    $scope.createTask = createTask;
-    $scope.updateTask = updateTask;
-    $scope.deleteTask = deleteTask;
-    $scope.toggleStatus = toggleStatus;
-    $scope.toggleTimer = toggleTimer;
-    $scope.createTimeEntry = createTimeEntry;
-    $scope.updateTimeEntry = updateTimeEntry;
-    $scope.deleteTimeEntry = deleteTimeEntry;
+    const self = this;
+    self.client = {};
+    self.project = {};
+    self.currentStatus = 'open';
+    self.filterByStatus = filterByStatus;
+    self.createTask = createTask;
+    self.updateTask = updateTask;
+    self.deleteTask = deleteTask;
+    self.toggleStatus = toggleStatus;
+    self.toggleTimer = toggleTimer;
+    self.createTimeEntry = createTimeEntry;
+    self.updateTimeEntry = updateTimeEntry;
+    self.deleteTimeEntry = deleteTimeEntry;
 
     fetchProject();
 
@@ -23,16 +25,16 @@ function ProjectDetailController($scope, $stateParams, $rootScope, $interval, ng
     });
 
     function fetchProject() {
-        projectResource.get($stateParams.projectId, $scope.currentStatus)
+        projectResource.get($stateParams.projectId, self.currentStatus)
             .success(function (data) {
                 $rootScope.title = data.project.name;
-                $scope.project = data.project;
-                $scope.client = data.project.client;
+                self.project = data.project;
+                self.client = data.project.client;
             });
     }
 
     function filterByStatus(status) {
-        $scope.currentStatus = status;
+        self.currentStatus = status;
         fetchProject();
     }
 
@@ -43,7 +45,7 @@ function ProjectDetailController($scope, $stateParams, $rootScope, $interval, ng
             className: 'popup task-form-popup',
             resolve: {
                 project: function () {
-                    return $scope.project;
+                    return self.project;
                 },
             },
         });

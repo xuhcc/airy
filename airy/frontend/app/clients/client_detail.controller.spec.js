@@ -3,7 +3,6 @@ import 'clients/client_detail.module.js';
 describe('Client detail', function () {
     'use strict';
 
-    let scope;
     let rootScope;
     let buildCtrl;
     let client;
@@ -39,7 +38,7 @@ describe('Client detail', function () {
 
     beforeEach(module('airy.clientDetail'));
     beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
+        let scope = $rootScope.$new();
         rootScope = $rootScope.$new();
         client = {
             id: 1,
@@ -50,7 +49,7 @@ describe('Client detail', function () {
             ],
         };
         buildCtrl = function () {
-            return $controller('ClientDetailController', {
+            return $controller('ClientDetailController as ctrl', {
                 $scope: scope,
                 $stateParams: {clientId: 1},
                 $rootScope: rootScope,
@@ -65,32 +64,32 @@ describe('Client detail', function () {
 
     it('should load controller', function () {
         spyOn(clientResourceMock, 'get').and.callThrough();
-        buildCtrl();
+        let ctrl = buildCtrl();
         expect(clientResourceMock.get).toHaveBeenCalled();
         expect(rootScope.title).toEqual(client.name);
-        expect(scope.client).toEqual(client);
+        expect(ctrl.client).toEqual(client);
     });
 
     it('should create project', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        scope.createProject();
+        ctrl.createProject();
         expect(ngDialogMock.open).toHaveBeenCalled();
     });
 
     it('should update project', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
-        scope.updateProject();
+        ctrl.updateProject();
         expect(ngDialogMock.open).toHaveBeenCalled();
     });
 
     it('should delete project', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         spyOn(clientResourceMock, 'get').and.callThrough();
         spyOn(projectResourceMock, 'delete').and.callThrough();
         let project = client.projects[1];
-        scope.deleteProject(project);
+        ctrl.deleteProject(project);
         expect(projectResourceMock.delete).toHaveBeenCalled();
         let callArgs = projectResourceMock.delete.calls.argsFor(0);
         expect(callArgs[0].id).toEqual(project.id);

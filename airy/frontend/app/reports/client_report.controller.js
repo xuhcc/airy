@@ -1,7 +1,8 @@
 function ClientReportController($scope, $stateParams, $rootScope, clientResource, calculator) {
-    $scope.report = {};
-    $scope.client = {};
-    $scope.periods = [
+    const self = this;
+    self.report = {};
+    self.client = {};
+    self.periods = [
         {
             label: '1 week',
             getRangeEnd: function (rangeBeg) {
@@ -15,26 +16,26 @@ function ClientReportController($scope, $stateParams, $rootScope, clientResource
             },
         },
     ];
-    $scope.period = $scope.periods[0];
-    $scope.setPeriod = setPeriod;
-    $scope.range = {
+    self.period = self.periods[0];
+    self.setPeriod = setPeriod;
+    self.range = {
         beg: moment().startOf('isoWeek').format(),
         end: moment().endOf('isoWeek').format(),
     };
-    $scope.$watch('range', getReport, true);
-    $scope.showCalculator = showCalculator;
-    $scope.sendByEmail = sendByEmail;
+    $scope.$watch('ctrl.range', getReport, true);
+    self.showCalculator = showCalculator;
+    self.sendByEmail = sendByEmail;
 
     function getReport() {
-        clientResource.getReport($stateParams.clientId, $scope.range).success(function (data) {
+        clientResource.getReport($stateParams.clientId, self.range).success(function (data) {
             $rootScope.title = data.report.client.name + ' :: Task report';
-            $scope.report = data.report;
-            $scope.client = data.report.client;
+            self.report = data.report;
+            self.client = data.report.client;
         });
     }
 
     function setPeriod() {
-        $scope.range.end = $scope.period.getRangeEnd($scope.range.beg);
+        self.range.end = self.period.getRangeEnd(self.range.beg);
     }
 
     function showCalculator(duration) {
@@ -42,7 +43,7 @@ function ClientReportController($scope, $stateParams, $rootScope, clientResource
     }
 
     function sendByEmail() {
-        clientResource.sendReport($stateParams.clientId, $scope.range);
+        clientResource.sendReport($stateParams.clientId, self.range);
     }
 }
 

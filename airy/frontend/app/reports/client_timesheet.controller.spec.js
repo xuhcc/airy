@@ -24,7 +24,7 @@ describe('Timesheet', function () {
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         buildCtrl = function () {
-            return $controller('ClientTimeSheetCtrl', {
+            return $controller('ClientTimeSheetCtrl as ctrl', {
                 $scope: scope,
                 $stateParams: {clientId: clientId},
                 clientResource: clientResourceMock,
@@ -34,23 +34,23 @@ describe('Timesheet', function () {
     }));
 
     it('should load the timesheet', function () {
-        buildCtrl();
-        expect(scope.timesheet).toBeDefined();
-        expect(scope.client).toBeDefined();
-        expect(scope.days.length).toBe(7);
-        expect(scope.range).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.timesheet).toBeDefined();
+        expect(ctrl.client).toBeDefined();
+        expect(ctrl.days.length).toBe(7);
+        expect(ctrl.range).toBeDefined();
         spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
         scope.$digest();
         expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
         expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[0]).toBe(clientId);
-        expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[1]).toBe(scope.range);
+        expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[1]).toBe(ctrl.range);
     });
 
     it('should reload the timesheet after changing date range', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         scope.$digest();
         spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
-        scope.range = {
+        ctrl.range = {
             beg: '2015-04-06T00:00:00+03:00',
             end: '2015-04-12T23:59:59+03:00',
         };
@@ -59,18 +59,18 @@ describe('Timesheet', function () {
     });
 
     it('should show calculator', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         spyOn(calculatorMock, 'show').and.callThrough();
-        scope.showCalculator(600);
+        ctrl.showCalculator(600);
         expect(calculatorMock.show).toHaveBeenCalled();
         expect(calculatorMock.show.calls.argsFor(0)[0]).toBe(600);
     });
 
     it('should send timesheet by email', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         scope.$digest();
         spyOn(clientResourceMock, 'sendTimeSheet').and.callThrough();
-        scope.sendByEmail();
+        ctrl.sendByEmail();
         expect(clientResourceMock.sendTimeSheet).toHaveBeenCalled();
     });
 });

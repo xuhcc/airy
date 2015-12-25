@@ -1,9 +1,10 @@
-function ClientDetailController($scope, $stateParams, $rootScope, ngDialog,
+function ClientDetailController($stateParams, $rootScope, ngDialog,
                                 hotkeys, airyPopup, clientResource, projectResource) {
-    $scope.client = {};
-    $scope.createProject = createProject;
-    $scope.updateProject = updateProject;
-    $scope.deleteProject = deleteProject;
+    const self = this;
+    self.client = {};
+    self.createProject = createProject;
+    self.updateProject = updateProject;
+    self.deleteProject = deleteProject;
 
     fetchClient();
 
@@ -18,7 +19,7 @@ function ClientDetailController($scope, $stateParams, $rootScope, ngDialog,
     function fetchClient() {
         clientResource.get($stateParams.clientId).success(function (data) {
             $rootScope.title = data.client.name;
-            $scope.client = data.client;
+            self.client = data.client;
         });
     }
 
@@ -28,7 +29,7 @@ function ClientDetailController($scope, $stateParams, $rootScope, ngDialog,
             controller: 'ProjectCreationController',
             resolve: {
                 client: function () {
-                    return $scope.client;
+                    return self.client;
                 },
             },
         });

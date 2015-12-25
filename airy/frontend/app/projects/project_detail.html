@@ -1,18 +1,18 @@
 <div>
     <div class="current-project">
-        <h2>Tasks from {{ project.name }}</h2>
-        <div class="project-description" ng-bind-html="project.description|nl2br|linkify"></div>
+        <h2>Tasks from {{ ctrl.project.name }}</h2>
+        <div class="project-description" ng-bind-html="ctrl.project.description|nl2br|linkify"></div>
     </div>
-    <a class="content-nav-link" ng-show="currentStatus == 'closed'" ng-click="filterByStatus('open')">view open tasks</a>
-    <a class="content-nav-link" ng-show="currentStatus == 'open'" ng-click="filterByStatus('closed')">view closed tasks</a>
+    <a class="content-nav-link" ng-show="ctrl.currentStatus == 'closed'" ng-click="ctrl.filterByStatus('open')">view open tasks</a>
+    <a class="content-nav-link" ng-show="ctrl.currentStatus == 'open'" ng-click="ctrl.filterByStatus('closed')">view closed tasks</a>
     <div class="tasks">
-        <div class="task task-{{ task.status }}" ng-repeat="task in project.tasks">
+        <div class="task task-{{ task.status }}" ng-repeat="task in ctrl.project.tasks">
             <div class="task-menu">
-                <a class="task-edit icon" title="Edit task" ng-click="updateTask(task)">e</a>
-                <a class="task-delete icon" title="Delete task" ng-click="deleteTask(task)">d</a>
+                <a class="task-edit icon" title="Edit task" ng-click="ctrl.updateTask(task)">e</a>
+                <a class="task-delete icon" title="Delete task" ng-click="ctrl.deleteTask(task)">d</a>
             </div>
             <div class="task-title"><h3>
-                <a class="task-status icon" ng-click="toggleStatus(task)" title="{{ task.is_closed ? 'Reopen task' : 'Close task' }}">{{ task.is_closed ? 'c' : 'o' }}</a>
+                <a class="task-status icon" ng-click="ctrl.toggleStatus(task)" title="{{ task.is_closed ? 'Reopen task' : 'Close task' }}">{{ task.is_closed ? 'c' : 'o' }}</a>
                 <a id="task-{{ task.id }}" ng-click="task.detailsVisible = !task.detailsVisible">{{ task.title }}</a>
             </h3></div>
             <div class="task-created" ng-show="task.detailsVisible">Created at: {{ task.created_at|date:'dd.MM.yy HH:mm' }}</div>
@@ -20,20 +20,20 @@
             <div class="task-description" ng-bind-html="task.description|nl2br|linkify"></div>
             <div class="task-spent-time">
                 <span>Time spent: <a class="task-total-time" title="Show details" ng-click="task.timeEntriesVisible = !task.timeEntriesVisible">{{ task.total_time|time }}</a></span>
-                <a class="task-add-time-entry icon" title="Add time" ng-click="createTimeEntry(task)">+</a>
-                <a class="task-toggle-timer icon" title="Toggle timer" ng-click="toggleTimer(task)">t</a>
+                <a class="task-add-time-entry icon" title="Add time" ng-click="ctrl.createTimeEntry(task)">+</a>
+                <a class="task-toggle-timer icon" title="Toggle timer" ng-click="ctrl.toggleTimer(task)">t</a>
                 <sup class="task-timer" ng-show="task.timerData">{{ task.timerData.duration|timer }}</sup>
             </div>
             <div class="task-time-entries" ng-show="task.timeEntriesVisible"><ul>
                 <li class="time-entry" ng-repeat="timeEntry in task.time_entries" ng-mouseenter="timeEntry.deleteIconVisible = true" ng-mouseleave="timeEntry.deleteIconVisible = false">
-                    <a class="time-entry-amount" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" ng-click="updateTimeEntry(task, timeEntry)">{{ timeEntry.duration|time }}</a>
+                    <a class="time-entry-amount" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" ng-click="ctrl.updateTimeEntry(task, timeEntry)">{{ timeEntry.duration|time }}</a>
                     <span ng-if="timeEntry.comment">
-                        — <a class="time-entry-comment" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" ng-click="updateTimeEntry(task, timeEntry)">{{ timeEntry.comment }}</a>
+                        — <a class="time-entry-comment" title="{{ timeEntry.added_at|date:'dd.MM.yy HH:mm' }}" ng-click="ctrl.updateTimeEntry(task, timeEntry)">{{ timeEntry.comment }}</a>
                     </span>
-                    <a class="time-entry-delete icon" ng-show="timeEntry.deleteIconVisible" ng-click="deleteTimeEntry(task, timeEntry)">d</a>
+                    <a class="time-entry-delete icon" ng-show="timeEntry.deleteIconVisible" ng-click="ctrl.deleteTimeEntry(task, timeEntry)">d</a>
                 </li>
             </ul></div>
         </div>
     </div>
-    <a class="task-add icon" title="Add task" ng-click="createTask()">+</a>
+    <a class="task-add icon" title="Add task" ng-click="ctrl.createTask()">+</a>
 </div>

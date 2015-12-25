@@ -1,11 +1,12 @@
-function LoginController($scope, $rootScope, airyUser) {
-    $scope.password = '';
-    $scope.loginUser = loginUser;
+function LoginController($rootScope, airyUser) {
+    const self = this;
+    self.password = '';
+    self.loginUser = loginUser;
 
     $rootScope.title = 'Login';
 
     function loginUser() {
-        airyUser.login($scope.password);
+        airyUser.login(self.password);
     }
 }
 

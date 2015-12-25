@@ -3,7 +3,7 @@ import 'login/login.module.js';
 describe('Login controller', function () {
     'use strict';
 
-    let scope;
+    let rootScope;
     let ctrl;
     let airyUser = {
         login: function (password) {
@@ -13,20 +13,22 @@ describe('Login controller', function () {
 
     beforeEach(module('airy.login'));
     beforeEach(inject(function ($controller, $rootScope) {
-        scope = $rootScope.$new();
-        ctrl = $controller('LoginController', {
+        let scope = $rootScope.$new();
+        rootScope = $rootScope.$new();
+        ctrl = $controller('LoginController as ctrl', {
             $scope: scope,
+            $rootScope: rootScope,
             airyUser: airyUser,
         });
     }));
 
     it('should change the page title', function () {
-        expect(scope.title).toBe('Login');
+        expect(rootScope.title).toBe('Login');
     });
 
     it('should log in the user', function () {
-        scope.password = 'pwd';
-        scope.loginUser();
+        ctrl.password = 'pwd';
+        ctrl.loginUser();
         expect(airyUser.password).toBe('pwd');
     });
 });

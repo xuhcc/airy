@@ -24,7 +24,7 @@ describe('Task report', function () {
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         buildCtrl = function () {
-            return $controller('ClientReportController', {
+            return $controller('ClientReportController as ctrl', {
                 $scope: scope,
                 $stateParams: {clientId: clientId},
                 $rootScope: $rootScope,
@@ -35,24 +35,24 @@ describe('Task report', function () {
     }));
 
     it('should load the task report', function () {
-        buildCtrl();
-        expect(scope.report).toBeDefined();
-        expect(scope.client).toBeDefined();
-        expect(scope.range).toBeDefined();
-        expect(scope.periods.length).toBe(2);
-        expect(scope.period).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.report).toBeDefined();
+        expect(ctrl.client).toBeDefined();
+        expect(ctrl.range).toBeDefined();
+        expect(ctrl.periods.length).toBe(2);
+        expect(ctrl.period).toBeDefined();
         spyOn(clientResourceMock, 'getReport').and.callThrough();
         scope.$digest();
         expect(clientResourceMock.getReport).toHaveBeenCalled();
         expect(clientResourceMock.getReport.calls.argsFor(0)[0]).toBe(clientId);
-        expect(clientResourceMock.getReport.calls.argsFor(0)[1]).toBe(scope.range);
+        expect(clientResourceMock.getReport.calls.argsFor(0)[1]).toBe(ctrl.range);
     });
 
     it('should reload the task report after changing date range', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         scope.$digest();
         spyOn(clientResourceMock, 'getReport').and.callThrough();
-        scope.range = {
+        ctrl.range = {
             beg: '2015-04-06T00:00:00+03:00',
             end: '2015-04-12T23:59:59+03:00',
         };
@@ -61,29 +61,29 @@ describe('Task report', function () {
     });
 
     it('should reload the task report after changing range length', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         scope.$digest();
         spyOn(clientResourceMock, 'getReport').and.callThrough();
-        scope.period = scope.periods[1];
-        scope.setPeriod();
+        ctrl.period = ctrl.periods[1];
+        ctrl.setPeriod();
         scope.$digest();
         expect(clientResourceMock.getReport).toHaveBeenCalled();
     });
 
     it('should show calculator', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         spyOn(calculatorMock, 'show').and.callThrough();
-        scope.showCalculator(600);
+        ctrl.showCalculator(600);
         expect(calculatorMock.show).toHaveBeenCalled();
         expect(calculatorMock.show.calls.argsFor(0)[0]).toBe(600);
     });
 
     it('should send email', function () {
-        buildCtrl();
+        let ctrl = buildCtrl();
         spyOn(clientResourceMock, 'sendReport').and.callThrough();
-        scope.sendByEmail();
+        ctrl.sendByEmail();
         expect(clientResourceMock.sendReport).toHaveBeenCalled();
         expect(clientResourceMock.sendReport.calls.argsFor(0)[0]).toBe(clientId);
-        expect(clientResourceMock.sendReport.calls.argsFor(0)[1]).toBe(scope.range);
+        expect(clientResourceMock.sendReport.calls.argsFor(0)[1]).toBe(ctrl.range);
     });
 });

@@ -1,22 +1,22 @@
 <div>
     <div class="current-client">
         <h2>Projects from {{ client.name }}</h2>
-        <div class="client-contacts" ng-bind-html="client.contacts|nl2br|linkify"></div>
+        <div class="client-contacts" ng-bind-html="ctrl.client.contacts|nl2br|linkify"></div>
     </div>
-    <a class="content-nav-link" ui-sref="client_timesheet({clientId: client.id})">view timesheet</a>
-    <a class="content-nav-link" ui-sref="client_report({clientId: client.id})">view task report</a>
+    <a class="content-nav-link" ui-sref="client_timesheet({clientId: ctrl.client.id})">view timesheet</a>
+    <a class="content-nav-link" ui-sref="client_report({clientId: ctrl.client.id})">view task report</a>
     <div class="projects" >
-        <div class="project" ng-repeat="project in client.projects">
+        <div class="project" ng-repeat="project in ctrl.client.projects">
             <div class="project-menu">
-                <a class="project-edit icon" ng-click="updateProject(project)">e</a>
-                <a class="project-delete icon" ng-click="deleteProject(project)">d</a>
+                <a class="project-edit icon" ng-click="ctrl.updateProject(project)">e</a>
+                <a class="project-delete icon" ng-click="ctrl.deleteProject(project)">d</a>
             </div>
-            <div class="project-name"><h3><a ui-sref="project_detail({clientId: client.id, projectId: project.id})">{{ project.name }}</a></h3></div>
+            <div class="project-name"><h3><a ui-sref="project_detail({clientId: ctrl.client.id, projectId: project.id})">{{ project.name }}</a></h3></div>
             <div class="project-description" ng-bind-html="project.description|nl2br|linkify"></div>
             <div class="project-last-task" ng-if="project.last_task">Last task:
-                <a ui-sref="project_detail({clientId: client.id, projectId: project.id})">{{ project.last_task.title }}</a>
+                <a ui-sref="project_detail({clientId: ctrl.client.id, projectId: project.id})">{{ project.last_task.title }}</a>
             </div>
         </div>
     </div>
-    <a class="project-add icon" title="Add project" ng-click="createProject()">+</a>
+    <a class="project-add icon" title="Add project" ng-click="ctrl.createProject()">+</a>
 </div>
