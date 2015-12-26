@@ -1,14 +1,15 @@
-function airyHeader(airyUser) {
+function airyHeader() {
     let directive = {
         restrict: 'A',
         templateUrl: 'static/partials/header.html',
         scope: {},
-        link: link,
+        controller: controller,
+        controllerAs: 'ctrl',
     };
     return directive;
 
-    function link(scope, element) {
-        scope.user = airyUser.user;
+    function controller(airyUser) {
+        this.user = airyUser.user;
     }
 }
 

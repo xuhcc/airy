@@ -1,15 +1,16 @@
-function airyFooter(airyUser) {
+function airyFooter() {
     let directive = {
         restrict: 'A',
         templateUrl: 'static/partials/footer.html',
         scope: {},
-        link: link,
+        controller: controller,
+        controllerAs: 'ctrl',
     };
     return directive;
 
-    function link(scope, element) {
-        scope.user = airyUser.user;
-        scope.logoutUser = airyUser.logout;
+    function controller(airyUser) {
+        this.user = airyUser.user;
+        this.logoutUser = airyUser.logout;
     }
 }
 
