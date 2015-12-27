@@ -1,6 +1,6 @@
 <div>
     <div class="current-client">
-        <h2>Projects from {{ client.name }}</h2>
+        <h2>Projects from {{ ctrl.client.name }}</h2>
         <div class="client-contacts" ng-bind-html="ctrl.client.contacts|nl2br|linkify"></div>
     </div>
     <a class="content-nav-link" ui-sref="client_timesheet({clientId: ctrl.client.id})">view timesheet</a>
