@@ -17,6 +17,15 @@ describe('Time entry duration service', function () {
         expect(duration.toSeconds()).toBe(5940);
     });
 
+    it('should round the value from timer', function () {
+        let duration1 = new TimeEntryDuration(89);
+        expect(duration1.minutes).toBe(1);
+        expect(duration1.toSeconds()).toBe(60);
+        let duration2 = new TimeEntryDuration(90);
+        expect(duration2.minutes).toBe(2);
+        expect(duration2.toSeconds()).toBe(120);
+    });
+
     it('should add 30 minutes', function () {
         let duration = new TimeEntryDuration(0);
         expect(duration.hours).toBe(0);
