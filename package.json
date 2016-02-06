@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "engines": {
-      "node": ">=5.3.0"
+    "node": ">=5.3.0"
   },
   "dependencies": {
     "babel-plugin-transform-es2015-modules-systemjs": "^6.3.13",
@@ -36,8 +36,8 @@
     "karma-chrome-launcher": "^0.2.2",
     "karma-coverage": "^0.5.3",
     "karma-jasmine": "^0.3.6",
-    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-phantomjs-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.23",
-    "phantomjs": "^1.9.15"
+    "phantomjs-prebuilt": "^2.1.4"
   }
 }
