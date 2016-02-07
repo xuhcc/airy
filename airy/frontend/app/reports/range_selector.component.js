@@ -1,29 +1,28 @@
-function ReportRangeController() {
-    const self = this;
+class ReportRangeController {
 
-    self.formatRange = function () {
-        let rangeBeg = moment(self.range.beg);
-        let rangeEnd = moment(self.range.end);
+    formatRange() {
+        let rangeBeg = moment(this.range.beg);
+        let rangeEnd = moment(this.range.end);
         return rangeBeg.format('DD.MM.YY') + ' — ' + rangeEnd.format('DD.MM.YY');
-    };
+    }
 
-    self.shiftBack = function () {
-        let rangeBeg = moment(self.range.beg);
-        let rangeEnd = moment(self.range.end);
-        self.range = {
+    shiftBack() {
+        let rangeBeg = moment(this.range.beg);
+        let rangeEnd = moment(this.range.end);
+        this.range = {
             beg: rangeBeg.subtract(1, 'week').format(),
             end: rangeEnd.subtract(1, 'week').format(),
         };
-    };
+    }
 
-    self.shiftForward = function () {
-        let rangeBeg = moment(self.range.beg);
-        let rangeEnd = moment(self.range.end);
-        self.range = {
+    shiftForward() {
+        let rangeBeg = moment(this.range.beg);
+        let rangeEnd = moment(this.range.end);
+        this.range = {
             beg: rangeBeg.add(1, 'week').format(),
             end: rangeEnd.add(1, 'week').format(),
         };
-    };
+    }
 }
 
 const reportRangeSelector = {
