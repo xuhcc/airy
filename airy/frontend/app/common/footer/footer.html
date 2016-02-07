@@ -1,7 +1,7 @@
-<div ng-if="ctrl.user.name">
-    open tasks: <span class="user-open-tasks">{{ ctrl.user.open_tasks }}</span> |
-    time spent today: <span class="user-total-today">{{ ctrl.user.total_today|time }}</span> |
-    this week: <span class="user-total-week">{{ ctrl.user.total_week|time }}</span> |
-    user: <span class="user-name">{{ user.name }}</span> |
-    <a ng-click="ctrl.logoutUser()">logout</a>
+<div ng-if="$ctrl.user.name">
+    open tasks: <span class="user-open-tasks">{{ $ctrl.user.open_tasks }}</span> |
+    time spent today: <span class="user-total-today">{{ $ctrl.user.total_today|time }}</span> |
+    this week: <span class="user-total-week">{{ $ctrl.user.total_week|time }}</span> |
+    user: <span class="user-name">{{ $ctrl.user.name }}</span> |
+    <a ng-click="$ctrl.logoutUser()">logout</a>
 </div>

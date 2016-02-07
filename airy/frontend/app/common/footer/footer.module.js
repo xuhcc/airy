@@ -1,4 +1,4 @@
-import airyFooter from 'common/footer/footer.directive.js';
+import airyFooter from 'common/footer/footer.component.js';
 
 export default angular.module('airy.footer', [])
-    .directive('airyFooter', airyFooter);
+    .component('airyFooter', airyFooter);

@@ -12,7 +12,7 @@
         <div class="container">
             <header airy-header></header>
             <div class="content" ui-view></div>
-            <footer airy-footer></footer>
+            <airy-footer></airy-footer>
         </div>
         {% for filename in assets.js %}
             <script src="{{ url_for('static', filename=filename) }}"></script>
