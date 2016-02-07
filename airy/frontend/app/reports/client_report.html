@@ -3,7 +3,7 @@
         <h2>Task report for {{ ctrl.client.name }}</h2>
     </div>
     <div class="report-range">
-        <div report-range-selector range="ctrl.range"></div>
+        <report-range-selector range="ctrl.range"></report-range-selector>
         <select class="set-period" ng-model="ctrl.period" ng-change="ctrl.setPeriod()" ng-options="period.label for period in ctrl.periods"></select>
     </div>
     <table class="pure-table pure-table-horizontal report" align="center">

@@ -15,7 +15,7 @@ describe('Range selector directive', function () {
             beg: '2015-04-13T00:00:00+03:00',
             end: '2015-04-19T23:59:59+03:00',
         };
-        element = angular.element('<div report-range-selector range="range"></div>');
+        element = angular.element('<report-range-selector range="range"></report-range-selector>');
     }));
 
     it('should show the date range', function () {

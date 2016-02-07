@@ -1,4 +1,4 @@
-import reportRangeSelector from 'reports/range_selector.directive.js';
+import reportRangeSelector from 'reports/range_selector.component.js';
 
 export default angular.module('airy.rangeSelector', [])
-    .directive('reportRangeSelector', reportRangeSelector);
+    .component('reportRangeSelector', reportRangeSelector);

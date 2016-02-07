@@ -1,6 +1,10 @@
 .report-range {
     font-size: 0.8em;
     margin-bottom: 20px;
+
+    report-range-selector {
+        display: block;
+    }
 }
 
 .set-period {
