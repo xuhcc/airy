@@ -3,4 +3,4 @@ import calculator from 'reports/calculator.service.js';
 
 export default angular.module('airy.calculator', [])
     .controller('CalculatorController', CalculatorController)
-    .factory('calculator', calculator);
+    .service('calculator', calculator);

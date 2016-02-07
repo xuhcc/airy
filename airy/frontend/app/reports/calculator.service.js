@@ -1,10 +1,10 @@
-function calculator(ngDialog) {
-    let service = {
-        show: showCalculator,
-    };
-    return service;
+class calculator {
 
-    function showCalculator(duration) {
+    constructor(ngDialog) {
+        this._ngDialog = ngDialog;
+    }
+
+    show(duration) {
         const template = '\
             <form class="pure-form calculator-form">\
                 <fieldset>\
@@ -12,7 +12,7 @@ function calculator(ngDialog) {
                     --><input type="text" class="result" readonly value="{{ getResult() }}">\
                 </fieldset>\
             </form>';
-        ngDialog.open({
+        this._ngDialog.open({
             template: template,
             plain: true,
             controller: 'CalculatorController',
