@@ -1,4 +1,4 @@
-import airyHeader from 'common/header/header.directive.js';
+import airyHeader from 'common/header/header.component.js';
 
 export default angular.module('airy.header', [])
-    .directive('airyHeader', airyHeader);
+    .component('airyHeader', airyHeader);
