@@ -7,6 +7,7 @@ services:
 install:
   - pip install -r requirements-dev.txt
   - cp airy/settings.py.example airy/settings.py
+  - mkdir -p logs
 before_script:
   - psql -c "CREATE USER airy WITH password 'airy';" -U postgres
 script:
