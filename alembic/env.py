@@ -15,7 +15,7 @@ fileConfig(config.config_file_name)
 
 sys.path.append(os.getcwd())
 
-from airy import database
+from airy import database  # flake8: noqa
 
 target_metadata = database.db.metadata
 

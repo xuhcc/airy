@@ -8,7 +8,7 @@ from sqlalchemy_utils import database_exists, create_database, drop_database
 
 sys.path.append(os.getcwd())
 
-from airy import create_app, config, database
+from airy import create_app, config, database  # flake8: noqa
 
 
 @pytest.yield_fixture(scope='session')
