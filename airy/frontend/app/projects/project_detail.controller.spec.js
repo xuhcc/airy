@@ -152,19 +152,22 @@ describe('Project detail', function () {
         expect(airyUserMock.reload).toHaveBeenCalled();
     });
 
-    it('should toggle timer', function () {
+    it('should toggle timer', function (done) {
         let ctrl = buildCtrl();
         spyOn(ngDialogMock, 'open').and.callThrough();
         let task = project.tasks[1];
         ctrl.toggleTimer(task);
         expect(task.timerData).toBeDefined();
-        $interval.flush(1000);
-        ctrl.toggleTimer(task);
-        expect(ngDialogMock.open).toHaveBeenCalled();
-        let ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
-        expect(ngDialogConfig.resolve.task()).toEqual(task);
-        expect(ngDialogConfig.resolve.duration()).toBeGreaterThan(0);
-        expect(task.timerData).toBeUndefined();
+        setTimeout(function () {
+            $interval.flush(500);
+            ctrl.toggleTimer(task);
+            expect(ngDialogMock.open).toHaveBeenCalled();
+            let ngDialogConfig = ngDialogMock.open.calls.argsFor(0)[0];
+            expect(ngDialogConfig.resolve.task()).toEqual(task);
+            expect(ngDialogConfig.resolve.duration()).toBeGreaterThan(0.499);
+            expect(task.timerData).toBeUndefined();
+            done();
+        }, 500);
     });
 
     it('should create time entry', function () {
