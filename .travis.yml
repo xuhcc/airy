@@ -5,9 +5,12 @@ python:
 services:
   - postgresql
 install:
-  - pip install -r requirements-dev.txt
-  - cp airy/settings.py.example airy/settings.py
   - mkdir -p logs
+  - cp airy/settings.py.example airy/settings.py
+  - pip install -r requirements-dev.txt
+  - npm install
+  - npm run-script bower install
+  - "npm run-script grunt build:development"
 before_script:
   - psql -c "CREATE USER airy WITH password 'airy' CREATEDB;" -U postgres
 script:
@@ -15,3 +18,4 @@ script:
   - flake8 --max-complexity=10 airy
   - flake8 --max-complexity=8 alembic/env.py
   - py.test airy/tests
+  - "npm run-script grunt check:js check:css check:html"

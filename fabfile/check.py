@@ -3,17 +3,17 @@ from fabric.api import task, local, prefix
 
 @task
 def js():
-    local('npm run-script grunt jsonlint jshint jscs karma:phantomjs')
+    local('npm run-script grunt check:js')
 
 
 @task
 def css():
-    local('npm run-script grunt sasslint sass csslint')
+    local('npm run-script grunt check:css')
 
 
 @task
 def html():
-    local('npm run-script grunt htmlhint')
+    local('npm run-script grunt check:html')
 
 
 @task
@@ -35,8 +35,8 @@ def flask():
 
 @task(default=True)
 def all():
+    python()
+    flask()
     js()
     css()
     html()
-    python()
-    flask()

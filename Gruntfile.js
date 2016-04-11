@@ -255,4 +255,24 @@ module.exports = function (grunt) {
             'copy:appMisc',
         ]);
     });
+    grunt.registerTask('check:js', function () {
+        grunt.task.run([
+            'jsonlint',
+            'jshint',
+            'jscs',
+            'karma:phantomjs',
+        ]);
+    });
+    grunt.registerTask('check:css', function () {
+        grunt.task.run([
+            'sasslint',
+            'sass',
+            'csslint',
+        ]);
+    });
+    grunt.registerTask('check:html', function () {
+        grunt.task.run([
+            'htmlhint',
+        ]);
+    });
 };
