@@ -1,0 +1,12 @@
+vm:
+  memory: 512
+  cpus: 1
+  ports:
+    postgresql: 5432
+
+pillar:
+  postgresql:
+    user: airy
+    password: airy
+    createdb: true
+    database: airy

@@ -1,0 +1,3 @@
+base:
+  'airy-server':
+    - postgresql
