@@ -26,18 +26,18 @@ def venv(production=False):
 @task
 def frontend(production=False):
     if production:
-        env.run("npm install --production")
-        env.run("node_modules/bower/bin/bower install --production")
-        env.run("node_modules/grunt-cli/bin/grunt build:production")
+        env.run('npm install --production')
+        env.run('npm run-script bower install --production')
+        env.run('npm run-script grunt build:production')
     else:
-        env.run("npm install")
-        env.run("node_modules/bower/bin/bower install")
-        env.run("node_modules/grunt-cli/bin/grunt build:development")
+        env.run('npm install')
+        env.run('npm run-script bower install')
+        env.run('npm run-script grunt build:development')
 
 
 @task
 def watch():
-    env.run("node_modules/grunt-cli/bin/grunt watch")
+    env.run('npm run-script grunt watch')
 
 
 @task(default=True)

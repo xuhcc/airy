@@ -39,5 +39,9 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.23",
     "phantomjs-prebuilt": "^2.1.4"
+  },
+  "scripts": {
+    "grunt": "grunt",
+    "bower": "bower"
   }
 }
