@@ -1,0 +1,10 @@
+language: python
+python:
+  - "3.4"
+  - "3.5"
+install:
+  - pip install -r requirements-dev.txt
+script:
+  - flake8 --max-complexity=8 fabfile
+  - flake8 --max-complexity=10 airy
+  - flake8 --max-complexity=8 alembic/env.py
