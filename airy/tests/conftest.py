@@ -22,7 +22,6 @@ def app():
         drop_database(sqlalchemy_url)
     create_database(sqlalchemy_url)
     yield app
-    drop_database(sqlalchemy_url)
 
 
 @pytest.yield_fixture()
