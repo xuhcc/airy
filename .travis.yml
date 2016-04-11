@@ -9,7 +9,7 @@ install:
   - cp airy/settings.py.example airy/settings.py
   - mkdir -p logs
 before_script:
-  - psql -c "CREATE USER airy WITH password 'airy';" -U postgres
+  - psql -c "CREATE USER airy WITH password 'airy' CREATEDB;" -U postgres
 script:
   - flake8 --max-complexity=8 fabfile
   - flake8 --max-complexity=10 airy
