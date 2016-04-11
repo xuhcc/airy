@@ -5,6 +5,7 @@ python:
 services:
   - postgresql
 before_install:
+  - export TZ=Europe/Moscow
   - nvm install 5.0
   - nvm use 5.0
 install:
