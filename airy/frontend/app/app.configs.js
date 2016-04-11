@@ -13,3 +13,7 @@ export function ngDialogConfig(ngDialogProvider) {
         className: 'popup',
     });
 }
+
+export function injectBreadcrumb($breadcrumb) {
+    // https://github.com/ncuillery/angular-breadcrumb/issues/112
+}

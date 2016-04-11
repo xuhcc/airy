@@ -1,5 +1,5 @@
 import routeConfig from 'app.routes.js';
-import {httpConfig, breadcrumbConfig, ngDialogConfig} from 'app.configs.js';
+import {httpConfig, breadcrumbConfig, ngDialogConfig, injectBreadcrumb} from 'app.configs.js';
 
 import 'common/error_handler/error_handler.module.js';
 import 'common/footer/footer.module.js';
@@ -53,6 +53,7 @@ angular
     .config(routeConfig)
     .config(httpConfig)
     .config(breadcrumbConfig)
-    .config(ngDialogConfig);
+    .config(ngDialogConfig)
+    .run(injectBreadcrumb);
 
 angular.bootstrap(document.documentElement, ['airy']);
