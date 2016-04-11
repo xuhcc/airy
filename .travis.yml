@@ -2,10 +2,15 @@ language: python
 python:
   - "3.4"
   - "3.5"
+services:
+  - postgresql
 install:
   - pip install -r requirements-dev.txt
   - cp airy/settings.py.example airy/settings.py
+before_script:
+  - psql -c "CREATE USER airy WITH password 'airy';" -U postgres
 script:
   - flake8 --max-complexity=8 fabfile
   - flake8 --max-complexity=10 airy
   - flake8 --max-complexity=8 alembic/env.py
+  - py.test airy/tests
