@@ -3,9 +3,9 @@ http_port = 8085
 
 db_host = 'localhost'
 db_port = 5432
-db_name = "db"
-db_username = "username"
-db_password = "password"
+db_name = "airy"
+db_username = "airy"
+db_password = "airy"
 
 debug = False
 secret_key = "1234567890"

@@ -4,6 +4,7 @@ python:
   - "3.5"
 install:
   - pip install -r requirements-dev.txt
+  - cp airy/settings.py.example airy/settings.py
 script:
   - flake8 --max-complexity=8 fabfile
   - flake8 --max-complexity=10 airy
