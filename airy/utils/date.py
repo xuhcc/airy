@@ -27,3 +27,7 @@ def is_day_end(dt):
     dt = arrow.get(dt)
     return (dt.replace(microsecond=0) ==
             dt.to(settings.timezone).ceil('day').replace(microsecond=0))
+
+
+def localize(dt):
+    return dt.astimezone(tz=timezone)

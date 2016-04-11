@@ -16,6 +16,7 @@ from airy.serializers import (
     TaskReportSerializer)
 from airy.exceptions import ClientError
 from airy.utils import email
+from airy.utils.date import localize
 
 
 class TimeSheet(object):
@@ -56,7 +57,7 @@ class TimeSheet(object):
 
             for row in group:
                 task_title = row[1].title
-                date = row[2].added_at.date()
+                date = localize(row[2].added_at).date()
                 duration = row[2].duration
                 daily_data[date]['tasks'].add(task_title)
                 daily_data[date]['total'] += duration

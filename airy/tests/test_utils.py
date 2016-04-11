@@ -37,6 +37,12 @@ class TestDateUtils():
         dt_str = '2015-04-19T23:59:59+00:00'
         assert not date.is_day_end(dt_str)
 
+    def test_localize(self):
+        dt = datetime.datetime(2016, 4, 11, 12, 12, 0,
+                               tzinfo=datetime.timezone.utc)
+        dt_loc = date.localize(dt)
+        assert dt_loc.utcoffset() == date.tz_now().utcoffset()
+
 
 class TestEmailUtils():
 

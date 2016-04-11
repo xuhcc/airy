@@ -42,6 +42,15 @@ class TestDateRangeSerializer():
         assert 'beg' in errors
         assert 'end' in errors
 
+    def test_with_factory(self):
+        serializer = DateRangeSerializer()
+        data = DateRangeFactory.create()
+        date_range, errors = serializer.load(data)
+        assert date_range[0].utcoffset() == tz_now().utcoffset()
+        assert date_range[1].utcoffset() == tz_now().utcoffset()
+        delta = date_range[1] - date_range[0]
+        assert delta.total_seconds() == 3600 * 24 * 7 - 0.000001
+
 
 @pytest.mark.usefixtures('db_class')
 class TestTimeSheet(object):
