@@ -28,7 +28,7 @@
     "grunt-jscs": "^2.4.0",
     "grunt-jsonlint": "^1.0.6",
     "grunt-karma": "^0.12.1",
-    "grunt-sass-lint": "0.1.0-beta.4",
+    "grunt-sass-lint": "^0.2.0",
     "isparta": "^4.0.0",
     "jasmine": "^2.4.1",
     "karma": "^0.13.15",
@@ -38,7 +38,8 @@
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.23",
-    "phantomjs-prebuilt": "^2.1.4"
+    "phantomjs-prebuilt": "^2.1.4",
+    "sass-lint": "^1.8.0"
   },
   "scripts": {
     "grunt": "grunt",

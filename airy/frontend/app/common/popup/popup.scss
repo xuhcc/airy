@@ -19,7 +19,7 @@
         top: 0;
     }
 
-    .ngdialog-close:before {
+    .ngdialog-close::before {
         background: transparent;
         border-radius: 3px;
         color: #BBB;
@@ -34,8 +34,8 @@
         width: 30px;
     }
 
-    .ngdialog-close:hover:before,
-    .ngdialog-close:active:before {
+    .ngdialog-close:hover::before,
+    .ngdialog-close:active::before {
         color: #777;
     }
 
