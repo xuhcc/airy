@@ -27,10 +27,12 @@ def venv(production=False):
 def frontend(production=False):
     if production:
         env.run('npm install --production')
+        env.run('npm rebuild node-sass')
         env.run('npm run-script bower install --production')
         env.run('npm run-script grunt build:production')
     else:
         env.run('npm install')
+        env.run('npm rebuild node-sass')
         env.run('npm run-script bower install')
         env.run('npm run-script grunt build:development')
 
