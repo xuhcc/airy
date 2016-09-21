@@ -14,8 +14,8 @@
     "grunt-babel": "^6.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-cssmin": "^0.14.0",
-    "grunt-contrib-uglify": "^0.11.0",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-uglify": "^2.0.0",
     "grunt-sass": "^1.2.1",
     "grunt-systemjs-builder": "^0.2.5",
     "node-sass": "^3.10.0"
