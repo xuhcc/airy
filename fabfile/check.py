@@ -3,17 +3,17 @@ from fabric.api import task, local, prefix
 
 @task
 def js():
-    local('npm run-script grunt check:js')
+    local('npm run grunt check:js --silent')
 
 
 @task
 def css():
-    local('npm run-script grunt check:css')
+    local('npm run grunt check:css --silent')
 
 
 @task
 def html():
-    local('npm run-script grunt check:html')
+    local('npm run grunt check:html --silent')
 
 
 @task
