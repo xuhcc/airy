@@ -26,7 +26,7 @@ module.exports = function (config) {
                 sourceMap: 'inline',
             },
         },
-        reporters: ['spec', 'coverage'],
+        reporters: ['mocha', 'coverage'],
         coverageReporter: {
             type: 'text-summary',
         },
