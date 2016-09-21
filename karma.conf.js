@@ -1,6 +1,8 @@
 module.exports = function (config) {
     'use strict';
 
+    process.env.NODE_ENV = 'test';
+
     let paths = require('./airy/frontend/index.json');
 
     let files = [
@@ -12,7 +14,7 @@ module.exports = function (config) {
     ];
 
     let preprocessors = {};
-    preprocessors[paths.app.es] = ['babel', 'coverage'];
+    preprocessors[paths.app.es] = ['babel'];
     preprocessors[paths.specs] = ['babel'];
 
     config.set({
