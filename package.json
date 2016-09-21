@@ -17,9 +17,9 @@
     "grunt-contrib-copy": "^0.7.0",
     "grunt-contrib-cssmin": "^0.14.0",
     "grunt-contrib-uglify": "^0.11.0",
-    "grunt-sass": "^1.1.0",
+    "grunt-sass": "^1.2.1",
     "grunt-systemjs-builder": "^0.2.5",
-    "node-sass": "^3.8.0"
+    "node-sass": "^3.10.0"
   },
   "devDependencies": {
     "grunt-contrib-csslint": "^0.5.0",
@@ -40,7 +40,7 @@
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-spec-reporter": "0.0.23",
     "phantomjs-prebuilt": "^2.1.4",
-    "sass-lint": "^1.8.0"
+    "sass-lint": "^1.9.1"
   },
   "scripts": {
     "grunt": "grunt",
