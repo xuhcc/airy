@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 5432, host: settings['vm']['ports']['postgresql']
 
   config.vm.provider "virtualbox" do |vb|
-    vb.name = "Airy Server"
+    vb.name = "Airy VM"
     vb.memory = settings['vm']['memory']
     vb.cpus = settings['vm']['cpus']
   end
