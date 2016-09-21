@@ -30,7 +30,7 @@
     "grunt-karma": "^0.12.1",
     "grunt-sass-lint": "^0.2.0",
     "isparta": "^4.0.0",
-    "jasmine": "^2.4.1",
+    "jasmine": "^2.5.2",
     "karma": "^0.13.15",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chrome-launcher": "^0.2.2",
