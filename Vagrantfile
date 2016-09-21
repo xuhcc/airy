@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   settings = YAML::load_file("vagrant/default_settings.yml")
   begin
-    settings.merge!(YAML::load_file("vagrant/settings.yml"))
+    settings.deep_merge!(YAML::load_file("vagrant/settings.yml"))
   rescue Errno::ENOENT
   end
 
@@ -20,7 +20,7 @@ Vagrant.configure("2") do |config|
     vb.cpus = settings['vm']['cpus']
   end
 
-  config.vm.synced_folder "vagrant/salt/roots/", "/srv/"
+  config.vm.synced_folder "vagrant/salt/states/", "/srv/salt/"
 
   config.vm.provision :salt do |salt|
     salt.masterless = true
