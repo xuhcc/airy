@@ -11,7 +11,7 @@ def venv(production=False):
     with settings(warn_only=True):
         test_command = "test requirements.txt -ot venv/bin/activate"
         if not production:
-            test_command += " -a requirements-dev.txt -ot venv/bin/activate"
+            test_command += ' -a requirements_dev.txt -ot venv/bin/activate'
         result = env.run(test_command)
     if result.failed:
         env.run("virtualenv venv")
@@ -19,7 +19,7 @@ def venv(production=False):
             if production:
                 env.run("pip install -q -r requirements.txt --upgrade")
             else:
-                env.run("pip install -r requirements-dev.txt --upgrade")
+                env.run('pip install -r requirements_dev.txt --upgrade')
         env.run("touch venv/bin/activate")
 
 
