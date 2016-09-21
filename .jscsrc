@@ -1,13 +1,15 @@
 {
-    "preset": "yandex",
-    "disallowMultipleLineStrings": null,
-    "requireTrailingComma": {
-        "ignoreSingleLine": true
-    },
+    "preset": "node-style-guide",
+    "disallowSpacesInFunction": null,
+    "maximumLineLength": 120,
+    "requireCamelCaseOrUpperCaseIdentifiers": false,
     "requireSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true,
         "beforeOpeningCurlyBrace": true,
         "allExcept": ["shorthand"]
     },
-    "esnext": true
+    "requireTrailingComma": {
+        "ignoreSingleLine": true
+    },
+    "validateIndentation": 4
 }
