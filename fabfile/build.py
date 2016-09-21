@@ -1,4 +1,4 @@
-from fabric.api import env, task, settings, prefix
+from fabric.api import env, task, settings, prefix, local
 
 
 @task
@@ -40,6 +40,12 @@ def frontend(production=False):
 @task
 def watch():
     env.run('npm run-script grunt watch')
+
+
+@task
+def clean():
+    local("find . -name '*.pyc' -delete")
+    local('npm run-script grunt clean')
 
 
 @task(default=True)
