@@ -50,23 +50,23 @@ describe('Time entry update', function () {
 
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
-        buildCtrl();
-        expect(scope.timeEntry).toEqual(timeEntry);
-        expect(scope.formTitle).toBe('Time entry #33');
-        expect(scope.duration.hours).toBe(0);
-        expect(scope.duration.minutes).toBe(10);
-        expect(scope.submitForm).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.timeEntry).toEqual(timeEntry);
+        expect(ctrl.formTitle).toBe('Time entry #33');
+        expect(ctrl.duration.hours).toBe(0);
+        expect(ctrl.duration.minutes).toBe(10);
+        expect(ctrl.submitForm).toBeDefined();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should update time entry', function () {
         timeEntry.duration = 3600;
-        buildCtrl();
-        scope.duration.increment();
+        let ctrl = buildCtrl();
+        ctrl.duration.increment();
         spyOn(timeEntryResourceMock, 'update').and.callThrough();
         spyOn(airyUserMock, 'reload').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();
-        scope.submitForm();
+        ctrl.submitForm();
         expect(timeEntryResourceMock.update).toHaveBeenCalled();
         let args = timeEntryResourceMock.update.calls.argsFor(0);
         expect(args[0].duration).toBe(5400);

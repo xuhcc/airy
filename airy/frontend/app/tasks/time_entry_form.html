@@ -1,10 +1,10 @@
 <form class="time-entry-form pure-form pure-form-stacked" name="form" autocomplete="off" novalidate>
     <fieldset>
-        <legend>{{ formTitle }}</legend>
-        <input type="number" min="0" max="99" name="hours" placeholder="Hours" ng-model="duration.hours"><!--
-        --><input type="number" min="0" max="59" name="minutes" placeholder="Minutes" ng-model="duration.minutes" auto-focus><!--
-        --><button class="pure-button amount-increment" ng-click="duration.increment()">+30</button>
-        <textarea name="comment" placeholder="Comment" ng-model="timeEntry.comment" msd-elastic="\n"></textarea>
-        <button type="submit" class="pure-button pure-button-primary" ng-click="submitForm()" ng-disabled="form.$invalid">Save</button>
+        <legend>{{ ctrl.formTitle }}</legend>
+        <input type="number" min="0" max="99" name="hours" placeholder="Hours" ng-model="ctrl.duration.hours"><!--
+        --><input type="number" min="0" max="59" name="minutes" placeholder="Minutes" ng-model="ctrl.duration.minutes" auto-focus><!--
+        --><button class="pure-button amount-increment" ng-click="ctrl.duration.increment()">+30</button>
+        <textarea name="comment" placeholder="Comment" ng-model="ctrl.timeEntry.comment" msd-elastic="\n"></textarea>
+        <button type="submit" class="pure-button pure-button-primary" ng-click="ctrl.submitForm()" ng-disabled="form.$invalid">Save</button>
     </fieldset>
 </form>

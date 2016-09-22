@@ -1,26 +1,35 @@
-function TimeEntryUpdateController($scope, hotkeys, timeEntryResource, airyUser, TimeEntryDuration, task, timeEntry) {
-    $scope.timeEntry = angular.copy(timeEntry);
-    $scope.duration = new TimeEntryDuration($scope.timeEntry.duration);
-    $scope.formTitle = 'Time entry #' + $scope.timeEntry.id;
-    $scope.submitForm = updateTimeEntry;
+class TimeEntryUpdateController {
 
-    hotkeys.bindTo($scope).add({
-        combo: 'ctrl+enter',
-        callback: (event) => {
-            event.preventDefault();
-            $scope.submitForm();
-        },
-        allowIn: ['input', 'textarea'],
-    });
+    constructor($scope, hotkeys, timeEntryResource, airyUser, TimeEntryDuration, task, timeEntry) {
+        this.scope = $scope;
+        this.timeEntryResource = timeEntryResource;
+        this.airyUser = airyUser;
+        this.task = task;
+        this.originalTimeEntry = timeEntry;
 
-    function updateTimeEntry() {
-        $scope.timeEntry.duration = $scope.duration.toSeconds();
-        timeEntryResource.update($scope.timeEntry).success(function (data) {
-            task.timeEntriesVisible = true;
-            task.total_time = data.time_entry.task_total_time;
-            angular.extend(timeEntry, data.time_entry);
-            airyUser.reload();
-            $scope.closeThisDialog();
+        this.timeEntry = angular.copy(this.originalTimeEntry);
+        this.duration = new TimeEntryDuration(this.timeEntry.duration);
+        this.formTitle = 'Time entry #' + this.timeEntry.id;
+        this.submitForm = this.updateTimeEntry;
+
+        hotkeys.bindTo(this.scope).add({
+            combo: 'ctrl+enter',
+            callback: (event) => {
+                event.preventDefault();
+                this.submitForm();
+            },
+            allowIn: ['input', 'textarea'],
+        });
+    }
+
+    updateTimeEntry() {
+        this.timeEntry.duration = this.duration.toSeconds();
+        this.timeEntryResource.update(this.timeEntry).success((data) => {
+            this.task.timeEntriesVisible = true;
+            this.task.total_time = data.time_entry.task_total_time;
+            angular.extend(this.originalTimeEntry, data.time_entry);
+            this.airyUser.reload();
+            this.scope.closeThisDialog();
         });
     }
 }

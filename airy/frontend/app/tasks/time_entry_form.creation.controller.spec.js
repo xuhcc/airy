@@ -56,23 +56,23 @@ describe('Time entry creation', function () {
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
         duration = 4680;
-        buildCtrl();
-        expect(scope.formTitle).toBe('New time entry');
-        expect(scope.timeEntry.task_id).toEqual(task.id);
-        expect(scope.duration.hours).toBe(1);
-        expect(scope.duration.minutes).toBe(18);
-        expect(scope.submitForm).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.formTitle).toBe('New time entry');
+        expect(ctrl.timeEntry.task_id).toEqual(task.id);
+        expect(ctrl.duration.hours).toBe(1);
+        expect(ctrl.duration.minutes).toBe(18);
+        expect(ctrl.submitForm).toBeDefined();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should create time entry', function () {
-        buildCtrl();
-        scope.duration.hours = 1;
-        scope.duration.minutes = 30;
+        let ctrl = buildCtrl();
+        ctrl.duration.hours = 1;
+        ctrl.duration.minutes = 30;
         spyOn(timeEntryResourceMock, 'create').and.callThrough();
         spyOn(airyUserMock, 'reload').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();
-        scope.submitForm();
+        ctrl.submitForm();
         expect(timeEntryResourceMock.create).toHaveBeenCalled();
         let args = timeEntryResourceMock.create.calls.argsFor(0);
         expect(args[0].duration).toBe(5400);
@@ -80,7 +80,7 @@ describe('Time entry creation', function () {
         expect(task.timeEntriesVisible).toBe(true);
         expect(task.total_time).toBe(5400);
         expect(task.time_entries.length).toBe(2);
-        expect(task.time_entries[1]).toEqual(scope.timeEntry);
+        expect(task.time_entries[1]).toEqual(ctrl.timeEntry);
         expect(airyUserMock.reload).toHaveBeenCalled();
         expect(scope.closeThisDialog).toHaveBeenCalled();
     });

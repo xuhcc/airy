@@ -102,6 +102,7 @@ function ProjectDetailController($stateParams, $scope, $rootScope, $interval, ng
         ngDialog.open({
             template: 'static/partials/time_entry_form.html',
             controller: 'TimeEntryCreationController',
+            controllerAs: 'ctrl',
             resolve: {
                 task: function () {
                     return task;
@@ -117,6 +118,7 @@ function ProjectDetailController($stateParams, $scope, $rootScope, $interval, ng
         ngDialog.open({
             template: 'static/partials/time_entry_form.html',
             controller: 'TimeEntryUpdateController',
+            controllerAs: 'ctrl',
             resolve: {
                 task: function () {
                     return task;
