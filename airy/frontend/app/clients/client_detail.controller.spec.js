@@ -10,7 +10,11 @@ describe('Client detail', function () {
         open: (config) => {},
     };
     let hotkeysMock = {
-        add: (config) => {},
+        bindTo: () => {
+            return {
+                add: () => {},
+            };
+        },
     };
     let airyPopupMock = {
         confirm: function (message, confirmCallback) {
@@ -50,8 +54,8 @@ describe('Client detail', function () {
         };
         buildCtrl = function () {
             return $controller('ClientDetailController as ctrl', {
-                $scope: scope,
                 $stateParams: {clientId: 1},
+                $scope: scope,
                 $rootScope: rootScope,
                 ngDialog: ngDialogMock,
                 hotkeys: hotkeysMock,
@@ -63,8 +67,10 @@ describe('Client detail', function () {
     }));
 
     it('should load controller', function () {
+        spyOn(hotkeysMock, 'bindTo').and.callThrough();
         spyOn(clientResourceMock, 'get').and.callThrough();
         let ctrl = buildCtrl();
+        expect(hotkeysMock.bindTo).toHaveBeenCalled();
         expect(clientResourceMock.get).toHaveBeenCalled();
         expect(rootScope.title).toEqual(client.name);
         expect(ctrl.client).toEqual(client);

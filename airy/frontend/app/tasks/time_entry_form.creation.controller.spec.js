@@ -7,6 +7,14 @@ describe('Time entry creation', function () {
     let task;
     let duration;
     let buildCtrl;
+
+    let hotkeysMock = {
+        bindTo: () => {
+            return {
+                add: () => {},
+            };
+        },
+    };
     let timeEntryResourceMock = {
         create: function (timeEntry) {
             return {
@@ -35,6 +43,7 @@ describe('Time entry creation', function () {
         buildCtrl = function () {
             return $controller('TimeEntryCreationController', {
                 $scope: scope,
+                hotkeys: hotkeysMock,
                 timeEntryResource: timeEntryResourceMock,
                 airyUser: airyUserMock,
                 TimeEntryDuration: _TimeEntryDuration_,
@@ -45,6 +54,7 @@ describe('Time entry creation', function () {
     }));
 
     it('should load controller', function () {
+        spyOn(hotkeysMock, 'bindTo').and.callThrough();
         duration = 4680;
         buildCtrl();
         expect(scope.formTitle).toBe('New time entry');
@@ -52,6 +62,7 @@ describe('Time entry creation', function () {
         expect(scope.duration.hours).toBe(1);
         expect(scope.duration.minutes).toBe(18);
         expect(scope.submitForm).toBeDefined();
+        expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should create time entry', function () {

@@ -1,8 +1,17 @@
-function TimeEntryCreationController($scope, timeEntryResource, airyUser, TimeEntryDuration, task, duration) {
+function TimeEntryCreationController($scope, hotkeys, timeEntryResource, airyUser, TimeEntryDuration, task, duration) {
     $scope.timeEntry = {task_id: task.id};
     $scope.duration = new TimeEntryDuration(duration || 0);
     $scope.formTitle = 'New time entry';
     $scope.submitForm = createTimeEntry;
+
+    hotkeys.bindTo($scope).add({
+        combo: 'ctrl+enter',
+        callback: (event) => {
+            event.preventDefault();
+            $scope.submitForm();
+        },
+        allowIn: ['input', 'textarea'],
+    });
 
     function createTimeEntry() {
         $scope.timeEntry.duration = $scope.duration.toSeconds();

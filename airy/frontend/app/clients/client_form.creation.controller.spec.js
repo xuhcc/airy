@@ -4,8 +4,16 @@ describe('Client creation', function () {
     'use strict';
 
     let scope;
-    let ctrl;
+    let buildCtrl;
     let clients;
+
+    let hotkeysMock = {
+        bindTo: () => {
+            return {
+                add: () => {},
+            };
+        },
+    };
     let clientResourceMock = {
         create: function (client) {
             return {
@@ -23,20 +31,25 @@ describe('Client creation', function () {
         clients = [
             {id: 1},
         ];
-        ctrl = $controller('ClientCreationController', {
+        buildCtrl = () => $controller('ClientCreationController', {
             $scope: scope,
+            hotkeys: hotkeysMock,
             clientResource: clientResourceMock,
             clients: clients,
         });
     }));
 
     it('should load controller', function () {
+        spyOn(hotkeysMock, 'bindTo').and.callThrough();
+        buildCtrl();
         expect(scope.client).toEqual({});
         expect(scope.formTitle).toEqual('New client');
         expect(scope.submitForm).toBeDefined();
+        expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should create client', function () {
+        buildCtrl();
         scope.client = {name: 'test'};
         spyOn(clientResourceMock, 'create').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();

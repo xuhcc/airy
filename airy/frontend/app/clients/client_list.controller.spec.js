@@ -11,7 +11,11 @@ describe('Client list', function () {
         open: function (config) {},
     };
     let hotkeysMock = {
-        add: function (config) {},
+        bindTo: () => {
+            return {
+                add: () => {},
+            };
+        },
     };
     let airyPopupMock = {
         confirm: function (message, confirmCallback) {
@@ -56,8 +60,10 @@ describe('Client list', function () {
     }));
 
     it('should load controller', function () {
+        spyOn(hotkeysMock, 'bindTo').and.callThrough();
         spyOn(clientResourceMock, 'list').and.callThrough();
         let ctrl = buildCtrl();
+        expect(hotkeysMock.bindTo).toHaveBeenCalled();
         expect(clientResourceMock.list).toHaveBeenCalled();
         expect(rootScope.title).toEqual('Clients');
         expect(ctrl.clients).toEqual(clients);

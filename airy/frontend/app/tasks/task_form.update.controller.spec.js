@@ -4,8 +4,16 @@ describe('Task update', function () {
     'use strict';
 
     let scope;
-    let ctrl;
+    let buildCtrl;
     let task;
+
+    let hotkeysMock = {
+        bindTo: () => {
+            return {
+                add: () => {},
+            };
+        },
+    };
     let taskResourceMock = {
         update: function (task) {
             return {
@@ -21,20 +29,25 @@ describe('Task update', function () {
         scope = $rootScope.$new();
         scope.closeThisDialog = function () {};
         task = {id: 5, project_id: 1, name: 't5'};
-        ctrl = $controller('TaskUpdateController', {
+        buildCtrl = () => $controller('TaskUpdateController', {
             $scope: scope,
+            hotkeys: hotkeysMock,
             taskResource: taskResourceMock,
             task: task,
         });
     }));
 
     it('should load controller', function () {
+        spyOn(hotkeysMock, 'bindTo').and.callThrough();
+        buildCtrl();
         expect(scope.task).toEqual(task);
         expect(scope.formTitle).toEqual('Task #5');
         expect(scope.submitForm).toBeDefined();
+        expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should update task', function () {
+        buildCtrl();
         scope.task.title = 'new';
         spyOn(taskResourceMock, 'update').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();

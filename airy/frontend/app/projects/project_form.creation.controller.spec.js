@@ -4,8 +4,16 @@ describe('Project creation', function () {
     'use strict';
 
     let scope;
-    let ctrl;
+    let buildCtrl;
     let client;
+
+    let hotkeysMock = {
+        bindTo: () => {
+            return {
+                add: () => {},
+            };
+        },
+    };
     let projectResourceMock = {
         create: function (project) {
             return {
@@ -26,20 +34,25 @@ describe('Project creation', function () {
                 {name: 'p1'},
             ],
         };
-        ctrl = $controller('ProjectCreationController', {
+        buildCtrl = () => $controller('ProjectCreationController', {
             $scope: scope,
+            hotkeys: hotkeysMock,
             projectResource: projectResourceMock,
             client: client,
         });
     }));
 
     it('should load controller', function () {
+        spyOn(hotkeysMock, 'bindTo').and.callThrough();
+        buildCtrl();
         expect(scope.project).toEqual({client_id: client.id});
         expect(scope.formTitle).toEqual('New project');
         expect(scope.submitForm).toBeDefined();
+        expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should create project', function () {
+        buildCtrl();
         scope.project.name = 'p2';
         spyOn(projectResourceMock, 'create').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();

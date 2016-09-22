@@ -1,8 +1,17 @@
-function TimeEntryUpdateController($scope, timeEntryResource, airyUser, TimeEntryDuration, task, timeEntry) {
+function TimeEntryUpdateController($scope, hotkeys, timeEntryResource, airyUser, TimeEntryDuration, task, timeEntry) {
     $scope.timeEntry = angular.copy(timeEntry);
     $scope.duration = new TimeEntryDuration($scope.timeEntry.duration);
     $scope.formTitle = 'Time entry #' + $scope.timeEntry.id;
     $scope.submitForm = updateTimeEntry;
+
+    hotkeys.bindTo($scope).add({
+        combo: 'ctrl+enter',
+        callback: (event) => {
+            event.preventDefault();
+            $scope.submitForm();
+        },
+        allowIn: ['input', 'textarea'],
+    });
 
     function updateTimeEntry() {
         $scope.timeEntry.duration = $scope.duration.toSeconds();

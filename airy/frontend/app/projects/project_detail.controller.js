@@ -1,4 +1,4 @@
-function ProjectDetailController($stateParams, $rootScope, $interval, ngDialog, hotkeys,
+function ProjectDetailController($stateParams, $scope, $rootScope, $interval, ngDialog, hotkeys,
                                  airyPopup, airyUser, projectResource, taskResource, timeEntryResource) {
     const self = this;
     self.client = {};
@@ -16,7 +16,7 @@ function ProjectDetailController($stateParams, $rootScope, $interval, ngDialog, 
 
     fetchProject();
 
-    hotkeys.add({
+    hotkeys.bindTo($scope).add({
         combo: 'alt+a',
         callback: function (event) {
             event.preventDefault();

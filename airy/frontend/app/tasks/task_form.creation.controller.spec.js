@@ -4,8 +4,16 @@ describe('Task creation', function () {
     'use strict';
 
     let scope;
-    let ctrl;
+    let buildCtrl;
     let project;
+
+    let hotkeysMock = {
+        bindTo: () => {
+            return {
+                add: () => {},
+            };
+        },
+    };
     let taskResourceMock = {
         create: function (task) {
             return {
@@ -29,8 +37,9 @@ describe('Task creation', function () {
                 {title: 't1'},
             ],
         };
-        ctrl = $controller('TaskCreationController', {
+        buildCtrl = () => $controller('TaskCreationController', {
             $scope: scope,
+            hotkeys: hotkeysMock,
             airyUser: airyUserMock,
             taskResource: taskResourceMock,
             project: project,
@@ -38,12 +47,16 @@ describe('Task creation', function () {
     }));
 
     it('should load controller', function () {
+        spyOn(hotkeysMock, 'bindTo').and.callThrough();
+        buildCtrl();
         expect(scope.task).toEqual({project_id: project.id});
         expect(scope.formTitle).toEqual('New task');
         expect(scope.submitForm).toBeDefined();
+        expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should create task', function () {
+        buildCtrl();
         scope.task.title = 't2';
         spyOn(taskResourceMock, 'create').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();

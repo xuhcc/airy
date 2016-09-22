@@ -11,7 +11,11 @@ describe('Project detail', function () {
         open: function (config) {},
     };
     let hotkeysMock = {
-        add: function (config) {},
+        bindTo: () => {
+            return {
+                add: () => {},
+            };
+        },
     };
     let airyPopupMock = {
         confirm: function (message, confirmCallback) {
@@ -73,8 +77,8 @@ describe('Project detail', function () {
         $interval = _$interval_;
         buildCtrl = function () {
             return $controller('ProjectDetailController as ctrl', {
-                $scope: scope,
                 $stateParams: {projectId: project.id, currentStatus: 'open'},
+                $scope: scope,
                 $rootScope: rootScope,
                 $interval: $interval,
                 ngDialog: ngDialogMock,
@@ -89,8 +93,10 @@ describe('Project detail', function () {
     }));
 
     it('should load controller', function () {
+        spyOn(hotkeysMock, 'bindTo').and.callThrough();
         spyOn(projectResourceMock, 'get').and.callThrough();
         let ctrl = buildCtrl();
+        expect(hotkeysMock.bindTo).toHaveBeenCalled();
         expect(projectResourceMock.get).toHaveBeenCalled();
         let callArgs = projectResourceMock.get.calls.argsFor(0);
         expect(callArgs[0]).toEqual(project.id);

@@ -1,4 +1,4 @@
-function ClientDetailController($stateParams, $rootScope, ngDialog,
+function ClientDetailController($stateParams, $scope, $rootScope, ngDialog,
                                 hotkeys, airyPopup, clientResource, projectResource) {
     const self = this;
     self.client = {};
@@ -8,7 +8,7 @@ function ClientDetailController($stateParams, $rootScope, ngDialog,
 
     fetchClient();
 
-    hotkeys.add({
+    hotkeys.bindTo($scope).add({
         combo: 'alt+a',
         callback: function (event) {
             event.preventDefault();

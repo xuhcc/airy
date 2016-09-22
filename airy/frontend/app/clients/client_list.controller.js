@@ -1,6 +1,6 @@
 class ClientListController {
 
-    constructor($rootScope, ngDialog, hotkeys, airyPopup, clientResource) {
+    constructor($scope, $rootScope, ngDialog, hotkeys, airyPopup, clientResource) {
         const self = this;
         self.clients = [];
         self.createClient = createClient;
@@ -11,7 +11,7 @@ class ClientListController {
 
         $rootScope.title = 'Clients';
 
-        hotkeys.add({
+        hotkeys.bindTo($scope).add({
             combo: 'alt+a',
             callback: (event) => {
                 event.preventDefault();
