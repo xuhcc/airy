@@ -41,23 +41,23 @@ describe('Client creation', function () {
 
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
-        buildCtrl();
-        expect(scope.client).toEqual({});
-        expect(scope.formTitle).toEqual('New client');
-        expect(scope.submitForm).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.client).toEqual({});
+        expect(ctrl.formTitle).toEqual('New client');
+        expect(ctrl.submitForm).toBeDefined();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should create client', function () {
-        buildCtrl();
-        scope.client = {name: 'test'};
+        let ctrl = buildCtrl();
+        ctrl.client = {name: 'test'};
         spyOn(clientResourceMock, 'create').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();
-        scope.submitForm();
+        ctrl.submitForm();
         expect(clientResourceMock.create).toHaveBeenCalled();
         let callArgs = clientResourceMock.create.calls.argsFor(0);
-        expect(callArgs[0].name).toBe(scope.client.name);
-        expect(clients[1].name).toBe(scope.client.name);
+        expect(callArgs[0].name).toBe(ctrl.client.name);
+        expect(clients[1].name).toBe(ctrl.client.name);
         expect(clients.length).toBe(2);
         expect(scope.closeThisDialog).toHaveBeenCalled();
     });

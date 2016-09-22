@@ -39,22 +39,22 @@ describe('Client update', function () {
 
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
-        buildCtrl();
-        expect(scope.client).toEqual(client);
-        expect(scope.formTitle).toEqual('Client #1');
-        expect(scope.submitForm).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.client).toEqual(client);
+        expect(ctrl.formTitle).toEqual('Client #1');
+        expect(ctrl.submitForm).toBeDefined();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should update client', function () {
-        buildCtrl();
-        scope.client.name = 'new';
+        let ctrl = buildCtrl();
+        ctrl.client.name = 'new';
         spyOn(clientResourceMock, 'update').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();
-        scope.submitForm();
+        ctrl.submitForm();
         expect(clientResourceMock.update).toHaveBeenCalled();
         let callArgs = clientResourceMock.update.calls.argsFor(0);
-        expect(callArgs[0].id).toBe(scope.client.id);
+        expect(callArgs[0].id).toBe(ctrl.client.id);
         expect(client.name).toBe('new');
         expect(scope.closeThisDialog).toHaveBeenCalled();
     });

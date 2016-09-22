@@ -1,21 +1,28 @@
-function ClientCreationController($scope, hotkeys, clientResource, clients) {
-    $scope.client = {};
-    $scope.formTitle = 'New client';
-    $scope.submitForm = createClient;
+class ClientCreationController {
 
-    hotkeys.bindTo($scope).add({
-        combo: 'ctrl+enter',
-        callback: (event) => {
-            event.preventDefault();
-            $scope.submitForm();
-        },
-        allowIn: ['input', 'textarea'],
-    });
+    constructor($scope, hotkeys, clientResource, clients) {
+        this.scope = $scope;
+        this.clientResource = clientResource;
+        this.clients = clients;
 
-    function createClient() {
-        clientResource.create($scope.client).success(function (data) {
-            clients.push(data.client);
-            $scope.closeThisDialog();
+        this.client = {};
+        this.formTitle = 'New client';
+        this.submitForm = this.createClient;
+
+        hotkeys.bindTo(this.scope).add({
+            combo: 'ctrl+enter',
+            callback: (event) => {
+                event.preventDefault();
+                this.submitForm();
+            },
+            allowIn: ['input', 'textarea'],
+        });
+    }
+
+    createClient() {
+        this.clientResource.create(this.client).success((data) => {
+            this.clients.push(data.client);
+            this.scope.closeThisDialog();
         });
     }
 }

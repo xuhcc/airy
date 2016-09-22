@@ -29,6 +29,7 @@ class ClientListController {
             ngDialog.open({
                 template: 'static/partials/client_form.html',
                 controller: 'ClientCreationController',
+                controllerAs: 'ctrl',
                 resolve: {
                     clients: () => self.clients,
                 },
@@ -39,6 +40,7 @@ class ClientListController {
             ngDialog.open({
                 template: 'static/partials/client_form.html',
                 controller: 'ClientUpdateController',
+                controllerAs: 'ctrl',
                 resolve: {
                     client: () => client,
                 },
