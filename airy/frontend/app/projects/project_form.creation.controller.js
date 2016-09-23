@@ -1,15 +1,15 @@
 class ProjectCreationController {
 
     constructor($scope, hotkeys, projectResource, client) {
-        this.scope = $scope;
-        this.projectResource = projectResource;
-        this.client = client;
+        this._scope = $scope;
+        this._projectResource = projectResource;
+        this._client = client;
 
-        this.project = {client_id: this.client.id};
+        this.project = {client_id: this._client.id};
         this.formTitle = 'New project';
         this.submitForm = this.createProject;
 
-        hotkeys.bindTo(this.scope).add({
+        hotkeys.bindTo(this._scope).add({
             combo: 'ctrl+enter',
             callback: (event) => {
                 event.preventDefault();
@@ -20,9 +20,9 @@ class ProjectCreationController {
     }
 
     createProject() {
-        this.projectResource.create(this.project).success((data) => {
-            this.client.projects.push(data.project);
-            this.scope.closeThisDialog();
+        this._projectResource.create(this.project).success((data) => {
+            this._client.projects.push(data.project);
+            this._scope.closeThisDialog();
         });
     }
 }

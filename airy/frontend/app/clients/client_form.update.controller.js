@@ -1,15 +1,15 @@
 class ClientUpdateController {
 
     constructor($scope, hotkeys, clientResource, client) {
-        this.scope = $scope;
-        this.clientResource = clientResource;
-        this.originalClient = client;
+        this._scope = $scope;
+        this._clientResource = clientResource;
+        this._originalClient = client;
 
-        this.client = angular.copy(this.originalClient);
+        this.client = angular.copy(this._originalClient);
         this.formTitle = 'Client #' + this.client.id;
         this.submitForm = this.updateClient;
 
-        hotkeys.bindTo(this.scope).add({
+        hotkeys.bindTo(this._scope).add({
             combo: 'ctrl+enter',
             callback: (event) => {
                 event.preventDefault();
@@ -20,9 +20,9 @@ class ClientUpdateController {
     }
 
     updateClient() {
-        this.clientResource.update(this.client).success((data) => {
-            angular.extend(this.originalClient, data.client);
-            this.scope.closeThisDialog();
+        this._clientResource.update(this.client).success((data) => {
+            angular.extend(this._originalClient, data.client);
+            this._scope.closeThisDialog();
         });
     }
 }

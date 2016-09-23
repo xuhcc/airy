@@ -1,15 +1,15 @@
 class TaskUpdateController {
 
     constructor($scope, hotkeys, taskResource, task) {
-        this.scope = $scope;
-        this.taskResource = taskResource;
-        this.originalTask = task;
+        this._scope = $scope;
+        this._taskResource = taskResource;
+        this._originalTask = task;
 
-        this.task = angular.copy(this.originalTask);
+        this.task = angular.copy(this._originalTask);
         this.formTitle = 'Task #' + this.task.id;
         this.submitForm = this.updateTask;
 
-        hotkeys.bindTo(this.scope).add({
+        hotkeys.bindTo(this._scope).add({
             combo: 'ctrl+enter',
             callback: (event) => {
                 event.preventDefault();
@@ -20,9 +20,9 @@ class TaskUpdateController {
     }
 
     updateTask() {
-        this.taskResource.update(this.task).success((data) => {
-            angular.extend(this.originalTask, data.task);
-            this.scope.closeThisDialog();
+        this._taskResource.update(this.task).success((data) => {
+            angular.extend(this._originalTask, data.task);
+            this._scope.closeThisDialog();
         });
     }
 }

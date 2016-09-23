@@ -1,15 +1,15 @@
 class ClientCreationController {
 
     constructor($scope, hotkeys, clientResource, clients) {
-        this.scope = $scope;
-        this.clientResource = clientResource;
-        this.clients = clients;
+        this._scope = $scope;
+        this._clientResource = clientResource;
+        this._clients = clients;
 
         this.client = {};
         this.formTitle = 'New client';
         this.submitForm = this.createClient;
 
-        hotkeys.bindTo(this.scope).add({
+        hotkeys.bindTo(this._scope).add({
             combo: 'ctrl+enter',
             callback: (event) => {
                 event.preventDefault();
@@ -20,9 +20,9 @@ class ClientCreationController {
     }
 
     createClient() {
-        this.clientResource.create(this.client).success((data) => {
-            this.clients.push(data.client);
-            this.scope.closeThisDialog();
+        this._clientResource.create(this.client).success((data) => {
+            this._clients.push(data.client);
+            this._scope.closeThisDialog();
         });
     }
 }

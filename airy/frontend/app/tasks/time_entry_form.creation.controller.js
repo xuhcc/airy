@@ -1,17 +1,17 @@
 class TimeEntryCreationController {
 
     constructor($scope, hotkeys, timeEntryResource, airyUser, TimeEntryDuration, task, duration) {
-        this.scope = $scope;
-        this.timeEntryResource = timeEntryResource;
-        this.airyUser = airyUser;
-        this.task = task;
+        this._scope = $scope;
+        this._timeEntryResource = timeEntryResource;
+        this._airyUser = airyUser;
+        this._task = task;
 
-        this.timeEntry = {task_id: this.task.id};
+        this.timeEntry = {task_id: this._task.id};
         this.duration = new TimeEntryDuration(duration || 0);
         this.formTitle = 'New time entry';
         this.submitForm = this.createTimeEntry;
 
-        hotkeys.bindTo(this.scope).add({
+        hotkeys.bindTo(this._scope).add({
             combo: 'ctrl+enter',
             callback: (event) => {
                 event.preventDefault();
@@ -23,12 +23,12 @@ class TimeEntryCreationController {
 
     createTimeEntry() {
         this.timeEntry.duration = this.duration.toSeconds();
-        this.timeEntryResource.create(this.timeEntry).success((data) => {
-            this.task.timeEntriesVisible = true;
-            this.task.total_time = data.time_entry.task_total_time;
-            this.task.time_entries.push(data.time_entry);
-            this.airyUser.reload();
-            this.scope.closeThisDialog();
+        this._timeEntryResource.create(this.timeEntry).success((data) => {
+            this._task.timeEntriesVisible = true;
+            this._task.total_time = data.time_entry.task_total_time;
+            this._task.time_entries.push(data.time_entry);
+            this._airyUser.reload();
+            this._scope.closeThisDialog();
         });
     }
 }
