@@ -39,23 +39,23 @@ describe('Task update', function () {
 
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
-        buildCtrl();
-        expect(scope.task).toEqual(task);
-        expect(scope.formTitle).toEqual('Task #5');
-        expect(scope.submitForm).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.task).toEqual(task);
+        expect(ctrl.formTitle).toEqual('Task #5');
+        expect(ctrl.submitForm).toBeDefined();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should update task', function () {
-        buildCtrl();
-        scope.task.title = 'new';
+        let ctrl = buildCtrl();
+        ctrl.task.title = 'new';
         spyOn(taskResourceMock, 'update').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();
-        scope.submitForm();
+        ctrl.submitForm();
         expect(taskResourceMock.update).toHaveBeenCalled();
         let callArgs = taskResourceMock.update.calls.argsFor(0);
-        expect(callArgs[0].id).toBe(scope.task.id);
-        expect(callArgs[0].project_id).toBe(scope.task.project_id);
+        expect(callArgs[0].id).toBe(ctrl.task.id);
+        expect(callArgs[0].project_id).toBe(ctrl.task.project_id);
         expect(task.title).toBe('new');
         expect(scope.closeThisDialog).toHaveBeenCalled();
     });

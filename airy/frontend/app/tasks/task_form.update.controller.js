@@ -1,21 +1,28 @@
-function TaskUpdateController($scope, hotkeys, taskResource, task) {
-    $scope.task = angular.copy(task);
-    $scope.formTitle = 'Task #' + $scope.task.id;
-    $scope.submitForm = updateTask;
+class TaskUpdateController {
 
-    hotkeys.bindTo($scope).add({
-        combo: 'ctrl+enter',
-        callback: (event) => {
-            event.preventDefault();
-            $scope.submitForm();
-        },
-        allowIn: ['input', 'textarea'],
-    });
+    constructor($scope, hotkeys, taskResource, task) {
+        this.scope = $scope;
+        this.taskResource = taskResource;
+        this.originalTask = task;
 
-    function updateTask() {
-        taskResource.update($scope.task).success(function (data) {
-            angular.extend(task, data.task);
-            $scope.closeThisDialog();
+        this.task = angular.copy(this.originalTask);
+        this.formTitle = 'Task #' + this.task.id;
+        this.submitForm = this.updateTask;
+
+        hotkeys.bindTo(this.scope).add({
+            combo: 'ctrl+enter',
+            callback: (event) => {
+                event.preventDefault();
+                this.submitForm();
+            },
+            allowIn: ['input', 'textarea'],
+        });
+    }
+
+    updateTask() {
+        this.taskResource.update(this.task).success((data) => {
+            angular.extend(this.originalTask, data.task);
+            this.scope.closeThisDialog();
         });
     }
 }
