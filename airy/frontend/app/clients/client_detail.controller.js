@@ -1,58 +1,60 @@
-function ClientDetailController($stateParams, $scope, $rootScope, ngDialog,
-                                hotkeys, airyPopup, clientResource, projectResource) {
-    const self = this;
-    self.client = {};
-    self.createProject = createProject;
-    self.updateProject = updateProject;
-    self.deleteProject = deleteProject;
+class ClientDetailController {
 
-    fetchClient();
+    constructor($stateParams, $scope, $rootScope, ngDialog,
+                hotkeys, airyPopup, clientResource, projectResource) {
+        this._stateParams = $stateParams;
+        this._rootScope = $rootScope;
+        this._ngDialog = ngDialog;
+        this._airyPopup = airyPopup;
+        this._clientResource = clientResource;
+        this._projectResource = projectResource;
 
-    hotkeys.bindTo($scope).add({
-        combo: 'alt+a',
-        callback: function (event) {
-            event.preventDefault();
-            createProject();
-        },
-    });
+        this.client = {};
 
-    function fetchClient() {
-        clientResource.get($stateParams.clientId).success(function (data) {
-            $rootScope.title = data.client.name;
-            self.client = data.client;
+        this.fetchClient();
+
+        hotkeys.bindTo($scope).add({
+            combo: 'alt+a',
+            callback: (event) => {
+                event.preventDefault();
+                this.createProject();
+            },
         });
     }
 
-    function createProject() {
-        ngDialog.open({
+    fetchClient() {
+        this._clientResource.get(this._stateParams.clientId).success((data) => {
+            this._rootScope.title = data.client.name;
+            this.client = data.client;
+        });
+    }
+
+    createProject() {
+        this._ngDialog.open({
             template: 'static/partials/project_form.html',
             controller: 'ProjectCreationController',
             controllerAs: 'ctrl',
             resolve: {
-                client: function () {
-                    return self.client;
-                },
+                client: () => this.client,
             },
         });
     }
 
-    function updateProject(project) {
-        ngDialog.open({
+    updateProject(project) {
+        this._ngDialog.open({
             template: 'static/partials/project_form.html',
             controller: 'ProjectUpdateController',
             controllerAs: 'ctrl',
             resolve: {
-                project: function () {
-                    return project;
-                },
+                project: () => project,
             },
         });
     }
 
-    function deleteProject(project) {
-        airyPopup.confirm('Delete project?', function () {
-            projectResource.delete(project).success(function (data) {
-                fetchClient();
+    deleteProject(project) {
+        this._airyPopup.confirm('Delete project?', () => {
+            this._projectResource.delete(project).success((data) => {
+                this.fetchClient();
             });
         });
     }

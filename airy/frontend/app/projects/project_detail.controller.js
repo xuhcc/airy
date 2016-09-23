@@ -1,143 +1,135 @@
-function ProjectDetailController($stateParams, $scope, $rootScope, $interval, ngDialog, hotkeys,
-                                 airyPopup, airyUser, projectResource, taskResource, timeEntryResource) {
-    const self = this;
-    self.client = {};
-    self.project = {};
-    self.currentStatus = 'open';
-    self.filterByStatus = filterByStatus;
-    self.createTask = createTask;
-    self.updateTask = updateTask;
-    self.deleteTask = deleteTask;
-    self.toggleStatus = toggleStatus;
-    self.toggleTimer = toggleTimer;
-    self.createTimeEntry = createTimeEntry;
-    self.updateTimeEntry = updateTimeEntry;
-    self.deleteTimeEntry = deleteTimeEntry;
+class ProjectDetailController {
 
-    fetchProject();
+    constructor($stateParams, $scope, $rootScope, $interval, ngDialog, hotkeys,
+                airyPopup, airyUser, projectResource, taskResource, timeEntryResource) {
+        this._stateParams = $stateParams;
+        this._rootScope = $rootScope;
+        this._interval = $interval;
+        this._ngDialog = ngDialog;
+        this._airyPopup = airyPopup;
+        this._airyUser = airyUser;
+        this._projectResource = projectResource;
+        this._taskResource = taskResource;
+        this._timeEntryResource = timeEntryResource;
 
-    hotkeys.bindTo($scope).add({
-        combo: 'alt+a',
-        callback: function (event) {
-            event.preventDefault();
-            createTask();
-        },
-    });
+        this.client = {};
+        this.project = {};
+        this.currentStatus = 'open';
 
-    function fetchProject() {
-        projectResource.get($stateParams.projectId, self.currentStatus)
-            .success(function (data) {
-                $rootScope.title = data.project.name;
-                self.project = data.project;
-                self.client = data.project.client;
+        this.fetchProject();
+
+        hotkeys.bindTo($scope).add({
+            combo: 'alt+a',
+            callback: (event) => {
+                event.preventDefault();
+                this.createTask();
+            },
+        });
+    }
+
+    fetchProject() {
+        this._projectResource
+            .get(this._stateParams.projectId, this.currentStatus)
+            .success((data) => {
+                this._rootScope.title = data.project.name;
+                this.project = data.project;
+                this.client = data.project.client;
             });
     }
 
-    function filterByStatus(status) {
-        self.currentStatus = status;
-        fetchProject();
+    filterByStatus(status) {
+        this.currentStatus = status;
+        this.fetchProject();
     }
 
-    function createTask() {
-        ngDialog.open({
+    createTask() {
+        this._ngDialog.open({
             template: 'static/partials/task_form.html',
             controller: 'TaskCreationController',
             controllerAs: 'ctrl',
             className: 'popup task-form-popup',
             resolve: {
-                project: function () {
-                    return self.project;
-                },
+                project: () => this.project,
             },
         });
     }
 
-    function updateTask(task) {
-        ngDialog.open({
+    updateTask(task) {
+        this._ngDialog.open({
             template: 'static/partials/task_form.html',
             controller: 'TaskUpdateController',
             controllerAs: 'ctrl',
             className: 'popup task-form-popup',
             resolve: {
-                task: function () {
-                    return task;
-                },
+                task: () => task,
             },
         });
     }
 
-    function deleteTask(task) {
-        airyPopup.confirm('Delete task?', function () {
-            taskResource.delete(task).success(function (data) {
-                fetchProject();
-                airyUser.reload();
+    deleteTask(task) {
+        this._airyPopup.confirm('Delete task?', () => {
+            this._taskResource.delete(task).success((data) => {
+                this.fetchProject();
+                this._airyUser.reload();
             });
         });
     }
 
-    function toggleStatus(task) {
-        taskResource.toggleStatus(task).success(function (data) {
+    toggleStatus(task) {
+        this._taskResource.toggleStatus(task).success((data) => {
             angular.extend(task, data.task);
-            airyUser.reload();
+            this._airyUser.reload();
         });
     }
 
-    function toggleTimer(task) {
+    toggleTimer(task) {
         if (!task.timerData) {
             // Start timer
             task.timerData = {
                 start: moment(),
-                timer: $interval(function () {
+                timer: this._interval(() => {
                     task.timerData.duration = moment().diff(
                         moment(task.timerData.start), 'seconds', true);
                 }, 500),
             };
         } else {
             // Stop timer
-            $interval.cancel(task.timerData.timer);
-            createTimeEntry(task, task.timerData.duration);
+            this._interval.cancel(task.timerData.timer);
+            this.createTimeEntry(task, task.timerData.duration);
             delete task.timerData;
         }
     }
 
-    function createTimeEntry(task, duration) {
-        ngDialog.open({
+    createTimeEntry(task, duration) {
+        this._ngDialog.open({
             template: 'static/partials/time_entry_form.html',
             controller: 'TimeEntryCreationController',
             controllerAs: 'ctrl',
             resolve: {
-                task: function () {
-                    return task;
-                },
-                duration: function () {
-                    return duration;
-                },
+                task: () => task,
+                duration: () => duration,
             },
         });
     }
 
-    function updateTimeEntry(task, timeEntry) {
-        ngDialog.open({
+    updateTimeEntry(task, timeEntry) {
+        this._ngDialog.open({
             template: 'static/partials/time_entry_form.html',
             controller: 'TimeEntryUpdateController',
             controllerAs: 'ctrl',
             resolve: {
-                task: function () {
-                    return task;
-                },
-                timeEntry: function () {
-                    return timeEntry;
-                },
+                task: () => task,
+                timeEntry: () => timeEntry,
             },
         });
     }
 
-    function deleteTimeEntry(task, timeEntry) {
-        airyPopup.confirm('Delete time entry?', function () {
-            timeEntryResource.delete(timeEntry).success(function (data) {
+    deleteTimeEntry(task, timeEntry) {
+        this._airyPopup.confirm('Delete time entry?', () => {
+            this._timeEntryResource.delete(timeEntry).success((data) => {
                 task.total_time = data.task_total_time;
                 task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);
-                airyUser.reload();
+                this._airyUser.reload();
             });
         });
     }

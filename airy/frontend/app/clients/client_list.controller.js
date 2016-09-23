@@ -1,13 +1,13 @@
 class ClientListController {
 
     constructor($scope, $rootScope, ngDialog, hotkeys, airyPopup, clientResource) {
-        const self = this;
-        self.clients = [];
-        self.createClient = createClient;
-        self.updateClient = updateClient;
-        self.deleteClient = deleteClient;
+        this._ngDialog = ngDialog;
+        this._airyPopup = airyPopup;
+        this._clientResource = clientResource;
 
-        fetchClients();
+        this.clients = [];
+
+        this.fetchClients();
 
         $rootScope.title = 'Clients';
 
@@ -15,45 +15,45 @@ class ClientListController {
             combo: 'alt+a',
             callback: (event) => {
                 event.preventDefault();
-                createClient();
+                this.createClient();
             },
         });
+    }
 
-        function fetchClients() {
-            clientResource.list().success((data) => {
-                self.clients = data.clients;
-            });
-        }
+    fetchClients() {
+        this._clientResource.list().success((data) => {
+            this.clients = data.clients;
+        });
+    }
 
-        function createClient() {
-            ngDialog.open({
-                template: 'static/partials/client_form.html',
-                controller: 'ClientCreationController',
-                controllerAs: 'ctrl',
-                resolve: {
-                    clients: () => self.clients,
-                },
-            });
-        }
+    createClient() {
+        this._ngDialog.open({
+            template: 'static/partials/client_form.html',
+            controller: 'ClientCreationController',
+            controllerAs: 'ctrl',
+            resolve: {
+                clients: () => this.clients,
+            },
+        });
+    }
 
-        function updateClient(client) {
-            ngDialog.open({
-                template: 'static/partials/client_form.html',
-                controller: 'ClientUpdateController',
-                controllerAs: 'ctrl',
-                resolve: {
-                    client: () => client,
-                },
-            });
-        }
+    updateClient(client) {
+        this._ngDialog.open({
+            template: 'static/partials/client_form.html',
+            controller: 'ClientUpdateController',
+            controllerAs: 'ctrl',
+            resolve: {
+                client: () => client,
+            },
+        });
+    }
 
-        function deleteClient(client) {
-            airyPopup.confirm('Delete client?', () => {
-                clientResource.delete(client).success((data) => {
-                    self.clients.splice(self.clients.indexOf(client), 1);
-                });
+    deleteClient(client) {
+        this._airyPopup.confirm('Delete client?', () => {
+            this._clientResource.delete(client).success((data) => {
+                this.clients.splice(this.clients.indexOf(client), 1);
             });
-        }
+        });
     }
 }
 
