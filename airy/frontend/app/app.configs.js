@@ -10,6 +10,7 @@ export function breadcrumbConfig($breadcrumbProvider) {
 
 export function ngDialogConfig(ngDialogProvider) {
     ngDialogProvider.setDefaults({
+        cache: false,
         className: 'popup',
     });
 }
