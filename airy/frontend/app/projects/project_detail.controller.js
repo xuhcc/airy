@@ -42,6 +42,7 @@ function ProjectDetailController($stateParams, $scope, $rootScope, $interval, ng
         ngDialog.open({
             template: 'static/partials/task_form.html',
             controller: 'TaskCreationController',
+            controllerAs: 'ctrl',
             className: 'popup task-form-popup',
             resolve: {
                 project: function () {
@@ -55,6 +56,7 @@ function ProjectDetailController($stateParams, $scope, $rootScope, $interval, ng
         ngDialog.open({
             template: 'static/partials/task_form.html',
             controller: 'TaskUpdateController',
+            controllerAs: 'ctrl',
             className: 'popup task-form-popup',
             resolve: {
                 task: function () {

@@ -1,21 +1,28 @@
-function ProjectCreationController($scope, hotkeys, projectResource, client) {
-    $scope.project = {client_id: client.id};
-    $scope.formTitle = 'New project';
-    $scope.submitForm = createProject;
+class ProjectCreationController {
 
-    hotkeys.bindTo($scope).add({
-        combo: 'ctrl+enter',
-        callback: (event) => {
-            event.preventDefault();
-            $scope.submitForm();
-        },
-        allowIn: ['input', 'textarea'],
-    });
+    constructor($scope, hotkeys, projectResource, client) {
+        this.scope = $scope;
+        this.projectResource = projectResource;
+        this.client = client;
 
-    function createProject() {
-        projectResource.create($scope.project).success(function (data) {
-            client.projects.push(data.project);
-            $scope.closeThisDialog();
+        this.project = {client_id: this.client.id};
+        this.formTitle = 'New project';
+        this.submitForm = this.createProject;
+
+        hotkeys.bindTo(this.scope).add({
+            combo: 'ctrl+enter',
+            callback: (event) => {
+                event.preventDefault();
+                this.submitForm();
+            },
+            allowIn: ['input', 'textarea'],
+        });
+    }
+
+    createProject() {
+        this.projectResource.create(this.project).success((data) => {
+            this.client.projects.push(data.project);
+            this.scope.closeThisDialog();
         });
     }
 }

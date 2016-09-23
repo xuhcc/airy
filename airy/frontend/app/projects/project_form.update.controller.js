@@ -1,21 +1,28 @@
-function ProjectUpdateController($scope, hotkeys, projectResource, project) {
-    $scope.project = angular.copy(project);
-    $scope.formTitle = 'Project #' + $scope.project.id;
-    $scope.submitForm = updateProject;
+class ProjectUpdateController {
 
-    hotkeys.bindTo($scope).add({
-        combo: 'ctrl+enter',
-        callback: (event) => {
-            event.preventDefault();
-            $scope.submitForm();
-        },
-        allowIn: ['input', 'textarea'],
-    });
+    constructor($scope, hotkeys, projectResource, project) {
+        this.scope = $scope;
+        this.projectResource = projectResource;
+        this.originalProject = project;
 
-    function updateProject() {
-        projectResource.update($scope.project).success(function (data) {
-            angular.extend(project, data.project);
-            $scope.closeThisDialog();
+        this.project = angular.copy(this.originalProject);
+        this.formTitle = 'Project #' + this.project.id;
+        this.submitForm = this.updateProject;
+
+        hotkeys.bindTo(this.scope).add({
+            combo: 'ctrl+enter',
+            callback: (event) => {
+                event.preventDefault();
+                this.submitForm();
+            },
+            allowIn: ['input', 'textarea'],
+        });
+    }
+
+    updateProject() {
+        this.projectResource.update(this.project).success((data) => {
+            angular.extend(this.originalProject, data.project);
+            this.scope.closeThisDialog();
         });
     }
 }

@@ -44,22 +44,22 @@ describe('Project creation', function () {
 
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
-        buildCtrl();
-        expect(scope.project).toEqual({client_id: client.id});
-        expect(scope.formTitle).toEqual('New project');
-        expect(scope.submitForm).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.project).toEqual({client_id: client.id});
+        expect(ctrl.formTitle).toEqual('New project');
+        expect(ctrl.submitForm).toBeDefined();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should create project', function () {
-        buildCtrl();
-        scope.project.name = 'p2';
+        let ctrl = buildCtrl();
+        ctrl.project.name = 'p2';
         spyOn(projectResourceMock, 'create').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();
-        scope.submitForm();
+        ctrl.submitForm();
         expect(projectResourceMock.create).toHaveBeenCalled();
         let callArgs = projectResourceMock.create.calls.argsFor(0);
-        expect(callArgs[0].name).toBe(scope.project.name);
+        expect(callArgs[0].name).toBe(ctrl.project.name);
         expect(callArgs[0].client_id).toBe(client.id);
         expect(client.projects[1].name).toBe('p2');
         expect(client.projects.length).toBe(2);

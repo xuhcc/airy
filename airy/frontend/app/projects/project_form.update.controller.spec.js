@@ -39,23 +39,23 @@ describe('Project update', function () {
 
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
-        buildCtrl();
-        expect(scope.project).toEqual(project);
-        expect(scope.formTitle).toEqual('Project #10');
-        expect(scope.submitForm).toBeDefined();
+        let ctrl = buildCtrl();
+        expect(ctrl.project).toEqual(project);
+        expect(ctrl.formTitle).toEqual('Project #10');
+        expect(ctrl.submitForm).toBeDefined();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
     });
 
     it('should update project', function () {
-        buildCtrl();
-        scope.project.name = 'new';
+        let ctrl = buildCtrl();
+        ctrl.project.name = 'new';
         spyOn(projectResourceMock, 'update').and.callThrough();
         spyOn(scope, 'closeThisDialog').and.callThrough();
-        scope.submitForm();
+        ctrl.submitForm();
         expect(projectResourceMock.update).toHaveBeenCalled();
         let callArgs = projectResourceMock.update.calls.argsFor(0);
-        expect(callArgs[0].id).toBe(scope.project.id);
-        expect(callArgs[0].client_id).toBe(scope.project.client_id);
+        expect(callArgs[0].id).toBe(ctrl.project.id);
+        expect(callArgs[0].client_id).toBe(ctrl.project.client_id);
         expect(project.name).toBe('new');
         expect(scope.closeThisDialog).toHaveBeenCalled();
     });

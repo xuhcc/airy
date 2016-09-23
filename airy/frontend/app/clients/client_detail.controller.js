@@ -27,6 +27,7 @@ function ClientDetailController($stateParams, $scope, $rootScope, ngDialog,
         ngDialog.open({
             template: 'static/partials/project_form.html',
             controller: 'ProjectCreationController',
+            controllerAs: 'ctrl',
             resolve: {
                 client: function () {
                     return self.client;
@@ -39,6 +40,7 @@ function ClientDetailController($stateParams, $scope, $rootScope, ngDialog,
         ngDialog.open({
             template: 'static/partials/project_form.html',
             controller: 'ProjectUpdateController',
+            controllerAs: 'ctrl',
             resolve: {
                 project: function () {
                     return project;
