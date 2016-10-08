@@ -38,7 +38,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state('client_timesheet', {
             url: '/clients/:clientId/timesheet',
             templateUrl: 'static/partials/client_timesheet.html',
-            controller: 'ClientTimeSheetCtrl as ctrl',
+            controller: 'ClientTimeSheetController as ctrl',
             ncyBreadcrumb: {
                 parent: 'client_detail',
                 label: 'Timesheet',

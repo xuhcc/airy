@@ -24,9 +24,10 @@ describe('Timesheet', function () {
     beforeEach(inject(function ($controller, $rootScope) {
         scope = $rootScope.$new();
         buildCtrl = function () {
-            return $controller('ClientTimeSheetCtrl as ctrl', {
+            return $controller('ClientTimeSheetController as ctrl', {
                 $scope: scope,
                 $stateParams: {clientId: clientId},
+                $rootScope: {},
                 clientResource: clientResourceMock,
                 calculator: calculatorMock,
             });
