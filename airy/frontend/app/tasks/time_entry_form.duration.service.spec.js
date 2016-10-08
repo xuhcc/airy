@@ -26,6 +26,12 @@ describe('Time entry duration service', function () {
         expect(duration2.toSeconds()).toBe(120);
     });
 
+    it('should correctly convert minutes to hours', function () {
+        let duration = new TimeEntryDuration(3585);
+        expect(duration.minutes).toBe(0);
+        expect(duration.hours).toBe(1);
+    });
+
     it('should add 30 minutes', function () {
         let duration = new TimeEntryDuration(0);
         expect(duration.hours).toBe(0);

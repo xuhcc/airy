@@ -8,6 +8,10 @@ function TimeEntryDuration() {
         if (_duration.seconds() >= 30) {
             this.minutes += 1;
         }
+        if (this.minutes === 60) {
+            this.hours += 1;
+            this.minutes = 0;
+        }
 
         this.toSeconds = function () {
             _duration = moment.duration({
