@@ -22,8 +22,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         })
         .state('client_list', {
             url: '/clients',
-            templateUrl: 'static/partials/client_list.html',
-            controller: 'ClientListController as ctrl',
+            component: 'clientList',
             ncyBreadcrumb: {
                 label: 'h',
             },

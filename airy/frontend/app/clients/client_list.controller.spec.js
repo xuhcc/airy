@@ -40,7 +40,7 @@ describe('Client list', function () {
     };
 
     beforeEach(module('airy.clientList'));
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(function ($componentController, $rootScope) {
         let scope = $rootScope.$new();
         rootScope = $rootScope.$new();
         clients = [
@@ -48,7 +48,7 @@ describe('Client list', function () {
             {id: 2},
         ];
         buildCtrl = function () {
-            return $controller('ClientListController as ctrl', {
+            return $componentController('clientList', {
                 $scope: scope,
                 $rootScope: rootScope,
                 ngDialog: ngDialogMock,

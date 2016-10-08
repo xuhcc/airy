@@ -13,7 +13,7 @@
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0",
     "angular-elastic": "~2.5.1",
     "angular-loading-bar": "~0.8.0",
-    "angular-ui-router": "~0.2.15",
+    "angular-ui-router": "~1.0.0-beta",
     "angular-breadcrumb": "~0.4.1",
     "system.js": "^0.19.20",
     "ng-dialog": "^0.6.4"

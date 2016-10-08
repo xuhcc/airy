@@ -1,10 +1,10 @@
 <div>
     <div class="clients">
-        <div class="client" ng-repeat="client in ctrl.clients">
+        <div class="client" ng-repeat="client in $ctrl.clients">
             <div class="client-menu">
                 <a class="client-timesheet icon" ui-sref="client_timesheet({clientId: client.id})" title="View timesheet">t</a>
-                <a class="client-edit icon" ng-click="ctrl.updateClient(client)">e</a>
-                <a class="client-delete icon" ng-click="ctrl.deleteClient(client)">d</a>
+                <a class="client-edit icon" ng-click="$ctrl.updateClient(client)">e</a>
+                <a class="client-delete icon" ng-click="$ctrl.deleteClient(client)">d</a>
             </div>
             <div class="client-name"><h3><a ui-sref="client_detail({clientId: client.id})">{{ client.name }}</a></h3></div>
             <div class="client-contacts" ng-bind-html="client.contacts|nl2br|linkify"></div>
@@ -17,5 +17,5 @@
             </div>
         </div>
     </div>
-    <a class="client-add icon" title="Add client" ng-click="ctrl.createClient()">+</a>
+    <a class="client-add icon" title="Add client" ng-click="$ctrl.createClient()">+</a>
 </div>
