@@ -1,12 +1,15 @@
-function LoginController($rootScope, airyUser) {
-    const self = this;
-    self.password = '';
-    self.loginUser = loginUser;
+class LoginController {
 
-    $rootScope.title = 'Login';
+    constructor($rootScope, airyUser) {
+        this._airyUser = airyUser;
 
-    function loginUser() {
-        airyUser.login(self.password);
+        this.password = '';
+
+        $rootScope.title = 'Login';
+    }
+
+    loginUser() {
+        this._airyUser.login(this.password);
     }
 }
 

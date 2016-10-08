@@ -3,8 +3,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('login', {
             url: '/login',
-            templateUrl: 'static/partials/login.html',
-            controller: 'LoginController as ctrl',
+            component: 'login',
             resolve: {
                 user: function ($q, $state, airyUser) {
                     let deferred = $q.defer();

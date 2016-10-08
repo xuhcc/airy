@@ -12,10 +12,10 @@ describe('Login controller', function () {
     };
 
     beforeEach(module('airy.login'));
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(function ($componentController, $rootScope) {
         let scope = $rootScope.$new();
         rootScope = $rootScope.$new();
-        ctrl = $controller('LoginController as ctrl', {
+        ctrl = $componentController('login', {
             $scope: scope,
             $rootScope: rootScope,
             airyUser: airyUser,
