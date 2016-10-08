@@ -3,4 +3,7 @@ import 'reports/calculator.module.js';
 import 'reports/range_selector.module.js';
 
 export default angular.module('airy.clientTimeSheet', [])
-    .controller('ClientTimeSheetController', ClientTimeSheetController);
+    .component('clientTimeSheet', {
+        templateUrl: 'static/partials/client_timesheet.html',
+        controller: ClientTimeSheetController,
+    });

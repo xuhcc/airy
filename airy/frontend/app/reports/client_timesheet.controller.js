@@ -14,7 +14,7 @@ class ClientTimeSheetController {
             end: moment().endOf('isoWeek').format(),
         };
 
-        $scope.$watch('ctrl.range', () => this.getTimeSheet(), true);
+        $scope.$watch('$ctrl.range', () => this.getTimeSheet(), true);
     }
 
     getTimeSheet() {

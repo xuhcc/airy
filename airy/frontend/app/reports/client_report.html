@@ -1,10 +1,10 @@
 <div>
     <div class="current-client">
-        <h2>Task report for {{ ctrl.client.name }}</h2>
+        <h2>Task report for {{ $ctrl.client.name }}</h2>
     </div>
     <div class="report-range">
-        <report-range-selector range="ctrl.range"></report-range-selector>
-        <select class="set-period" ng-model="ctrl.period" ng-change="ctrl.setPeriod()" ng-options="period.label for period in ctrl.periods"></select>
+        <report-range-selector range="$ctrl.range"></report-range-selector>
+        <select class="set-period" ng-model="$ctrl.period" ng-change="$ctrl.setPeriod()" ng-options="period.label for period in $ctrl.periods"></select>
     </div>
     <table class="pure-table pure-table-horizontal report" align="center">
         <thead>
@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat-start="row in ctrl.report.projects" class="report-section-header">
+            <tr ng-repeat-start="row in $ctrl.report.projects" class="report-section-header">
                 <td colspan="2">{{ row.project.name }}</td>
             </tr>
             <tr ng-repeat="task in row.tasks">
@@ -23,14 +23,14 @@
             </tr>
             <tr ng-repeat-end class="report-total">
                 <td>Total</td>
-                <td><a ng-click="ctrl.showCalculator(row.total)">{{ row.total|time }}</a></td>
+                <td><a ng-click="$ctrl.showCalculator(row.total)">{{ row.total|time }}</a></td>
             </tr>
             <tr class="report-total">
                 <td>Grand Total</td>
-                <td><a ng-click="ctrl.showCalculator(ctrl.report.total)">{{ ctrl.report.total|time }}</a></td>
+                <td><a ng-click="$ctrl.showCalculator($ctrl.report.total)">{{ $ctrl.report.total|time }}</a></td>
             </tr>
         </tbody>
     </table>
-    <a class="content-nav-link" ng-click="ctrl.sendByEmail()">send by email</a>
-    <a class="content-nav-link" ui-sref="client_detail({clientId: ctrl.client.id})">back to client page</a>
+    <a class="content-nav-link" ng-click="$ctrl.sendByEmail()">send by email</a>
+    <a class="content-nav-link" ui-sref="client_detail({clientId: $ctrl.client.id})">back to client page</a>
 </div>

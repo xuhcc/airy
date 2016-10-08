@@ -3,4 +3,7 @@ import 'reports/calculator.module.js';
 import 'reports/range_selector.module.js';
 
 export default angular.module('airy.clientReport', [])
-    .controller('ClientReportController', ClientReportController);
+    .component('clientReport', {
+        templateUrl: 'static/partials/client_report.html',
+        controller: ClientReportController,
+    });

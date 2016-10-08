@@ -21,10 +21,10 @@ describe('Timesheet', function () {
     let clientId = 1;
 
     beforeEach(module('airy.clientTimeSheet'));
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(function ($componentController, $rootScope) {
         scope = $rootScope.$new();
         buildCtrl = function () {
-            return $controller('ClientTimeSheetController as ctrl', {
+            return $componentController('clientTimeSheet', {
                 $scope: scope,
                 $stateParams: {clientId: clientId},
                 $rootScope: {},

@@ -41,7 +41,7 @@ describe('Client detail', function () {
     };
 
     beforeEach(module('airy.clientDetail'));
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(function ($componentController, $rootScope) {
         let scope = $rootScope.$new();
         rootScope = $rootScope.$new();
         client = {
@@ -53,7 +53,7 @@ describe('Client detail', function () {
             ],
         };
         buildCtrl = function () {
-            return $controller('ClientDetailController as ctrl', {
+            return $componentController('clientDetail', {
                 $stateParams: {clientId: 1},
                 $scope: scope,
                 $rootScope: rootScope,

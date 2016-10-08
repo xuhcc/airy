@@ -29,7 +29,7 @@ class ClientReportController {
             end: moment().endOf('isoWeek').format(),
         };
 
-        $scope.$watch('ctrl.range', () => this.getReport(), true);
+        $scope.$watch('$ctrl.range', () => this.getReport(), true);
     }
 
     getReport() {

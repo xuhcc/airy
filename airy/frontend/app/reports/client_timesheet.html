@@ -1,31 +1,31 @@
 <div>
     <div class="current-client">
-        <h2>Timesheet for {{ ctrl.client.name }}</h2>
+        <h2>Timesheet for {{ $ctrl.client.name }}</h2>
     </div>
     <div class="report-range">
-        <report-range-selector range="ctrl.range"></report-range-selector>
+        <report-range-selector range="$ctrl.range"></report-range-selector>
     </div>
     <table class="pure-table pure-table-horizontal report" align="center">
         <thead>
             <tr>
                 <th>Project</th>
-                <th ng-repeat="day in ctrl.days">{{ day }}</th>
+                <th ng-repeat="day in $ctrl.days">{{ day }}</th>
                 <th>Total time</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="row in ctrl.timesheet.projects">
-                <td><a ui-sref="project_detail({clientId: ctrl.client.id, projectId: row.project.id})">{{ row.project.name }}</a></td>
+            <tr ng-repeat="row in $ctrl.timesheet.projects">
+                <td><a ui-sref="project_detail({clientId: $ctrl.client.id, projectId: row.project.id})">{{ row.project.name }}</a></td>
                 <td ng-repeat="day_data in row.time" title="{{ day_data.tasks }}">{{ day_data.total|time }}</td>
                 <td>{{ row.total|time }}</td>
             </tr>
             <tr class="report-total">
                 <td>&nbsp;</td>
-                <td ng-repeat="day_total in ctrl.timesheet.totals.time track by $index">{{ day_total|time }}</td>
-                <td><a ng-click="ctrl.showCalculator(ctrl.timesheet.totals.total)">{{ ctrl.timesheet.totals.total|time }}</a></td>
+                <td ng-repeat="day_total in $ctrl.timesheet.totals.time track by $index">{{ day_total|time }}</td>
+                <td><a ng-click="$ctrl.showCalculator($ctrl.timesheet.totals.total)">{{ $ctrl.timesheet.totals.total|time }}</a></td>
             </tr>
         </tbody>
     </table>
-    <a class="content-nav-link" ng-click="ctrl.sendByEmail()">send by email</a>
-    <a class="content-nav-link" ui-sref="client_detail({clientId: ctrl.client.id})">back to client page</a>
+    <a class="content-nav-link" ng-click="$ctrl.sendByEmail()">send by email</a>
+    <a class="content-nav-link" ui-sref="client_detail({clientId: $ctrl.client.id})">back to client page</a>
 </div>

@@ -62,7 +62,7 @@ describe('Project detail', function () {
     };
 
     beforeEach(module('airy.projectDetail'));
-    beforeEach(inject(function ($controller, $rootScope, _$interval_) {
+    beforeEach(inject(function ($componentController, $rootScope, _$interval_) {
         let scope = $rootScope.$new();
         rootScope = $rootScope.$new();
         project = {
@@ -76,7 +76,7 @@ describe('Project detail', function () {
         };
         $interval = _$interval_;
         buildCtrl = function () {
-            return $controller('ProjectDetailController as ctrl', {
+            return $componentController('projectDetail', {
                 $stateParams: {projectId: project.id, currentStatus: 'open'},
                 $scope: scope,
                 $rootScope: rootScope,
