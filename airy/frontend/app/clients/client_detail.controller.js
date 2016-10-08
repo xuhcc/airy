@@ -25,6 +25,8 @@ class ClientDetailController {
     fetchClient() {
         this._clientResource.get(this._stateParams.clientId).success((data) => {
             this._rootScope.title = data.client.name;
+            // Fix for angular-breadcrumb
+            this._rootScope.breadcrumb = data.client.name;
             this.client = data.client;
         });
     }

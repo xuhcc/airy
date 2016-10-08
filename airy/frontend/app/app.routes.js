@@ -31,7 +31,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
             component: 'clientDetail',
             ncyBreadcrumb: {
                 parent: 'client_list',
-                label: '{{ $ctrl.client.name }}',
+                label: '{{ breadcrumb }}',
             },
         })
         .state('client_timesheet', {
@@ -55,7 +55,7 @@ function routeConfig($stateProvider, $urlRouterProvider) {
             component: 'projectDetail',
             ncyBreadcrumb: {
                 parent: 'client_detail',
-                label: '{{ $ctrl.project.name }}',
+                label: '{{ title }}',
             },
         });
 }
