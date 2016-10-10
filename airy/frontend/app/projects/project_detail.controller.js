@@ -33,7 +33,8 @@ class ProjectDetailController {
             .success((data) => {
                 this._rootScope.title = data.project.name;
                 // Fix for angular-breadcrumb
-                this._rootScope.breadcrumb = data.project.name;
+                this._rootScope.breadcrumbProject = data.project.name;
+                this._rootScope.breadcrumbClient = data.project.client.name;
                 this.project = data.project;
                 this.client = data.project.client;
             });

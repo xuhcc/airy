@@ -21,7 +21,7 @@ class ClientTimeSheetController {
         this._clientResource.getTimeSheet(this._stateParams.clientId, this.range).success((data) => {
             this._rootScope.title = data.timesheet.client.name + ' :: Timesheet';
             // Fix for angular-breadcrumb
-            this._rootScope.breadcrumb = data.timesheet.client.name;
+            this._rootScope.breadcrumbClient = data.timesheet.client.name;
             this.timesheet = data.timesheet;
             this.client = data.timesheet.client;
         });
