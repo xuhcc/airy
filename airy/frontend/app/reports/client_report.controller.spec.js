@@ -39,7 +39,7 @@ describe('Task report', function () {
         expect(ctrl.report).toBeDefined();
         expect(ctrl.client).toBeDefined();
         expect(ctrl.range).toBeDefined();
-        expect(ctrl.periods.length).toBe(2);
+        expect(ctrl.periods.length).toBe(3);
         expect(ctrl.period).toBeDefined();
         spyOn(clientResourceMock, 'getReport').and.callThrough();
         scope.$digest();

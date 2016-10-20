@@ -21,6 +21,12 @@ class ClientReportController {
                     return moment(rangeBeg).add(1, 'week').endOf('isoWeek').format();
                 },
             },
+            {
+                label: '4 weeks',
+                getRangeEnd: (rangeBeg) => {
+                    return moment(rangeBeg).add(3, 'week').endOf('isoWeek').format();
+                },
+            },
         ];
         this.period = this.periods[0];
 
