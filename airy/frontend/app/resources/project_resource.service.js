@@ -1,13 +1,10 @@
-function projectResource($http) {
-    let service = {
-        create: createProject,
-        get: getProject,
-        update: updateProject,
-        delete: deleteProject,
-    };
-    return service;
+class projectResource {
 
-    function prepare(project) {
+    constructor($http) {
+        this._http = $http;
+    }
+
+    _prepare(project) {
         return {
             name: project.name,
             description: project.description,
@@ -15,20 +12,20 @@ function projectResource($http) {
         };
     }
 
-    function createProject(project, status) {
-        return $http.post('/projects', prepare(project));
+    create(project, status) {
+        return this._http.post('/projects', this._prepare(project));
     }
 
-    function getProject(project_id, status) {
-        return $http.get('/projects/' + project_id, {params: {status: status}});
+    retrieve(projectId, status) {
+        return this._http.get(`/projects/${projectId}`, {params: {status: status}});
     }
 
-    function updateProject(project) {
-        return $http.put('/projects/' + project.id, prepare(project));
+    update(project) {
+        return this._http.put(`/projects/${project.id}`, this._prepare(project));
     }
 
-    function deleteProject(project) {
-        return $http.delete('/projects/' + project.id);
+    remove(project) {
+        return this._http.delete(`/projects/${project.id}`);
     }
 }
 

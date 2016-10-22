@@ -11,7 +11,7 @@ class ClientDetailController {
 
         this.client = {};
 
-        this.fetchClient();
+        this.retrieveClient();
 
         hotkeys.bindTo($scope).add({
             combo: 'alt+a',
@@ -22,8 +22,8 @@ class ClientDetailController {
         });
     }
 
-    fetchClient() {
-        this._clientResource.get(this._stateParams.clientId).success((data) => {
+    retrieveClient() {
+        this._clientResource.retrieve(this._stateParams.clientId).success((data) => {
             this._rootScope.title = data.client.name;
             // Fix for angular-breadcrumb
             this._rootScope.breadcrumbClient = data.client.name;
@@ -55,8 +55,8 @@ class ClientDetailController {
 
     deleteProject(project) {
         this._airyPopup.confirm('Delete project?', () => {
-            this._projectResource.delete(project).success((data) => {
-                this.fetchClient();
+            this._projectResource.remove(project).success((data) => {
+                this.retrieveClient();
             });
         });
     }

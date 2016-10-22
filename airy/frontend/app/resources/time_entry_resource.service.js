@@ -1,12 +1,10 @@
-function timeEntryResource($http) {
-    let service = {
-        create: createTimeEntry,
-        update: updateTimeEntry,
-        delete: deleteTimeEntry,
-    };
-    return service;
+class timeEntryResource {
 
-    function prepare(timeEntry) {
+    constructor($http) {
+        this._http = $http;
+    }
+
+    _prepare(timeEntry) {
         return {
             duration: timeEntry.duration,
             comment: timeEntry.comment,
@@ -14,16 +12,16 @@ function timeEntryResource($http) {
         };
     }
 
-    function createTimeEntry(timeEntry) {
-        return $http.post('/time_entries', prepare(timeEntry));
+    create(timeEntry) {
+        return this._http.post('/time_entries', this._prepare(timeEntry));
     }
 
-    function updateTimeEntry(timeEntry) {
-        return $http.put('/time_entries/' + timeEntry.id, prepare(timeEntry));
+    update(timeEntry) {
+        return this._http.put(`/time_entries/${timeEntry.id}`, this._prepare(timeEntry));
     }
 
-    function deleteTimeEntry(timeEntry) {
-        return $http.delete('/time_entries/' + timeEntry.id);
+    remove(timeEntry) {
+        return this._http.delete(`/time_entries/${timeEntry.id}`);
     }
 }
 

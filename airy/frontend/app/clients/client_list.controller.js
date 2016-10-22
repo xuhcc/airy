@@ -7,7 +7,7 @@ class ClientListController {
 
         this.clients = [];
 
-        this.fetchClients();
+        this.listClients();
 
         $rootScope.title = 'Clients';
 
@@ -20,7 +20,7 @@ class ClientListController {
         });
     }
 
-    fetchClients() {
+    listClients() {
         this._clientResource.list().success((data) => {
             this.clients = data.clients;
         });
@@ -50,7 +50,7 @@ class ClientListController {
 
     deleteClient(client) {
         this._airyPopup.confirm('Delete client?', () => {
-            this._clientResource.delete(client).success((data) => {
+            this._clientResource.remove(client).success((data) => {
                 this.clients.splice(this.clients.indexOf(client), 1);
             });
         });

@@ -1,13 +1,10 @@
-function taskResource($http) {
-    let service = {
-        create: createTask,
-        update: updateTask,
-        delete: deleteTask,
-        toggleStatus: toggleTaskStatus,
-    };
-    return service;
+class taskResource {
 
-    function prepare(task) {
+    constructor($http) {
+        this._http = $http;
+    }
+
+    _prepare(task) {
         return {
             title: task.title,
             description: task.description,
@@ -15,20 +12,20 @@ function taskResource($http) {
         };
     }
 
-    function createTask(task) {
-        return $http.post('/tasks', prepare(task));
+    create(task) {
+        return this._http.post('/tasks', this._prepare(task));
     }
 
-    function updateTask(task) {
-        return $http.put('/tasks/' + task.id, prepare(task));
+    update(task) {
+        return this._http.put(`/tasks/${task.id}`, this._prepare(task));
     }
 
-    function deleteTask(task) {
-        return $http.delete('/tasks/' + task.id);
+    remove(task) {
+        return this._http.delete(`/tasks/${task.id}`);
     }
 
-    function toggleTaskStatus(task) {
-        return $http.post('/tasks/' + task.id + '/status');
+    toggleStatus(task) {
+        return this._http.post(`/tasks/${task.id}/status`);
     }
 }
 

@@ -26,7 +26,7 @@ describe('Project detail', function () {
         reload: function () {},
     };
     let projectResourceMock = {
-        get: function (projectId, status) {
+        retrieve: function (projectId, status) {
             return {
                 success: function (successCallback) {
                     successCallback({project: project});
@@ -43,7 +43,7 @@ describe('Project detail', function () {
                 },
             };
         },
-        delete: function (task) {
+        remove: function (task) {
             return {
                 success: function (successCallback) {
                     successCallback();
@@ -52,7 +52,7 @@ describe('Project detail', function () {
         },
     };
     let timeEntryResourceMock = {
-        delete: function (timeEntry) {
+        remove: function (timeEntry) {
             return {
                 success: function (successCallback) {
                     successCallback({task_total_time: 0});
@@ -94,11 +94,11 @@ describe('Project detail', function () {
 
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
-        spyOn(projectResourceMock, 'get').and.callThrough();
+        spyOn(projectResourceMock, 'retrieve').and.callThrough();
         let ctrl = buildCtrl();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
-        expect(projectResourceMock.get).toHaveBeenCalled();
-        let callArgs = projectResourceMock.get.calls.argsFor(0);
+        expect(projectResourceMock.retrieve).toHaveBeenCalled();
+        let callArgs = projectResourceMock.retrieve.calls.argsFor(0);
         expect(callArgs[0]).toEqual(project.id);
         expect(callArgs[1]).toEqual(ctrl.currentStatus);
         expect(ctrl.currentStatus).toBe('open');
@@ -109,10 +109,10 @@ describe('Project detail', function () {
 
     it('should filter tasks by status', function () {
         let ctrl = buildCtrl();
-        spyOn(projectResourceMock, 'get').and.callThrough();
+        spyOn(projectResourceMock, 'retrieve').and.callThrough();
         ctrl.filterByStatus('closed');
-        expect(projectResourceMock.get).toHaveBeenCalled();
-        let callArgs = projectResourceMock.get.calls.argsFor(0);
+        expect(projectResourceMock.retrieve).toHaveBeenCalled();
+        let callArgs = projectResourceMock.retrieve.calls.argsFor(0);
         expect(callArgs[0]).toEqual(project.id);
         expect(callArgs[1]).toEqual(ctrl.currentStatus);
         expect(ctrl.currentStatus).toBe('closed');
@@ -134,15 +134,15 @@ describe('Project detail', function () {
 
     it('should delete task', function () {
         let ctrl = buildCtrl();
-        spyOn(taskResourceMock, 'delete').and.callThrough();
-        spyOn(projectResourceMock, 'get').and.callThrough();
+        spyOn(taskResourceMock, 'remove').and.callThrough();
+        spyOn(projectResourceMock, 'retrieve').and.callThrough();
         spyOn(airyUserMock, 'reload').and.callThrough();
         let task = project.tasks[1];
         ctrl.deleteTask(task);
-        expect(taskResourceMock.delete).toHaveBeenCalled();
-        let callArgs = taskResourceMock.delete.calls.argsFor(0);
+        expect(taskResourceMock.remove).toHaveBeenCalled();
+        let callArgs = taskResourceMock.remove.calls.argsFor(0);
         expect(callArgs[0].id).toEqual(task.id);
-        expect(projectResourceMock.get).toHaveBeenCalled();
+        expect(projectResourceMock.retrieve).toHaveBeenCalled();
         expect(airyUserMock.reload).toHaveBeenCalled();
     });
 
@@ -202,13 +202,13 @@ describe('Project detail', function () {
 
     it('should delete time entry', function () {
         let ctrl = buildCtrl();
-        spyOn(timeEntryResourceMock, 'delete').and.callThrough();
+        spyOn(timeEntryResourceMock, 'remove').and.callThrough();
         spyOn(airyUserMock, 'reload').and.callThrough();
         let task = project.tasks[1];
         let timeEntry = task.time_entries[0];
         ctrl.deleteTimeEntry(task, timeEntry);
-        expect(timeEntryResourceMock.delete).toHaveBeenCalled();
-        let callArgs = timeEntryResourceMock.delete.calls.argsFor(0);
+        expect(timeEntryResourceMock.remove).toHaveBeenCalled();
+        let callArgs = timeEntryResourceMock.remove.calls.argsFor(0);
         expect(callArgs[0].id).toEqual(timeEntry.id);
         expect(task.time_entries.length).toBe(0);
         expect(airyUserMock.reload).toHaveBeenCalled();

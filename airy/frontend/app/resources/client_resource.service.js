@@ -1,65 +1,57 @@
-function clientResource($http) {
-    let service = {
-        list: listClients,
-        create: createClient,
-        get: getClient,
-        update: updateClient,
-        delete: deleteClient,
-        getTimeSheet: getTimeSheet,
-        sendTimeSheet: sendTimeSheet,
-        getReport: getReport,
-        sendReport: sendReport,
-    };
-    return service;
+class clientResource {
 
-    function prepare(client) {
+    constructor($http) {
+        this._http = $http;
+    }
+
+    _prepare(client) {
         return {
             name: client.name,
             contacts: client.contacts,
         };
     }
 
-    function listClients() {
-        return $http.get('/clients');
+    list() {
+        return this._http.get('/clients');
     }
 
-    function createClient(client) {
-        return $http.post('/clients', prepare(client));
+    create(client) {
+        return this._http.post('/clients', this._prepare(client));
     }
 
-    function getClient(client_id) {
-        return $http.get('/clients/' + client_id);
+    retrieve(clientId) {
+        return this._http.get(`/clients/${clientId}`);
     }
 
-    function updateClient(client) {
-        return $http.put('/clients/' + client.id, prepare(client));
+    update(client) {
+        return this._http.put(`/clients/${client.id}`, this._prepare(client));
     }
 
-    function deleteClient(client) {
-        return $http.delete('/clients/' + client.id);
+    remove(client) {
+        return this._http.delete(`/clients/${client.id}`);
     }
 
-    function getTimeSheet(client_id, range) {
-        return $http.get(
-            '/clients/' + client_id + '/timesheet',
+    getTimeSheet(clientId, range) {
+        return this._http.get(
+            `/clients/${clientId}/timesheet`,
             {params: range});
     }
 
-    function sendTimeSheet(client_id, range) {
-        return $http.post(
-            '/clients/' + client_id + '/timesheet',
+    sendTimeSheet(clientId, range) {
+        return this._http.post(
+            `/clients/${clientId}/timesheet`,
             range);
     }
 
-    function getReport(client_id, range) {
-        return $http.get(
-            '/clients/' + client_id + '/report',
+    getReport(clientId, range) {
+        return this._http.get(
+            `/clients/${clientId}/report`,
             {params: range});
     }
 
-    function sendReport(client_id, range) {
-        return $http.post(
-            '/clients/' + client_id + '/report',
+    sendReport(clientId, range) {
+        return this._http.post(
+            `/clients/${clientId}/report`,
             range);
     }
 }

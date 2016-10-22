@@ -30,7 +30,7 @@ describe('Client list', function () {
                 },
             };
         },
-        delete: function (client) {
+        remove: function (client) {
             return {
                 success: function (successCallback) {
                     successCallback();
@@ -86,10 +86,10 @@ describe('Client list', function () {
     it('should delete client', function () {
         let ctrl = buildCtrl();
         expect(clients.length).toBe(2);
-        spyOn(clientResourceMock, 'delete').and.callThrough();
+        spyOn(clientResourceMock, 'remove').and.callThrough();
         ctrl.deleteClient(clients[1]);
-        expect(clientResourceMock.delete).toHaveBeenCalled();
-        let callArgs = clientResourceMock.delete.calls.argsFor(0);
+        expect(clientResourceMock.remove).toHaveBeenCalled();
+        let callArgs = clientResourceMock.remove.calls.argsFor(0);
         expect(clients.length).toBe(1);
     });
 });

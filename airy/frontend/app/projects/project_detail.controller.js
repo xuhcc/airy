@@ -29,7 +29,7 @@ class ProjectDetailController {
 
     fetchProject() {
         this._projectResource
-            .get(this._stateParams.projectId, this.currentStatus)
+            .retrieve(this._stateParams.projectId, this.currentStatus)
             .success((data) => {
                 this._rootScope.title = data.project.name;
                 // Fix for angular-breadcrumb
@@ -71,7 +71,7 @@ class ProjectDetailController {
 
     deleteTask(task) {
         this._airyPopup.confirm('Delete task?', () => {
-            this._taskResource.delete(task).success((data) => {
+            this._taskResource.remove(task).success((data) => {
                 this.fetchProject();
                 this._airyUser.reload();
             });
@@ -129,7 +129,7 @@ class ProjectDetailController {
 
     deleteTimeEntry(task, timeEntry) {
         this._airyPopup.confirm('Delete time entry?', () => {
-            this._timeEntryResource.delete(timeEntry).success((data) => {
+            this._timeEntryResource.remove(timeEntry).success((data) => {
                 task.total_time = data.task_total_time;
                 task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);
                 this._airyUser.reload();

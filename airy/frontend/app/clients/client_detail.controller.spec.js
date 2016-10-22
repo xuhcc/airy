@@ -22,7 +22,7 @@ describe('Client detail', function () {
         },
     };
     let clientResourceMock = {
-        get: function () {
+        retrieve: function () {
             return {
                 success: function (successCallback) {
                     successCallback({client: client});
@@ -31,7 +31,7 @@ describe('Client detail', function () {
         },
     };
     let projectResourceMock = {
-        delete: function () {
+        remove: function () {
             return {
                 success: function (successCallback) {
                     successCallback();
@@ -68,10 +68,10 @@ describe('Client detail', function () {
 
     it('should load controller', function () {
         spyOn(hotkeysMock, 'bindTo').and.callThrough();
-        spyOn(clientResourceMock, 'get').and.callThrough();
+        spyOn(clientResourceMock, 'retrieve').and.callThrough();
         let ctrl = buildCtrl();
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
-        expect(clientResourceMock.get).toHaveBeenCalled();
+        expect(clientResourceMock.retrieve).toHaveBeenCalled();
         expect(rootScope.title).toEqual(client.name);
         expect(ctrl.client).toEqual(client);
     });
@@ -92,13 +92,13 @@ describe('Client detail', function () {
 
     it('should delete project', function () {
         let ctrl = buildCtrl();
-        spyOn(clientResourceMock, 'get').and.callThrough();
-        spyOn(projectResourceMock, 'delete').and.callThrough();
+        spyOn(clientResourceMock, 'retrieve').and.callThrough();
+        spyOn(projectResourceMock, 'remove').and.callThrough();
         let project = client.projects[1];
         ctrl.deleteProject(project);
-        expect(projectResourceMock.delete).toHaveBeenCalled();
-        let callArgs = projectResourceMock.delete.calls.argsFor(0);
+        expect(projectResourceMock.remove).toHaveBeenCalled();
+        let callArgs = projectResourceMock.remove.calls.argsFor(0);
         expect(callArgs[0].id).toEqual(project.id);
-        expect(clientResourceMock.get).toHaveBeenCalled();
+        expect(clientResourceMock.retrieve).toHaveBeenCalled();
     });
 });
