@@ -2,7 +2,9 @@
     "preset": "node-style-guide",
     "disallowSpacesInFunction": null,
     "maximumLineLength": 120,
-    "requireCamelCaseOrUpperCaseIdentifiers": false,
+    "requireCamelCaseOrUpperCaseIdentifiers": {
+        "ignoreProperties": true
+    },
     "requireSpacesInAnonymousFunctionExpression": {
         "beforeOpeningRoundBrace": true,
         "beforeOpeningCurlyBrace": true,
