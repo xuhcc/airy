@@ -26,11 +26,11 @@ class ReportRangeController {
 }
 
 const reportRangeSelector = {
-    template: '\
-        <a class="shift-back icon" ng-click="$ctrl.shiftBack()">l</a>\
-        <span>{{ $ctrl.formatRange() }}</span>\
-        <a class="shift-forward icon" ng-click="$ctrl.shiftForward()">r</a>\
-    ',
+    template: `
+        <a class="shift-back icon" ng-click="$ctrl.shiftBack()">l</a>
+        <span>{{ $ctrl.formatRange() }}</span>
+        <a class="shift-forward icon" ng-click="$ctrl.shiftForward()">r</a>
+    `,
     bindings: {
         range: '=',
     },
