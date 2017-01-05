@@ -17,8 +17,10 @@ describe('Client update', function () {
     let clientResourceMock = {
         update: function (client) {
             return {
-                success: function (successCallback) {
-                    successCallback({client: client});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {client: client},
+                    });
                 },
             };
         },

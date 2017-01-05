@@ -17,8 +17,10 @@ describe('Client creation', function () {
     let clientResourceMock = {
         create: function (client) {
             return {
-                success: function (successCallback) {
-                    successCallback({client: client});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {client: client},
+                    });
                 },
             };
         },

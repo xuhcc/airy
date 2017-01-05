@@ -20,7 +20,8 @@ class ProjectUpdateController {
     }
 
     updateProject() {
-        this._projectResource.update(this.project).success((data) => {
+        this._projectResource.update(this.project).then(response => {
+            let data = response.data;
             angular.extend(this._originalProject, data.project);
             this._scope.closeThisDialog();
         });

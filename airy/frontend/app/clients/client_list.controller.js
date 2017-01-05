@@ -21,7 +21,8 @@ class ClientListController {
     }
 
     listClients() {
-        this._clientResource.list().success((data) => {
+        this._clientResource.list().then(response => {
+            let data = response.data;
             this.clients = data.clients;
         });
     }
@@ -50,7 +51,7 @@ class ClientListController {
 
     deleteClient(client) {
         this._airyPopup.confirm('Delete client?', () => {
-            this._clientResource.remove(client).success((data) => {
+            this._clientResource.remove(client).then(response => {
                 this.clients.splice(this.clients.indexOf(client), 1);
             });
         });

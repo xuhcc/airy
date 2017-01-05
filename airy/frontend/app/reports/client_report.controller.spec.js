@@ -8,8 +8,15 @@ describe('Task report', function () {
     let clientResourceMock = {
         getReport: function (clientId, range) {
             return {
-                success: function (successCallback) {
-                    return {report: {projects: []}};
+                then: function (successCallback) {
+                    successCallback({
+                        data: {
+                            report: {
+                                client: {name: 'test'},
+                                projects: [],
+                            },
+                        },
+                    });
                 },
             };
         },

@@ -25,14 +25,16 @@ describe('Client list', function () {
     let clientResourceMock = {
         list: function () {
             return {
-                success: function (successCallback) {
-                    successCallback({clients: clients});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {clients: clients},
+                    });
                 },
             };
         },
         remove: function (client) {
             return {
-                success: function (successCallback) {
+                then: function (successCallback) {
                     successCallback();
                 },
             };

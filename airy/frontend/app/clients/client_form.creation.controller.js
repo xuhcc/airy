@@ -20,7 +20,8 @@ class ClientCreationController {
     }
 
     createClient() {
-        this._clientResource.create(this.client).success((data) => {
+        this._clientResource.create(this.client).then(response => {
+            let data = response.data;
             this._clients.push(data.client);
             this._scope.closeThisDialog();
         });

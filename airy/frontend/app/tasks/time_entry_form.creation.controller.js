@@ -23,7 +23,8 @@ class TimeEntryCreationController {
 
     createTimeEntry() {
         this.timeEntry.duration = this.duration.toSeconds();
-        this._timeEntryResource.create(this.timeEntry).success((data) => {
+        this._timeEntryResource.create(this.timeEntry).then(response => {
+            let data = response.data;
             this._task.timeEntriesVisible = true;
             this._task.total_time = data.time_entry.task_total_time;
             this._task.time_entries.push(data.time_entry);

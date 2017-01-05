@@ -24,7 +24,8 @@ class TimeEntryUpdateController {
 
     updateTimeEntry() {
         this.timeEntry.duration = this.duration.toSeconds();
-        this._timeEntryResource.update(this.timeEntry).success((data) => {
+        this._timeEntryResource.update(this.timeEntry).then(response => {
+            let data = response.data;
             this._task.timeEntriesVisible = true;
             this._task.total_time = data.time_entry.task_total_time;
             angular.extend(this._originalTimeEntry, data.time_entry);

@@ -30,7 +30,8 @@ class ProjectDetailController {
     fetchProject() {
         this._projectResource
             .retrieve(this._stateParams.projectId, this.currentStatus)
-            .success((data) => {
+            .then(response => {
+                let data = response.data;
                 this._rootScope.title = data.project.name;
                 // Fix for angular-breadcrumb
                 this._rootScope.breadcrumbProject = data.project.name;
@@ -71,7 +72,7 @@ class ProjectDetailController {
 
     deleteTask(task) {
         this._airyPopup.confirm('Delete task?', () => {
-            this._taskResource.remove(task).success((data) => {
+            this._taskResource.remove(task).then(response => {
                 this.fetchProject();
                 this._airyUser.reload();
             });
@@ -79,7 +80,8 @@ class ProjectDetailController {
     }
 
     toggleStatus(task) {
-        this._taskResource.toggleStatus(task).success((data) => {
+        this._taskResource.toggleStatus(task).then(response => {
+            let data = response.data;
             angular.extend(task, data.task);
             this._airyUser.reload();
         });
@@ -129,7 +131,8 @@ class ProjectDetailController {
 
     deleteTimeEntry(task, timeEntry) {
         this._airyPopup.confirm('Delete time entry?', () => {
-            this._timeEntryResource.remove(timeEntry).success((data) => {
+            this._timeEntryResource.remove(timeEntry).then(response => {
+                let data = response.data;
                 task.total_time = data.task_total_time;
                 task.time_entries.splice(task.time_entries.indexOf(timeEntry), 1);
                 this._airyUser.reload();

@@ -18,9 +18,11 @@ describe('Time entry creation', function () {
     let timeEntryResourceMock = {
         create: function (timeEntry) {
             return {
-                success: function (successCallback) {
+                then: function (successCallback) {
                     timeEntry.task_total_time = timeEntry.duration;
-                    successCallback({time_entry: timeEntry});
+                    successCallback({
+                        data: {time_entry: timeEntry},
+                    });
                 },
             };
         },

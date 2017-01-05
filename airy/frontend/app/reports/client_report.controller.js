@@ -39,7 +39,8 @@ class ClientReportController {
     }
 
     getReport() {
-        this._clientResource.getReport(this._stateParams.clientId, this.range).success((data) => {
+        this._clientResource.getReport(this._stateParams.clientId, this.range).then(response => {
+            let data = response.data;
             this._rootScope.title = data.report.client.name + ' :: Task report';
             // Fix for angular-breadcrumb
             this._rootScope.breadcrumbClient = data.report.client.name;

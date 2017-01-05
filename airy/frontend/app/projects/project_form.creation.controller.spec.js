@@ -17,8 +17,10 @@ describe('Project creation', function () {
     let projectResourceMock = {
         create: function (project) {
             return {
-                success: function (successCallback) {
-                    successCallback({project: project});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {project: project},
+                    });
                 },
             };
         },

@@ -17,8 +17,10 @@ describe('Task update', function () {
     let taskResourceMock = {
         update: function (task) {
             return {
-                success: function (successCallback) {
-                    successCallback({task: task});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {task: task},
+                    });
                 },
             };
         },

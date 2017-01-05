@@ -20,7 +20,8 @@ class ClientUpdateController {
     }
 
     updateClient() {
-        this._clientResource.update(this.client).success((data) => {
+        this._clientResource.update(this.client).then(response => {
+            let data = response.data;
             angular.extend(this._originalClient, data.client);
             this._scope.closeThisDialog();
         });

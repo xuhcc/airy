@@ -8,8 +8,15 @@ describe('Timesheet', function () {
     let clientResourceMock = {
         getTimeSheet: function (clientId, range) {
             return {
-                success: function (successCallback) {
-                    return {timesheet: {data: []}};
+                then: function (successCallback) {
+                    successCallback({
+                        data: {
+                            timesheet: {
+                                client: {name: 'test'},
+                                data: [],
+                            },
+                        },
+                    });
                 },
             };
         },

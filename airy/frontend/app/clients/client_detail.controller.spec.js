@@ -24,8 +24,10 @@ describe('Client detail', function () {
     let clientResourceMock = {
         retrieve: function () {
             return {
-                success: function (successCallback) {
-                    successCallback({client: client});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {client: client},
+                    });
                 },
             };
         },
@@ -33,7 +35,7 @@ describe('Client detail', function () {
     let projectResourceMock = {
         remove: function () {
             return {
-                success: function (successCallback) {
+                then: function (successCallback) {
                     successCallback();
                 },
             };

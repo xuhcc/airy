@@ -23,7 +23,8 @@ class ClientDetailController {
     }
 
     retrieveClient() {
-        this._clientResource.retrieve(this._stateParams.clientId).success((data) => {
+        this._clientResource.retrieve(this._stateParams.clientId).then(response => {
+            let data = response.data;
             this._rootScope.title = data.client.name;
             // Fix for angular-breadcrumb
             this._rootScope.breadcrumbClient = data.client.name;
@@ -55,7 +56,7 @@ class ClientDetailController {
 
     deleteProject(project) {
         this._airyPopup.confirm('Delete project?', () => {
-            this._projectResource.remove(project).success((data) => {
+            this._projectResource.remove(project).then(response => {
                 this.retrieveClient();
             });
         });

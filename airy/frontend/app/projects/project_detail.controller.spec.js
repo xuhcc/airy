@@ -28,8 +28,10 @@ describe('Project detail', function () {
     let projectResourceMock = {
         retrieve: function (projectId, status) {
             return {
-                success: function (successCallback) {
-                    successCallback({project: project});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {project: project},
+                    });
                 },
             };
         },
@@ -37,15 +39,17 @@ describe('Project detail', function () {
     let taskResourceMock = {
         toggleStatus: function (task) {
             return {
-                success: function (successCallback) {
+                then: function (successCallback) {
                     task.is_closed = !task.is_closed;
-                    successCallback({task: task});
+                    successCallback({
+                        data: {task: task},
+                    });
                 },
             };
         },
         remove: function (task) {
             return {
-                success: function (successCallback) {
+                then: function (successCallback) {
                     successCallback();
                 },
             };
@@ -54,8 +58,10 @@ describe('Project detail', function () {
     let timeEntryResourceMock = {
         remove: function (timeEntry) {
             return {
-                success: function (successCallback) {
-                    successCallback({task_total_time: 0});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {task_total_time: 0},
+                    });
                 },
             };
         },

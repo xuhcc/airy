@@ -10,13 +10,15 @@ function airyUser($http, $state, airyPopup) {
     return service;
 
     function load() {
-        return $http.get('/user').success(function (data) {
+        return $http.get('/user').then(response => {
+            let data = response.data;
             angular.extend(user, data.user);
         });
     }
 
     function login(password) {
-        $http.post('/login', {password: password}).success(function (data) {
+        $http.post('/login', {password: password}).then(response => {
+            let data = response.data;
             if (data.error_msg) {
                 airyPopup.alert(data.error_msg);
             } else {
@@ -27,7 +29,7 @@ function airyUser($http, $state, airyPopup) {
     }
 
     function logout() {
-        $http.get('/logout').success(function (data) {
+        $http.get('/logout').then(response => {
             for (let prop in user) {
                 delete user[prop];
             }

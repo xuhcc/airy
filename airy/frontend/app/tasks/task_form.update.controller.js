@@ -20,7 +20,8 @@ class TaskUpdateController {
     }
 
     updateTask() {
-        this._taskResource.update(this.task).success((data) => {
+        this._taskResource.update(this.task).then(response => {
+            let data = response.data;
             angular.extend(this._originalTask, data.task);
             this._scope.closeThisDialog();
         });

@@ -17,8 +17,10 @@ describe('Project update', function () {
     let projectResourceMock = {
         update: function (project) {
             return {
-                success: function (successCallback) {
-                    successCallback({project: project});
+                then: function (successCallback) {
+                    successCallback({
+                        data: {project: project},
+                    });
                 },
             };
         },

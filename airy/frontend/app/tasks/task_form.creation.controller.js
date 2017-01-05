@@ -21,7 +21,8 @@ class TaskCreationController {
     }
 
     createTask() {
-        this._taskResource.create(this.task).success((data) => {
+        this._taskResource.create(this.task).then(response => {
+            let data = response.data;
             this._project.tasks.push(data.task);
             this._airyUser.reload();
             this._scope.closeThisDialog();
