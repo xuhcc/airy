@@ -4,7 +4,13 @@
     </div>
     <div class="report-range">
         <report-range-selector range="$ctrl.range"></report-range-selector>
-        <select class="set-period" ng-model="$ctrl.period" ng-change="$ctrl.setPeriod()" ng-options="period.label for period in $ctrl.periods"></select>
+        <select class="set-period"
+                ng-model="$ctrl.period"
+                ng-change="$ctrl.setPeriod()">
+            <option ng-repeat="period in $ctrl.periods" ng-value="period">
+                {{ period.label }}
+            </option>
+        </select>
     </div>
     <table class="pure-table pure-table-horizontal report" align="center">
         <thead>
