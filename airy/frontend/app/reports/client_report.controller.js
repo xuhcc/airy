@@ -1,3 +1,59 @@
+function shiftBackWeek(range) {
+    range.beg = moment(range.beg).subtract(1, 'week').format();
+    range.end = moment(range.beg).endOf('isoWeek').format();
+}
+
+function shiftForwardWeek(range) {
+    range.beg = moment(range.beg).add(1, 'week').format();
+    range.end = moment(range.beg).endOf('isoWeek').format();
+}
+
+export const PERIODS = [
+    {
+        label: '1 week',
+        updateRange: (range) => {
+            range.beg = moment(range.beg).startOf('isoWeek').format();
+            range.end = moment(range.beg).endOf('isoWeek').format();
+        },
+        shiftBack: shiftBackWeek,
+        shiftForward: shiftForwardWeek,
+    },
+    {
+        label: '2 weeks',
+        updateRange: (range) => {
+            range.beg = moment(range.beg).startOf('isoWeek').format();
+            range.end = moment(range.beg).add(1, 'week').endOf('isoWeek').format();
+        },
+        shiftBack: shiftBackWeek,
+        shiftForward: shiftForwardWeek,
+    },
+    {
+        label: '4 weeks',
+        updateRange: (range) => {
+            range.beg = moment(range.beg).startOf('isoWeek').format();
+            range.end = moment(range.beg).add(3, 'week').endOf('isoWeek').format();
+        },
+        shiftBack: shiftBackWeek,
+        shiftForward: shiftForwardWeek,
+    },
+    {
+        label: '1 month',
+        updateRange: (range) => {
+            range.beg = moment(range.beg).startOf('month').format();
+            range.end = moment(range.beg).endOf('month').format();
+        },
+        shiftBack: (range) => {
+            range.beg = moment(range.beg).subtract(1, 'month').format();
+            range.end = moment(range.beg).endOf('month').format();
+        },
+        shiftForward: (range) => {
+            range.beg = moment(range.beg).add(1, 'month').format();
+            range.end = moment(range.beg).endOf('month').format();
+        },
+    },
+];
+
+
 class ClientReportController {
 
     constructor($scope, $stateParams, $rootScope, clientResource, calculator) {
@@ -8,26 +64,7 @@ class ClientReportController {
 
         this.report = {};
         this.client = {};
-        this.periods = [
-            {
-                label: '1 week',
-                getRangeEnd: (rangeBeg) => {
-                    return moment(rangeBeg).endOf('isoWeek').format();
-                },
-            },
-            {
-                label: '2 weeks',
-                getRangeEnd: (rangeBeg) => {
-                    return moment(rangeBeg).add(1, 'week').endOf('isoWeek').format();
-                },
-            },
-            {
-                label: '4 weeks',
-                getRangeEnd: (rangeBeg) => {
-                    return moment(rangeBeg).add(3, 'week').endOf('isoWeek').format();
-                },
-            },
-        ];
+        this.periods = PERIODS;
         this.period = this.periods[0];
 
         this.range = {
@@ -50,7 +87,7 @@ class ClientReportController {
     }
 
     setPeriod() {
-        this.range.end = this.period.getRangeEnd(this.range.beg);
+        this.period.updateRange(this.range);
     }
 
     showCalculator(duration) {

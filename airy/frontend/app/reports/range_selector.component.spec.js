@@ -1,4 +1,5 @@
 import 'reports/range_selector.module.js';
+import { PERIODS } from 'reports/client_report.controller.js';
 
 describe('Range selector directive', function () {
     'use strict';
@@ -15,7 +16,10 @@ describe('Range selector directive', function () {
             beg: '2015-04-13T00:00:00+03:00',
             end: '2015-04-19T23:59:59+03:00',
         };
-        element = angular.element('<report-range-selector range="range"></report-range-selector>');
+        scope.period = PERIODS[0];
+        element = angular.element(
+            `<report-range-selector range="range" period="period">
+            </report-range-selector>`);
     }));
 
     it('should show the date range', function () {

@@ -7,21 +7,11 @@ class ReportRangeController {
     }
 
     shiftBack() {
-        let rangeBeg = moment(this.range.beg);
-        let rangeEnd = moment(this.range.end);
-        this.range = {
-            beg: rangeBeg.subtract(1, 'week').format(),
-            end: rangeEnd.subtract(1, 'week').format(),
-        };
+        this.period.shiftBack(this.range);
     }
 
     shiftForward() {
-        let rangeBeg = moment(this.range.beg);
-        let rangeEnd = moment(this.range.end);
-        this.range = {
-            beg: rangeBeg.add(1, 'week').format(),
-            end: rangeEnd.add(1, 'week').format(),
-        };
+        this.period.shiftForward(this.range);
     }
 }
 
@@ -33,6 +23,7 @@ const reportRangeSelector = {
     `,
     bindings: {
         range: '=',
+        period: '<',
     },
     controller: ReportRangeController,
 };
