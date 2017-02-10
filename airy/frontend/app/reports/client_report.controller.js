@@ -1,13 +1,3 @@
-function shiftBackWeek(range) {
-    range.beg = moment(range.beg).subtract(1, 'week').format();
-    range.end = moment(range.beg).endOf('isoWeek').format();
-}
-
-function shiftForwardWeek(range) {
-    range.beg = moment(range.beg).add(1, 'week').format();
-    range.end = moment(range.beg).endOf('isoWeek').format();
-}
-
 export const PERIODS = [
     {
         label: '1 week',
@@ -15,8 +5,14 @@ export const PERIODS = [
             range.beg = moment(range.beg).startOf('isoWeek').format();
             range.end = moment(range.beg).endOf('isoWeek').format();
         },
-        shiftBack: shiftBackWeek,
-        shiftForward: shiftForwardWeek,
+        shiftBack: (range) => {
+            range.beg = moment(range.beg).subtract(1, 'week').format();
+            range.end = moment(range.beg).endOf('isoWeek').format();
+        },
+        shiftForward: (range) => {
+            range.beg = moment(range.beg).add(1, 'week').format();
+            range.end = moment(range.beg).endOf('isoWeek').format();
+        },
     },
     {
         label: '2 weeks',
@@ -24,8 +20,14 @@ export const PERIODS = [
             range.beg = moment(range.beg).startOf('isoWeek').format();
             range.end = moment(range.beg).add(1, 'week').endOf('isoWeek').format();
         },
-        shiftBack: shiftBackWeek,
-        shiftForward: shiftForwardWeek,
+        shiftBack: (range) => {
+            range.beg = moment(range.beg).subtract(1, 'week').format();
+            range.end = moment(range.beg).add(1, 'week').endOf('isoWeek').format();
+        },
+        shiftForward: (range) => {
+            range.beg = moment(range.beg).add(1, 'week').format();
+            range.end = moment(range.beg).add(1, 'week').endOf('isoWeek').format();
+        },
     },
     {
         label: '4 weeks',
@@ -33,8 +35,14 @@ export const PERIODS = [
             range.beg = moment(range.beg).startOf('isoWeek').format();
             range.end = moment(range.beg).add(3, 'week').endOf('isoWeek').format();
         },
-        shiftBack: shiftBackWeek,
-        shiftForward: shiftForwardWeek,
+        shiftBack: (range) => {
+            range.beg = moment(range.beg).subtract(1, 'week').format();
+            range.end = moment(range.beg).add(3, 'week').endOf('isoWeek').format();
+        },
+        shiftForward: (range) => {
+            range.beg = moment(range.beg).add(1, 'week').format();
+            range.end = moment(range.beg).add(3, 'week').endOf('isoWeek').format();
+        },
     },
     {
         label: '1 month',
