@@ -1,9 +1,9 @@
 import datetime
+import random
 import arrow
 
 import factory
 from factory.alchemy import SQLAlchemyModelFactory
-from factory.fuzzy import BaseFuzzyAttribute, _random
 
 from airy import database, models
 from airy.utils.date import tz_now, week_beginning
@@ -16,7 +16,7 @@ class ClientFactory(SQLAlchemyModelFactory):
         sqlalchemy_session = database.db.session
 
     name = factory.Sequence(lambda n: 'Client {0:02d}'.format(n))
-    contacts = 'Email: client@example.net'
+    contacts = factory.Faker('text', max_nb_chars=100)
 
 
 class ProjectFactory(SQLAlchemyModelFactory):
@@ -27,7 +27,7 @@ class ProjectFactory(SQLAlchemyModelFactory):
 
     client = factory.SubFactory(ClientFactory)
     name = factory.Sequence(lambda n: 'Project {0:02d}'.format(n))
-    description = 'Test project'
+    description = factory.Faker('text', max_nb_chars=100)
 
 
 class TaskFactory(SQLAlchemyModelFactory):
@@ -38,25 +38,10 @@ class TaskFactory(SQLAlchemyModelFactory):
 
     project = factory.SubFactory(ProjectFactory)
     title = factory.Sequence(lambda n: 'Task {0:02d}'.format(n))
-    url = 'https://example.org'
-    description = 'There is a bug'
+    url = factory.Faker('url')
+    description = factory.Faker('text', max_nb_chars=200)
     created_at = tz_now()
     updated_at = tz_now()
-
-
-class FuzzyTimeDelta(BaseFuzzyAttribute):
-
-    def __init__(self, low, high, precision=60, **kwargs):
-        self.low = low
-        self.high = high
-        self.precision = precision
-        super().__init__(**kwargs)
-
-    def fuzz(self):
-        seconds = int(_random.uniform(self.low.total_seconds(),
-                                      self.high.total_seconds()))
-        seconds -= seconds % self.precision
-        return datetime.timedelta(seconds=seconds)
 
 
 class TimeEntryFactory(SQLAlchemyModelFactory):
@@ -66,10 +51,16 @@ class TimeEntryFactory(SQLAlchemyModelFactory):
         sqlalchemy_session = database.db.session
 
     task = factory.SubFactory(TaskFactory)
-    duration = FuzzyTimeDelta(datetime.timedelta(minutes=1),
-                              datetime.timedelta(hours=100))
-    comment = factory.Sequence(lambda n: 'Comment {0:02d}'.format(n))
+    comment = factory.Faker('sentence', nb_words=2)
     added_at = tz_now()
+
+    @factory.lazy_attribute
+    def duration(self):
+        seconds = int(random.uniform(
+            datetime.timedelta(minutes=1).total_seconds(),
+            datetime.timedelta(hours=100).total_seconds()))
+        seconds -= seconds % 60
+        return datetime.timedelta(seconds=seconds)
 
 
 class DateRangeFactory(factory.DictFactory):
