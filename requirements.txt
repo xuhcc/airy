@@ -1,13 +1,13 @@
+alembic==0.8.10
 arrow==0.10.0
 Flask==0.10.1
 Flask-RESTful==0.3.4
-SQLAlchemy==1.0.9
-SQLAlchemy-Utils==0.31.4
 Flask-SQLAlchemy==2.1
 psycopg2==2.6.1
-alembic==0.8.3
 Jinja2==2.8
 marshmallow==2.4.1
 pytz>=2014.2
 premailer==2.8.3
 cssutils==1.0.1
+SQLAlchemy==1.1.5
+SQLAlchemy-Utils==0.32.12
