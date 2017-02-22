@@ -180,6 +180,7 @@ class TestTaskSerializer():
         data = serializer.dump(task).data
         assert data['id'] == task.id
         assert data['title'] == task.title
+        assert data['url'] == task.url
         assert data['description'] == task.description
         assert data['project_id'] == task.project.id
         assert data['total_time'] == time_entry.duration.total_seconds()
@@ -195,11 +196,12 @@ class TestTaskSerializer():
         data = TaskFactory.stub(project=None).__dict__
         data['project_id'] = project.id
         serializer = TaskSerializer(
-            only=['id', 'title', 'description', 'project_id'])
+            only=['id', 'title', 'url', 'description', 'project_id'])
         instance, errors = serializer.load(data)
         assert not errors
         assert instance.id is None
         assert instance.title == data['title']
+        assert instance.url == data['url']
         assert instance.project_id == project.id
         assert instance.created_at is not None
         assert instance.updated_at is not None
@@ -211,7 +213,7 @@ class TestTaskSerializer():
         data['id'] = task.id
         data['project_id'] = task.project.id
         serializer = TaskSerializer(
-            only=['id', 'title', 'description', 'project_id'])
+            only=['id', 'title', 'url', 'description', 'project_id'])
         instance, errors = serializer.load(data)
         assert not errors
         assert instance.id == task.id
@@ -220,9 +222,11 @@ class TestTaskSerializer():
 
     def test_required(self):
         serializer = TaskSerializer(
-            only=['id', 'title', 'description', 'project_id'])
+            only=['id', 'title', 'url', 'description', 'project_id'])
         instance, errors = serializer.load({})
         assert 'title' in errors
+        assert 'url' not in errors
+        assert 'description' not in errors
         assert 'project_id' in errors
 
     def test_validate_project_id(self):

@@ -17,6 +17,11 @@
             </h3></div>
             <div class="task-created" ng-show="task.detailsVisible">Created at: {{ task.created_at|date:'dd.MM.yy HH:mm' }}</div>
             <div class="task-updated" ng-show="task.detailsVisible">Updated at: {{ task.updated_at|date:'dd.MM.yy HH:mm' }}</div>
+            <div class="task-url" ng-if="task.url">
+                <a href="{{ task.url }}" target="_blank">
+                    {{ task.url }}
+                </a>
+            </div>
             <div class="task-description" ng-bind-html="task.description|nl2br|linkify"></div>
             <div class="task-spent-time">
                 <span>Time spent: <a class="task-total-time" title="Show details" ng-click="task.timeEntriesVisible = !task.timeEntriesVisible">{{ task.total_time|time }}</a></span>

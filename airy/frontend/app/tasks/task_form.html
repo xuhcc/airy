@@ -2,6 +2,8 @@
     <fieldset>
         <legend>{{ ctrl.formTitle }}</legend>
         <input type="text" name="title" placeholder="Title" ng-model="ctrl.task.title" auto-focus>
+        <input type="text" name="url" placeholder="URL"
+               ng-model="ctrl.task.url">
         <textarea name="description" placeholder="Description" ng-model="ctrl.task.description" msd-elastic="\n"></textarea>
         <button type="submit" class="pure-button pure-button-primary" ng-click="ctrl.submitForm()">Save</button>
     </fieldset>

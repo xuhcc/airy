@@ -38,6 +38,7 @@ class TaskFactory(SQLAlchemyModelFactory):
 
     project = factory.SubFactory(ProjectFactory)
     title = factory.Sequence(lambda n: 'Task {0:02d}'.format(n))
+    url = 'https://example.org'
     description = 'There is a bug'
     created_at = tz_now()
     updated_at = tz_now()

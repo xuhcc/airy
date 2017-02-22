@@ -77,6 +77,7 @@ class Task(db.Model):
 
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)
+    url = Column(String, nullable=True)
     description = Column(Text)
     created_at = Column(DateTime(timezone=True), nullable=False)
     updated_at = Column(DateTime(timezone=True), nullable=False)

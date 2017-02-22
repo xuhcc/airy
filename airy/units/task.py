@@ -16,7 +16,7 @@ def save(data, task_id=None):
                 'Task #{0} not found'.format(task_id), 404)
         data['id'] = task_id
     serializer = TaskSerializer(
-        only=['id', 'title', 'description', 'project_id'])
+        only=['id', 'title', 'url', 'description', 'project_id'])
     task, errors = serializer.load(data)
     if errors:
         raise TaskError(errors, 400)

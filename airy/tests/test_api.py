@@ -264,11 +264,14 @@ class TestTaskApi():
         task_data = {
             'project_id': task.project_id,
             'title': 'New Title',
+            'url': 'http://example.org',
+            'description': 'New Description',
         }
         response = self.client.put(url, json=task_data)
         assert response.status_code == 200
         assert 'task' in response.json
         assert response.json['task']['title'] == task_data['title']
+        assert response.json['task']['description'] == task_data['description']
         assert response.json['task']['project_id'] == task_data['project_id']
 
         url = url_for('task_api.task', task_id=0)

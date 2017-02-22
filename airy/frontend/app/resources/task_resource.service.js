@@ -7,6 +7,7 @@ class taskResource {
     _prepare(task) {
         return {
             title: task.title,
+            url: task.url,
             description: task.description,
             project_id: task.project_id,
         };

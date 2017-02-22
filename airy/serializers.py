@@ -64,6 +64,7 @@ class TaskSerializer(Schema):
     id = fields.Integer()
     title = fields.String(required=True,
                           validate=validate.Length(min=3, max=100))
+    url = fields.Url(required=False)
     description = fields.String(validate=validate.Length(max=1000),
                                 allow_none=True)
     project_id = fields.Integer(required=True,
