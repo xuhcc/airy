@@ -127,9 +127,12 @@ class TaskReport(object):
             for task, group in itertools.groupby(group, lambda row: row[1]):
                 task_total = datetime.timedelta()
                 for row in group:
-                    title = task.title
                     task_total += row[2].duration
-                tasks.append({'title': title, 'total': task_total})
+                tasks.append({
+                    'title': task.title,
+                    'url': task.url,
+                    'total': task_total,
+                })
                 project_total += task_total
 
             projects.append({

@@ -26,7 +26,12 @@
                 <td colspan="2">{{ row.project.name }}</td>
             </tr>
             <tr ng-repeat="task in row.tasks">
-                <td>{{ task.title }}</td>
+                <td>
+                    <a ng-if="task.url" ng-href="{{ task.url }}" target="_blank">
+                        {{ task.title }}
+                    </a>
+                    <span ng-if="!task.url">{{ task.title }}</span>
+                </td>
                 <td>{{ task.total|time }}</td>
             </tr>
             <tr ng-repeat-end class="report-total">

@@ -127,6 +127,10 @@ class TestTaskReport(object):
         assert len(result['projects']) == 8
         assert result['date_range']['beg'] == week_beg.isoformat()
 
+        assert len(result['projects'][0]['tasks']) == 1
+        assert 'title' in result['projects'][0]['tasks'][0]
+        assert 'url' in result['projects'][0]['tasks'][0]
+
         total_1 = sum((item.duration for item in time_entries),
                       datetime.timedelta()).total_seconds()
         total_2 = sum(row['total'] for row in result['projects'])
