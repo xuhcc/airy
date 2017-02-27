@@ -40,8 +40,8 @@ class TaskFactory(SQLAlchemyModelFactory):
     title = factory.Sequence(lambda n: 'Task {0:02d}'.format(n))
     url = factory.Faker('url')
     description = factory.Faker('text', max_nb_chars=200)
-    created_at = tz_now()
-    updated_at = tz_now()
+    created_at = factory.LazyFunction(tz_now)
+    updated_at = factory.LazyFunction(tz_now)
 
 
 class TimeEntryFactory(SQLAlchemyModelFactory):
@@ -52,7 +52,7 @@ class TimeEntryFactory(SQLAlchemyModelFactory):
 
     task = factory.SubFactory(TaskFactory)
     comment = factory.Faker('sentence', nb_words=2)
-    added_at = tz_now()
+    added_at = factory.LazyFunction(tz_now)
 
     @factory.lazy_attribute
     def duration(self):
@@ -65,7 +65,9 @@ class TimeEntryFactory(SQLAlchemyModelFactory):
 
 class DateRangeFactory(factory.DictFactory):
 
-    beg = week_beginning(tz_now()).isoformat()
+    @factory.lazy_attribute
+    def beg(self):
+        return week_beginning(tz_now()).isoformat()
 
     @factory.lazy_attribute
     def end(self):
