@@ -1,7 +1,12 @@
 import datetime
 from marshmallow import (
-    Schema, fields, post_load,
-    validate, validates_schema, ValidationError)
+    Schema,
+    fields,
+    pre_load,
+    post_load,
+    validate,
+    validates_schema,
+    ValidationError)
 
 from airy.database import db
 from airy.models import Client, Project, Task, TimeEntry
@@ -64,7 +69,7 @@ class TaskSerializer(Schema):
     id = fields.Integer()
     title = fields.String(required=True,
                           validate=validate.Length(min=3, max=100))
-    url = fields.Url(required=False)
+    url = fields.Url(required=False, allow_none=True)
     description = fields.String(validate=validate.Length(max=1000),
                                 allow_none=True)
     project_id = fields.Integer(required=True,
@@ -78,6 +83,12 @@ class TaskSerializer(Schema):
     total_time = fields.TimeDelta(default=0,
                                   dump_only=True)
     is_closed = fields.Boolean(dump_only=True)
+
+    @pre_load
+    def clean_url(self, data):
+        if not data.get('url'):
+            data['url'] = None
+        return data
 
     @post_load
     def make_task(self, data):

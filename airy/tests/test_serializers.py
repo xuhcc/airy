@@ -249,6 +249,17 @@ class TestTaskSerializer():
         instance, errors = serializer.load(data)
         assert 'title' in errors
 
+    def test_preprocess_url(self):
+        serializer = TaskSerializer(
+            only=['id', 'title', 'description', 'project_id'])
+        project = ProjectFactory.create()
+        self.db.session.commit()
+        data = TaskFactory.stub(project=None, url='').__dict__
+        data['project_id'] = project.id
+        instance, errors = serializer.load(data)
+        assert not errors
+        assert instance.url is None
+
 
 @pytest.mark.usefixtures('db_class')
 class TestTimeEntrySerializer():
