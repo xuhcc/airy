@@ -17,15 +17,21 @@ def html():
 
 
 @task
-def python():
-    with prefix(". venv/bin/activate"):
-        local("flake8 --max-complexity=8 fabfile")
-        local("flake8 --max-complexity=10 airy")
+def py_style():
+    with prefix('. venv/bin/activate'):
+        local('flake8 --max-complexity=8 fabfile')
+        local('flake8 --max-complexity=10 airy')
         local('flake8 --max-complexity=8 alembic/env.py')
 
 
 @task
-def flask():
+def py_security():
+    with prefix('. venv/bin/activate'):
+        local('bandit -r -x tests,settings airy')
+
+
+@task
+def py_unit():
     with prefix('. venv/bin/activate'):
         local('py.test -v -x --pdb '
               '--cov airy '
@@ -33,10 +39,21 @@ def flask():
               'airy/tests')
 
 
-@task(default=True)
-def all():
-    python()
-    flask()
+@task
+def frontend():
     js()
     css()
     html()
+
+
+@task
+def backend():
+    py_style()
+    py_security()
+    py_unit()
+
+
+@task(default=True)
+def all():
+    frontend()
+    backend()
