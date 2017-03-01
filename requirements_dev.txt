@@ -9,3 +9,4 @@ pytest==2.7.3
 pytest-flask==0.8.1
 pytest-mock==0.4.2
 pytest-cov==1.8.1
+safety==0.5.1
