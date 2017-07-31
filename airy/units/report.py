@@ -159,7 +159,10 @@ class TaskReport(object):
         return serializer.dump(self._build()).data
 
     def send(self):
-        subject = 'Task report for {0}'.format(self.client.name)
+        subject = 'Task report for {0}: {1:%d %b %Y} — {2:%d %b %Y}'.format(
+            self.client.name,
+            self.date_range[0],
+            self.date_range[1])
         html = render_template('email/task_report.html', **self._build())
         email.send(subject,
                    premailer.transform(html),
