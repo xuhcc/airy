@@ -23,7 +23,7 @@ Prepare environment and install packages:
 
 ```
 fab build
-cp airy/settings.py.dist airy/settings.py
+cp airy/settings.py.example airy/settings.py
 vagrant up
 ```
 
