@@ -23,7 +23,6 @@ import 'reports/client_timesheet.module.js';
 angular
     .module('airy', [
         'ngSanitize',
-        'linkify',
         'ngDialog',
         'cfp.hotkeys',
         'angular-loading-bar',

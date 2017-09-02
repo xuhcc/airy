@@ -9,7 +9,6 @@
     "momentjs": "~2.10.6",
     "angular": "^1.6.1",
     "angular-sanitize": "^1.6.1",
-    "angular-linkify": "~1.2.0",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0",
     "angular-loading-bar": "~0.8.0",
     "angular-ui-router": "1.0.0-beta.3",

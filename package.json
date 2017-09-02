@@ -18,7 +18,8 @@
     "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-sass": "^2.0.0",
-    "grunt-systemjs-builder": "^0.2.7"
+    "grunt-systemjs-builder": "^0.2.7",
+    "linkifyjs": "^2.1.4"
   },
   "devDependencies": {
     "babel-plugin-istanbul": "^2.0.1",

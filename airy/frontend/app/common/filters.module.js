@@ -2,7 +2,8 @@ export default angular
     .module('airy.filters', [])
     .filter('nl2br', nl2br)
     .filter('time', time)
-    .filter('timer', timer);
+    .filter('timer', timer)
+    .filter('linkify', linkify);
 
 function nl2br() {
     return function (data) {
@@ -31,5 +32,15 @@ function timer() {
         let hours = duration.days() * 24 + duration.hours();
         return hours + ':' + zfill(duration.minutes()) +
             ':' + zfill(duration.seconds());
+    };
+}
+
+function linkify() {
+    const options = {};
+    return function (value) {
+        if (!value) {
+            return value;
+        }
+        return linkifyHtml(value, options);
     };
 }
