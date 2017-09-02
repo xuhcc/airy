@@ -21,10 +21,10 @@
             "bower_components/angular-linkify/angular-linkify.js",
             "bower_components/ng-dialog/js/ngDialog.js",
             "bower_components/angular-hotkeys/build/hotkeys.js",
-            "bower_components/angular-elastic/elastic.js",
             "bower_components/angular-loading-bar/build/loading-bar.js",
             "bower_components/angular-ui-router/release/angular-ui-router.js",
-            "bower_components/angular-breadcrumb/dist/angular-breadcrumb.js"
+            "bower_components/angular-breadcrumb/dist/angular-breadcrumb.js",
+            "node_modules/autosize/dist/autosize.js"
         ],
         "css": [
             "bower_components/pure/base.css",

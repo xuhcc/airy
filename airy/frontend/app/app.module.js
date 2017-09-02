@@ -1,6 +1,7 @@
 import routeConfig from 'app.routes.js';
 import {httpConfig, breadcrumbConfig, ngDialogConfig, injectBreadcrumb} from 'app.configs.js';
 
+import 'common/autosize/autosize.module.js';
 import 'common/error_handler/error_handler.module.js';
 import 'common/footer/footer.module.js';
 import 'common/header/header.module.js';
@@ -25,13 +26,13 @@ angular
         'linkify',
         'ngDialog',
         'cfp.hotkeys',
-        'monospaced.elastic',
         'angular-loading-bar',
         'ncy-angular-breadcrumb',
         'ui.router',
         // Application
         'airy.filters',
         'airy.resources',
+        'airy.autosize',
         'airy.header',
         'airy.footer',
         'airy.errorHandler',

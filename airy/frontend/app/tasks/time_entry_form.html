@@ -4,7 +4,7 @@
         <input type="number" min="0" max="99" name="hours" placeholder="Hours" ng-model="ctrl.duration.hours"><!--
         --><input type="number" min="0" max="59" name="minutes" placeholder="Minutes" ng-model="ctrl.duration.minutes" auto-focus><!--
         --><button class="pure-button amount-increment" ng-click="ctrl.duration.increment()">+30</button>
-        <textarea name="comment" placeholder="Comment" ng-model="ctrl.timeEntry.comment" msd-elastic="\n"></textarea>
+        <textarea name="comment" placeholder="Comment" ng-model="ctrl.timeEntry.comment" auto-size></textarea>
         <button type="submit" class="pure-button pure-button-primary" ng-click="ctrl.submitForm()" ng-disabled="form.$invalid">Save</button>
     </fieldset>
 </form>

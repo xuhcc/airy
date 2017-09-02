@@ -2,7 +2,7 @@
     <fieldset>
         <legend>{{ ctrl.formTitle }}</legend>
         <input type="text" name="name" placeholder="Name" ng-model="ctrl.client.name" auto-focus>
-        <textarea name="contacts" placeholder="Contacts" ng-model="ctrl.client.contacts" msd-elastic="\n"></textarea>
+        <textarea name="contacts" placeholder="Contacts" ng-model="ctrl.client.contacts" auto-size></textarea>
         <button type="submit" class="pure-button pure-button-primary" ng-click="ctrl.submitForm()">Save</button>
     </fieldset>
 </form>
