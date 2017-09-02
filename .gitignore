@@ -2,8 +2,9 @@
 /node_modules
 /bower_components
 /logs
-/.vagrant
+.vagrant
 *.pyc
+.mypy_cache
 airy/frontend/css
 airy/frontend/js
 airy/static

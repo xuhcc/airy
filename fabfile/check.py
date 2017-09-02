@@ -32,6 +32,12 @@ def py_security():
 
 
 @task
+def py_types():
+    with prefix('. venv/bin/activate'):
+        local('mypy --ignore-missing-imports airy')
+
+
+@task
 def py_unit():
     with prefix('. venv/bin/activate'):
         local('py.test -v -x --pdb '
@@ -51,6 +57,7 @@ def frontend():
 def backend():
     py_style()
     py_security()
+    py_types()
     py_unit()
 
 

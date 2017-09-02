@@ -43,7 +43,7 @@ log_config = {
     },
 }
 if settings.debug:
-    log_config['loggers']['']['level'] = 'DEBUG'
-    log_config['loggers']['']['handlers'].append('console')
+    log_config['loggers']['']['level'] = 'DEBUG'  # type: ignore
+    log_config['loggers']['']['handlers'].append('console')  # type: ignore
 
 logging.config.dictConfig(log_config)

@@ -1,13 +1,14 @@
 import logging
 import smtplib
 from email.mime.text import MIMEText
+from typing import List
 
 from airy import settings
 
 logger = logging.getLogger(__name__)
 
 
-def send(subject, text, recipients):
+def send(subject: str, text: str, recipients: List[str]):
     """
     Send email message
     """
@@ -31,6 +32,6 @@ def send(subject, text, recipients):
             session.quit()
         except smtplib.SMTPException as error:
             logger.error('Failed to deliver the email')
-            logger.exception(error)
+            logger.exception(error)  # type: ignore
         else:
             logger.info('The email has been delivered')
