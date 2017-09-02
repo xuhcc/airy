@@ -20,6 +20,7 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-sass": "^2.0.0",
     "grunt-systemjs-builder": "^0.2.7",
+    "jquery": "^3.2.1",
     "linkifyjs": "^2.1.4"
   },
   "devDependencies": {
