@@ -4,7 +4,7 @@ Flask==0.12.2
 Flask-RESTful==0.3.6
 Flask-SQLAlchemy==2.2
 psycopg2==2.6.1
-Jinja2==2.8
+Jinja2==2.9.6
 marshmallow==2.13.0
 pytz>=2014.2
 premailer==2.8.3
