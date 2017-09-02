@@ -31,7 +31,7 @@ def save(data, time_entry_id=None):
     return serializer.dump(time_entry).data
 
 
-def delete(time_entry_id):
+def delete(time_entry_id: int) -> float:
     time_entry = db.session.query(TimeEntry).get(time_entry_id)
     if not time_entry:
         raise TimeEntryError(

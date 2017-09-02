@@ -1,9 +1,11 @@
+from typing import Dict, Any
+
 SCHEMA_ERROR_KEY = '_schema'
 
 
 class ApiError(Exception):
 
-    def __init__(self, errors, status_code=400):
+    def __init__(self, errors: Any, status_code: int = 400) -> None:
         super().__init__()
         if isinstance(errors, str):
             self.message = errors
@@ -13,7 +15,7 @@ class ApiError(Exception):
             raise AssertionError
         self.status_code = status_code
 
-    def errors_to_string(self, err_dict):
+    def errors_to_string(self, err_dict: Dict) -> str:
         messages = []
         if SCHEMA_ERROR_KEY in err_dict:
             messages.append(', '.join(err_dict.pop(SCHEMA_ERROR_KEY)))
