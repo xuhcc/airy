@@ -15,7 +15,7 @@ from factories import (
 def login(client):
     login_url = url_for('user_api.login')
     client.post(login_url,
-                json={'password': settings.password})
+                json={'password': settings.USER_PASSWORD})
 
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')
@@ -118,7 +118,7 @@ class TestClientApi():
         assert send_mock.call_count == 1
         args = send_mock.call_args[0]
         assert client.name in args[0]  # Subject
-        assert args[2] == settings.email
+        assert args[2] == settings.USER_EMAIL
 
     def test_get_report(self):
         week_beg = week_beginning(tz_now())
@@ -157,7 +157,7 @@ class TestClientApi():
         assert send_mock.call_count == 1
         args = send_mock.call_args[0]
         assert client.name in args[0]  # Subject
-        assert args[2] == settings.email
+        assert args[2] == settings.USER_EMAIL
 
 
 @pytest.mark.usefixtures('client_class', 'db_class', 'login')

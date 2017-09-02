@@ -32,7 +32,7 @@ class TestUser():
         self.db.session.commit()
 
         result = user.serialize()
-        assert result['name'] == settings.username
+        assert result['name'] == settings.USER_NAME
         assert result['open_tasks'] == 7
         total_week = sum((item.duration for item in time_entries),
                          datetime.timedelta()).total_seconds()

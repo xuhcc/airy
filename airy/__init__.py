@@ -19,8 +19,8 @@ def create_app(testing=False):
     app = Flask(__name__,
                 static_folder=config.static_dir,
                 static_url_path='/static')
-    app.debug = False if testing else settings.debug
-    app.secret_key = settings.secret_key
+    app.debug = False if testing else settings.DEBUG
+    app.secret_key = settings.SECRET_KEY
     app.session_cookie_name = 'airy_session'
 
     app.config['SQLALCHEMY_DATABASE_URI'] = \
@@ -45,5 +45,5 @@ def create_app(testing=False):
 
 def runserver():
     app = create_app()
-    app.run(host=settings.http_host,
-            port=settings.http_port)
+    app.run(host=settings.HTTP_HOST,
+            port=settings.HTTP_PORT)

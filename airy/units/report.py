@@ -93,7 +93,7 @@ class TimeSheet(object):
         html = render_template('email/timesheet.html', **self._build())
         email.send(subject,
                    premailer.transform(html),
-                   settings.email)
+                   settings.USER_EMAIL)
 
 
 class TaskReport(object):
@@ -166,4 +166,4 @@ class TaskReport(object):
         html = render_template('email/task_report.html', **self._build())
         email.send(subject,
                    premailer.transform(html),
-                   settings.email)
+                   settings.USER_EMAIL)

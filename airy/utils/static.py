@@ -10,7 +10,7 @@ def get_assets():
         'js': [],
         'css': [],
     }
-    if settings.debug:
+    if settings.DEBUG:
         with open(os.path.join(app_dir, 'frontend',
                                'index.json')) as index_file:
             index = json.load(index_file)

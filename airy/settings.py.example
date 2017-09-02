@@ -1,23 +1,23 @@
-http_host = "localhost"
-http_port = 8085
+HTTP_HOST = 'localhost'
+HTTP_PORT = 8085
 
-db_host = 'localhost'
-db_port = 5432
-db_name = "airy"
-db_username = "airy"
-db_password = "airy"
+DB_HOST = 'localhost'
+DB_PORT = 5432
+DB_NAME = 'airy'
+DB_USERNAME = 'airy'
+DB_PASSWORD = 'airy'
 
-debug = False
-secret_key = "1234567890"
+DEBUG = False
+SECRET_KEY = '1234567890'
 
-timezone = "Europe/Moscow"
+TIMEZONE = 'Europe/Moscow'
 
-smtp_server = "example.com"
-smtp_port = 2525
-smtp_user = "username@example.com"
-smtp_password = "1234567890"
-smtp_sender = "no-reply@example.com"
+SMTP_SERVER = 'example.com'
+SMTP_PORT = 2525
+SMTP_USER = 'username@example.com'
+SMTP_PASSWORD = '1234567890'
+SMTP_SENDER = 'no-reply@example.com'
 
-username = "username"
-password = "password"
-email = "username@example.com"
+USER_NAME = 'username'
+USER_PASSWORD = 'password'
+USER_EMAIL = 'username@example.com'

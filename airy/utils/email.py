@@ -16,18 +16,18 @@ def send(subject: str, text: str, recipients: List[str]):
         recipients = [recipients]
     for recipient in recipients:
         message = MIMEText(text, 'html')
-        message['From'] = settings.smtp_sender
+        message['From'] = settings.SMTP_SENDER
         message['To'] = recipient
         message['Subject'] = subject
         # Connect to SMTP server
         try:
-            session = smtplib.SMTP(host=settings.smtp_server,
-                                   port=settings.smtp_port)
+            session = smtplib.SMTP(host=settings.SMTP_SERVER,
+                                   port=settings.SMTP_PORT)
             session.ehlo()
             session.starttls()
             session.ehlo()
-            session.login(settings.smtp_user,
-                          settings.smtp_password)
+            session.login(settings.SMTP_USER,
+                          settings.SMTP_PASSWORD)
             session.send_message(message)
             session.quit()
         except smtplib.SMTPException as error:

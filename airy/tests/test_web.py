@@ -15,11 +15,12 @@ class TestLogin():
 
     def test_login(self):
         login_url = url_for('user_api.login')
-        response = self.client.post(login_url,
-                                    json={'password': settings.password})
+        response = self.client.post(
+            login_url,
+            json={'password': settings.USER_PASSWORD})
         assert response.status_code == 200
         user = response.json['user']
-        assert user['name'] == settings.username
+        assert user['name'] == settings.USER_NAME
         assert 'user' in session
 
     def test_login_error(self):
@@ -31,7 +32,7 @@ class TestLogin():
     def test_logout(self):
         login_url = url_for('user_api.login')
         self.client.post(login_url,
-                         json={'password': settings.password})
+                         json={'password': settings.USER_PASSWORD})
         assert 'user' in session
         logout_url = url_for('user_api.logout')
         response = self.client.get(logout_url)
@@ -41,11 +42,11 @@ class TestLogin():
     def test_user(self):
         login_url = url_for('user_api.login')
         self.client.post(login_url,
-                         json={'password': settings.password})
+                         json={'password': settings.USER_PASSWORD})
         user_url = url_for('user_api.user')
         response = self.client.get(user_url)
         assert response.status_code == 200
-        assert response.json['user']['name'] == settings.username
+        assert response.json['user']['name'] == settings.USER_NAME
         assert response.json['user']['open_tasks'] == 0
 
     def test_anonymous_user(self):

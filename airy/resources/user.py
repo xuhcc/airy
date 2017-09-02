@@ -14,7 +14,7 @@ def requires_auth(func):
     """
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
-        if session.get("user") != settings.username:
+        if session.get('user') != settings.USER_NAME:
             return abort(403)
         else:
             return func(*args, **kwargs)
@@ -24,7 +24,7 @@ def requires_auth(func):
 class User(Resource):
 
     def get(self):
-        if session.get("user") == settings.username:
+        if session.get('user') == settings.USER_NAME:
             return {'user': user.User().serialize()}
         else:
             return {'user': {}}

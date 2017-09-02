@@ -17,12 +17,12 @@ logger = logging.getLogger(__name__)
 class User(object):
 
     def __init__(self):
-        self.name = settings.username
+        self.name = settings.USER_NAME
 
     @classmethod
     def login(cls, session, data):
-        if data.get('password') == settings.password:
-            session['user'] = settings.username
+        if data.get('password') == settings.USER_PASSWORD:
+            session['user'] = settings.USER_NAME
             return cls().serialize()
         raise UserError('Incorrect password', 400)
 
