@@ -1,4 +1,5 @@
 import 'reports/client_timesheet.module.js';
+import { PERIODS } from 'reports/client_report.controller.js';
 
 describe('Timesheet', function () {
     'use strict';
@@ -47,6 +48,7 @@ describe('Timesheet', function () {
         expect(ctrl.client).toBeDefined();
         expect(ctrl.days.length).toBe(7);
         expect(ctrl.range).toBeDefined();
+        expect(ctrl.period).toEqual(PERIODS[0]);
         spyOn(clientResourceMock, 'getTimeSheet').and.callThrough();
         scope.$digest();
         expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();

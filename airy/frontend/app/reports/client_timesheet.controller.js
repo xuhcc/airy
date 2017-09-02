@@ -1,3 +1,5 @@
+import { PERIODS } from 'reports/client_report.controller.js';
+
 class ClientTimeSheetController {
 
     constructor($scope, $stateParams, $rootScope, clientResource, calculator) {
@@ -13,6 +15,7 @@ class ClientTimeSheetController {
             beg: moment().startOf('isoWeek').format(),
             end: moment().endOf('isoWeek').format(),
         };
+        this.period = PERIODS[0];
 
         $scope.$watch('$ctrl.range', () => this.getTimeSheet(), true);
     }

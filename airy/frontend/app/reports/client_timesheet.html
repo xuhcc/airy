@@ -3,7 +3,9 @@
         <h2>Timesheet for {{ $ctrl.client.name }}</h2>
     </div>
     <div class="report-range">
-        <report-range-selector range="$ctrl.range"></report-range-selector>
+        <report-range-selector range="$ctrl.range"
+                               period="$ctrl.period">
+        </report-range-selector>
     </div>
     <table class="pure-table pure-table-horizontal report" align="center">
         <thead>
