@@ -25,6 +25,7 @@ def create_app(testing=False):
 
     app.config['SQLALCHEMY_DATABASE_URI'] = \
         database.get_sqlalchemy_url(testing=testing)
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = app.debug
     database.db.init_app(app)
 
