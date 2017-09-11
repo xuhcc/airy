@@ -6,6 +6,7 @@ module.exports = function (config) {
     let paths = require('./airy/frontend/index.json');
 
     let files = [
+        'node_modules/es6-promise/dist/es6-promise.auto.js',
         ...paths.lib.js,
         'bower_components/angular-mocks/angular-mocks.js',
         'airy/frontend/system-test.conf.js',

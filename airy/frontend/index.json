@@ -12,8 +12,7 @@
     "specs": "airy/frontend/app/**/*.spec.js",
     "lib": {
         "js": [
-            "bower_components/system.js/dist/system.js",
-            "bower_components/system.js/dist/system-polyfills.js",
+            "node_modules/systemjs/dist/system.js",
             "node_modules/jquery/dist/jquery.js",
             "node_modules/moment/moment.js",
             "bower_components/angular/angular.js",
