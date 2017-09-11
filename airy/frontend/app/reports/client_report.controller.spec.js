@@ -5,6 +5,7 @@ describe('Task report', function () {
 
     let scope;
     let buildCtrl;
+    let airyBreadcrumbsMock;
     let clientResourceMock = {
         getReport: function (clientId, range) {
             return {
@@ -30,11 +31,13 @@ describe('Task report', function () {
     beforeEach(module('airy.clientReport'));
     beforeEach(inject(function ($componentController, $rootScope) {
         scope = $rootScope.$new();
+        airyBreadcrumbsMock = jasmine.createSpyObj('breadcrumbs', ['add']);
         buildCtrl = function () {
             return $componentController('clientReport', {
                 $scope: scope,
                 $stateParams: {clientId: clientId},
                 $rootScope: $rootScope,
+                airyBreadcrumbs: airyBreadcrumbsMock,
                 clientResource: clientResourceMock,
                 calculator: calculatorMock,
             });
@@ -53,6 +56,7 @@ describe('Task report', function () {
         expect(clientResourceMock.getReport).toHaveBeenCalled();
         expect(clientResourceMock.getReport.calls.argsFor(0)[0]).toBe(clientId);
         expect(clientResourceMock.getReport.calls.argsFor(0)[1]).toBe(ctrl.range);
+        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(2);
     });
 
     it('should reload the task report after changing date range', function () {

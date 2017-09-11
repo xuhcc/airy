@@ -25,6 +25,7 @@ describe('Project detail', function () {
     let airyUserMock = {
         reload: function () {},
     };
+    let airyBreadcrumbsMock;
     let projectResourceMock = {
         retrieve: function (projectId, status) {
             return {
@@ -71,6 +72,7 @@ describe('Project detail', function () {
     beforeEach(inject(function ($componentController, $rootScope, _$interval_) {
         let scope = $rootScope.$new();
         rootScope = $rootScope.$new();
+        airyBreadcrumbsMock = jasmine.createSpyObj('breadcrumbs', ['add']);
         project = {
             id: 3,
             name: 'test',
@@ -91,6 +93,7 @@ describe('Project detail', function () {
                 hotkeys: hotkeysMock,
                 airyPopup: airyPopupMock,
                 airyUser: airyUserMock,
+                airyBreadcrumbs: airyBreadcrumbsMock,
                 projectResource: projectResourceMock,
                 taskResource: taskResourceMock,
                 timeEntryResource: timeEntryResourceMock,
@@ -109,6 +112,7 @@ describe('Project detail', function () {
         expect(callArgs[1]).toEqual(ctrl.currentStatus);
         expect(ctrl.currentStatus).toBe('open');
         expect(rootScope.title).toEqual(project.name);
+        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(2);
         expect(ctrl.project).toEqual(project);
         expect(ctrl.client).toEqual(project.client);
     });

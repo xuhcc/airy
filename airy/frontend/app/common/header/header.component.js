@@ -1,6 +1,7 @@
-function AiryHeaderController(airyUser) {
+function AiryHeaderController(airyUser, airyBreadcrumbs) {
     this.user = airyUser.user;
     this.logoutUser = airyUser.logout;
+    this.breadcrumbs = airyBreadcrumbs;
 }
 
 const airyHeader = {

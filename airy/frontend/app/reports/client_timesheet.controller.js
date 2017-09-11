@@ -2,9 +2,11 @@ import { PERIODS } from 'reports/client_report.controller.js';
 
 class ClientTimeSheetController {
 
-    constructor($scope, $stateParams, $rootScope, clientResource, calculator) {
+    constructor($scope, $stateParams, $rootScope, airyBreadcrumbs,
+                clientResource, calculator) {
         this._stateParams = $stateParams;
         this._rootScope = $rootScope;
+        this._breadcrumbs = airyBreadcrumbs;
         this._clientResource = clientResource;
         this._calculator = calculator;
 
@@ -24,8 +26,12 @@ class ClientTimeSheetController {
         this._clientResource.getTimeSheet(this._stateParams.clientId, this.range).then(response => {
             let data = response.data;
             this._rootScope.title = data.timesheet.client.name + ' :: Timesheet';
-            // Fix for angular-breadcrumb
-            this._rootScope.breadcrumbClient = data.timesheet.client.name;
+            this._breadcrumbs.add({
+                label: data.timesheet.client.name,
+                state: 'client_detail',
+                params: {clientId: data.timesheet.client.id},
+            });
+            this._breadcrumbs.add({label: 'Timesheet'});
             this.timesheet = data.timesheet;
             this.client = data.timesheet.client;
         });

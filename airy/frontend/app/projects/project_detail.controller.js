@@ -1,13 +1,15 @@
 class ProjectDetailController {
 
     constructor($stateParams, $scope, $rootScope, $interval, ngDialog, hotkeys,
-                airyPopup, airyUser, projectResource, taskResource, timeEntryResource) {
+                airyPopup, airyUser, airyBreadcrumbs,
+                projectResource, taskResource, timeEntryResource) {
         this._stateParams = $stateParams;
         this._rootScope = $rootScope;
         this._interval = $interval;
         this._ngDialog = ngDialog;
         this._airyPopup = airyPopup;
         this._airyUser = airyUser;
+        this._breadcrumbs = airyBreadcrumbs;
         this._projectResource = projectResource;
         this._taskResource = taskResource;
         this._timeEntryResource = timeEntryResource;
@@ -33,9 +35,12 @@ class ProjectDetailController {
             .then(response => {
                 let data = response.data;
                 this._rootScope.title = data.project.name;
-                // Fix for angular-breadcrumb
-                this._rootScope.breadcrumbProject = data.project.name;
-                this._rootScope.breadcrumbClient = data.project.client.name;
+                this._breadcrumbs.add({
+                    label: data.project.client.name,
+                    state: 'client_detail',
+                    params: {clientId: data.project.client.id},
+                });
+                this._breadcrumbs.add({label: data.project.name});
                 this.project = data.project;
                 this.client = data.project.client;
             });

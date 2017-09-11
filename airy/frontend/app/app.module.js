@@ -1,5 +1,5 @@
 import routeConfig from 'app.routes.js';
-import {httpConfig, breadcrumbConfig, ngDialogConfig, injectBreadcrumb} from 'app.configs.js';
+import {httpConfig, ngDialogConfig} from 'app.configs.js';
 
 import 'common/autosize/autosize.module.js';
 import 'common/error_handler/error_handler.module.js';
@@ -25,7 +25,6 @@ angular
         'ngDialog',
         'cfp.hotkeys',
         'angular-loading-bar',
-        'ncy-angular-breadcrumb',
         'ui.router',
         // Application
         'airy.filters',
@@ -50,8 +49,6 @@ angular
     ])
     .config(routeConfig)
     .config(httpConfig)
-    .config(breadcrumbConfig)
-    .config(ngDialogConfig)
-    .run(injectBreadcrumb);
+    .config(ngDialogConfig);
 
 angular.bootstrap(document.documentElement, ['airy']);

@@ -6,5 +6,11 @@
   <li><a ng-click="$ctrl.logoutUser()">logout</a></li>
 </ul>
 <nav ng-if="$ctrl.user.name">
-  <div ncy-breadcrumb></div>
+  <ul class="breadcrumbs">
+    <li ng-repeat="step in $ctrl.breadcrumbs.steps" ng-class="{active: $last}" ng-switch="$last">
+        <a ng-switch-when="false" ng-class="{icon: $first}" ng-href="{{ step.url }}">{{ step.label }}</a>
+        <span ng-switch-when="false" class="separator icon">b</span>
+        <span ng-switch-when="true" ng-class="{icon: $first}">{{ step.label }}</span>
+    </li>
+  </ul>
 </nav>

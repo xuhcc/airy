@@ -6,6 +6,7 @@ describe('Timesheet', function () {
 
     let scope;
     let buildCtrl;
+    let airyBreadcrumbsMock;
     let clientResourceMock = {
         getTimeSheet: function (clientId, range) {
             return {
@@ -31,11 +32,13 @@ describe('Timesheet', function () {
     beforeEach(module('airy.clientTimeSheet'));
     beforeEach(inject(function ($componentController, $rootScope) {
         scope = $rootScope.$new();
+        airyBreadcrumbsMock = jasmine.createSpyObj('breadcrumbs', ['add']);
         buildCtrl = function () {
             return $componentController('clientTimeSheet', {
                 $scope: scope,
                 $stateParams: {clientId: clientId},
                 $rootScope: {},
+                airyBreadcrumbs: airyBreadcrumbsMock,
                 clientResource: clientResourceMock,
                 calculator: calculatorMock,
             });
@@ -54,6 +57,7 @@ describe('Timesheet', function () {
         expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
         expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[0]).toBe(clientId);
         expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[1]).toBe(ctrl.range);
+        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(2);
     });
 
     it('should reload the timesheet after changing date range', function () {

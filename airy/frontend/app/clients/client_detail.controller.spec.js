@@ -21,6 +21,7 @@ describe('Client detail', function () {
             confirmCallback();
         },
     };
+    let airyBreadcrumbsMock;
     let clientResourceMock = {
         retrieve: function () {
             return {
@@ -46,6 +47,7 @@ describe('Client detail', function () {
     beforeEach(inject(function ($componentController, $rootScope) {
         let scope = $rootScope.$new();
         rootScope = $rootScope.$new();
+        airyBreadcrumbsMock = jasmine.createSpyObj('breadcrumbs', ['add']);
         client = {
             id: 1,
             name: 'test',
@@ -62,6 +64,7 @@ describe('Client detail', function () {
                 ngDialog: ngDialogMock,
                 hotkeys: hotkeysMock,
                 airyPopup: airyPopupMock,
+                airyBreadcrumbs: airyBreadcrumbsMock,
                 clientResource: clientResourceMock,
                 projectResource: projectResourceMock,
             });
@@ -75,6 +78,8 @@ describe('Client detail', function () {
         expect(hotkeysMock.bindTo).toHaveBeenCalled();
         expect(clientResourceMock.retrieve).toHaveBeenCalled();
         expect(rootScope.title).toEqual(client.name);
+        expect(airyBreadcrumbsMock.add)
+            .toHaveBeenCalledWith({label: client.name});
         expect(ctrl.client).toEqual(client);
     });
 

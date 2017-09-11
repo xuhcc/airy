@@ -22,41 +22,22 @@ function routeConfig($stateProvider, $urlRouterProvider) {
         .state('client_list', {
             url: '/clients',
             component: 'clientList',
-            ncyBreadcrumb: {
-                label: 'h',
-            },
         })
         .state('client_detail', {
             url: '/clients/:clientId',
             component: 'clientDetail',
-            ncyBreadcrumb: {
-                parent: 'client_list',
-                label: '{{ breadcrumbClient }}',
-            },
         })
         .state('client_timesheet', {
             url: '/clients/:clientId/timesheet',
             component: 'clientTimeSheet',
-            ncyBreadcrumb: {
-                parent: 'client_detail',
-                label: 'Timesheet',
-            },
         })
         .state('client_report', {
             url: '/clients/:clientId/report',
             component: 'clientReport',
-            ncyBreadcrumb: {
-                parent: 'client_detail',
-                label: 'Task report',
-            },
         })
         .state('project_detail', {
             url: '/clients/:clientId/projects/:projectId',
             component: 'projectDetail',
-            ncyBreadcrumb: {
-                parent: 'client_detail',
-                label: '{{ breadcrumbProject }}',
-            },
         });
 }
 

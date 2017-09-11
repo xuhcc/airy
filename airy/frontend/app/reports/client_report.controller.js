@@ -64,9 +64,11 @@ export const PERIODS = [
 
 class ClientReportController {
 
-    constructor($scope, $stateParams, $rootScope, clientResource, calculator) {
+    constructor($scope, $stateParams, $rootScope, airyBreadcrumbs,
+                clientResource, calculator) {
         this._stateParams = $stateParams;
         this._rootScope = $rootScope;
+        this._breadcrumbs = airyBreadcrumbs;
         this._clientResource = clientResource;
         this._calculator = calculator;
 
@@ -87,8 +89,12 @@ class ClientReportController {
         this._clientResource.getReport(this._stateParams.clientId, this.range).then(response => {
             let data = response.data;
             this._rootScope.title = data.report.client.name + ' :: Task report';
-            // Fix for angular-breadcrumb
-            this._rootScope.breadcrumbClient = data.report.client.name;
+            this._breadcrumbs.add({
+                label: data.report.client.name,
+                state: 'client_detail',
+                params: {clientId: data.report.client.id},
+            });
+            this._breadcrumbs.add({label: 'Task report'});
             this.report = data.report;
             this.client = data.report.client;
         });

@@ -1,11 +1,13 @@
 class ClientDetailController {
 
     constructor($stateParams, $scope, $rootScope, ngDialog,
-                hotkeys, airyPopup, clientResource, projectResource) {
+                hotkeys, airyPopup, airyBreadcrumbs,
+                clientResource, projectResource) {
         this._stateParams = $stateParams;
         this._rootScope = $rootScope;
         this._ngDialog = ngDialog;
         this._airyPopup = airyPopup;
+        this._breadcrumbs = airyBreadcrumbs;
         this._clientResource = clientResource;
         this._projectResource = projectResource;
 
@@ -26,8 +28,7 @@ class ClientDetailController {
         this._clientResource.retrieve(this._stateParams.clientId).then(response => {
             let data = response.data;
             this._rootScope.title = data.client.name;
-            // Fix for angular-breadcrumb
-            this._rootScope.breadcrumbClient = data.client.name;
+            this._breadcrumbs.add({label: data.client.name});
             this.client = data.client;
         });
     }
