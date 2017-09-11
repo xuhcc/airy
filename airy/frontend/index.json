@@ -21,7 +21,7 @@
             "node_modules/angular-ui-router/release/angular-ui-router.js",
             "bower_components/ng-dialog/js/ngDialog.js",
             "bower_components/angular-hotkeys/build/hotkeys.js",
-            "bower_components/angular-loading-bar/build/loading-bar.js",
+            "node_modules/angular-loading-bar/build/loading-bar.js",
             "bower_components/angular-breadcrumb/dist/angular-breadcrumb.js",
             "node_modules/autosize/dist/autosize.js",
             "node_modules/linkifyjs/dist/linkify.js",
@@ -33,7 +33,7 @@
             "node_modules/purecss/build/buttons.css",
             "node_modules/purecss/build/tables.css",
             "bower_components/ng-dialog/css/ngDialog.css",
-            "bower_components/angular-loading-bar/build/loading-bar.css"
+            "node_modules/angular-loading-bar/build/loading-bar.css"
         ]
     }
 }
