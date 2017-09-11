@@ -28,10 +28,10 @@
             "node_modules/linkifyjs/dist/linkify-html.js"
         ],
         "css": [
-            "bower_components/pure/base.css",
-            "bower_components/pure/forms.css",
-            "bower_components/pure/buttons.css",
-            "bower_components/pure/tables.css",
+            "node_modules/purecss/build/base.css",
+            "node_modules/purecss/build/forms.css",
+            "node_modules/purecss/build/buttons.css",
+            "node_modules/purecss/build/tables.css",
             "bower_components/ng-dialog/css/ngDialog.css",
             "bower_components/angular-loading-bar/build/loading-bar.css"
         ]
