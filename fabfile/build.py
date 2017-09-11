@@ -17,7 +17,6 @@ def venv():
 def frontend():
     local('npm install')
     local('npm rebuild node-sass')
-    local('npm run-script bower update')
     local('npm run-script grunt build:development')
 
 

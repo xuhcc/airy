@@ -16,7 +16,6 @@
     "autosize": "^4.0.0",
     "babel-plugin-transform-es2015-modules-systemjs": "^6.24.1",
     "babel-preset-es2015": "^6.14.0",
-    "bower": "^1.7.9",
     "grunt": "^1.0.1",
     "grunt-babel": "^6.0.0",
     "grunt-contrib-clean": "^1.0.0",
@@ -56,7 +55,6 @@
     "sass-lint": "^1.9.1"
   },
   "scripts": {
-    "grunt": "grunt",
-    "bower": "bower"
+    "grunt": "grunt"
   }
 }

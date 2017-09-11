@@ -8,7 +8,6 @@ module.exports = function (grunt) {
             main: {
                 src: [
                     'package.json',
-                    'bower.json',
                     '.jshintrc',
                     '.jscsrc',
                     '.csslintrc',
