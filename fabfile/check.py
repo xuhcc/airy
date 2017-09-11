@@ -27,7 +27,7 @@ def py_style():
 @task
 def py_security():
     with prefix('. venv/bin/activate'):
-        local('safety check')
+        local('safety check --bare')
         local('bandit -r -x tests,settings airy')
 
 
