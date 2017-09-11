@@ -13,12 +13,14 @@ install:
   - cp airy/settings.py.example airy/settings.py
   - pip install -r requirements_dev.txt
   - npm install
-  - "npm run-script grunt build:development"
+  - "npm run grunt build:development"
 before_script:
   - psql -c "CREATE USER airy WITH password 'airy' CREATEDB;" -U postgres
 script:
   - flake8 --max-complexity=8 fabfile
   - flake8 --max-complexity=10 airy
   - flake8 --max-complexity=8 alembic/env.py
+  - safety check --bare
+  - bandit -r -x tests,settings airy
   - py.test airy/tests
-  - "npm run-script grunt check:js check:css check:html"
+  - "npm run grunt check:js check:css check:html"
