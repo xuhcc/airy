@@ -3,7 +3,6 @@ import {httpConfig, breadcrumbConfig, ngDialogConfig, injectBreadcrumb} from 'ap
 
 import 'common/autosize/autosize.module.js';
 import 'common/error_handler/error_handler.module.js';
-import 'common/footer/footer.module.js';
 import 'common/header/header.module.js';
 import 'common/popup/popup.module.js';
 import 'common/user/user.module.js';
@@ -33,7 +32,6 @@ angular
         'airy.resources',
         'airy.autosize',
         'airy.header',
-        'airy.footer',
         'airy.errorHandler',
         'airy.user',
         'airy.popup',

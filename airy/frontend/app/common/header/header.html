@@ -1,3 +1,10 @@
+<ul class="user-info" ng-if="$ctrl.user.name">
+  <li>user: <span class="user-name">{{ $ctrl.user.name }}</span></li> |
+  <li>open tasks: <span class="user-open-tasks">{{ $ctrl.user.open_tasks }}</span></li> |
+  <li>time spent today: <span class="user-total-today">{{ $ctrl.user.total_today|time }}</span></li> |
+  <li>this week: <span class="user-total-week">{{ $ctrl.user.total_week|time }}</span></li> |
+  <li><a ng-click="$ctrl.logoutUser()">logout</a></li>
+</ul>
 <nav ng-if="$ctrl.user.name">
-    <div ncy-breadcrumb></div>
+  <div ncy-breadcrumb></div>
 </nav>

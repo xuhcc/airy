@@ -1,5 +1,6 @@
 function AiryHeaderController(airyUser) {
     this.user = airyUser.user;
+    this.logoutUser = airyUser.logout;
 }
 
 const airyHeader = {
