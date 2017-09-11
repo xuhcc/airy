@@ -1,7 +1,6 @@
 <div>
     <div class="current-project">
         <h2>Tasks from {{ $ctrl.project.name }}</h2>
-        <div class="project-description" ng-bind-html="$ctrl.project.description|nl2br|linkify"></div>
     </div>
     <nav class="content-nav">
         <a ng-click="$ctrl.createTask()">add task</a> |
