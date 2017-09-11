@@ -6,7 +6,6 @@
   "dependencies": {
     "angular": "^1.6.1",
     "angular-sanitize": "^1.6.1",
-    "angular-breadcrumb": "0.5.0",
     "system.js": "^0.19.41",
     "ng-dialog": "0.6.6"
   },
