@@ -6,8 +6,7 @@
   "dependencies": {
     "angular": "^1.6.1",
     "angular-sanitize": "^1.6.1",
-    "system.js": "^0.19.41",
-    "ng-dialog": "0.6.6"
+    "system.js": "^0.19.41"
   },
   "devDependencies": {
     "angular-mocks": "^1.6.1"
