@@ -63,8 +63,8 @@ describe('Project creation', function () {
         let callArgs = projectResourceMock.create.calls.argsFor(0);
         expect(callArgs[0].name).toBe(ctrl.project.name);
         expect(callArgs[0].client_id).toBe(client.id);
-        expect(client.projects[1].name).toBe('p2');
         expect(client.projects.length).toBe(2);
+        expect(client.projects[0].name).toBe('p2');
         expect(scope.closeThisDialog).toHaveBeenCalled();
     });
 });

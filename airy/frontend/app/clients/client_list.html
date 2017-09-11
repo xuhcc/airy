@@ -1,4 +1,7 @@
 <div>
+    <nav class="content-nav">
+        <a ng-click="$ctrl.createClient()">add client</a>
+    </nav>
     <div class="clients">
         <div class="client" ng-repeat="client in $ctrl.clients">
             <div class="client-menu">
@@ -17,5 +20,4 @@
             </div>
         </div>
     </div>
-    <a class="client-add icon" title="Add client" ng-click="$ctrl.createClient()">+</a>
 </div>

@@ -3,8 +3,11 @@
         <h2>Projects from {{ $ctrl.client.name }}</h2>
         <div class="client-contacts" ng-bind-html="$ctrl.client.contacts|nl2br|linkify"></div>
     </div>
-    <a class="content-nav-link" ui-sref="client_timesheet({clientId: $ctrl.client.id})">view timesheet</a>
-    <a class="content-nav-link" ui-sref="client_report({clientId: $ctrl.client.id})">view task report</a>
+    <nav class="content-nav">
+        <a ng-click="$ctrl.createProject()">add project</a> |
+        <a ui-sref="client_timesheet({clientId: $ctrl.client.id})">view timesheet</a> |
+        <a ui-sref="client_report({clientId: $ctrl.client.id})">view task report</a>
+    </nav>
     <div class="projects" >
         <div class="project" ng-repeat="project in $ctrl.client.projects">
             <div class="project-menu">
@@ -18,5 +21,4 @@
             </div>
         </div>
     </div>
-    <a class="project-add icon" title="Add project" ng-click="$ctrl.createProject()">+</a>
 </div>

@@ -22,7 +22,7 @@ class ProjectCreationController {
     createProject() {
         this._projectResource.create(this.project).then(response => {
             let data = response.data;
-            this._client.projects.push(data.project);
+            this._client.projects.unshift(data.project);
             this._scope.closeThisDialog();
         });
     }

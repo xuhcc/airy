@@ -68,8 +68,8 @@ describe('Task creation', function () {
         let callArgs = taskResourceMock.create.calls.argsFor(0);
         expect(callArgs[0].title).toBe(ctrl.task.title);
         expect(callArgs[0].project_id).toBe(project.id);
-        expect(project.tasks[1].title).toBe('t2');
         expect(project.tasks.length).toBe(2);
+        expect(project.tasks[0].title).toBe('t2');
         expect(scope.closeThisDialog).toHaveBeenCalled();
         expect(airyUserMock.reload).toHaveBeenCalled();
     });

@@ -59,8 +59,8 @@ describe('Client creation', function () {
         expect(clientResourceMock.create).toHaveBeenCalled();
         let callArgs = clientResourceMock.create.calls.argsFor(0);
         expect(callArgs[0].name).toBe(ctrl.client.name);
-        expect(clients[1].name).toBe(ctrl.client.name);
         expect(clients.length).toBe(2);
+        expect(clients[0].name).toBe(ctrl.client.name);
         expect(scope.closeThisDialog).toHaveBeenCalled();
     });
 });
