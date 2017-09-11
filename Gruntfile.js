@@ -42,10 +42,6 @@ module.exports = function (grunt) {
             phantomjs: {
                 browsers: ['PhantomJS'],
             },
-            chrome: {
-                browsers: ['Chrome'],
-                singleRun: false,
-            },
         },
         sasslint: {
             options: {
