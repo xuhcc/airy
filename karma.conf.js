@@ -8,7 +8,7 @@ module.exports = function (config) {
     let files = [
         'node_modules/es6-promise/dist/es6-promise.auto.js',
         ...paths.lib.js,
-        'bower_components/angular-mocks/angular-mocks.js',
+        'node_modules/angular-mocks/angular-mocks.js',
         'airy/frontend/system-test.conf.js',
         {pattern: paths.app.es, included: false},
         {pattern: paths.specs, included: false},
