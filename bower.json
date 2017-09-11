@@ -4,7 +4,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "momentjs": "~2.10.6",
     "angular": "^1.6.1",
     "angular-sanitize": "^1.6.1",
     "angular-hotkeys": "chieffancypants/angular-hotkeys#~1.6.0",
