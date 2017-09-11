@@ -1,19 +1,18 @@
 language: python
 python:
-  - "3.4"
   - "3.5"
+  - "3.6"
 services:
   - postgresql
 before_install:
   - export TZ=Europe/Moscow
-  - nvm install 5.0
-  - nvm use 5.0
+  - nvm install 8.0
+  - nvm use 8.0
 install:
   - mkdir -p logs
   - cp airy/settings.py.example airy/settings.py
   - pip install -r requirements_dev.txt
   - npm install
-  - npm run-script bower install
   - "npm run-script grunt build:development"
 before_script:
   - psql -c "CREATE USER airy WITH password 'airy' CREATEDB;" -U postgres
