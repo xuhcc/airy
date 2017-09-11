@@ -20,7 +20,7 @@
             "bower_components/angular-sanitize/angular-sanitize.js",
             "node_modules/angular-ui-router/release/angular-ui-router.js",
             "bower_components/ng-dialog/js/ngDialog.js",
-            "bower_components/angular-hotkeys/build/hotkeys.js",
+            "node_modules/angular-hotkeys/build/hotkeys.js",
             "node_modules/angular-loading-bar/build/loading-bar.js",
             "bower_components/angular-breadcrumb/dist/angular-breadcrumb.js",
             "node_modules/autosize/dist/autosize.js",
