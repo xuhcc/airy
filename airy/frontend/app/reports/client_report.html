@@ -11,6 +11,10 @@
             </option>
         </select>
     </div>
+    <nav class="content-nav">
+        <a ng-click="$ctrl.sendByEmail()">send by email</a> |
+        <a ui-sref="client_detail({clientId: $ctrl.client.id})">back to client page</a>
+    </nav>
     <table class="pure-table pure-table-horizontal report" align="center">
         <thead>
             <tr>
@@ -41,6 +45,4 @@
             </tr>
         </tbody>
     </table>
-    <a class="content-nav-link" ng-click="$ctrl.sendByEmail()">send by email</a>
-    <a class="content-nav-link" ui-sref="client_detail({clientId: $ctrl.client.id})">back to client page</a>
 </div>
