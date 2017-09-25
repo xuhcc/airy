@@ -7,20 +7,23 @@ function airyBreadcrumbs($state, $transitions) {
         steps: [home],
         add: add,
     };
-    $transitions.onSuccess({}, function (transition) {
+    $transitions.onSuccess({}, (transition) => {
         // Reset on transition
         service.steps = [home];
     });
     return service;
 
-    function add(item) {
-        let url;
-        if (item.state) {
-            url = $state.href(item.state, item.params || {});
-        }
-        service.steps.push({
-            url: url,
-            label: item.label,
+    function add(...items) {
+        service.steps = [home];
+        items.forEach((item) => {
+            let url;
+            if (item.state) {
+                url = $state.href(item.state, item.params || {});
+            }
+            service.steps.push({
+                url: url,
+                label: item.label,
+            });
         });
     }
 }

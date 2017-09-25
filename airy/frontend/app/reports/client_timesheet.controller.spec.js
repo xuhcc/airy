@@ -57,7 +57,7 @@ describe('Timesheet', function () {
         expect(clientResourceMock.getTimeSheet).toHaveBeenCalled();
         expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[0]).toBe(clientId);
         expect(clientResourceMock.getTimeSheet.calls.argsFor(0)[1]).toBe(ctrl.range);
-        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(2);
+        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(1);
     });
 
     it('should reload the timesheet after changing date range', function () {

@@ -56,7 +56,7 @@ describe('Task report', function () {
         expect(clientResourceMock.getReport).toHaveBeenCalled();
         expect(clientResourceMock.getReport.calls.argsFor(0)[0]).toBe(clientId);
         expect(clientResourceMock.getReport.calls.argsFor(0)[1]).toBe(ctrl.range);
-        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(2);
+        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(1);
     });
 
     it('should reload the task report after changing date range', function () {

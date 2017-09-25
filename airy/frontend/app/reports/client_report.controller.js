@@ -93,8 +93,9 @@ class ClientReportController {
                 label: data.report.client.name,
                 state: 'client_detail',
                 params: {clientId: data.report.client.id},
+            }, {
+                label: 'Task report',
             });
-            this._breadcrumbs.add({label: 'Task report'});
             this.report = data.report;
             this.client = data.report.client;
         });

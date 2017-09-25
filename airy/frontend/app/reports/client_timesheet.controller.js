@@ -30,8 +30,9 @@ class ClientTimeSheetController {
                 label: data.timesheet.client.name,
                 state: 'client_detail',
                 params: {clientId: data.timesheet.client.id},
+            }, {
+                label: 'Timesheet',
             });
-            this._breadcrumbs.add({label: 'Timesheet'});
             this.timesheet = data.timesheet;
             this.client = data.timesheet.client;
         });
