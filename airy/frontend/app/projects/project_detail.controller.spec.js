@@ -112,7 +112,7 @@ describe('Project detail', function () {
         expect(callArgs[1]).toEqual(ctrl.currentStatus);
         expect(ctrl.currentStatus).toBe('open');
         expect(rootScope.title).toEqual(project.name);
-        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(2);
+        expect(airyBreadcrumbsMock.add).toHaveBeenCalledTimes(1);
         expect(ctrl.project).toEqual(project);
         expect(ctrl.client).toEqual(project.client);
     });
