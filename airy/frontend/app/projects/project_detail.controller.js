@@ -39,8 +39,7 @@ class ProjectDetailController {
                     label: data.project.client.name,
                     state: 'client_detail',
                     params: {clientId: data.project.client.id},
-                });
-                this._breadcrumbs.add({label: data.project.name});
+                }, {label: data.project.name});
                 this.project = data.project;
                 this.client = data.project.client;
             });
