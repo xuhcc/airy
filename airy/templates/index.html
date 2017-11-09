@@ -2,7 +2,6 @@
 <html>
     <head>
         <title ng-bind="'Airy :: ' + title">Airy</title>
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic">
         <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
         {% for filename in assets.css %}
             <link rel="stylesheet" href="{{ url_for('static', filename=filename) }}">
