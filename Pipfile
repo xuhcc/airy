@@ -15,12 +15,11 @@ Flask-SQLAlchemy = "==2.2"
 "psycopg2" = "==2.7.3.2"
 "Jinja2" = "==2.9.6"
 marshmallow = "==2.13.0"
-python-dotenv = "==0.7.1"
 pytz = ">=2014.2"
 premailer = "==2.8.3"
 cssutils = "==1.0.1"
 SQLAlchemy = "==1.2.0"
-SQLAlchemy-Utils = "==0.32.21"
+sqlalchemy-utils = "==0.32.21"
 
 
 [dev-packages]

@@ -1,12 +1,6 @@
 from distutils.util import strtobool
 import os
 
-from dotenv import load_dotenv, find_dotenv
-
-load_dotenv(
-    find_dotenv(),
-    override=True)
-
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 DEBUG = strtobool(os.environ.get('DEBUG', 'False'))
 
