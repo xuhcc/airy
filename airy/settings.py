@@ -1,3 +1,4 @@
+from distutils.util import strtobool
 import os
 
 from dotenv import load_dotenv, find_dotenv
@@ -7,7 +8,7 @@ load_dotenv(
     override=True)
 
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
-DEBUG = bool(os.environ.get('DEBUG', False))
+DEBUG = strtobool(os.environ.get('DEBUG', 'False'))
 
 HTTP_HOST = os.environ.get('HTTP_HOST', 'localhost')
 HTTP_PORT = int(os.environ.get('HTTP_PORT', 8085))
