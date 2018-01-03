@@ -1,18 +1,17 @@
 from fabric.api import task, local, cd, sudo, puts
 
-from utils import vagrant, virtualenv
+from utils import vagrant
 
 
 @task
 def migrate():
-    with virtualenv():
-        local('alembic upgrade head')
+    local('pipenv run alembic upgrade head')
 
 
 @task
 def auto(message):
-    with virtualenv():
-        local('alembic revision --autogenerate -m "{0}"'.format(message))
+    local('pipenv run '
+          'alembic revision --autogenerate -m "{0}"'.format(message))
 
 
 @task

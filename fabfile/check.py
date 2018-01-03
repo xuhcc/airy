@@ -1,7 +1,5 @@
 from fabric.api import task, local
 
-from utils import virtualenv
-
 
 @task
 def js():
@@ -20,32 +18,29 @@ def html():
 
 @task
 def py_style():
-    with virtualenv():
-        local('flake8 --max-complexity=8 fabfile')
-        local('flake8 --max-complexity=10 airy')
-        local('flake8 --max-complexity=8 alembic/env.py')
+    local('pipenv run flake8 --max-complexity=8 fabfile')
+    local('pipenv run flake8 --max-complexity=10 airy')
+    local('pipenv run flake8 --max-complexity=8 alembic/env.py')
 
 
 @task
 def py_security():
-    with virtualenv():
-        local('safety check --bare')
-        local('bandit -r -x tests,settings airy')
+    local('pipenv run safety check --bare')
+    local('pipenv run bandit -r -x tests,settings airy')
 
 
 @task
 def py_types():
-    with virtualenv():
-        local('mypy --ignore-missing-imports airy')
+    local('pipenv run mypy --ignore-missing-imports airy')
 
 
 @task
 def py_unit():
-    with virtualenv():
-        local('py.test -v -x --pdb '
-              '--cov airy '
-              '--cov-config .coveragerc '
-              'airy/tests')
+    local('pipenv run '
+          'py.test -v -x --pdb '
+          '--cov airy '
+          '--cov-config .coveragerc '
+          'airy/tests')
 
 
 @task

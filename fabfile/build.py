@@ -1,7 +1,5 @@
 from fabric.api import task, local
 
-from utils import virtualenv
-
 
 @task
 def dirs():
@@ -10,8 +8,7 @@ def dirs():
 
 @task
 def venv():
-    with virtualenv():
-        local('pip install -r requirements_dev.txt')
+    local('pipenv install --dev')
 
 
 @task

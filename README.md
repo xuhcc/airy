@@ -14,7 +14,7 @@ Requirements:
 
 Requirements:
 
-* virtualenv
+* pipenv
 * fabric
 * virtualbox
 * vagrant
@@ -41,8 +41,7 @@ fab build.watch
 Start server:
 
 ```
-. venv/bin/activate
-python airy
+pipenv run honcho start
 ```
 
 Login at `http://localhost:8085`.  
