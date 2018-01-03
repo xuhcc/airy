@@ -1,12 +1,12 @@
-airy_user:
+airy_pg_user:
   postgres_user.present:
     - name: {{ pillar['postgresql']['user'] }}
-    - createdb: {{ pillar['postgresql']['createdb'] }}
+    - createdb: true
     - password: {{ pillar['postgresql']['password'] }}
     - require:
       - service: postgresql_service
 
-airy_database:
+airy_pg_database:
   postgres_database.present:
     - name: {{ pillar['postgresql']['database'] }}
     - encoding: UTF8
@@ -15,4 +15,4 @@ airy_database:
     - template: template0
     - owner: {{ pillar['postgresql']['user'] }}
     - require:
-      - postgres_user: airy_user
+      - postgres_user: airy_pg_user

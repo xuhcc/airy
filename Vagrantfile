@@ -9,8 +9,9 @@ Vagrant.configure("2") do |config|
   rescue Errno::ENOENT
   end
 
-  config.vm.box = "debian/contrib-jessie64"
-  config.vm.hostname = "airy-server"
+  config.vm.box = "debian/contrib-stretch64"
+  config.vm.box_version = "9.2.0"
+  config.vm.hostname = "airy-vm"
 
   config.vm.network "forwarded_port", guest: 5432, host: settings['vm']['ports']['postgresql']
 

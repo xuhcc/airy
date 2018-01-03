@@ -8,5 +8,4 @@ pillar:
   postgresql:
     user: airy
     password: airy
-    createdb: true
     database: airy
