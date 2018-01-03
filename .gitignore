@@ -2,14 +2,14 @@
 /node_modules
 /logs
 .vagrant
+vagrant/settings.yml
+
 *.pyc
 .mypy_cache
 airy/frontend/css
 airy/frontend/js
 airy/static
 airy/settings.py
-fabfile/deploy.py
-test.db
 .coverage
 .jasmine.coverage
 .grunt
