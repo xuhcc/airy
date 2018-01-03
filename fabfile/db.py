@@ -1,4 +1,4 @@
-from fabric.api import env, task, local, cd, sudo, puts
+from fabric.api import task, local, cd, sudo, puts
 
 from utils import vagrant, virtualenv
 
@@ -6,7 +6,7 @@ from utils import vagrant, virtualenv
 @task
 def migrate():
     with virtualenv():
-        env.run("alembic upgrade head")
+        local('alembic upgrade head')
 
 
 @task
