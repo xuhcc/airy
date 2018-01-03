@@ -10,7 +10,6 @@ before_install:
   - nvm use 8.0
 install:
   - mkdir -p logs
-  - cp airy/settings.py.example airy/settings.py
   - pip install -r requirements_dev.txt
   - npm install
   - "npm run grunt build:development"

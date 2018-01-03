@@ -19,12 +19,17 @@ Requirements:
 * virtualbox
 * vagrant
 
+Create configuration file:
+
+```
+cp env.example .env
+```
+
 Prepare environment and install packages:
 
 ```
-fab build
-cp airy/settings.py.example airy/settings.py
 vagrant up
+fab build
 ```
 
 Start watcher:

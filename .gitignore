@@ -10,7 +10,7 @@ vagrant/database.backup
 airy/frontend/css
 airy/frontend/js
 airy/static
-airy/settings.py
 .coverage
 .jasmine.coverage
 .grunt
+.env
