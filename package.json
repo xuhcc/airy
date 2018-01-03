@@ -27,6 +27,7 @@
     "linkifyjs": "^2.1.4",
     "moment": "^2.18.1",
     "ng-dialog": "^0.6.6",
+    "node-sass": "^4.7.2",
     "purecss": "^1.0.0",
     "systemjs": "^0.20.18"
   },
