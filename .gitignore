@@ -3,6 +3,7 @@
 /logs
 .vagrant
 vagrant/settings.yml
+vagrant/database.backup
 
 *.pyc
 .mypy_cache
