@@ -1,4 +1,6 @@
-from fabric.api import task, local, prefix
+from fabric.api import task, local
+
+from utils import virtualenv
 
 
 @task
@@ -18,7 +20,7 @@ def html():
 
 @task
 def py_style():
-    with prefix('. venv/bin/activate'):
+    with virtualenv():
         local('flake8 --max-complexity=8 fabfile')
         local('flake8 --max-complexity=10 airy')
         local('flake8 --max-complexity=8 alembic/env.py')
@@ -26,20 +28,20 @@ def py_style():
 
 @task
 def py_security():
-    with prefix('. venv/bin/activate'):
+    with virtualenv():
         local('safety check --bare')
         local('bandit -r -x tests,settings airy')
 
 
 @task
 def py_types():
-    with prefix('. venv/bin/activate'):
+    with virtualenv():
         local('mypy --ignore-missing-imports airy')
 
 
 @task
 def py_unit():
-    with prefix('. venv/bin/activate'):
+    with virtualenv():
         local('py.test -v -x --pdb '
               '--cov airy '
               '--cov-config .coveragerc '

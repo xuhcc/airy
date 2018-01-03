@@ -1,6 +1,7 @@
 from contextlib import contextmanager
+import os
 
-from fabric.api import local, settings
+from fabric.api import env, local, settings, prefix
 
 
 @contextmanager
@@ -21,4 +22,14 @@ def vagrant():
     with settings(host_string=host_string,
                   key_filename=ssh_config['IdentityFile'].strip('"'),
                   disable_known_hosts=True):
+        yield
+
+
+@contextmanager
+def virtualenv():
+    venv_path = os.path.relpath('venv', env.lcwd)
+    if not os.path.exists(venv_path):
+        local('virtualenv -p /usr/bin/python3 {}'.format(venv_path))
+    activate_cmd = '. ' + os.path.join(venv_path, 'bin/activate')
+    with prefix(activate_cmd):
         yield

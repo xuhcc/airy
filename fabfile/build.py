@@ -1,4 +1,6 @@
-from fabric.api import task, prefix, local
+from fabric.api import task, local
+
+from utils import virtualenv
 
 
 @task
@@ -8,8 +10,7 @@ def dirs():
 
 @task
 def venv():
-    local('virtualenv -p /usr/bin/python3 venv')
-    with prefix('. venv/bin/activate'):
+    with virtualenv():
         local('pip install -r requirements_dev.txt')
 
 

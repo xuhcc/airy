@@ -1,17 +1,17 @@
-from fabric.api import env, task, prefix, local, cd, sudo, puts
+from fabric.api import env, task, local, cd, sudo, puts
 
-from utils import vagrant
+from utils import vagrant, virtualenv
 
 
 @task
 def migrate():
-    with prefix(". venv/bin/activate"):
+    with virtualenv():
         env.run("alembic upgrade head")
 
 
 @task
 def auto(message):
-    with prefix('. venv/bin/activate'):
+    with virtualenv():
         local('alembic revision --autogenerate -m "{0}"'.format(message))
 
 
