@@ -3,7 +3,7 @@ module.exports = function (grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        paths: grunt.file.readJSON('airy/frontend/index.json'),
+        paths: grunt.file.readJSON('frontend/index.json'),
         jsonlint: {
             main: {
                 src: [
@@ -13,7 +13,7 @@ module.exports = function (grunt) {
                     '.csslintrc',
                     '.htmlhintrc',
                     '.babelrc',
-                    'airy/frontend/index.json',
+                    'frontend/index.json',
                 ],
             },
         },
@@ -21,7 +21,7 @@ module.exports = function (grunt) {
             main: [
                 'Gruntfile.js',
                 'karma.conf.js',
-                'airy/frontend/system-test.conf.js',
+                'frontend/system-test.conf.js',
                 '<%= paths.app.es %>',
                 '<%= paths.specs %>',
             ],
@@ -67,7 +67,7 @@ module.exports = function (grunt) {
         },
         copy: {
             appJs: {
-                cwd: 'airy/frontend/js/',
+                cwd: 'frontend/js/',
                 src: '**/*',
                 dest: 'airy/static/js/',
                 expand: true,
@@ -98,7 +98,7 @@ module.exports = function (grunt) {
             },
             appMisc: {
                 expand: true,
-                cwd: 'airy/frontend',
+                cwd: 'frontend',
                 src: [
                     'favicon.ico',
                 ],
@@ -130,7 +130,7 @@ module.exports = function (grunt) {
             },
             main: {
                 src: '<%= paths.app.scss %>',
-                dest: 'airy/frontend/css/',
+                dest: 'frontend/css/',
                 expand: true,
                 flatten: true,
                 ext: '.css',
@@ -143,9 +143,9 @@ module.exports = function (grunt) {
             main: {
                 files: [
                     {
-                        cwd: 'airy/frontend/app/',
+                        cwd: 'frontend/app/',
                         src: '**/!(*spec).js',
-                        dest: 'airy/frontend/js/',
+                        dest: 'frontend/js/',
                         expand: true,
                     },
                 ],
@@ -154,7 +154,7 @@ module.exports = function (grunt) {
         systemjs: {
             options: {
                 sfx: false,
-                baseURL: 'airy/frontend/js/',
+                baseURL: 'frontend/js/',
                 minify: true,
                 build: {
                     mangle: false,
@@ -195,8 +195,8 @@ module.exports = function (grunt) {
         },
         clean: {
             static: ['airy/static'],
-            js: ['airy/frontend/js'],
-            css: ['airy/frontend/css'],
+            js: ['frontend/js'],
+            css: ['frontend/css'],
         },
         watch: {
             appCss: {

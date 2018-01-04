@@ -2,7 +2,7 @@ import os
 import json
 
 from airy import settings
-from airy.config import app_dir, static_dir
+from airy.config import project_dir, static_dir
 
 
 def get_assets():
@@ -11,7 +11,7 @@ def get_assets():
         'css': [],
     }
     if settings.DEBUG:
-        with open(os.path.join(app_dir, 'frontend',
+        with open(os.path.join(project_dir, 'frontend',
                                'index.json')) as index_file:
             index = json.load(index_file)
             # Bower components

@@ -1,15 +1,15 @@
 {
     "app": {
-        "es": "airy/frontend/app/**/!(*spec).js",
-        "js": "airy/frontend/js/**/*.js",
-        "jsmaps": "airy/frontend/js/**/*.js.map",
-        "partials": "airy/frontend/app/**/*.html",
-        "scss": "airy/frontend/app/**/*.scss",
-        "css": "airy/frontend/css/**/*.css",
-        "cssmaps": "airy/frontend/css/**/*.css.map",
-        "fonts": "airy/frontend/fonts/*"
+        "es": "frontend/app/**/!(*spec).js",
+        "js": "frontend/js/**/*.js",
+        "jsmaps": "frontend/js/**/*.js.map",
+        "partials": "frontend/app/**/*.html",
+        "scss": "frontend/app/**/*.scss",
+        "css": "frontend/css/**/*.css",
+        "cssmaps": "frontend/css/**/*.css.map",
+        "fonts": "frontend/fonts/*"
     },
-    "specs": "airy/frontend/app/**/*.spec.js",
+    "specs": "frontend/app/**/*.spec.js",
     "lib": {
         "js": [
             "node_modules/systemjs/dist/system.js",

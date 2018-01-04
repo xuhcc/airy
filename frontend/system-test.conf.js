@@ -1,7 +1,7 @@
 __karma__.loaded = function () {};
 
 System.config({
-    baseURL: 'base/airy/frontend/app/',
+    baseURL: 'base/frontend/app/',
     meta: {
         '*.js': {format: 'register'},
     },
@@ -21,5 +21,5 @@ Promise
     });
 
 function onlyAppFiles(filePath) {
-    return /^\/base\/airy\/frontend\/app\/.*\.js$/.test(filePath);
+    return /^\/base\/frontend\/app\/.*\.js$/.test(filePath);
 }

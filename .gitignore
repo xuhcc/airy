@@ -7,8 +7,8 @@ vagrant/database.backup
 
 *.pyc
 .mypy_cache
-airy/frontend/css
-airy/frontend/js
+frontend/css
+frontend/js
 airy/static
 .coverage
 .jasmine.coverage
