@@ -10,16 +10,17 @@ before_install:
   - nvm use 8.0
 install:
   - mkdir -p logs
-  - pip install -r requirements_dev.txt
+  - pip install pipenv
+  - pipenv install --dev
   - npm install
   - "npm run grunt build:development"
 before_script:
   - psql -c "CREATE USER airy WITH password 'airy' CREATEDB;" -U postgres
 script:
-  - flake8 --max-complexity=8 fabfile
-  - flake8 --max-complexity=10 airy
-  - flake8 --max-complexity=8 alembic/env.py
-  - safety check --bare
-  - bandit -r -x tests,settings airy
-  - py.test airy/tests
+  - pipenv run flake8 --max-complexity=8 fabfile
+  - pipenv run flake8 --max-complexity=10 airy
+  - pipenv run flake8 --max-complexity=8 alembic/env.py
+  - pipenv run safety check --bare
+  - pipenv run bandit -r -x tests,settings airy
+  - pipenv run py.test airy/tests
   - "npm run grunt check:js check:css check:html"
