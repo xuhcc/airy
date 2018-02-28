@@ -45,6 +45,21 @@ export const PERIODS = [
         },
     },
     {
+        label: '8 weeks',
+        updateRange: (range) => {
+            range.beg = moment(range.beg).startOf('isoWeek').format();
+            range.end = moment(range.beg).add(7, 'week').endOf('isoWeek').format();
+        },
+        shiftBack: (range) => {
+            range.beg = moment(range.beg).subtract(1, 'week').format();
+            range.end = moment(range.beg).add(7, 'week').endOf('isoWeek').format();
+        },
+        shiftForward: (range) => {
+            range.beg = moment(range.beg).add(1, 'week').format();
+            range.end = moment(range.beg).add(7, 'week').endOf('isoWeek').format();
+        },
+    },
+    {
         label: '1 month',
         updateRange: (range) => {
             range.beg = moment(range.beg).startOf('month').format();
