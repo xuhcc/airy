@@ -1,4 +1,4 @@
-import { PERIODS } from 'reports/client_report.controller.js';
+import { TIMEZONE, PERIODS } from 'reports/client_report.controller.js';
 
 class ClientTimeSheetController {
 
@@ -14,8 +14,8 @@ class ClientTimeSheetController {
         this.client = {};
         this.days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
         this.range = {
-            beg: moment().startOf('isoWeek').format(),
-            end: moment().endOf('isoWeek').format(),
+            beg: moment().tz(TIMEZONE).startOf('isoWeek').format(),
+            end: moment().tz(TIMEZONE).endOf('isoWeek').format(),
         };
         this.period = PERIODS[0];
 
