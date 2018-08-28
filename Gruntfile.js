@@ -1,3 +1,5 @@
+const sass = require('node-sass');
+
 module.exports = function (grunt) {
     'use strict';
 
@@ -124,6 +126,7 @@ module.exports = function (grunt) {
         },
         sass: {
             options: {
+                implementation: sass,
                 indentWidth: 4,
                 outputStyle: 'expanded',
                 sourceMap: true,
