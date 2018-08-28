@@ -2,7 +2,7 @@
 /node_modules
 /logs
 .vagrant
-vagrant/settings.yml
+vagrant/settings.yaml
 vagrant/database.backup
 
 *.pyc

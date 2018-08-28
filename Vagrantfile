@@ -1,11 +1,13 @@
 require 'yaml'
-
+require 'vagrant/util/deep_merge'
 
 Vagrant.configure("2") do |config|
 
-  settings = YAML::load_file("vagrant/default_settings.yml")
+  settings = YAML::load_file("vagrant/default_settings.yaml")
   begin
-    settings.deep_merge!(YAML::load_file("vagrant/settings.yml"))
+    settings = Vagrant::Util::DeepMerge.deep_merge(
+      settings,
+      YAML::load_file("vagrant/settings.yaml"))
   rescue Errno::ENOENT
   end
 

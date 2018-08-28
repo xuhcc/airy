@@ -1,4 +1,0 @@
-vm:
-  memory: 1024
-  ports:
-    postgresql: 15432
