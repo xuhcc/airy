@@ -1,7 +1,7 @@
 from invoke import task
 
 
-@task
+@task(aliases=('r',))
 def requirements(ctx):
     ctx.run('pipenv install --dev')
 
