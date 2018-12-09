@@ -44,6 +44,9 @@ module.exports = function (grunt) {
             phantomjs: {
                 browsers: ['PhantomJS'],
             },
+            jsdom: {
+                browsers: ['jsdom'],
+            },
         },
         sasslint: {
             options: {
@@ -258,7 +261,7 @@ module.exports = function (grunt) {
             'jsonlint',
             'jshint',
             'jscs',
-            'karma:phantomjs',
+            'karma:jsdom',
         ]);
     });
     grunt.registerTask('check:css', function () {
