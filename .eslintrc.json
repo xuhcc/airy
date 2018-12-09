@@ -1,6 +1,8 @@
 {
     "env": {
         "browser": true,
+        "node": true,
+        "jasmine": true,
         "es6": true
     },
     "extends": "eslint:recommended",
@@ -33,7 +35,11 @@
             "error",
             "always-multiline"
         ],
-        "no-undef": "off",
         "no-unused-vars": "off"
+    },
+    "globals": {
+        "angular": true,
+        "inject": true,
+        "moment": true
     }
 }

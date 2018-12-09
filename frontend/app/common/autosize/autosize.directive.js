@@ -1,3 +1,5 @@
+/* global autosize */
+
 function autoSize($timeout) {
     function link(scope, element) {
         let textarea = element[0];

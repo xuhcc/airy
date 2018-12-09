@@ -1,3 +1,5 @@
+/* global linkifyHtml */
+
 export default angular
     .module('airy.filters', [])
     .filter('nl2br', nl2br)

@@ -1,3 +1,5 @@
+/* global __karma__,System */
+
 __karma__.loaded = function () {};
 
 System.config({

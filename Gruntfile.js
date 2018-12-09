@@ -15,6 +15,7 @@ module.exports = function (grunt) {
                     '.csslintrc',
                     '.htmlhintrc',
                     '.babelrc',
+                    '.eslintrc.json',
                     'frontend/index.json',
                 ],
             },
