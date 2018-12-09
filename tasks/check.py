@@ -26,7 +26,7 @@ def py_style(ctx):
 @task
 def py_security(ctx):
     ctx.run('pipenv run safety check --bare')
-    ctx.run('pipenv run bandit -r -x tests,settings airy')
+    ctx.run('pipenv run bandit -c bandit.yaml -r airy')
 
 
 @task
@@ -38,11 +38,10 @@ def py_types(ctx):
 def py_unit(ctx):
     ctx.run(
         'pipenv run '
-        'py.test -v -x --pdb '
-        '--cov airy '
-        '--cov-config .coveragerc '
-        'airy/tests',
-        pty=True)
+        'pytest airy/tests '
+        '--maxfail=3 --pdb --cov airy --cov-config .coveragerc',
+        pty=True,
+    )
 
 
 @task

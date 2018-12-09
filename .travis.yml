@@ -23,6 +23,6 @@ script:
   - pipenv run flake8 --max-complexity=10 airy
   - pipenv run flake8 --max-complexity=8 alembic/env.py
   - pipenv run safety check --bare
-  - pipenv run bandit -r -x tests,settings airy
-  - pipenv run py.test airy/tests
+  - pipenv run bandit -c bandit.yaml -r airy
+  - pipenv run pytest airy/tests
   - "npm run grunt check:js check:css check:html"
