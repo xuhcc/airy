@@ -39,7 +39,7 @@ module.exports = function (grunt) {
             },
         },
         eslint: {
-            target: '<%= jshint.main %>',
+            main: '<%= jshint.main %>',
         },
         karma: {
             options: {
