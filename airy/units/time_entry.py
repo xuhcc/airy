@@ -21,13 +21,7 @@ def save(data, time_entry_id=None):
         raise TimeEntryError(errors, 400)
     time_entry = db.session.merge(time_entry)
     db.session.commit()
-    if time_entry.task.total_time:
-        task_total_time = time_entry.task.total_time.total_seconds()
-    else:
-        task_total_time = 0
-    serializer = TimeEntrySerializer(
-        extra={'task_total_time': task_total_time},
-        strict=True)
+    serializer = TimeEntrySerializer(strict=True)
     return serializer.dump(time_entry).data
 
 

@@ -189,6 +189,7 @@ class TestTaskSerializer():
         assert time_data['id'] == time_entry.id
         assert time_data['comment'] == time_entry.comment
         assert time_data['task_id'] == task.id
+        assert 'task_total_time' not in time_data
 
     def test_create(self):
         project = ProjectFactory.create()
@@ -274,6 +275,7 @@ class TestTimeEntrySerializer():
         assert data['comment'] == time_entry.comment
         assert data['task_id'] == time_entry.task.id
         assert 'added_at' in data
+        assert data['task_total_time'] == data['duration']
 
     def test_create(self):
         task = TaskFactory.create()

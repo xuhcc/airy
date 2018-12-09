@@ -52,11 +52,19 @@ class TimeEntrySerializer(Schema):
 
     added_at = fields.DateTime(dump_only=True)
 
+    task_total_time = fields.Method('get_task_total_time')
+
     @post_load
     def make_time_entry(self, data):
         if 'id' not in data:
             data['added_at'] = tz_now()
         return TimeEntry(**data)
+
+    def get_task_total_time(self, time_entry):
+        if time_entry.task.total_time:
+            return time_entry.task.total_time.total_seconds()
+        else:
+            return 0
 
 
 def validate_project_id(value):
@@ -78,6 +86,7 @@ class TaskSerializer(Schema):
     created_at = fields.DateTime(dump_only=True)
     updated_at = fields.DateTime(dump_only=True)
     time_entries = fields.Nested(TimeEntrySerializer,
+                                 exclude=['task_total_time'],
                                  many=True,
                                  dump_only=True)
     total_time = fields.TimeDelta(default=0,
