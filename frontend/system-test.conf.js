@@ -10,10 +10,10 @@ System.config({
 Promise
     .all(
         Object.keys(window.__karma__.files)
-        .filter(onlyAppFiles)
-        .map(function (moduleName) {
-            return System.import(moduleName);
-        }))
+            .filter(onlyAppFiles)
+            .map(function (moduleName) {
+                return System.import(moduleName);
+            }))
     .then(function () {
         __karma__.start();
     }, function (error) {

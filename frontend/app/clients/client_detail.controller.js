@@ -1,8 +1,10 @@
 class ClientDetailController {
 
-    constructor($stateParams, $scope, $rootScope, ngDialog,
-                hotkeys, airyPopup, airyBreadcrumbs,
-                clientResource, projectResource) {
+    constructor(
+        $stateParams, $scope, $rootScope, ngDialog,
+        hotkeys, airyPopup, airyBreadcrumbs,
+        clientResource, projectResource
+    ) {
         this._stateParams = $stateParams;
         this._rootScope = $rootScope;
         this._ngDialog = ngDialog;

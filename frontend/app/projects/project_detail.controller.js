@@ -1,8 +1,10 @@
 class ProjectDetailController {
 
-    constructor($stateParams, $scope, $rootScope, $interval, ngDialog, hotkeys,
-                airyPopup, airyUser, airyBreadcrumbs,
-                projectResource, taskResource, timeEntryResource) {
+    constructor(
+        $stateParams, $scope, $rootScope, $interval, ngDialog, hotkeys,
+        airyPopup, airyUser, airyBreadcrumbs,
+        projectResource, taskResource, timeEntryResource
+    ) {
         this._stateParams = $stateParams;
         this._rootScope = $rootScope;
         this._interval = $interval;

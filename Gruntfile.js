@@ -37,6 +37,9 @@ module.exports = function (grunt) {
                 config: '.jscsrc',
             },
         },
+        eslint: {
+            target: '<%= jshint.main %>',
+        },
         karma: {
             options: {
                 configFile: 'karma.conf.js',
@@ -221,6 +224,7 @@ module.exports = function (grunt) {
     });
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
+    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-htmlhint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -261,6 +265,7 @@ module.exports = function (grunt) {
             'jsonlint',
             'jshint',
             'jscs',
+            'eslint',
             'karma:jsdom',
         ]);
     });

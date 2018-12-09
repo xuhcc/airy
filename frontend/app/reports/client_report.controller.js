@@ -81,8 +81,10 @@ export const PERIODS = [
 
 class ClientReportController {
 
-    constructor($scope, $stateParams, $rootScope, airyBreadcrumbs,
-                clientResource, calculator) {
+    constructor(
+        $scope, $stateParams, $rootScope, airyBreadcrumbs,
+        clientResource, calculator
+    ) {
         this._stateParams = $stateParams;
         this._rootScope = $rootScope;
         this._breadcrumbs = airyBreadcrumbs;
