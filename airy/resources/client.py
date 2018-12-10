@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import request
 from flask_restful import Resource
 
 from airy.units import client, report
@@ -64,8 +64,7 @@ class Report(Resource):
         task_report.send()
 
 
-client_api_bp = Blueprint('client_api', __name__)
-client_api = Api(client_api_bp, decorators=[requires_auth])
+client_api = Api(decorators=[requires_auth])
 client_api.add_resource(Clients, '/clients')
 client_api.add_resource(Client, '/clients/<int:client_id>')
 client_api.add_resource(TimeSheet, '/clients/<int:client_id>/timesheet')

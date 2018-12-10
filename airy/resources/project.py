@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import request
 from flask_restful import Resource
 
 from airy.units import project
@@ -29,7 +29,6 @@ class Project(Resource):
         project.delete(project_id)
 
 
-project_api_bp = Blueprint('project_api', __name__)
-project_api = Api(project_api_bp, decorators=[requires_auth])
+project_api = Api(decorators=[requires_auth])
 project_api.add_resource(Projects, '/projects')
 project_api.add_resource(Project, '/projects/<int:project_id>')

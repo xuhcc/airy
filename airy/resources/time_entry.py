@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import request
 from flask_restful import Resource
 
 from airy.units import time_entry
@@ -25,8 +25,7 @@ class TimeEntry(Resource):
         return {'task_total_time': time_entry.delete(time_entry_id)}
 
 
-time_entry_api_bp = Blueprint('time_entry_api', __name__)
-time_entry_api = Api(time_entry_api_bp, decorators=[requires_auth])
+time_entry_api = Api(decorators=[requires_auth])
 time_entry_api.add_resource(TimeEntries, '/time_entries',
                             endpoint='time_entries')
 time_entry_api.add_resource(TimeEntry, '/time_entries/<int:time_entry_id>',

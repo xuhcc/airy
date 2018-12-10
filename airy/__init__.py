@@ -7,12 +7,7 @@ from airy import database, settings, config
 from airy.utils.testing import ApiClient
 from airy.utils import template_filters
 
-from airy.views import base_bp
-from airy.resources.client import client_api_bp
-from airy.resources.project import project_api_bp
-from airy.resources.task import task_api_bp
-from airy.resources.time_entry import time_entry_api_bp
-from airy.resources.user import user_api_bp
+from airy.views import base_bp, api_bp
 
 
 def create_app(testing=False):
@@ -30,11 +25,7 @@ def create_app(testing=False):
     database.db.init_app(app)
 
     app.register_blueprint(base_bp)
-    app.register_blueprint(client_api_bp)
-    app.register_blueprint(project_api_bp)
-    app.register_blueprint(task_api_bp)
-    app.register_blueprint(time_entry_api_bp)
-    app.register_blueprint(user_api_bp)
+    app.register_blueprint(api_bp)
 
     app.test_client_class = ApiClient
 

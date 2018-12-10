@@ -13,7 +13,7 @@ from factories import (
 
 @pytest.fixture()
 def login(client):
-    login_url = url_for('user_api.login')
+    login_url = url_for('api.login')
     client.post(login_url,
                 json={'password': settings.USER_PASSWORD})
 
@@ -22,7 +22,7 @@ def login(client):
 class TestClientApi():
 
     def test_create_client(self):
-        url = url_for('client_api.clients')
+        url = url_for('api.clients')
         client_data = {'name': 'Test Client'}
         response = self.client.post(url, json=client_data)
         assert response.status_code == 200
@@ -30,7 +30,7 @@ class TestClientApi():
         assert response.json['client']['name'] == client_data['name']
 
     def test_list_clients(self):
-        url = url_for('client_api.clients')
+        url = url_for('api.clients')
         response = self.client.get(url)
         assert response.status_code == 200
         assert 'clients' in response.json
@@ -40,7 +40,7 @@ class TestClientApi():
         response = self.client.get(url)
         assert len(response.json['clients']) == 3
 
-        self.client.get(url_for('user_api.logout'))
+        self.client.get(url_for('api.logout'))
         response = self.client.get(url)
         assert response.status_code == 403
 
@@ -48,13 +48,13 @@ class TestClientApi():
         client = ClientFactory.create()
         self.db.session.commit()
 
-        url = url_for('client_api.client', client_id=client.id)
+        url = url_for('api.client', client_id=client.id)
         response = self.client.get(url)
         assert response.status_code == 200
         assert 'client' in response.json
         assert response.json['client']['name'] == client.name
 
-        url = url_for('client_api.client', client_id=0)
+        url = url_for('api.client', client_id=0)
         response = self.client.get(url)
         assert response.status_code == 404
 
@@ -62,7 +62,7 @@ class TestClientApi():
         client = ClientFactory.create(name='Old Name')
         self.db.session.commit()
 
-        url = url_for('client_api.client', client_id=client.id)
+        url = url_for('api.client', client_id=client.id)
         client_data = {'name': 'New Name'}
         response = self.client.put(url, json=client_data)
         assert response.status_code == 200
@@ -76,7 +76,7 @@ class TestClientApi():
         client = ClientFactory.create()
         self.db.session.commit()
 
-        url = url_for('client_api.client', client_id=client.id)
+        url = url_for('api.client', client_id=client.id)
         response = self.client.delete(url)
         assert response.status_code == 200
 
@@ -88,7 +88,7 @@ class TestClientApi():
         date_range = DateRangeFactory.create()
         self.db.session.commit()
 
-        url = url_for('client_api.timesheet', client_id=client.id)
+        url = url_for('api.timesheet', client_id=client.id)
 
         response = self.client.get(url)
         assert response.status_code == 400
@@ -107,7 +107,7 @@ class TestClientApi():
         date_range = DateRangeFactory.create()
         self.db.session.commit()
 
-        url = url_for('client_api.timesheet', client_id=client.id)
+        url = url_for('api.timesheet', client_id=client.id)
         send_mock = mocker.patch('airy.utils.email.send')
 
         response = self.client.post(url)
@@ -128,7 +128,7 @@ class TestClientApi():
                                              added_at=week_beg)
         self.db.session.commit()
 
-        url = url_for('client_api.report', client_id=client.id)
+        url = url_for('api.report', client_id=client.id)
         response = self.client.get(url, query_string=date_range)
         assert response.status_code == 200
         assert 'report' in response.json
@@ -137,7 +137,7 @@ class TestClientApi():
         assert len(report['projects']) == 1
         assert report['total'] == time_entry.duration.total_seconds()
 
-        url = url_for('client_api.report', client_id=0)
+        url = url_for('api.report', client_id=0)
         response = self.client.get(url)
         assert response.status_code == 404
 
@@ -146,7 +146,7 @@ class TestClientApi():
         client = ClientFactory.create()
         self.db.session.commit()
 
-        url = url_for('client_api.report', client_id=client.id)
+        url = url_for('api.report', client_id=client.id)
         send_mock = mocker.patch('airy.utils.email.send')
 
         response = self.client.post(url)
@@ -167,7 +167,7 @@ class TestProjectApi():
         client = ClientFactory.create()
         self.db.session.commit()
 
-        url = url_for('project_api.projects')
+        url = url_for('api.projects')
         project_data = {
             'client_id': client.id,
             'name': 'Test Project',
@@ -186,7 +186,7 @@ class TestProjectApi():
         task_2 = TaskFactory.create(project=project, status='closed')
         self.db.session.commit()
 
-        url = url_for('project_api.project', project_id=project.id)
+        url = url_for('api.project', project_id=project.id)
         response = self.client.get(url, query_string={'status': 'open'})
         assert response.status_code == 200
         assert 'project' in response.json
@@ -205,7 +205,7 @@ class TestProjectApi():
         response = self.client.get(url)
         assert response.status_code == 400
 
-        url = url_for('project_api.project', project_id=0)
+        url = url_for('api.project', project_id=0)
         response = self.client.get(url)
         assert response.status_code == 404
 
@@ -213,7 +213,7 @@ class TestProjectApi():
         project = ProjectFactory.create(name='Old Name')
         self.db.session.commit()
 
-        url = url_for('project_api.project', project_id=project.id)
+        url = url_for('api.project', project_id=project.id)
         project_data = {
             'client_id': project.client_id,
             'name': 'New Name',
@@ -230,7 +230,7 @@ class TestProjectApi():
         project = ProjectFactory.create()
         self.db.session.commit()
 
-        url = url_for('project_api.project', project_id=project.id)
+        url = url_for('api.project', project_id=project.id)
         response = self.client.delete(url)
         assert response.status_code == 200
 
@@ -245,7 +245,7 @@ class TestTaskApi():
         project = ProjectFactory.create()
         self.db.session.commit()
 
-        url = url_for('task_api.tasks')
+        url = url_for('api.tasks')
         task_data = {
             'project_id': project.id,
             'title': 'Test Task',
@@ -260,7 +260,7 @@ class TestTaskApi():
         task = TaskFactory.create(title='Old Title')
         self.db.session.commit()
 
-        url = url_for('task_api.task', task_id=task.id)
+        url = url_for('api.task', task_id=task.id)
         task_data = {
             'project_id': task.project_id,
             'title': 'New Title',
@@ -274,7 +274,7 @@ class TestTaskApi():
         assert response.json['task']['description'] == task_data['description']
         assert response.json['task']['project_id'] == task_data['project_id']
 
-        url = url_for('task_api.task', task_id=0)
+        url = url_for('api.task', task_id=0)
         response = self.client.put(url, json=task_data)
         assert response.status_code == 404
 
@@ -282,7 +282,7 @@ class TestTaskApi():
         task = TaskFactory.create()
         self.db.session.commit()
 
-        url = url_for('task_api.task', task_id=task.id)
+        url = url_for('api.task', task_id=task.id)
         response = self.client.delete(url)
         assert response.status_code == 200
 
@@ -294,12 +294,12 @@ class TestTaskApi():
         self.db.session.commit()
         assert task.is_closed is False
 
-        url = url_for('task_api.task_status', task_id=task.id)
+        url = url_for('api.task_status', task_id=task.id)
         response = self.client.post(url)
         assert response.status_code == 200
         assert response.json['task']['is_closed'] is True
 
-        url = url_for('task_api.task_status', task_id=0)
+        url = url_for('api.task_status', task_id=0)
         response = self.client.post(url)
         assert response.status_code == 404
 
@@ -311,7 +311,7 @@ class TestTimeEntryApi():
         task = TaskFactory.create()
         self.db.session.commit()
 
-        url = url_for('time_entry_api.time_entries')
+        url = url_for('api.time_entries')
         time_entry_data = {
             'task_id': task.id,
             'duration': 5400,
@@ -330,7 +330,7 @@ class TestTimeEntryApi():
         time_entry = TimeEntryFactory.create()
         self.db.session.commit()
 
-        url = url_for('time_entry_api.time_entry', time_entry_id=time_entry.id)
+        url = url_for('api.time_entry', time_entry_id=time_entry.id)
         time_entry_data = {
             'task_id': time_entry.task_id,
             'duration': 2160,
@@ -343,7 +343,7 @@ class TestTimeEntryApi():
         assert (response.json['time_entry']['task_total_time'] ==
                 time_entry_data['duration'])
 
-        url = url_for('time_entry_api.time_entry', time_entry_id=0)
+        url = url_for('api.time_entry', time_entry_id=0)
         response = self.client.put(url, json=time_entry_data)
         assert response.status_code == 404
 
@@ -351,7 +351,7 @@ class TestTimeEntryApi():
         time_entry = TimeEntryFactory.create()
         self.db.session.commit()
 
-        url = url_for('time_entry_api.time_entry', time_entry_id=time_entry.id)
+        url = url_for('api.time_entry', time_entry_id=time_entry.id)
         response = self.client.delete(url)
         assert response.status_code == 200
 
