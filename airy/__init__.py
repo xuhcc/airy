@@ -25,7 +25,7 @@ def create_app(testing=False):
     database.db.init_app(app)
 
     app.register_blueprint(base_bp)
-    app.register_blueprint(api_bp)
+    app.register_blueprint(api_bp, url_prefix='/api')
 
     app.test_client_class = ApiClient
 
