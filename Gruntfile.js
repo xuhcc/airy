@@ -21,7 +21,7 @@ module.exports = function (grunt) {
                 ],
             },
         },
-        jshint: {
+        eslint: {
             main: [
                 'Gruntfile.js',
                 'karma.conf.js',
@@ -29,12 +29,6 @@ module.exports = function (grunt) {
                 '<%= paths.app.es %>',
                 '<%= paths.specs %>',
             ],
-            options: {
-                jshintrc: '.jshintrc',
-            },
-        },
-        eslint: {
-            main: '<%= jshint.main %>',
         },
         karma: {
             options: {
@@ -220,8 +214,6 @@ module.exports = function (grunt) {
         },
     });
 
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-htmlhint');
@@ -288,7 +280,6 @@ module.exports = function (grunt) {
     grunt.registerTask('check:js', function () {
         grunt.task.run([
             'jsonlint',
-            'jshint',
             'eslint',
             'karma:jsdom',
         ]);
