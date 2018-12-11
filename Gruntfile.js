@@ -33,12 +33,6 @@ module.exports = function (grunt) {
                 jshintrc: '.jshintrc',
             },
         },
-        jscs: {
-            main: '<%= jshint.main %>',
-            options: {
-                config: '.jscsrc',
-            },
-        },
         eslint: {
             main: '<%= jshint.main %>',
         },
@@ -295,7 +289,6 @@ module.exports = function (grunt) {
         grunt.task.run([
             'jsonlint',
             'jshint',
-            'jscs',
             'eslint',
             'karma:jsdom',
         ]);
