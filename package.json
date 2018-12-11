@@ -55,8 +55,6 @@
     "karma-jasmine": "^2.0.1",
     "karma-jsdom-launcher": "^6.1.5",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-phantomjs-launcher": "^1.0.2",
-    "phantomjs-prebuilt": "^2.1.16",
     "sass-lint": "^1.12.1"
   },
   "scripts": {
