@@ -7,20 +7,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         paths: grunt.file.readJSON('frontend/index.json'),
-        jsonlint: {
-            main: {
-                src: [
-                    'package.json',
-                    '.jshintrc',
-                    '.jscsrc',
-                    '.csslintrc',
-                    '.htmlhintrc',
-                    '.babelrc',
-                    '.eslintrc.json',
-                    'frontend/index.json',
-                ],
-            },
-        },
         eslint: {
             main: [
                 'Gruntfile.js',
@@ -223,7 +209,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-sass-lint');
-    grunt.loadNpmTasks('grunt-jsonlint');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-systemjs-builder');
@@ -279,7 +264,6 @@ module.exports = function (grunt) {
     });
     grunt.registerTask('check:js', function () {
         grunt.task.run([
-            'jsonlint',
             'eslint',
             'karma:jsdom',
         ]);

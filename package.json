@@ -42,7 +42,6 @@
     "grunt-contrib-watch": "^1.1.0",
     "grunt-eslint": "^21.0.0",
     "grunt-htmlhint": "^0.9.13",
-    "grunt-jsonlint": "^1.1.0",
     "grunt-karma": "^3.0.1",
     "grunt-sass-lint": "^0.2.0",
     "jasmine-core": "^3.3.0",
