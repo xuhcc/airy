@@ -4,6 +4,6 @@ import 'reports/range_selector.module.js';
 
 export default angular.module('airy.clientTimeSheet', [])
     .component('clientTimeSheet', {
-        templateUrl: 'static/partials/client_timesheet.html',
+        templateUrl: 'partials/client_timesheet.html',
         controller: ClientTimeSheetController,
     });

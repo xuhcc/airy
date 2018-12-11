@@ -4,6 +4,6 @@ import 'reports/range_selector.module.js';
 
 export default angular.module('airy.clientReport', [])
     .component('clientReport', {
-        templateUrl: 'static/partials/client_report.html',
+        templateUrl: 'partials/client_report.html',
         controller: ClientReportController,
     });

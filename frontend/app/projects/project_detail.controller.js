@@ -54,7 +54,7 @@ class ProjectDetailController {
 
     createTask() {
         this._ngDialog.open({
-            template: 'static/partials/task_form.html',
+            template: 'partials/task_form.html',
             controller: 'TaskCreationController',
             controllerAs: 'ctrl',
             className: 'popup task-form-popup',
@@ -66,7 +66,7 @@ class ProjectDetailController {
 
     updateTask(task) {
         this._ngDialog.open({
-            template: 'static/partials/task_form.html',
+            template: 'partials/task_form.html',
             controller: 'TaskUpdateController',
             controllerAs: 'ctrl',
             className: 'popup task-form-popup',
@@ -113,7 +113,7 @@ class ProjectDetailController {
 
     createTimeEntry(task, duration) {
         this._ngDialog.open({
-            template: 'static/partials/time_entry_form.html',
+            template: 'partials/time_entry_form.html',
             controller: 'TimeEntryCreationController',
             controllerAs: 'ctrl',
             resolve: {
@@ -125,7 +125,7 @@ class ProjectDetailController {
 
     updateTimeEntry(task, timeEntry) {
         this._ngDialog.open({
-            template: 'static/partials/time_entry_form.html',
+            template: 'partials/time_entry_form.html',
             controller: 'TimeEntryUpdateController',
             controllerAs: 'ctrl',
             resolve: {

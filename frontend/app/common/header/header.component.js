@@ -5,7 +5,7 @@ function AiryHeaderController(airyUser, airyBreadcrumbs) {
 }
 
 const airyHeader = {
-    templateUrl: 'static/partials/header.html',
+    templateUrl: 'partials/header.html',
     controller: AiryHeaderController,
 };
 

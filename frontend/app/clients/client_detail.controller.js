@@ -37,7 +37,7 @@ class ClientDetailController {
 
     createProject() {
         this._ngDialog.open({
-            template: 'static/partials/project_form.html',
+            template: 'partials/project_form.html',
             controller: 'ProjectCreationController',
             controllerAs: 'ctrl',
             resolve: {
@@ -48,7 +48,7 @@ class ClientDetailController {
 
     updateProject(project) {
         this._ngDialog.open({
-            template: 'static/partials/project_form.html',
+            template: 'partials/project_form.html',
             controller: 'ProjectUpdateController',
             controllerAs: 'ctrl',
             resolve: {
