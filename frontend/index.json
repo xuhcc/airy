@@ -7,7 +7,8 @@
         "scss": "frontend/app/**/*.scss",
         "css": "frontend/css/**/*.css",
         "cssmaps": "frontend/css/**/*.css.map",
-        "fonts": "frontend/fonts/*"
+        "fonts": "frontend/fonts/*",
+        "index": "frontend/index-template.html"
     },
     "specs": "frontend/app/**/*.spec.js",
     "lib": {

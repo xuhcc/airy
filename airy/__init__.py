@@ -3,7 +3,7 @@ Application init
 """
 from flask import Flask
 
-from airy import database, settings, config
+from airy import database, settings
 from airy.utils.testing import ApiClient
 from airy.utils import template_filters
 
@@ -11,9 +11,7 @@ from airy.views import base_bp, api_bp
 
 
 def create_app(testing=False):
-    app = Flask(__name__,
-                static_folder=config.static_dir,
-                static_url_path='/static')
+    app = Flask(__name__)
     app.debug = False if testing else settings.DEBUG
     app.secret_key = settings.SECRET_KEY
     app.session_cookie_name = 'airy_session'

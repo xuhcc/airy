@@ -1,18 +1,23 @@
-from flask import Blueprint, render_template
+from flask import Blueprint
 
-from airy.utils import static
+from airy import config
 from airy.resources.client import client_api
 from airy.resources.project import project_api
 from airy.resources.task import task_api
 from airy.resources.time_entry import time_entry_api
 from airy.resources.user import user_api
 
-base_bp = Blueprint('base', __name__)
+base_bp = Blueprint(
+    'base',
+    __name__,
+    static_folder=config.static_dir,
+    static_url_path='',
+)
 
 
 @base_bp.route('/')
 def index():
-    return render_template('index.html', assets=static.get_assets())
+    return base_bp.send_static_file('index.html')
 
 
 api_bp = Blueprint('api', __name__)

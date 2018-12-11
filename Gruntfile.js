@@ -1,3 +1,4 @@
+const path = require('path');
 const sass = require('node-sass');
 
 module.exports = function (grunt) {
@@ -221,8 +222,13 @@ module.exports = function (grunt) {
                 files: ['<%= paths.app.partials %>'],
                 tasks: ['copy:appPartials'],
             },
+            appIndex: {
+                files: ['<%= paths.app.index %>'],
+                tasks: ['index'],
+            },
         },
     });
+
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-jscs');
     grunt.loadNpmTasks('grunt-eslint');
@@ -239,13 +245,39 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-systemjs-builder');
     grunt.loadNpmTasks('grunt-contrib-clean');
+
     grunt.registerTask('default', []);
+    grunt.registerTask('index', 'Create index file.', function (env) {
+        const paths = grunt.config('paths');
+        let assets = {
+            js: [],
+            css: [],
+        };
+        if (env === 'production') {
+            assets.js.push('js/scripts.min.js');
+            assets.css.push('css/styles.min.css');
+        } else {
+            paths.lib.js.forEach(function (pth) {
+                assets.js.push(`js/lib/${path.basename(pth)}`);
+            });
+            paths.lib.css.forEach(function (pth) {
+                assets.css.push(`css/lib/${path.basename(pth)}`);
+            });
+            grunt.file.expand(paths.app.css).forEach(function (pth) {
+                assets.css.push(`css/${path.basename(pth)}`);
+            });
+        }
+        const template = grunt.file.read(paths.app.index);
+        const result = grunt.template.process(template, {data: assets});
+        grunt.file.write('airy/static/index.html', result);
+    });
     grunt.registerTask('build:development', function () {
         grunt.task.run([
             'clean',
             'babel',
             'sass',
             'copy',
+            'index',
         ]);
     });
     grunt.registerTask('build:production', function () {
@@ -259,6 +291,7 @@ module.exports = function (grunt) {
             'copy:appFonts',
             'copy:appPartials',
             'copy:appMisc',
+            'index:production',
         ]);
     });
     grunt.registerTask('check:js', function () {
