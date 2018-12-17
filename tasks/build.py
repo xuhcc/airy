@@ -15,18 +15,18 @@ def dirs(ctx):
 def frontend(ctx):
     ctx.run('npm install')
     ctx.run('npm rebuild node-sass')
-    ctx.run('npm run-script grunt build:development')
+    ctx.run('npm run grunt build')
 
 
 @task
 def watch(ctx):
-    ctx.run('npm run-script grunt watch')
+    ctx.run('npm run grunt watch')
 
 
 @task
 def clean(ctx):
     ctx.run('find . -name \'*.pyc\' -delete')
-    ctx.run('npm run-script grunt clean')
+    ctx.run('npm run grunt clean')
 
 
 @task(default=True)

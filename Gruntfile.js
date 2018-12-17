@@ -47,18 +47,9 @@ module.exports = function (grunt) {
             },
         },
         copy: {
-            appJs: {
-                cwd: 'frontend/js/',
-                src: '**/*',
-                dest: 'airy/static/js/',
-                expand: true,
-            },
-            appCss: {
-                src: [
-                    '<%= paths.app.css %>',
-                    '<%= paths.app.cssmaps %>',
-                ],
-                dest: 'airy/static/css/',
+            appIndex: {
+                src: '<%= paths.app.index %>',
+                dest: 'airy/static/',
                 expand: true,
                 flatten: true,
                 filter: 'isFile',
@@ -85,22 +76,6 @@ module.exports = function (grunt) {
                 ],
                 dest: 'airy/static/',
                 filter: 'isFile',
-            },
-            libJs: {
-                src: '<%= paths.lib.js %>',
-                dest: 'airy/static/js/lib/',
-                expand: true,
-                flatten: true,
-                filter: 'isFile',
-                nonull: true,
-            },
-            libCss: {
-                src: '<%= paths.lib.css %>',
-                dest: 'airy/static/css/lib/',
-                expand: true,
-                flatten: true,
-                filter: 'isFile',
-                nonull: true,
             },
         },
         sass: {
@@ -135,7 +110,7 @@ module.exports = function (grunt) {
         },
         systemjs: {
             options: {
-                sfx: false,
+                sfx: true,
                 baseURL: 'frontend/js/',
                 minify: true,
                 build: {
@@ -146,8 +121,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         src: 'app.module.js',
-                        dest: 'airy/static/js/',
-                        expand: true,
+                        dest: 'airy/static/js/app.min.js',
                         nonull: true,
                     },
                 ],
@@ -157,16 +131,16 @@ module.exports = function (grunt) {
             options: {
                 mangle: false,
             },
-            production: {
+            main: {
                 src: [
                     '<%= paths.lib.js %>',
                 ],
-                dest: 'airy/static/js/scripts.min.js',
+                dest: 'airy/static/js/vendor.min.js',
                 nonull: true,
             },
         },
         cssmin: {
-            production: {
+            main: {
                 src: [
                     '<%= paths.lib.css %>',
                     '<%= paths.app.css %>',
@@ -183,11 +157,11 @@ module.exports = function (grunt) {
         watch: {
             appCss: {
                 files: ['<%= paths.app.scss %>'],
-                tasks: ['sass', 'copy:appCss'],
+                tasks: ['sass', 'cssmin'],
             },
             appJs: {
                 files: ['<%= paths.app.es %>'],
-                tasks: ['babel', 'copy:appJs'],
+                tasks: ['babel', 'systemjs'],
             },
             appPartials: {
                 files: ['<%= paths.app.partials %>'],
@@ -195,7 +169,7 @@ module.exports = function (grunt) {
             },
             appIndex: {
                 files: ['<%= paths.app.index %>'],
-                tasks: ['index'],
+                tasks: ['copy:appIndex'],
             },
         },
     });
@@ -215,51 +189,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask('default', []);
-    grunt.registerTask('index', 'Create index file.', function (env) {
-        const paths = grunt.config('paths');
-        let assets = {
-            js: [],
-            css: [],
-        };
-        if (env === 'production') {
-            assets.js.push('js/scripts.min.js');
-            assets.css.push('css/styles.min.css');
-        } else {
-            paths.lib.js.forEach(function (pth) {
-                assets.js.push(`js/lib/${path.basename(pth)}`);
-            });
-            paths.lib.css.forEach(function (pth) {
-                assets.css.push(`css/lib/${path.basename(pth)}`);
-            });
-            grunt.file.expand(paths.app.css).forEach(function (pth) {
-                assets.css.push(`css/${path.basename(pth)}`);
-            });
-        }
-        const template = grunt.file.read(paths.app.index);
-        const result = grunt.template.process(template, {data: assets});
-        grunt.file.write('airy/static/index.html', result);
-    });
-    grunt.registerTask('build:development', function () {
-        grunt.task.run([
-            'clean',
-            'babel',
-            'sass',
-            'copy',
-            'index',
-        ]);
-    });
-    grunt.registerTask('build:production', function () {
+    grunt.registerTask('build', function () {
         grunt.task.run([
             'clean',
             'sass',
-            'cssmin:production',
+            'cssmin',
             'babel',
-            'uglify:production',
+            'uglify',
             'systemjs',
-            'copy:appFonts',
-            'copy:appPartials',
-            'copy:appMisc',
-            'index:production',
+            'copy',
         ]);
     });
     grunt.registerTask('check:js', function () {

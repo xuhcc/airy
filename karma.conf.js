@@ -7,6 +7,7 @@ module.exports = function (config) {
 
     let files = [
         'node_modules/es6-promise/dist/es6-promise.auto.js',
+        'node_modules/systemjs/dist/system.js',
         ...paths.lib.js,
         'node_modules/angular-mocks/angular-mocks.js',
         'frontend/system-test.conf.js',
