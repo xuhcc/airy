@@ -1,4 +1,4 @@
-import 'common/header/header.module.js';
+import './header.module.js';
 
 describe('airyBreadcrumbs service', () => {
     'use strict';

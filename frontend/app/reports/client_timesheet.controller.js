@@ -1,6 +1,6 @@
-import { TIMEZONE, PERIODS } from 'reports/client_report.controller.js';
+import { TIMEZONE, PERIODS } from './client_report.controller.js';
 
-class ClientTimeSheetController {
+export class ClientTimeSheetController {
 
     constructor(
         $scope, $stateParams, $rootScope, airyBreadcrumbs,
@@ -48,5 +48,3 @@ class ClientTimeSheetController {
         this._clientResource.sendTimeSheet(this._stateParams.clientId, this.range);
     }
 }
-
-export default ClientTimeSheetController;

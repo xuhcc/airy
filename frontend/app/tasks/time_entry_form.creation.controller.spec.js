@@ -1,4 +1,4 @@
-import 'tasks/time_entry_form.module.js';
+import './time_entry_form.module.js';
 
 describe('Time entry creation', function () {
     'use strict';

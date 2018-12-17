@@ -1,4 +1,4 @@
-class ClientDetailController {
+export class ClientDetailController {
 
     constructor(
         $stateParams, $scope, $rootScope, ngDialog,
@@ -65,5 +65,3 @@ class ClientDetailController {
         });
     }
 }
-
-export default ClientDetailController;

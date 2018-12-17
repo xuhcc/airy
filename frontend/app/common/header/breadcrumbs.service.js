@@ -1,4 +1,4 @@
-function airyBreadcrumbs($state, $transitions) {
+export function airyBreadcrumbs($state, $transitions) {
     const home = {
         url: $state.href('client_list'),
         label: 'h',
@@ -27,5 +27,3 @@ function airyBreadcrumbs($state, $transitions) {
         });
     }
 }
-
-export default airyBreadcrumbs;

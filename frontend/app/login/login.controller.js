@@ -1,4 +1,4 @@
-class LoginController {
+export class LoginController {
 
     constructor($rootScope, airyUser) {
         this._airyUser = airyUser;
@@ -12,5 +12,3 @@ class LoginController {
         this._airyUser.login(this.password);
     }
 }
-
-export default LoginController;

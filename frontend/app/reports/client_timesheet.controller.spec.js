@@ -1,5 +1,5 @@
-import 'reports/client_timesheet.module.js';
-import { PERIODS } from 'reports/client_report.controller.js';
+import './client_timesheet.module.js';
+import { PERIODS } from './client_report.controller.js';
 
 describe('Timesheet', function () {
     'use strict';

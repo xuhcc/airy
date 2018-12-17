@@ -1,6 +1,6 @@
-import ClientReportController from 'reports/client_report.controller.js';
-import calculatorModule from 'reports/calculator.module.js';
-import rangeSelectorModule from 'reports/range_selector.module.js';
+import { ClientReportController } from './client_report.controller.js';
+import calculatorModule from './calculator.module.js';
+import rangeSelectorModule from './range_selector.module.js';
 
 export default angular.module('airy.clientReport', [
     calculatorModule.name,

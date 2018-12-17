@@ -1,4 +1,4 @@
-import LoginController from 'login/login.controller.js';
+import { LoginController } from './login.controller.js';
 
 export default angular.module('airy.login', [])
     .component('login', {

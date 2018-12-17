@@ -1,4 +1,4 @@
-class TimeEntryUpdateController {
+export class TimeEntryUpdateController {
 
     constructor($scope, hotkeys, timeEntryResource, airyUser, TimeEntryDuration, task, timeEntry) {
         this._scope = $scope;
@@ -34,5 +34,3 @@ class TimeEntryUpdateController {
         });
     }
 }
-
-export default TimeEntryUpdateController;

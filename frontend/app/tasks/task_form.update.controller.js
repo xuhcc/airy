@@ -1,4 +1,4 @@
-class TaskUpdateController {
+export class TaskUpdateController {
 
     constructor($scope, hotkeys, taskResource, task) {
         this._scope = $scope;
@@ -27,5 +27,3 @@ class TaskUpdateController {
         });
     }
 }
-
-export default TaskUpdateController;

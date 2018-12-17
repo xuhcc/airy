@@ -15,7 +15,7 @@ class ReportRangeController {
     }
 }
 
-const reportRangeSelector = {
+export const reportRangeSelector = {
     template: `
         <a class="shift-back icon" ng-click="$ctrl.shiftBack()">l</a>
         <span>{{ $ctrl.formatRange() }}</span>
@@ -27,5 +27,3 @@ const reportRangeSelector = {
     },
     controller: ReportRangeController,
 };
-
-export default reportRangeSelector;

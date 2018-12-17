@@ -1,6 +1,6 @@
 /* global autosize */
 
-function autoSize($timeout) {
+export function autoSize($timeout) {
     function link(scope, element) {
         let textarea = element[0];
         if (textarea.nodeName !== 'TEXTAREA') {
@@ -16,5 +16,3 @@ function autoSize($timeout) {
         link: link,
     };
 }
-
-export default autoSize;

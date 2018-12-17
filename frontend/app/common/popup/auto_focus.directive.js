@@ -1,4 +1,4 @@
-function autoFocus($timeout) {
+export function autoFocus($timeout) {
     return {
         restrict: 'A',
         link: function (scope, element) {
@@ -8,5 +8,3 @@ function autoFocus($timeout) {
         },
     };
 }
-
-export default autoFocus;

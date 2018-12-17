@@ -1,4 +1,4 @@
-import 'clients/client_detail.module.js';
+import './client_detail.module.js';
 
 describe('Client detail', function () {
     'use strict';

@@ -1,4 +1,4 @@
-function airyUser($http, $state, airyPopup) {
+export function airyUser($http, $state, airyPopup) {
     let user = {};
     let service = {
         user: user,
@@ -37,5 +37,3 @@ function airyUser($http, $state, airyPopup) {
         });
     }
 }
-
-export default airyUser;

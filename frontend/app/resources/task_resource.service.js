@@ -1,4 +1,4 @@
-class taskResource {
+export class taskResource {
 
     constructor($http) {
         this._http = $http;
@@ -29,5 +29,3 @@ class taskResource {
         return this._http.post(`/tasks/${task.id}/status`);
     }
 }
-
-export default taskResource;

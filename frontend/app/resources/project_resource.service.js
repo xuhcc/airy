@@ -1,4 +1,4 @@
-class projectResource {
+export class projectResource {
 
     constructor($http) {
         this._http = $http;
@@ -28,5 +28,3 @@ class projectResource {
         return this._http.delete(`/projects/${project.id}`);
     }
 }
-
-export default projectResource;

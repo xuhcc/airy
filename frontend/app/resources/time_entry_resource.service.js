@@ -1,4 +1,4 @@
-class timeEntryResource {
+export class timeEntryResource {
 
     constructor($http) {
         this._http = $http;
@@ -24,5 +24,3 @@ class timeEntryResource {
         return this._http.delete(`/time_entries/${timeEntry.id}`);
     }
 }
-
-export default timeEntryResource;

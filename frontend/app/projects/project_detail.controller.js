@@ -1,4 +1,4 @@
-class ProjectDetailController {
+export class ProjectDetailController {
 
     constructor(
         $stateParams, $scope, $rootScope, $interval, ngDialog, hotkeys,
@@ -146,5 +146,3 @@ class ProjectDetailController {
         });
     }
 }
-
-export default ProjectDetailController;

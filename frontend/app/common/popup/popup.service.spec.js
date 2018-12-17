@@ -1,4 +1,4 @@
-import 'common/popup/popup.module.js';
+import './popup.module.js';
 
 describe('Popup service', function () {
     'use strict';

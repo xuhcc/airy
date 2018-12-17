@@ -79,7 +79,7 @@ export const PERIODS = [
 ];
 
 
-class ClientReportController {
+export class ClientReportController {
 
     constructor(
         $scope, $stateParams, $rootScope, airyBreadcrumbs,
@@ -132,5 +132,3 @@ class ClientReportController {
         this._clientResource.sendReport(this._stateParams.clientId, this.range);
     }
 }
-
-export default ClientReportController;

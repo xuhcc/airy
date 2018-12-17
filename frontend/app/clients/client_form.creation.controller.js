@@ -1,4 +1,4 @@
-class ClientCreationController {
+export class ClientCreationController {
 
     constructor($scope, hotkeys, clientResource, clients) {
         this._scope = $scope;
@@ -27,5 +27,3 @@ class ClientCreationController {
         });
     }
 }
-
-export default ClientCreationController;

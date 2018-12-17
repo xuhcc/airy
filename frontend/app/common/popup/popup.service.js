@@ -1,4 +1,4 @@
-function airyPopup(ngDialog) {
+export function airyPopup(ngDialog) {
     let service = {
         alert: showAlert,
         confirm: showConfirm,
@@ -36,5 +36,3 @@ function airyPopup(ngDialog) {
         });
     }
 }
-
-export default airyPopup;

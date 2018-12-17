@@ -1,4 +1,4 @@
-import 'common/user/user.module.js';
+import './user.module.js';
 
 describe('airyUser factory', function () {
     'use strict';

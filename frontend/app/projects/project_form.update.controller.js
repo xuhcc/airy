@@ -1,4 +1,4 @@
-class ProjectUpdateController {
+export class ProjectUpdateController {
 
     constructor($scope, hotkeys, projectResource, project) {
         this._scope = $scope;
@@ -27,5 +27,3 @@ class ProjectUpdateController {
         });
     }
 }
-
-export default ProjectUpdateController;

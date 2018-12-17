@@ -1,4 +1,4 @@
-class ClientListController {
+export class ClientListController {
 
     constructor($scope, $rootScope, ngDialog, hotkeys, airyPopup, clientResource) {
         this._ngDialog = ngDialog;
@@ -57,5 +57,3 @@ class ClientListController {
         });
     }
 }
-
-export default ClientListController;

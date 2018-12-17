@@ -1,5 +1,5 @@
-import 'reports/range_selector.module.js';
-import { PERIODS } from 'reports/client_report.controller.js';
+import './range_selector.module.js';
+import { PERIODS } from './client_report.controller.js';
 
 describe('Range selector directive', function () {
     'use strict';

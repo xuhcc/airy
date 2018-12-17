@@ -1,4 +1,4 @@
-import ProjectDetailController from 'projects/project_detail.controller.js';
+import { ProjectDetailController } from './project_detail.controller.js';
 
 export default angular.module('airy.projectDetail', [])
     .component('projectDetail', {

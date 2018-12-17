@@ -1,4 +1,4 @@
-function httpErrorHandler($q, $injector) {
+export function httpErrorHandler($q, $injector) {
     let service = {
         responseError: handleError,
     };
@@ -16,5 +16,3 @@ function httpErrorHandler($q, $injector) {
         return $q.reject(rejection);
     }
 }
-
-export default httpErrorHandler;

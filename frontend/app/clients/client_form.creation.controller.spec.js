@@ -1,4 +1,4 @@
-import 'clients/client_form.module.js';
+import './client_form.module.js';
 
 describe('Client creation', function () {
     'use strict';

@@ -6,7 +6,7 @@ const calculatorTemplate = `
         </fieldset>
     </form>`;
 
-class calculator {
+export class calculator {
 
     constructor(ngDialog) {
         this._ngDialog = ngDialog;
@@ -21,5 +21,3 @@ class calculator {
         });
     }
 }
-
-export default calculator;

@@ -1,4 +1,4 @@
-class ProjectCreationController {
+export class ProjectCreationController {
 
     constructor($scope, hotkeys, projectResource, client) {
         this._scope = $scope;
@@ -27,5 +27,3 @@ class ProjectCreationController {
         });
     }
 }
-
-export default ProjectCreationController;

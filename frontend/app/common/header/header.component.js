@@ -4,9 +4,7 @@ function AiryHeaderController(airyUser, airyBreadcrumbs) {
     this.breadcrumbs = airyBreadcrumbs;
 }
 
-const airyHeader = {
+export const airyHeader = {
     templateUrl: 'partials/header.html',
     controller: AiryHeaderController,
 };
-
-export default airyHeader;

@@ -1,4 +1,4 @@
-class clientResource {
+export class clientResource {
 
     constructor($http) {
         this._http = $http;
@@ -55,5 +55,3 @@ class clientResource {
             range);
     }
 }
-
-export default clientResource;

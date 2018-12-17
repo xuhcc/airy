@@ -33,8 +33,6 @@ class TimeEntryDuration {
     }
 }
 
-function TimeEntryDurationFactory() {
+export function TimeEntryDurationFactory() {
     return TimeEntryDuration;
 }
-
-export default TimeEntryDurationFactory;

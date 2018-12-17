@@ -1,4 +1,4 @@
-class TaskCreationController {
+export class TaskCreationController {
 
     constructor($scope, hotkeys, airyUser, taskResource, project) {
         this._scope = $scope;
@@ -29,5 +29,3 @@ class TaskCreationController {
         });
     }
 }
-
-export default TaskCreationController;

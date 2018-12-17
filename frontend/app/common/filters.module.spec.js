@@ -1,4 +1,4 @@
-import 'common/filters.module.js';
+import './filters.module.js';
 
 describe('Filters', function () {
     'use strict';

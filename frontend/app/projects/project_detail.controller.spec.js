@@ -1,4 +1,4 @@
-import 'projects/project_detail.module.js';
+import './project_detail.module.js';
 
 describe('Project detail', function () {
     'use strict';

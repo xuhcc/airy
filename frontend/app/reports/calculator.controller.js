@@ -1,4 +1,4 @@
-function CalculatorController($scope) {
+export function CalculatorController($scope) {
     $scope.duration = moment.duration($scope.ngDialogData.duration, 'seconds');
     $scope.price = 0;
     $scope.getResult = getResult;
@@ -9,5 +9,3 @@ function CalculatorController($scope) {
         return hours + ' × ' + $scope.price + ' = ' + result.toFixed(2);
     }
 }
-
-export default CalculatorController;

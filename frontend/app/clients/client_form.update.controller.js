@@ -1,4 +1,4 @@
-class ClientUpdateController {
+export class ClientUpdateController {
 
     constructor($scope, hotkeys, clientResource, client) {
         this._scope = $scope;
@@ -27,5 +27,3 @@ class ClientUpdateController {
         });
     }
 }
-
-export default ClientUpdateController;

@@ -1,4 +1,4 @@
-import 'login/login.module.js';
+import './login.module.js';
 
 describe('Login controller', function () {
     'use strict';
