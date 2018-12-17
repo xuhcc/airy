@@ -3,11 +3,9 @@ module.exports = function (config) {
 
     process.env.NODE_ENV = 'test';
 
-    let paths = require('./frontend/index.json');
+    const paths = require('./frontend/index.json');
 
-    let files = [
-        'node_modules/es6-promise/dist/es6-promise.auto.js',
-        'node_modules/systemjs/dist/system.js',
+    const files = [
         ...paths.lib.js,
         'node_modules/angular-mocks/angular-mocks.js',
         'frontend/system-test.conf.js',
