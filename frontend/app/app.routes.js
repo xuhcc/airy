@@ -1,4 +1,4 @@
-function routeConfig($stateProvider, $urlRouterProvider) {
+export function routeConfig($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/login');
     $stateProvider
         .state('login', {
@@ -40,5 +40,3 @@ function routeConfig($stateProvider, $urlRouterProvider) {
             component: 'projectDetail',
         });
 }
-
-export default routeConfig;
