@@ -15,7 +15,7 @@ install:
   - pip install pipenv
   - pipenv install --dev
   - npm install
-  - "npm run grunt build:development"
+  - "npm run grunt build"
 before_script:
   - psql -c "CREATE USER airy WITH password 'airy' CREATEDB;" -U postgres
 script:
