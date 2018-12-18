@@ -12,9 +12,10 @@ def dirs(ctx):
 
 
 @task
-def frontend(ctx):
+def frontend(ctx, rebuild=True):
     ctx.run('npm install')
-    ctx.run('npm rebuild node-sass')
+    if rebuild:
+        ctx.run('npm rebuild node-sass')
     ctx.run('npm run grunt build')
 
 
