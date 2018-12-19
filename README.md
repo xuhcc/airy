@@ -6,7 +6,7 @@ Time tracker
 
 Requirements:
 
-* python 3.5+
+* python 3.6+
 * nodejs 8+
 * postgresql
 
