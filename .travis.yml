@@ -19,10 +19,6 @@ install:
 before_script:
   - psql -c "CREATE USER airy WITH password 'airy' CREATEDB;" -U postgres
 script:
-  - pipenv run flake8 --max-complexity=8 fabfile
-  - pipenv run flake8 --max-complexity=10 airy
-  - pipenv run flake8 --max-complexity=8 alembic/env.py
-  - pipenv run safety check --bare
-  - pipenv run bandit -c bandit.yaml -r airy
-  - pipenv run pytest airy/tests
-  - "npm run grunt check:js check:css check:html"
+  - inv check.py-style
+  - inv check.py-unit --no-debug
+  - inv check.frontend

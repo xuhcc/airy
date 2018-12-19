@@ -35,15 +35,16 @@ def py_types(ctx):
 
 
 @task
-def py_unit(ctx, select=None):
-    args = ['--maxfail 3', '--pdb']
+def py_unit(ctx, debug=True, select=None):
+    args = []
+    if debug:
+        args += ['--maxfail 3', '--pdb']
     if select:
         args += ['-k ' + select]
     else:
         args += ['--cov airy', '--cov-config .coveragerc']
     ctx.run(
-        'pipenv run '
-        'pytest airy/tests {}'.format(' '.join(args)),
+        f'pipenv run pytest airy/tests {" ".join(args)}',
         pty=True,
     )
 
