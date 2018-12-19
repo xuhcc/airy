@@ -14,8 +14,8 @@ before_install:
 install:
   - pip install pipenv
   - pipenv install --dev
-  - pipenv run inv build.dirs
-  - pipenv run inv build.frontend --no-rebuild
+  - inv build.dirs
+  - inv build.frontend --no-rebuild
 before_script:
   - psql -c "CREATE USER airy WITH password 'airy' CREATEDB;" -U postgres
 script:
