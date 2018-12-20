@@ -32,6 +32,7 @@ module.exports = function (config) {
         coverageReporter: {
             type: 'text-summary',
         },
+        browsers: ['jsdom'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,

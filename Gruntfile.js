@@ -17,11 +17,8 @@ module.exports = function (grunt) {
             ],
         },
         karma: {
-            options: {
+            main: {
                 configFile: 'karma.conf.js',
-            },
-            jsdom: {
-                browsers: ['jsdom'],
             },
         },
         sasslint: {
@@ -203,7 +200,7 @@ module.exports = function (grunt) {
     grunt.registerTask('check:js', function () {
         grunt.task.run([
             'eslint',
-            'karma:jsdom',
+            'karma',
         ]);
     });
     grunt.registerTask('check:css', function () {
