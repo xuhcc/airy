@@ -8,14 +8,12 @@ module.exports = function (config) {
     const files = [
         ...paths.lib.js,
         'node_modules/angular-mocks/angular-mocks.js',
-        'frontend/system-test.conf.js',
-        {pattern: paths.app.es, included: false},
-        {pattern: paths.specs, included: false},
+        {pattern: paths.specs, included: true},
     ];
 
+    const rollupConfig = require('./rollup.config.js');
     let preprocessors = {};
-    preprocessors[paths.app.es] = ['babel'];
-    preprocessors[paths.specs] = ['babel'];
+    preprocessors[paths.specs] = ['rollup'];
 
     config.set({
         basePath: '',
@@ -28,6 +26,7 @@ module.exports = function (config) {
                 sourceMap: 'inline',
             },
         },
+        rollupPreprocessor: rollupConfig,
         reporters: ['mocha', 'coverage'],
         coverageReporter: {
             type: 'text-summary',

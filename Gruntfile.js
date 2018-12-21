@@ -1,5 +1,7 @@
 const path = require('path');
 const sass = require('node-sass');
+const rollup = require('rollup');
+const rollupConfig = require('./rollup.config.js');
 
 module.exports = function (grunt) {
     'use strict';
@@ -10,6 +12,7 @@ module.exports = function (grunt) {
         eslint: {
             main: [
                 'Gruntfile.js',
+                'rollup.config.js',
                 'karma.conf.js',
                 'frontend/system-test.conf.js',
                 '<%= paths.app.es %>',
@@ -158,7 +161,7 @@ module.exports = function (grunt) {
             },
             appJs: {
                 files: ['<%= paths.app.es %>'],
-                tasks: ['babel', 'systemjs'],
+                tasks: ['rollup'],
             },
             appPartials: {
                 files: ['<%= paths.app.partials %>'],
@@ -185,15 +188,26 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-systemjs-builder');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
+    grunt.registerTask('rollup', 'Create app bundle.', function () {
+        const done = this.async();
+        return rollup.rollup(rollupConfig)
+            .then(bundle => {
+                return bundle.generate(rollupConfig.output);
+            })
+            .then(result => {
+                grunt.file.write('airy/static/js/app.min.js', result.code);
+                done();
+            });
+    });
+
     grunt.registerTask('default', []);
     grunt.registerTask('build', function () {
         grunt.task.run([
             'clean',
             'sass',
             'cssmin',
-            'babel',
+            'rollup',
             'uglify',
-            'systemjs',
             'copy',
         ]);
     });

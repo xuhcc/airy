@@ -30,6 +30,8 @@
     "ng-dialog": "^0.6.6",
     "node-sass": "^4.11.0",
     "purecss": "^1.0.0",
+    "rollup": "^0.68.0",
+    "rollup-plugin-babel": "^4.1.0",
     "systemjs": "^0.20.19"
   },
   "devDependencies": {
@@ -50,6 +52,7 @@
     "karma-jasmine": "^2.0.1",
     "karma-jsdom-launcher": "^6.1.5",
     "karma-mocha-reporter": "^2.2.5",
+    "karma-rollup-preprocessor": "^6.1.1",
     "sass-lint": "^1.12.1"
   },
   "scripts": {
