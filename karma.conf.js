@@ -5,28 +5,19 @@ module.exports = function (config) {
 
     const paths = require('./frontend/index.json');
 
-    const files = [
-        ...paths.lib.js,
-        'node_modules/angular-mocks/angular-mocks.js',
-        {pattern: paths.specs, included: true},
-    ];
-
-    const rollupConfig = require('./rollup.config.js');
-    let preprocessors = {};
-    preprocessors[paths.specs] = ['rollup'];
-
     config.set({
         basePath: '',
         frameworks: ['jasmine'],
-        files: files,
+        files: [
+            ...paths.lib.js,
+            'node_modules/angular-mocks/angular-mocks.js',
+            paths.specs,
+        ],
         exclude: [],
-        preprocessors: preprocessors,
-        babelPreprocessor: {
-            options: {
-                sourceMap: 'inline',
-            },
+        preprocessors: {
+            [paths.specs]: ['rollup'],
         },
-        rollupPreprocessor: rollupConfig,
+        rollupPreprocessor: require('./rollup.config.js'),
         reporters: ['mocha', 'coverage'],
         coverageReporter: {
             type: 'text-summary',
