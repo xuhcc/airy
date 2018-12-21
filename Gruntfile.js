@@ -14,9 +14,8 @@ module.exports = function (grunt) {
                 'Gruntfile.js',
                 'rollup.config.js',
                 'karma.conf.js',
-                'frontend/system-test.conf.js',
-                '<%= paths.app.es %>',
-                '<%= paths.specs %>',
+                '<%= paths.app.js %>',
+                '<%= paths.app.specs %>',
             ],
         },
         karma: {
@@ -93,40 +92,6 @@ module.exports = function (grunt) {
                 ext: '.css',
             },
         },
-        babel: {
-            options: {
-                sourceMap: true,
-            },
-            main: {
-                files: [
-                    {
-                        cwd: 'frontend/app/',
-                        src: '**/!(*spec).js',
-                        dest: 'frontend/js/',
-                        expand: true,
-                    },
-                ],
-            },
-        },
-        systemjs: {
-            options: {
-                sfx: true,
-                baseURL: 'frontend/js/',
-                minify: true,
-                build: {
-                    mangle: false,
-                },
-            },
-            main: {
-                files: [
-                    {
-                        src: 'app.module.js',
-                        dest: 'airy/static/js/app.min.js',
-                        nonull: true,
-                    },
-                ],
-            },
-        },
         uglify: {
             options: {
                 mangle: false,
@@ -160,7 +125,7 @@ module.exports = function (grunt) {
                 tasks: ['sass', 'cssmin'],
             },
             appJs: {
-                files: ['<%= paths.app.es %>'],
+                files: ['<%= paths.app.js %>'],
                 tasks: ['rollup'],
             },
             appPartials: {
@@ -184,8 +149,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-sass');
     grunt.loadNpmTasks('grunt-sass-lint');
     grunt.loadNpmTasks('grunt-karma');
-    grunt.loadNpmTasks('grunt-babel');
-    grunt.loadNpmTasks('grunt-systemjs-builder');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerTask('rollup', 'Create app bundle.', function () {

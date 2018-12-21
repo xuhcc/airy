@@ -11,11 +11,11 @@ module.exports = function (config) {
         files: [
             ...paths.lib.js,
             'node_modules/angular-mocks/angular-mocks.js',
-            paths.specs,
+            paths.app.specs,
         ],
         exclude: [],
         preprocessors: {
-            [paths.specs]: ['rollup'],
+            [paths.app.specs]: ['rollup'],
         },
         rollupPreprocessor: require('./rollup.config.js'),
         reporters: ['mocha', 'coverage'],

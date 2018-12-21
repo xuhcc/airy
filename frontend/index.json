@@ -1,19 +1,15 @@
 {
     "app": {
-        "es": "frontend/app/**/!(*spec).js",
-        "js": "frontend/js/**/*.js",
-        "jsmaps": "frontend/js/**/*.js.map",
+        "js": "frontend/app/**/!(*spec).js",
+        "specs": "frontend/app/**/*.spec.js",
         "partials": "frontend/app/**/*.html",
         "scss": "frontend/app/**/*.scss",
         "css": "frontend/css/**/*.css",
-        "cssmaps": "frontend/css/**/*.css.map",
         "fonts": "frontend/fonts/*",
         "index": "frontend/index.html"
     },
-    "specs": "frontend/app/**/*.spec.js",
     "lib": {
         "js": [
-            "node_modules/systemjs/dist/system.js",
             "node_modules/jquery/dist/jquery.js",
             "node_modules/moment/moment.js",
             "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
