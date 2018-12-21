@@ -15,7 +15,6 @@
     "angular-sanitize": "^1.7.5",
     "angular-ui-router": "^1.0.20",
     "autosize": "^4.0.2",
-    "babel-plugin-transform-es2015-modules-systemjs": "^6.24.1",
     "grunt": "^1.0.3",
     "grunt-babel": "^8.0.0",
     "grunt-contrib-clean": "^2.0.0",
