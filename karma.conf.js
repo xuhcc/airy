@@ -1,9 +1,21 @@
+const babel = require('rollup-plugin-babel');
+const istanbul = require('rollup-plugin-istanbul');
+const paths = require('./frontend/index.json');
+
 module.exports = function (config) {
     'use strict';
 
     process.env.NODE_ENV = 'test';
 
-    const paths = require('./frontend/index.json');
+    const rollupConfig = {
+        output: {
+            format: 'iife',
+        },
+        plugins: [
+            istanbul({exclude: [paths.app.specs]}),
+            babel(),
+        ],
+    };
 
     config.set({
         basePath: '',
@@ -17,7 +29,7 @@ module.exports = function (config) {
         preprocessors: {
             [paths.app.specs]: ['rollup'],
         },
-        rollupPreprocessor: require('./rollup.config.js'),
+        rollupPreprocessor: rollupConfig,
         reporters: ['mocha', 'coverage'],
         coverageReporter: {
             type: 'text-summary',
