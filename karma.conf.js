@@ -1,4 +1,3 @@
-const babel = require('rollup-plugin-babel');
 const istanbul = require('rollup-plugin-istanbul');
 const typescript = require('rollup-plugin-typescript2');
 const paths = require('./frontend/index.json');

@@ -1,4 +1,3 @@
-const babel = require('rollup-plugin-babel');
 const uglify = require('rollup-plugin-uglify');
 const typescript = require('rollup-plugin-typescript2');
 
