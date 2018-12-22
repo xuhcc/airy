@@ -29,8 +29,7 @@
     "node-sass": "^4.11.0",
     "purecss": "^1.0.0",
     "rollup": "^0.68.0",
-    "rollup-plugin-babel": "^4.1.0",
-    "systemjs": "^0.20.19"
+    "rollup-plugin-babel": "^4.1.0"
   },
   "devDependencies": {
     "angular-mocks": "^1.7.5",
