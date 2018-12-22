@@ -1,7 +1,6 @@
 const path = require('path');
 const sass = require('node-sass');
 const rollup = require('rollup');
-const rollupConfig = require('./rollup.config.js');
 
 module.exports = function (grunt) {
     'use strict';
@@ -92,6 +91,11 @@ module.exports = function (grunt) {
                 ext: '.css',
             },
         },
+        rollup: {
+            app: {
+                configFile: './rollup.config.js',
+            },
+        },
         uglify: {
             options: {
                 mangle: false,
@@ -151,14 +155,14 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
-    grunt.registerTask('rollup', 'Create app bundle.', function () {
+    grunt.registerMultiTask('rollup', 'Create app bundle.', function () {
+        const config = require(this.data.configFile);
         const done = this.async();
-        return rollup.rollup(rollupConfig)
+        return rollup.rollup(config)
             .then(bundle => {
-                return bundle.generate(rollupConfig.output);
+                return bundle.write(config.output);
             })
             .then(result => {
-                grunt.file.write('airy/static/js/app.min.js', result.code);
                 done();
             });
     });
@@ -169,7 +173,7 @@ module.exports = function (grunt) {
             'clean',
             'sass',
             'cssmin',
-            'rollup',
+            'rollup:app',
             'uglify',
             'copy',
         ]);
