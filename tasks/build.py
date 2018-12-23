@@ -16,6 +16,11 @@ def frontend(ctx, rebuild=True):
     ctx.run('npm install')
     if rebuild:
         ctx.run('npm rebuild node-sass')
+    grunt(ctx)
+
+
+@task
+def grunt(ctx):
     ctx.run('npm run grunt build')
 
 
