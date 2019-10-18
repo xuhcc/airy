@@ -13,7 +13,7 @@ def css(ctx):
 
 @task
 def html(ctx):
-    ctx.run('npm run grunt check:html --silent')
+    ctx.run('npm run htmlhint --silent')
 
 
 @task

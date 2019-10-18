@@ -36,14 +36,6 @@ module.exports = function (grunt) {
                 src: '<%= paths.app.css %>',
             },
         },
-        htmlhint: {
-            partials: {
-                options: {
-                    htmlhintrc: '.htmlhintrc',
-                },
-                src: '<%= paths.app.partials %>',
-            },
-        },
         copy: {
             appIndex: {
                 src: '<%= paths.app.index %>',
@@ -145,7 +137,6 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-contrib-csslint');
-    grunt.loadNpmTasks('grunt-htmlhint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -189,11 +180,6 @@ module.exports = function (grunt) {
             'sasslint',
             'sass',
             'csslint',
-        ]);
-    });
-    grunt.registerTask('check:html', function () {
-        grunt.task.run([
-            'htmlhint',
         ]);
     });
 };
