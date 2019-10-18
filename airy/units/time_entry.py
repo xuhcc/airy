@@ -1,5 +1,7 @@
 import logging
 
+from marshmallow import ValidationError
+
 from airy.models import TimeEntry
 from airy.exceptions import TimeEntryError
 from airy.database import db
@@ -15,14 +17,15 @@ def save(data, time_entry_id=None):
             raise TimeEntryError(
                 'Time entry #{0} not found'.format(time_entry_id), 404)
         data['id'] = time_entry_id
-    serializer = TimeEntrySerializer(exclude='added_at')
-    time_entry, errors = serializer.load(data)
-    if errors:
-        raise TimeEntryError(errors, 400)
+    serializer = TimeEntrySerializer(exclude=['added_at'])
+    try:
+        time_entry = serializer.load(data)
+    except ValidationError as error:
+        raise TimeEntryError(error.messages, 400)
     time_entry = db.session.merge(time_entry)
     db.session.commit()
-    serializer = TimeEntrySerializer(strict=True)
-    return serializer.dump(time_entry).data
+    serializer = TimeEntrySerializer()
+    return serializer.dump(time_entry)
 
 
 def delete(time_entry_id: int) -> float:

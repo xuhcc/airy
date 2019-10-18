@@ -1,4 +1,5 @@
 import pytest
+from marshmallow import ValidationError
 
 from airy.serializers import (
     ClientSerializer,
@@ -20,8 +21,8 @@ class TestClientSerializer():
         client = ClientFactory.create()
         project = ProjectFactory.create(client=client)
         self.db.session.commit()
-        serializer = ClientSerializer(strict=True)
-        data = serializer.dump(client).data
+        serializer = ClientSerializer()
+        data = serializer.dump(client)
         assert data['id'] == client.id
         assert data['name'] == client.name
         assert data['contacts'] == client.contacts
@@ -34,8 +35,7 @@ class TestClientSerializer():
     def test_create(self):
         data = ClientFactory.stub().__dict__
         serializer = ClientSerializer(exclude=['projects'])
-        instance, errors = serializer.load(data)
-        assert not errors
+        instance = serializer.load(data)
         assert instance.name == data['name']
         assert instance.id is None
 
@@ -45,14 +45,16 @@ class TestClientSerializer():
         data = ClientFactory.stub().__dict__
         data['id'] = client.id
         serializer = ClientSerializer(exclude=['projects'])
-        instance, errors = serializer.load(data)
-        assert not errors
+        instance = serializer.load(data)
         assert instance.name == data['name']
         assert instance.id == client.id
 
     def test_required(self):
         serializer = ClientSerializer(exclude=['projects'])
-        instance, errors = serializer.load({})
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load({})
+
+        errors = exc_info.value.messages
         assert 'name' in errors
 
     def test_validate_name_unique(self):
@@ -61,18 +63,25 @@ class TestClientSerializer():
 
         data = ClientFactory.stub(name=client.name).__dict__
         serializer = ClientSerializer(exclude=['projects'])
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+
+        errors = exc_info.value.messages
         assert 'name' in errors
 
     def test_validate_name_length(self):
         serializer = ClientSerializer(exclude=['projects'])
         # Min
         data = ClientFactory.stub(name='x').__dict__
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+        errors = exc_info.value.messages
         assert 'name' in errors
         # Max
         data = ClientFactory.stub(name='x' * 101).__dict__
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+        errors = exc_info.value.messages
         assert 'name' in errors
 
 
@@ -82,8 +91,8 @@ class TestProjectSerializer():
     def test_serialization(self):
         project = ProjectFactory.create()
         self.db.session.commit()
-        serializer = ProjectSerializer(strict=True)
-        data = serializer.dump(project).data
+        serializer = ProjectSerializer()
+        data = serializer.dump(project)
         assert data['id'] == project.id
         assert data['name'] == project.name
         assert data['description'] == project.description
@@ -96,7 +105,7 @@ class TestProjectSerializer():
         self.db.session.commit()
 
         # Last task
-        data = serializer.dump(project).data
+        data = serializer.dump(project)
         assert data['last_task'] is not None
         assert data['last_task']['id'] == task_1.id
         assert data['last_task']['title'] == task_1.title
@@ -104,12 +113,12 @@ class TestProjectSerializer():
 
         # Tasks (with filtering)
         data = ProjectSerializer(
-            strict=True, task_status='open').dump(project).data
+            task_status='open',
+        ).dump(project)
         assert len(data['tasks']) == 1
         assert data['tasks'][0]['id'] == task_1.id
         assert data['tasks'][0]['project_id'] == project.id
-        data = ProjectSerializer(
-            strict=True, task_status='closed').dump(project).data
+        data = ProjectSerializer(task_status='closed').dump(project)
         assert len(data['tasks']) == 1
         assert data['tasks'][0]['id'] == task_2.id
         assert data['tasks'][0]['project_id'] == project.id
@@ -119,10 +128,10 @@ class TestProjectSerializer():
         self.db.session.commit()
         data = ProjectFactory.stub(client=None).__dict__
         data['client_id'] = client.id
+        del data['client']
         serializer = ProjectSerializer(
             only=['id', 'name', 'description', 'client_id'])
-        instance, errors = serializer.load(data)
-        assert not errors
+        instance = serializer.load(data)
         assert instance.id is None
         assert instance.name == data['name']
         assert instance.client_id == client.id
@@ -133,10 +142,10 @@ class TestProjectSerializer():
         data = ProjectFactory.stub(client=None).__dict__
         data['id'] = project.id
         data['client_id'] = project.client.id
+        del data['client']
         serializer = ProjectSerializer(
             only=['id', 'name', 'description', 'client_id'])
-        instance, errors = serializer.load(data)
-        assert not errors
+        instance = serializer.load(data)
         assert instance.id == project.id
         assert instance.name == data['name']
         assert instance.client_id == project.client.id
@@ -144,7 +153,10 @@ class TestProjectSerializer():
     def test_required(self):
         serializer = ProjectSerializer(
             only=['id', 'name', 'description', 'client_id'])
-        instance, errors = serializer.load({})
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load({})
+
+        errors = exc_info.value.messages
         assert 'name' in errors
         assert 'client_id' in errors
 
@@ -153,7 +165,10 @@ class TestProjectSerializer():
         data['client_id'] = 0
         serializer = ProjectSerializer(
             only=['id', 'name', 'description', 'client_id'])
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+
+        errors = exc_info.value.messages
         assert 'client_id' in errors
 
     def test_validate_name_length(self):
@@ -161,11 +176,15 @@ class TestProjectSerializer():
             only=['id', 'name', 'description', 'client_id'])
         # Min
         data = ProjectFactory.stub(name='x').__dict__
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+        errors = exc_info.value.messages
         assert 'name' in errors
         # Max
         data = ProjectFactory.stub(name='x' * 101).__dict__
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+        errors = exc_info.value.messages
         assert 'name' in errors
 
 
@@ -176,8 +195,8 @@ class TestTaskSerializer():
         task = TaskFactory.create()
         time_entry = TimeEntryFactory.create(task=task)
         self.db.session.commit()
-        serializer = TaskSerializer(strict=True)
-        data = serializer.dump(task).data
+        serializer = TaskSerializer()
+        data = serializer.dump(task)
         assert data['id'] == task.id
         assert data['title'] == task.title
         assert data['url'] == task.url
@@ -196,10 +215,12 @@ class TestTaskSerializer():
         self.db.session.commit()
         data = TaskFactory.stub(project=None).__dict__
         data['project_id'] = project.id
+        del data['project']
+        del data['created_at']
+        del data['updated_at']
         serializer = TaskSerializer(
             only=['id', 'title', 'url', 'description', 'project_id'])
-        instance, errors = serializer.load(data)
-        assert not errors
+        instance = serializer.load(data)
         assert instance.id is None
         assert instance.title == data['title']
         assert instance.url == data['url']
@@ -213,10 +234,12 @@ class TestTaskSerializer():
         data = TaskFactory.stub(project=None).__dict__
         data['id'] = task.id
         data['project_id'] = task.project.id
+        del data['project']
+        del data['created_at']
+        del data['updated_at']
         serializer = TaskSerializer(
             only=['id', 'title', 'url', 'description', 'project_id'])
-        instance, errors = serializer.load(data)
-        assert not errors
+        instance = serializer.load(data)
         assert instance.id == task.id
         assert instance.title == data['title']
         assert instance.project_id == task.project.id
@@ -224,7 +247,10 @@ class TestTaskSerializer():
     def test_required(self):
         serializer = TaskSerializer(
             only=['id', 'title', 'url', 'description', 'project_id'])
-        instance, errors = serializer.load({})
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load({})
+
+        errors = exc_info.value.messages
         assert 'title' in errors
         assert 'url' not in errors
         assert 'description' not in errors
@@ -235,7 +261,10 @@ class TestTaskSerializer():
         data['project_id'] = 0
         serializer = TaskSerializer(
             only=['id', 'title', 'description', 'project_id'])
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+
+        errors = exc_info.value.messages
         assert 'project_id' in errors
 
     def test_validate_title_length(self):
@@ -243,22 +272,28 @@ class TestTaskSerializer():
             only=['id', 'title', 'description', 'project_id'])
         # Min
         data = TaskFactory.stub(title='x').__dict__
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+        errors = exc_info.value.messages
         assert 'title' in errors
         # Max
         data = TaskFactory.stub(title='x' * 101).__dict__
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+        errors = exc_info.value.messages
         assert 'title' in errors
 
     def test_preprocess_url(self):
         serializer = TaskSerializer(
-            only=['id', 'title', 'description', 'project_id'])
+            only=['id', 'title', 'description', 'project_id', 'url'])
         project = ProjectFactory.create()
         self.db.session.commit()
         data = TaskFactory.stub(project=None, url='').__dict__
         data['project_id'] = project.id
-        instance, errors = serializer.load(data)
-        assert not errors
+        del data['project']
+        del data['created_at']
+        del data['updated_at']
+        instance = serializer.load(data)
         assert instance.url is None
 
 
@@ -268,8 +303,8 @@ class TestTimeEntrySerializer():
     def test_serialization(self):
         time_entry = TimeEntryFactory.create()
         self.db.session.commit()
-        serializer = TimeEntrySerializer(strict=True)
-        data = serializer.dump(time_entry).data
+        serializer = TimeEntrySerializer()
+        data = serializer.dump(time_entry)
         assert data['id'] == time_entry.id
         assert data['duration'] == time_entry.duration.total_seconds()
         assert data['comment'] == time_entry.comment
@@ -283,9 +318,10 @@ class TestTimeEntrySerializer():
         data = TimeEntryFactory.stub(task=None).__dict__
         data['task_id'] = task.id
         data['duration'] = data['duration'].total_seconds()
+        del data['task']
+        del data['added_at']
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load(data)
-        assert not errors
+        instance = serializer.load(data)
         assert instance.id is None
         assert instance.duration.total_seconds() == data['duration']
         assert instance.task_id == task.id
@@ -298,16 +334,19 @@ class TestTimeEntrySerializer():
         data['id'] = time_entry.id
         data['task_id'] = time_entry.task.id
         data['duration'] = data['duration'].total_seconds()
+        del data['task']
+        del data['added_at']
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load(data)
-        assert not errors
+        instance = serializer.load(data)
         assert instance.id == time_entry.id
         assert instance.duration.total_seconds() == data['duration']
         assert instance.task_id == time_entry.task.id
 
     def test_required(self):
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load({})
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load({})
+        errors = exc_info.value.messages
         assert 'duration' in errors
         assert 'task_id' in errors
 
@@ -315,7 +354,9 @@ class TestTimeEntrySerializer():
         data = TimeEntryFactory.stub(task=None).__dict__
         data['task_id'] = 0
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+        errors = exc_info.value.messages
         assert 'task_id' in errors
 
     def test_validate_duration(self):
@@ -327,19 +368,25 @@ class TestTimeEntrySerializer():
         invalid_data = data.copy()
         invalid_data['duration'] = 30
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load(invalid_data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(invalid_data)
+        errors = exc_info.value.messages
         assert 'duration' in errors
         # Max
         invalid_data = data.copy()
         invalid_data['duration'] = 101 * 3600
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load(invalid_data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(invalid_data)
+        errors = exc_info.value.messages
         assert 'duration' in errors
         # Seconds
         invalid_data = data.copy()
         invalid_data['duration'] = 11111
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load(invalid_data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(invalid_data)
+        errors = exc_info.value.messages
         assert 'duration' in errors
 
     def test_validate_comment_null(self):
@@ -348,7 +395,8 @@ class TestTimeEntrySerializer():
         valid_data = TimeEntryFactory.stub(task=None, comment=None).__dict__
         valid_data['task_id'] = task.id
         valid_data['duration'] = valid_data['duration'].total_seconds()
+        del valid_data['task']
+        del valid_data['added_at']
         assert valid_data['comment'] is None
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance, errors = serializer.load(valid_data)
-        assert not errors
+        instance = serializer.load(valid_data)

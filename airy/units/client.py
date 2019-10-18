@@ -1,3 +1,4 @@
+from marshmallow import ValidationError
 from sqlalchemy import func
 
 from airy.models import Client, Project, Task
@@ -10,8 +11,8 @@ def get(client_id):
     client = db.session.query(Client).get(client_id)
     if not client:
         raise ClientError("Client #{0} not found".format(client_id), 404)
-    serializer = ClientSerializer(strict=True)
-    return serializer.dump(client).data
+    serializer = ClientSerializer()
+    return serializer.dump(client)
 
 
 def get_all():
@@ -22,8 +23,8 @@ def get_all():
     clients = Client.query.\
         outerjoin(subquery, Client.id == subquery.c.id).\
         order_by(subquery.c.updated_at.desc())
-    serializer = ClientSerializer(many=True, strict=True)
-    return serializer.dump(clients).data
+    serializer = ClientSerializer(many=True)
+    return serializer.dump(clients)
 
 
 def save(data, client_id=None):
@@ -33,13 +34,14 @@ def save(data, client_id=None):
                 'Client #{0} not found'.format(client_id), 404)
         data['id'] = client_id
     serializer = ClientSerializer(exclude=['projects'])
-    client, errors = serializer.load(data)
-    if errors:
-        raise ClientError(errors, 400)
+    try:
+        client = serializer.load(data)
+    except ValidationError as error:
+        raise ClientError(error.messages, 400)
     client = db.session.merge(client)
     db.session.commit()
-    serialized = ClientSerializer(strict=True).dump(client)
-    return serialized.data
+    serialized = ClientSerializer().dump(client)
+    return serialized
 
 
 def delete(client_id):

@@ -1,5 +1,7 @@
 import logging
 
+from marshmallow import ValidationError
+
 from airy.models import Task
 from airy.exceptions import TaskError
 from airy.database import db
@@ -17,13 +19,14 @@ def save(data, task_id=None):
         data['id'] = task_id
     serializer = TaskSerializer(
         only=['id', 'title', 'url', 'description', 'project_id'])
-    task, errors = serializer.load(data)
-    if errors:
-        raise TaskError(errors, 400)
+    try:
+        task = serializer.load(data)
+    except ValidationError as error:
+        raise TaskError(error.messages, 400)
     task = db.session.merge(task)
     db.session.commit()
-    serializer = TaskSerializer(strict=True)
-    return serializer.dump(task).data
+    serializer = TaskSerializer()
+    return serializer.dump(task)
 
 
 def toggle_status(task_id):
@@ -36,8 +39,8 @@ def toggle_status(task_id):
         task.status = 'open'
     task = db.session.merge(task)
     db.session.commit()
-    serializer = TaskSerializer(only=['id', 'is_closed'], strict=True)
-    return serializer.dump(task).data
+    serializer = TaskSerializer(only=['id', 'is_closed'])
+    return serializer.dump(task)
 
 
 def delete(task_id):

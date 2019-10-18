@@ -1,4 +1,5 @@
 import datetime
+
 import pytest
 
 from airy import settings
@@ -8,7 +9,8 @@ from airy.utils.date import tz_now, week_beginning
 
 from factories import (
     ClientFactory,
-    TimeEntryFactory)
+    TimeEntryFactory,
+)
 
 
 @pytest.mark.usefixtures('db_class')

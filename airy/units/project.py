@@ -1,5 +1,7 @@
 import logging
 
+from marshmallow import ValidationError
+
 from airy.models import Project, TaskStatus
 from airy.exceptions import ProjectError
 from airy.database import db
@@ -16,9 +18,9 @@ def get(project_id, task_status):
         raise ProjectError('Invalid status')
     serializer = ProjectSerializer(
         exclude=['last_task'],
-        strict=True,
-        task_status=task_status)
-    return serializer.dump(project).data
+        task_status=task_status,
+    )
+    return serializer.dump(project)
 
 
 def save(data, project_id=None):
@@ -30,15 +32,16 @@ def save(data, project_id=None):
         data['id'] = project_id
     serializer = ProjectSerializer(
         only=['id', 'name', 'description', 'client_id'])
-    project, errors = serializer.load(data)
-    if errors:
-        raise ProjectError(errors, 400)
+    try:
+        project = serializer.load(data)
+    except ValidationError as error:
+        raise ProjectError(error.messages, 400)
     project = db.session.merge(project)
     db.session.commit()
     serializer = ProjectSerializer(
         only=['id', 'name', 'description', 'client_id', 'last_task'],
-        strict=True)
-    return serializer.dump(project).data
+    )
+    return serializer.dump(project)
 
 
 def delete(project_id):

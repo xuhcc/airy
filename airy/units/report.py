@@ -1,10 +1,11 @@
 import datetime
-from collections import OrderedDict
 import itertools
+from collections import OrderedDict
 
 import arrow
-from flask import render_template
 import premailer
+from flask import render_template
+from marshmallow import ValidationError
 from sqlalchemy import between
 
 from airy import settings
@@ -13,7 +14,8 @@ from airy.models import Client, Project, Task, TimeEntry
 from airy.serializers import (
     DateRangeSerializer,
     TimeSheetSerializer,
-    TaskReportSerializer)
+    TaskReportSerializer,
+)
 from airy.exceptions import ClientError
 from airy.utils import email
 from airy.utils.date import localize
@@ -25,9 +27,10 @@ class TimeSheet(object):
         self.client = Client.query.get(client_id)
         if not self.client:
             raise ClientError("Client #{0} not found".format(client_id), 404)
-        self.date_range, errors = DateRangeSerializer().load(date_range)
-        if errors:
-            raise ClientError(errors, 400)
+        try:
+            self.date_range = DateRangeSerializer().load(date_range)
+        except ValidationError as error:
+            raise ClientError(error.messages, 400)
 
     def _build(self):
         query = db.session.\
@@ -86,7 +89,7 @@ class TimeSheet(object):
 
     def get(self):
         serializer = TimeSheetSerializer()
-        return serializer.dump(self._build()).data
+        return serializer.dump(self._build())
 
     def send(self):
         subject = 'Timesheet for {0}'.format(self.client.name)
@@ -102,9 +105,10 @@ class TaskReport(object):
         self.client = Client.query.get(client_id)
         if not self.client:
             raise ClientError('Client #{0} not found'.format(client_id), 404)
-        self.date_range, errors = DateRangeSerializer().load(date_range)
-        if errors:
-            raise ClientError(errors, 400)
+        try:
+            self.date_range = DateRangeSerializer().load(date_range)
+        except ValidationError as error:
+            raise ClientError(error.messages, 400)
 
     def _build(self):
 
@@ -156,7 +160,7 @@ class TaskReport(object):
 
     def get(self):
         serializer = TaskReportSerializer()
-        return serializer.dump(self._build()).data
+        return serializer.dump(self._build())
 
     def send(self):
         subject = 'Task report for {0}: {1:%d %b %Y} — {2:%d %b %Y}'.format(

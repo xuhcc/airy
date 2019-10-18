@@ -20,9 +20,6 @@ class UserSerializer(Schema):
     total_today = fields.TimeDelta()
     total_week = fields.TimeDelta()
 
-    class Meta:
-        strict = True
-
 
 def validate_task_id(value):
     if not Task.query.get(value):
@@ -55,7 +52,7 @@ class TimeEntrySerializer(Schema):
     task_total_time = fields.Method('get_task_total_time')
 
     @post_load
-    def make_time_entry(self, data):
+    def make_time_entry(self, data, **kwargs):
         if 'id' not in data:
             data['added_at'] = tz_now()
         return TimeEntry(**data)
@@ -94,13 +91,13 @@ class TaskSerializer(Schema):
     is_closed = fields.Boolean(dump_only=True)
 
     @pre_load
-    def clean_url(self, data):
+    def clean_url(self, data, **kwargs):
         if not data.get('url'):
             data['url'] = None
         return data
 
     @post_load
-    def make_task(self, data):
+    def make_task(self, data, **kwargs):
         if 'id' not in data:
             data['created_at'] = tz_now()
         data['updated_at'] = tz_now()
@@ -141,7 +138,7 @@ class ProjectSerializer(Schema):
             self.fields['tasks'].attribute = 'closed_tasks'
 
     @post_load
-    def make_project(self, data):
+    def make_project(self, data, **kwargs):
         return Project(**data)
 
 
@@ -160,7 +157,7 @@ class ClientSerializer(Schema):
                              dump_only=True)
 
     @validates_schema
-    def validate_unique_client_name(self, client):
+    def validate_unique_client_name(self, client, **kwargs):
         if client.get('name'):
             name_query = Client.query.filter(
                 Client.name == client['name'],
@@ -171,7 +168,7 @@ class ClientSerializer(Schema):
                     'name')
 
     @post_load
-    def make_client(self, data):
+    def make_client(self, data, **kwargs):
         return Client(**data)
 
 
@@ -187,13 +184,13 @@ def validate_range_end(value):
 
 class DateRangeSerializer(Schema):
 
-    beg = fields.LocalDateTime(required=True,
-                               validate=validate_range_beginning)
-    end = fields.LocalDateTime(required=True,
-                               validate=validate_range_end)
+    beg = fields.DateTime(required=True,
+                          validate=validate_range_beginning)
+    end = fields.DateTime(required=True,
+                          validate=validate_range_end)
 
     @post_load
-    def make_date_range(self, data):
+    def make_date_range(self, data, **kwargs):
         """
         Make tuple
         """
@@ -207,15 +204,11 @@ class TimeSheetSerializer(Schema):
     projects = fields.Method('serialize_projects')
     totals = fields.Method('serialize_totals')
 
-    class Meta:
-        strict = True
-
     def serialize_projects(self, obj):
         data = obj['projects'].copy()
-        project_serializer = ProjectSerializer(only=['id', 'name'],
-                                               strict=True)
+        project_serializer = ProjectSerializer(only=['id', 'name'])
         for row in data:
-            row['project'] = project_serializer.dump(row['project']).data
+            row['project'] = project_serializer.dump(row['project'])
             row['total'] = row['total'].total_seconds()
             for day_data in row['time']:
                 day_data['total'] = day_data['total'].total_seconds()
@@ -236,15 +229,11 @@ class TaskReportSerializer(Schema):
     projects = fields.Method('serialize_projects')
     total = fields.TimeDelta()
 
-    class Meta:
-        strict = True
-
     def serialize_projects(self, obj):
         data = obj['projects'].copy()
-        project_serializer = ProjectSerializer(only=['id', 'name'],
-                                               strict=True)
+        project_serializer = ProjectSerializer(only=['id', 'name'])
         for row in data:
-            row['project'] = project_serializer.dump(row['project']).data
+            row['project'] = project_serializer.dump(row['project'])
             row['total'] = row['total'].total_seconds()
             for task_data in row['tasks']:
                 task_data['total'] = task_data['total'].total_seconds()

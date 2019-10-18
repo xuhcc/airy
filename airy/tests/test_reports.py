@@ -1,6 +1,8 @@
 import datetime
+
 import arrow
 import pytest
+from marshmallow import ValidationError
 
 from airy.utils.date import tz_now, week_beginning
 from airy.units.report import TimeSheet, TaskReport
@@ -21,14 +23,17 @@ class TestDateRangeSerializer():
             'beg': week_beg,
             'end': week_end,
         }
-        serializer = DateRangeSerializer(strict=True)
-        data = serializer.dump(date_range).data
-        date_range = serializer.load(data).data
+        serializer = DateRangeSerializer()
+        data = serializer.dump(date_range)
+        date_range = serializer.load(data)
         assert date_range == (week_beg, week_end)
 
     def test_required(self):
         serializer = DateRangeSerializer()
-        date_range, errors = serializer.load({})
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load({})
+
+        errors = exc_info.value.messages
         assert 'beg' in errors
         assert 'end' in errors
 
@@ -38,14 +43,17 @@ class TestDateRangeSerializer():
             'beg': '2015-04-13T00:00:00+04:00',
             'end': '2015-04-19T00:00:00+03:00',
         }
-        date_range, errors = serializer.load(data)
+        with pytest.raises(ValidationError) as exc_info:
+            serializer.load(data)
+
+        errors = exc_info.value.messages
         assert 'beg' in errors
         assert 'end' in errors
 
     def test_with_factory(self):
         serializer = DateRangeSerializer()
         data = DateRangeFactory.create()
-        date_range, errors = serializer.load(data)
+        date_range = serializer.load(data)
         assert date_range[0].utcoffset() == tz_now().utcoffset()
         assert date_range[1].utcoffset() == tz_now().utcoffset()
         delta = date_range[1] - date_range[0]
