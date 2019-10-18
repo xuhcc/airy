@@ -15,7 +15,7 @@ Requirements:
 Requirements:
 
 * pipenv
-* fabric
+* pyinvoke
 * virtualbox
 * vagrant
 
@@ -29,13 +29,13 @@ Prepare environment and install packages:
 
 ```
 vagrant up
-fab build
+inv build
 ```
 
 Start watcher:
 
 ```
-fab build.watch
+inv build.watch
 ```
 
 Start server:
