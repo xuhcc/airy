@@ -4,20 +4,20 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-alembic = "~=1.0"
+alembic = "~=1.0.5"
 arrow = "==0.10.0"
 Flask = "==1.0.2"
 Flask-RESTful = "==0.3.6"
 Flask-SQLAlchemy = "==2.3.2"
 "psycopg2" = "==2.7.3.2"
 "Jinja2" = "==2.10"
-marshmallow = "==2.*"
+marshmallow = "~=2.16.3"
 pytz = ">=2014.2"
 premailer = "==2.8.3"
 cssutils = "==1.0.1"
-SQLAlchemy = "~=1.2"
-sqlalchemy-utils = "~=0.33"
-environs = "==4.*"
+SQLAlchemy = "~=1.2.14"
+sqlalchemy-utils = "~=0.33.9"
+environs = "~=4.0.0"
 
 [dev-packages]
 bandit = "==1.4.0"
