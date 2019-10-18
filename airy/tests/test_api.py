@@ -69,8 +69,17 @@ class TestClientApi():
         assert 'client' in response.json
         assert response.json['client']['name'] == client_data['name']
 
+    def test_update_client_no_data(self):
+        client = ClientFactory.create(name='Old Name')
+        self.db.session.commit()
+
+        url = url_for('api.client', client_id=client.id)
         response = self.client.put(url, json={})
+
         assert response.status_code == 400
+        assert response.json == {
+            'error_msg': 'Name: Missing data for required field.',
+        }
 
     def test_delete_client(self):
         client = ClientFactory.create()
@@ -180,6 +189,16 @@ class TestProjectApi():
         assert (response.json['project']['client_id'] ==
                 project_data['client_id'])
 
+    def test_create_project_no_data(self):
+        url = url_for('api.projects')
+        response = self.client.post(url, json={})
+        assert response.status_code == 400
+        error_messages = response.json['error_msg'].splitlines()
+        assert set(error_messages) == {
+            'Client_id: Missing data for required field.',
+            'Name: Missing data for required field.',
+        }
+
     def test_get_project(self):
         project = ProjectFactory.create()
         task_1 = TaskFactory.create(project=project, status='open')
@@ -256,6 +275,16 @@ class TestTaskApi():
         assert response.json['task']['project_id'] == task_data['project_id']
         assert response.json['task']['title'] == task_data['title']
 
+    def test_create_task_no_data(self):
+        url = url_for('api.tasks')
+        response = self.client.post(url, json={})
+        assert response.status_code == 400
+        error_messages = response.json['error_msg'].splitlines()
+        assert set(error_messages) == {
+            'Project_id: Missing data for required field.',
+            'Title: Missing data for required field.',
+        }
+
     def test_update_task(self):
         task = TaskFactory.create(title='Old Title')
         self.db.session.commit()
@@ -325,6 +354,16 @@ class TestTimeEntryApi():
                 time_entry_data['duration'])
         assert (response.json['time_entry']['task_total_time'] ==
                 time_entry_data['duration'])
+
+    def test_create_time_entry_no_data(self):
+        url = url_for('api.time_entries')
+        response = self.client.post(url, json={})
+        assert response.status_code == 400
+        error_messages = response.json['error_msg'].splitlines()
+        assert set(error_messages) == {
+            'Task_id: Missing data for required field.',
+            'Duration: Missing data for required field.',
+        }
 
     def test_update_time_entry(self):
         time_entry = TimeEntryFactory.create()
