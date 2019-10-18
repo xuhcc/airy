@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "dependencies": {
     "angular": "^1.7.5",

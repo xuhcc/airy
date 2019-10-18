@@ -9,8 +9,8 @@ env:
   - SECRET_KEY=test USER_EMAIL=test@example.com
 before_install:
   - export TZ=Europe/Moscow
-  - nvm install 8.0
-  - nvm use 8.0
+  - nvm install 12
+  - nvm use 12
 install:
   - pip install pipenv
   - pipenv install --dev
