@@ -56,7 +56,7 @@ def frontend(ctx):
     html(ctx)
 
 
-@task
+@task(aliases=('python', 'py'))
 def backend(ctx):
     py_style(ctx)
     py_security(ctx)

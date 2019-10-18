@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1256b05a24238e8af54ef766626f53684a76631b92eae7f1ca860a6c495cbeac"
+            "sha256": "3c4adcb41b218fb5734d30f38b99a8fa7d911b35aa335016014b8bd115b14a1d"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -299,11 +299,11 @@
         },
         "bandit": {
             "hashes": [
-                "sha256:cb977045497f83ec3a02616973ab845c829cdab8144ce2e757fe031104a9abd4",
-                "sha256:de4cc19d6ba32d6f542c6a1ddadb4404571347d83ef1ed1e7afb7d0b38e0c25b"
+                "sha256:336620e220cf2d3115877685e264477ff9d9abaeb0afe3dc7264f55fa17a3952",
+                "sha256:41e75315853507aa145d62a78a2a6c5e3240fe14ee7c601459d0df9418196065"
             ],
             "index": "pypi",
-            "version": "==1.4.0"
+            "version": "==1.6.2"
         },
         "bcrypt": {
             "hashes": [
