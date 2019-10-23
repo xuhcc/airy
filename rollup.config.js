@@ -1,4 +1,4 @@
-const uglify = require('rollup-plugin-uglify');
+const terser = require('rollup-plugin-terser');
 const typescript = require('rollup-plugin-typescript2');
 
 module.exports = {
@@ -9,12 +9,7 @@ module.exports = {
         name: 'airy',
     },
     plugins: [
-        typescript({
-            // No the same as 'include' in tsconfig.json
-            include: ['*.js', '**/*.js'],
-        }),
-        uglify.uglify({
-            mangle: false,
-        }),
+        typescript(),
+        terser.terser({mangle: false}),
     ],
 };
