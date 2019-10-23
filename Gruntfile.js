@@ -8,15 +8,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         paths: grunt.file.readJSON('frontend/index.json'),
-        eslint: {
-            main: [
-                'Gruntfile.js',
-                'rollup.config.js',
-                'karma.conf.js',
-                '<%= paths.app.js %>',
-                '<%= paths.app.specs %>',
-            ],
-        },
         karma: {
             main: {
                 configFile: 'karma.conf.js',
@@ -121,7 +112,6 @@ module.exports = function (grunt) {
         },
     });
 
-    grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -155,7 +145,6 @@ module.exports = function (grunt) {
     });
     grunt.registerTask('check:js', function () {
         grunt.task.run([
-            'eslint',
             'karma',
         ]);
     });
