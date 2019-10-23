@@ -22,20 +22,6 @@ module.exports = function (grunt) {
                 configFile: 'karma.conf.js',
             },
         },
-        sasslint: {
-            options: {
-                configFile: '.sass-lint.yml',
-            },
-            target: ['<%= paths.app.scss %>'],
-        },
-        csslint: {
-            options: {
-                csslintrc: '.csslintrc',
-            },
-            main: {
-                src: '<%= paths.app.css %>',
-            },
-        },
         copy: {
             appIndex: {
                 src: '<%= paths.app.index %>',
@@ -136,13 +122,11 @@ module.exports = function (grunt) {
     });
 
     grunt.loadNpmTasks('grunt-eslint');
-    grunt.loadNpmTasks('grunt-contrib-csslint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sass');
-    grunt.loadNpmTasks('grunt-sass-lint');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
@@ -173,13 +157,6 @@ module.exports = function (grunt) {
         grunt.task.run([
             'eslint',
             'karma',
-        ]);
-    });
-    grunt.registerTask('check:css', function () {
-        grunt.task.run([
-            'sasslint',
-            'sass',
-            'csslint',
         ]);
     });
 };

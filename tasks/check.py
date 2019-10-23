@@ -8,7 +8,7 @@ def js(ctx):
 
 @task
 def css(ctx):
-    ctx.run('npm run grunt check:css --silent')
+    ctx.run('npm run stylelint --silent')
 
 
 @task

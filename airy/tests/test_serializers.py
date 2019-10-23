@@ -399,4 +399,4 @@ class TestTimeEntrySerializer():
         del valid_data['added_at']
         assert valid_data['comment'] is None
         serializer = TimeEntrySerializer(exclude=['added_at'])
-        instance = serializer.load(valid_data)
+        serializer.load(valid_data)
