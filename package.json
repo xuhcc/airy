@@ -35,7 +35,6 @@
     "angular-mocks": "^1.7.5",
     "eslint": "^6.5.1",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-karma": "^3.0.2",
     "htmlhint": "^0.11.0",
     "jasmine-core": "^3.3.0",
     "jsdom": "^13.0.0",
@@ -53,6 +52,7 @@
     "grunt": "grunt",
     "eslint": "eslint Gruntfile.js rollup.config.js karma.conf.js frontend/app/**/*.js",
     "htmlhint": "htmlhint --config .htmlhintrc 'frontend/app/**/*.html'",
-    "stylelint": "stylelint 'frontend/app/**/*.scss'"
+    "stylelint": "stylelint 'frontend/app/**/*.scss'",
+    "karma": "karma start karma.conf.js"
   }
 }

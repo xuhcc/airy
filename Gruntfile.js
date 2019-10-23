@@ -8,11 +8,6 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         paths: grunt.file.readJSON('frontend/index.json'),
-        karma: {
-            main: {
-                configFile: 'karma.conf.js',
-            },
-        },
         copy: {
             appIndex: {
                 src: '<%= paths.app.index %>',
@@ -117,7 +112,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-sass');
-    grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
     grunt.registerMultiTask('rollup', 'Create app bundle.', function () {
@@ -141,11 +135,6 @@ module.exports = function (grunt) {
             'rollup:app',
             'uglify',
             'copy',
-        ]);
-    });
-    grunt.registerTask('check:js', function () {
-        grunt.task.run([
-            'karma',
         ]);
     });
 };

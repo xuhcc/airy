@@ -4,7 +4,7 @@ from invoke import task
 @task
 def js(ctx):
     ctx.run('npm run eslint --silent')
-    ctx.run('npm run grunt check:js --silent')
+    ctx.run('npm run karma --silent')
 
 
 @task
