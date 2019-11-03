@@ -1,3 +1,5 @@
+import 'angular-loading-bar';
+
 import { routeConfig } from './app.routes.js';
 import { httpConfig, ngDialogConfig } from './app.configs.js';
 
