@@ -1,3 +1,6 @@
+import moment from 'moment';
+import 'moment-timezone';
+
 export const TIMEZONE = 'Europe/Moscow';
 
 export const PERIODS = [

@@ -1,5 +1,6 @@
 import * as linkifyHtmlModule from 'linkifyjs/html';
 const linkifyHtml = linkifyHtmlModule.default;
+import moment from 'moment';
 
 export default angular
     .module('airy.filters', [])

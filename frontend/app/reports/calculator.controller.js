@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export function CalculatorController($scope) {
     $scope.duration = moment.duration($scope.ngDialogData.duration, 'seconds');
     $scope.price = 0;

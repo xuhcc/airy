@@ -39,7 +39,6 @@
     },
     "globals": {
         "angular": true,
-        "inject": true,
-        "moment": true
+        "inject": true
     }
 }

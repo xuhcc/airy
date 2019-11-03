@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 class TimeEntryDuration {
 
     constructor(duration) {
