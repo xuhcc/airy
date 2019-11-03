@@ -1,4 +1,5 @@
-/* global linkifyHtml */
+import * as linkifyHtml_ from 'linkifyjs/html';
+const linkifyHtml = linkifyHtml_; // https://github.com/rollup/rollup/issues/670
 
 export default angular
     .module('airy.filters', [])

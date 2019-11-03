@@ -1,5 +1,6 @@
 const istanbul = require('rollup-plugin-istanbul');
 const typescript = require('rollup-plugin-typescript2');
+const commonjs = require('rollup-plugin-commonjs');
 const paths = require('./frontend/index.json');
 
 module.exports = function (config) {
@@ -13,6 +14,9 @@ module.exports = function (config) {
         },
         plugins: [
             istanbul({exclude: [paths.app.specs]}),
+            commonjs({
+                include: 'node_modules/**',
+            }),
             typescript({
                 include: ['*.js', '**/*.js'],
             }),

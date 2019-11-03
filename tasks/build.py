@@ -21,7 +21,7 @@ def frontend(ctx, rebuild=True):
 
 @task
 def grunt(ctx):
-    ctx.run('npm run grunt build')
+    ctx.run('npm run grunt build', pty=True)
 
 
 @task
