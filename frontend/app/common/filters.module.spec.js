@@ -28,4 +28,12 @@ describe('Filters', function () {
         let result = $filter('timer')(3);
         expect(result).toBe('0:00:03');
     });
+
+    it('linkify filter', () => {
+        const result = $filter('linkify')('test http://example.com');
+        expect(result).toBe(
+            'test ' +
+            '<a href="http://example.com" class="linkified" target="_blank">' +
+            'http://example.com</a>');
+    });
 });
