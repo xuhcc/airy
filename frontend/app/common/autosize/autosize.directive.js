@@ -1,4 +1,4 @@
-/* global autosize */
+import autosize from 'autosize';
 
 export function autoSize($timeout) {
     function link(scope, element) {
