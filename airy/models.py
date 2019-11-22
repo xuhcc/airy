@@ -12,7 +12,7 @@ from sqlalchemy.sql import func
 from airy.database import db
 
 
-class Client(db.Model):
+class Client(db.Model):  # type: ignore
 
     __tablename__ = "clients"
 
@@ -27,7 +27,7 @@ class Client(db.Model):
                             order_by='Project.name')
 
 
-class Project(db.Model):
+class Project(db.Model):  # type: ignore
 
     __tablename__ = "projects"
 
@@ -69,7 +69,7 @@ class Project(db.Model):
 TaskStatus = Enum('open', 'closed', name='status')
 
 
-class Task(db.Model):
+class Task(db.Model):  # type: ignore
 
     __tablename__ = "tasks"
 
@@ -100,7 +100,7 @@ class Task(db.Model):
         return (self.status == 'closed')
 
 
-class TimeEntry(db.Model):
+class TimeEntry(db.Model):  # type: ignore
 
     __tablename__ = "time_entries"
 
