@@ -1,9 +1,12 @@
-[[source]]
-url = "https://pypi.python.org/simple"
-verify_ssl = true
-name = "pypi"
+[tool.poetry]
+name = "airy"
+version = "1.0.0"
+description = "time tracker"
+authors = []
 
-[packages]
+[tool.poetry.dependencies]
+python = "~3.8"
+
 alembic = "~=1.0.5"
 arrow = "==0.15.2"
 Flask = "==1.0.4"
@@ -18,7 +21,7 @@ SQLAlchemy = "~=1.2.14"
 sqlalchemy-utils = "~=0.33.9"
 environs = "~=4.0.0"
 
-[dev-packages]
+[tool.poetry.dev-dependencies]
 bandit = "~=1.6.2"
 fabric = "==2.3.1"
 factory_boy = "==2.8.1"

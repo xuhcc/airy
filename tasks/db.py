@@ -5,12 +5,12 @@ from tasks.utils import get_vagrant_context
 
 @task(default=True)
 def migrate(ctx):
-    ctx.run('pipenv run alembic upgrade head')
+    ctx.run('poetry run alembic upgrade head')
 
 
 @task(aliases=('mkmgr', 'mm'))
 def make_migration(ctx, message):
-    ctx.run(f'pipenv run '
+    ctx.run(f'poetry run '
             f'alembic revision --autogenerate -m "{message}"')
 
 

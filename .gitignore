@@ -15,3 +15,4 @@ airy/static
 .grunt
 .env
 .rpt2_cache
+airy.egg-info

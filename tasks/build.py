@@ -3,7 +3,7 @@ from invoke import task
 
 @task(aliases=('r',))
 def requirements(ctx):
-    ctx.run('pipenv install --dev')
+    ctx.run('poetry install')
 
 
 @task

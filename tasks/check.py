@@ -19,20 +19,20 @@ def html(ctx):
 
 @task
 def py_style(ctx):
-    ctx.run('pipenv run flake8 --max-complexity=8 tasks')
-    ctx.run('pipenv run flake8 --max-complexity=10 airy')
-    ctx.run('pipenv run flake8 --max-complexity=8 alembic/env.py')
+    ctx.run('poetry run flake8 --max-complexity=8 tasks')
+    ctx.run('poetry run flake8 --max-complexity=10 airy')
+    ctx.run('poetry run flake8 --max-complexity=8 alembic/env.py')
 
 
 @task
 def py_security(ctx):
-    ctx.run('pipenv run safety check --bare')
-    ctx.run('pipenv run bandit -c bandit.yaml -r airy')
+    ctx.run('poetry run safety check --bare')
+    ctx.run('poetry run bandit -c bandit.yaml -r airy')
 
 
 @task
 def py_types(ctx):
-    ctx.run('pipenv run mypy airy')
+    ctx.run('poetry run mypy airy')
 
 
 @task
@@ -45,7 +45,7 @@ def py_unit(ctx, debug=True, select=None):
     else:
         args += ['--cov airy', '--cov-config .coveragerc']
     ctx.run(
-        f'pipenv run pytest airy/tests {" ".join(args)}',
+        f'poetry run pytest airy/tests {" ".join(args)}',
         pty=True,
     )
 
