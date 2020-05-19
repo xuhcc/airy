@@ -746,18 +746,18 @@ socks = ["PySocks (>=1.5.6,<1.5.7 || >1.5.7)", "win-inet-pton"]
 
 [[package]]
 category = "dev"
-description = "Safety checks your installed dependencies for known security vulnerabilities."
+description = "Checks installed dependencies for known vulnerabilities."
 name = "safety"
 optional = false
-python-versions = "*"
-version = "1.8.4"
+python-versions = ">=3.5"
+version = "1.9.0"
 
 [package.dependencies]
 Click = ">=6.0"
-dparse = ">=0.4.1"
+dparse = ">=0.5.1"
 packaging = "*"
-pip = "*"
 requests = "*"
+setuptools = "*"
 
 [[package]]
 category = "main"
@@ -892,7 +892,7 @@ dev = ["pytest", "pytest-timeout", "coverage", "tox", "sphinx", "pallets-sphinx-
 watchdog = ["watchdog"]
 
 [metadata]
-content-hash = "71922d8df20941241afcde9d4c5908fc86d3350e6b753cb23f985a4011f83f60"
+content-hash = "d8bf89a411f5d237e2aecb7d4efe78cec2652617e8e7dd82349e8e3741ac35ba"
 python-versions = "~3.8"
 
 [metadata.files]
@@ -1347,8 +1347,8 @@ requests = [
     {file = "requests-2.23.0.tar.gz", hash = "sha256:b3f43d496c6daba4493e7c431722aeb7dbc6288f52a6e04e7b6023b0247817e6"},
 ]
 safety = [
-    {file = "safety-1.8.4-py2.py3-none-any.whl", hash = "sha256:399511524f47230d5867f1eb75548f9feefb7a2711a4985cb5be0e034f87040f"},
-    {file = "safety-1.8.4.tar.gz", hash = "sha256:69b970918324865dcd7b92337e07152a0ea1ceecaf92f4d3b38529ee0ca83441"},
+    {file = "safety-1.9.0-py2.py3-none-any.whl", hash = "sha256:86c1c4a031fe35bd624fce143fbe642a0234d29f7cbf7a9aa269f244a955b087"},
+    {file = "safety-1.9.0.tar.gz", hash = "sha256:23bf20690d4400edc795836b0c983c2b4cbbb922233108ff925b7dd7750f00c9"},
 ]
 six = [
     {file = "six-1.14.0-py2.py3-none-any.whl", hash = "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"},
