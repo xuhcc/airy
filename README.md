@@ -1,8 +1,6 @@
 # airy
 
-Time tracker
-
-[![Build Status](https://travis-ci.org/xuhcc/airy.svg?branch=master)](https://travis-ci.org/xuhcc/airy)
+Time tracker.
 
 Requirements:
 
