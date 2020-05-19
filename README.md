@@ -14,7 +14,7 @@ Requirements:
 
 Requirements:
 
-* pipenv
+* [poetry](https://python-poetry.org)
 * pyinvoke
 * virtualbox
 * vagrant
@@ -41,7 +41,7 @@ inv build.watch
 Start server:
 
 ```
-pipenv run honcho start
+poetry run honcho start
 ```
 
 Login at `http://localhost:8085`.  
