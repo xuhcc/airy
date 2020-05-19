@@ -6,7 +6,7 @@ python:
 services:
   - postgresql
 env:
-  - SECRET_KEY=test USER_EMAIL=test@example.com
+  - SECRET_KEY=test-secret USER_EMAIL=test@example.com
 before_install:
   - export TZ=Europe/Moscow
   - nvm install 12
